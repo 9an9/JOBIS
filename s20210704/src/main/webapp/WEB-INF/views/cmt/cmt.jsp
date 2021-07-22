@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>     
+<%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions" %>  
 <!DOCTYPE html>
 <html>
 <title>JOBIS</title>
@@ -19,7 +20,6 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	margin: 0 auto;
 }
 </style>
-
 <body class="w3-theme-l5">
 
 <!-- Navbar -->
@@ -94,8 +94,8 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <!-- Accordion -->
       <div class="w3-card w3-round">
         <div class="w3-white">
-          <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-envelope fa-fw w3-margin-right" ></i><span class="w3-badge w3-right w3-small w3-green">1</span> 쪽지</button>
-          <div id="Demo1" class="w3-hide w3-bar-block">
+          <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-envelope fa-fw w3-margin-right" ></i><span class="w3-badge w3-right w3-small w3-green">1</span> 쪽지</button>
+          <div id="Demo3" class="w3-hide w3-bar-block">
           	<a href="#" class="w3-button w3-block w3-theme-l5 w3-left-align">쪽지 보내기</a>
             <a href="#" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 쪽지함</a>
             <a href="#" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 쪽지함</a>
@@ -147,18 +147,25 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	          	</form>
 	          </div>
 	          <table border="1" class="cmtTB">
-					<tr><th>사원번호</th><th>이름</th><th>입사일</th><th>부서</th><th>소속</th><th>직급</th><th>출근시간</th><th>퇴근시간</th><th>날짜</th></tr>
+					<tr><th>사원번호</th><th>이름</th><th>부서</th><th>소속</th><th>직급</th><th>출근시간</th><th>퇴근시간</th><th>날짜</th><th>상태</th></tr>
 						<c:forEach var="cmtList" items="${cmtList}">
 							<tr>
 								<td>${cmtList.emp_num }</td>
-								<td><a href="#">${cmtList.emp_name}</a></td> 
-								<td>${cmtList.emp_hiredate}</td> 
+								<td>${cmtList.emp_name}</td> 
 								<td>${cmtList.dcontent}</td>
 								<td>${cmtList.tcontent}</td>
 								<td>${cmtList.rcontent}</td>
 								<td>${cmtList.srttime}</td>
 								<td>${cmtList.endtime}</td>
 								<td>${cmtList.cmt_date}</td>
+						<!-- 		<fmt:parseDate value="09:00" pattern="HH:mm" var="start"/>
+								<fmt:formatDate value="start" var="start1" pattern="HH:mm"/> -->
+								<td>
+								${fn:substring(cmtList.srttime,3,4)}
+								${fn:substring(cmtList.srttime,4,5)}
+								<%-- 	<c:if test="${fn:substring(cmtList.srttime,1,2) > 8  && fn:substring(cmtList.srttime,1,2) > 0}">지각</c:if>
+									<c:if test="${fn:substring(cmtList.srttime,1,2) <= 8 }">정상</c:if> --%>
+								</td>
 							</tr> 
 						</c:forEach>	
 				</table>
@@ -195,6 +202,8 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 						</div>
 					</form> 
 				</c:if> 
+              
+
             </div>
           </div>
         </div>
@@ -253,47 +262,47 @@ function openNav() {
   }
 }
 
-	/////////////////////////////////////////////////
-	
-    var searchStart = document.getElementById('searchStart');
-	var searchEnd = document.getElementById('searchEnd');
-	
-	searchStart.max = new Date().toISOString().split("T")[0];
-	searchEnd.max = new Date().toISOString().split("T")[0]; 
-	
-	function selectStr(){
-		searchEnd.min = searchStart.value;
-	}
-	
-	function selectEnd(){
-		searchStart.max = searchEnd.value;
-	}
+/////////////////////////////////////////////////
 
-	
+var searchStart = document.getElementById('searchStart');
+var searchEnd = document.getElementById('searchEnd');
 
-	
-	function chk() {
-		if(!frm.searchStart.value || !frm.searchEnd.value){
-			alert("조회하기위한 날짜를 모두 입력해주세요.\n하루를 선택하시려면 조회 시작날짜와 종료날짜를 똑같이 해주세요")
-			return false;
-		}
-		return true;
+searchStart.max = new Date().toISOString().split("T")[0];
+searchEnd.max = new Date().toISOString().split("T")[0]; 
+
+function selectStr(){
+	searchEnd.min = searchStart.value;
+}
+
+function selectEnd(){
+	searchStart.max = searchEnd.value;
+}
+
+
+
+
+function chk() {
+	if(!frm.searchStart.value || !frm.searchEnd.value){
+		alert("조회하기위한 날짜를 모두 입력해주세요.\n하루를 선택하시려면 조회 시작날짜와 종료날짜를 똑같이 해주세요")
+		return false;
 	}
-	
+	return true;
+}
+
 function searchPaging(i){
-		var a = i
-		var currentPage = document.getElementById('currentPage');
-		var searchFrm  = document.getElementById('searchFrm');
-		if(a == -1){
-			currentPage.value = '${yp.startPage-yp.pageBlock}';
-		}else if (a == -2){
-			currentPage.value = '${yp.startPage+yp.pageBlock}';
-		} else{
-			currentPage.value = a;
-		}
-		searchFrm.submit();
-		
-	} 
+	var a = i
+	var currentPage = document.getElementById('currentPage');
+	var searchFrm  = document.getElementById('searchFrm');
+	if(a == -1){
+		currentPage.value = '${yp.startPage-yp.pageBlock}';
+	}else if (a == -2){
+		currentPage.value = '${yp.startPage+yp.pageBlock}';
+	} else{
+		currentPage.value = a;
+	}
+	searchFrm.submit();
+	
+} 
 </script>
 
 </body>
