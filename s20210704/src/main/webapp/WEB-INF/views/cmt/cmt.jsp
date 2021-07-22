@@ -148,7 +148,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	          </div>
 	          
 	          <table border="1" class="cmtTB">
-					<tr><th>사원번호</th><th>이름</th><th>부서</th><th>소속</th><th>직급</th><th>출근시간</th><th>퇴근시간</th><th>날짜</th><th>상태</th></tr>
+					<tr><th>사원번호</th><th>이름</th><th>부서</th><th>소속</th><th>직급</th><th>출근시간</th><th>퇴근시간</th><th>날짜</th><th>상태</th><th>수정일</th></tr>
 						<c:forEach var="cmtList" items="${cmtList}">
 							<tr>
 								<td>${cmtList.emp_num }</td>
@@ -179,6 +179,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 										<c:otherwise><p style="margin: 0;">정상</p></c:otherwise>
 									</c:choose>
 								</td>
+								
+								<td>
+									<c:if test="${empty cmtList.cmt_md}">-</c:if>
+									<c:if test="${not empty cmtList.cmt_md}">${cmtList.cmt_md }</c:if>
+								</td>
+								
 							</tr> 
 						</c:forEach>	
 				</table>

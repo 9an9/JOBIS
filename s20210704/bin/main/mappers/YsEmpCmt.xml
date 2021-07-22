@@ -15,6 +15,7 @@
 		from (select rownum rn, a.* 
 		      from (select e.emp_num as emp_num, e.emp_name as emp_name,
 		            d.content as dcontent,t.content as tcontent,r.content as rcontent,
+		            to_char(c.cmt_md,'YYYY-MM-DD') as cmt_md,
 		            to_char(c.cmt_srt,'HH24:MI') as srttime, to_char(c.cmt_end,'HH24:MI') as endtime,
 		            to_char(c.cmt_srt,'YYYY-MM-DD') as cmt_date
 		            from emp e, comm d, comm t, comm r,cmt c
@@ -29,6 +30,7 @@
 		from (select rownum rn, a.* 
 		      from (select e.emp_num as emp_num, e.emp_name as emp_name,
 		            d.content as dcontent,t.content as tcontent,r.content as rcontent,
+		            to_char(c.cmt_md,'YYYY-MM-DD') as cmt_md,
 		            to_char(c.cmt_srt,'HH24:MI') as srttime, to_char(c.cmt_end,'HH24:MI') as endtime,
 		            to_char(c.cmt_srt,'YYYY-MM-DD') as cmt_date
 		            from emp e, comm d, comm t, comm r,cmt c
@@ -46,6 +48,7 @@
 		from (select rownum rn, a.* 
 		      from (select e.emp_num as emp_num, e.emp_name as emp_name,
 		            d.content as dcontent,t.content as tcontent,r.content as rcontent,
+		            to_char(c.cmt_md,'YYYY-MM-DD') as cmt_md,
 		            to_char(c.cmt_srt,'HH24:MI') as srttime, to_char(c.cmt_end,'HH24:MI') as endtime,
 		            to_char(c.cmt_srt,'YYYY-MM-DD') as cmt_date
 		            from emp e, comm d, comm t, comm r,cmt c
@@ -64,6 +67,7 @@
 		from (select rownum rn, a.* 
 		      from (select e.emp_num as emp_num, e.emp_name as emp_name,
 		            d.content as dcontent,t.content as tcontent,r.content as rcontent,
+		            to_char(c.cmt_md,'YYYY-MM-DD') as cmt_md,
 		            to_char(c.cmt_srt,'HH24:MI') as srttime, to_char(c.cmt_end,'HH24:MI') as endtime,
 		            to_char(c.cmt_srt,'YYYY-MM-DD') as cmt_date
 		            from emp e, comm d, comm t, comm r,cmt c
@@ -82,6 +86,7 @@
 		from (select rownum rn, a.* 
 		      from (select e.emp_num as emp_num, e.emp_name as emp_name,
 		            d.content as dcontent,t.content as tcontent,r.content as rcontent,
+		            to_char(c.cmt_md,'YYYY-MM-DD') as cmt_md,
 		            to_char(c.cmt_srt,'HH24:MI') as srttime, to_char(c.cmt_end,'HH24:MI') as endtime,
 		            to_char(c.cmt_srt,'YYYY-MM-DD') as cmt_date
 		            from emp e, comm d, comm t, comm r,cmt c
