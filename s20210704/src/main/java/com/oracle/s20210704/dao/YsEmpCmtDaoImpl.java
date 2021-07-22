@@ -1,5 +1,6 @@
 package com.oracle.s20210704.dao;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -73,6 +74,18 @@ public class YsEmpCmtDaoImpl implements YsEmpCmtDao{
 	public int cmtAllTotal(YsEmpCmt ysEmpCmt) {
 		int cmtAllTotal = session.selectOne("ysCmtAllTotal",ysEmpCmt);
 		return cmtAllTotal;
+	}
+
+	@Override
+	public List<YsEmpCmt> absentList(Date absent) {
+		List<YsEmpCmt> absentList = session.selectList("ysAbsentList",absent);
+		return absentList;
+	}
+
+	@Override
+	public void cmtInsert(YsEmpCmt ysEmpCmt) {
+		session.insert("ysCmtInsert", ysEmpCmt);
+		
 	}
 
 }

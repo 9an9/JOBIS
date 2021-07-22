@@ -130,104 +130,31 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
               <h1><i class="fa fa-clock-o fa-fw w3-margin-right" style="font-size: 42px"></i><b>사원 근태 관리</b></h1><hr>
-	          <c:if test="${not empty ysEmpCmt.searchStart}">
-		          <h3 style="margin-bottom: 30px;">
-		          	${ysEmpCmt.searchStart } ~ ${ysEmpCmt.searchEnd } 
-		          	<c:if test="${not empty ysEmpCmt.searchDept }">${ysEmpCmt.searchDept }</c:if>
-		          	<c:if test="${not empty ysEmpCmt.searchName }">${ysEmpCmt.searchName }</c:if>
-		          	검색결과
-		          </h3>
-	          </c:if>
-	          <div>
-	          	<form action="cmtSearch" method="post" name="frm" onsubmit="return chk()">
-	          		 조회하기 <input type="date" style="width: 15%; font-size: 13px;" name="searchStart" id="searchStart" onchange="selectStr()"> ~ <input type="date" style="width: 15% ;font-size: 13px;margin-right: 2%;" name="searchEnd" id="searchEnd" onchange="selectEnd()">
-				          부서 <input type="text" style="width: 17%; font-size: 13px;margin-right: 1%;" name="searchDept" id="searchDept" placeholder="부서를 입력해주세요">
-				          사원 <input type="text" style="width: 17%; font-size: 13px;margin-right: 1%;" name="searchName" id="searchName" placeholder="사원을 입력해주세요">
-			    	<button class="btn2" type="submit">검색</button>
-	          	</form>
-	          </div>
-	          
+	       
+			  <h3>${absent} 결근 목록</h3>	       
+	       
 	          <table border="1" class="cmtTB">
-					<tr><th>사원번호</th><th>이름</th><th>부서</th><th>소속</th><th>직급</th><th>출근시간</th><th>퇴근시간</th><th>날짜</th><th>상태</th><th>수정일</th></tr>
-						<c:forEach var="cmtList" items="${cmtList}">
+					<tr><th>사원번호</th><th>이름</th><th>부서</th><th>소속</th><th>직급</th><th>출근시간</th><th>퇴근시간</th><th>날짜</th><th>상태</th><th>상태수정</th></tr>
+						<c:forEach var="cmtList" items="${absentList}">
 							<tr>
 								<td>${cmtList.emp_num }</td>
 								<td>${cmtList.emp_name}</td> 
 								<td>${cmtList.dcontent}</td>
 								<td>${cmtList.tcontent}</td>
 								<td>${cmtList.rcontent}</td>
-								<td>${cmtList.srttime}</td>
-								<td>${cmtList.endtime}</td>
-								<td>${cmtList.cmt_date}</td>
+								<td>-</td>
+								<td>-</td>
+								<td>${absent}</td>
+								<td>결근</td>
+								<td><button><a href="absentMD?num=${cmtList.emp_num }&dt=${absent}">정상</a></button></td>
 								
-								<c:set var="sh" value="${fn:substring(cmtList.srttime,1,2)}"/>
-								<c:set var="smm" value="${fn:substring(cmtList.srttime,3,4)}"/>
-								<c:set var="sm" value="${fn:substring(cmtList.srttime,4,5)}"/>
-								
-								<c:set var="ehh" value="${fn:substring(cmtList.endtime,0,1)}"/>
-								<c:set var="eh" value="${fn:substring(cmtList.endtime,1,2)}"/>
-
-								<td>
-									<c:choose>
-										<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&((ehh == 1 && eh == 9) || ehh == 2)}"><p style="margin: 0;">지각,연장</p></c:when>
-										<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&(ehh < 2 && eh < 7)}"><p style="margin: 0;">지각,조퇴</p></c:when>
-
-										<c:when test="${sh >= 9 && (smm > 0 || sm > 0)}"><p style="margin: 0;">지각</p></c:when>										
-										<c:when test="${(ehh == 1 && eh == 9) || ehh == 2}"><p style="margin: 0;">연장</p></c:when>
-										<c:when test="${ehh < 2 && eh < 7}"><p style="margin: 0;">조퇴</p></c:when>
-										
-										<c:otherwise><p style="margin: 0;">정상</p></c:otherwise>
-									</c:choose>
-								</td>
-								
-								<td>
-									<c:if test="${empty cmtList.cmt_md}">-</c:if>
-									<c:if test="${not empty cmtList.cmt_md}">${cmtList.cmt_md }</c:if>
-								</td>
+							
 								
 							</tr> 
 						</c:forEach>	
 				</table>
-				<c:if test="${empty ysEmpCmt.searchStart}">
-					<div style="text-align: center;">
-						<c:if test="${yp.startPage > yp.pageBlock }">
-							<a href="cmt?currentPage=${yp.startPage-yp.pageBlock}">[이전]</a>
-						</c:if>
-						<c:forEach var="i" begin="${yp.startPage }" end="${yp.endPage }">
-							<a href="cmt?currentPage=${i}">[${i}]</a>
-						</c:forEach>
-						<c:if test="${yp.endPage < yp.totalPage }">
-							<a href="cmt?currentPage=${yp.startPage+yp.pageBlock}">[다음]</a>
-						</c:if>
-					</div>
-				</c:if>
-			    <c:if test="${not empty ysEmpCmt.searchStart}">
-					<form action="cmtSearch" method="post" name="searchFrm">
-						<input type="hidden" name="searchStart" value="${ysEmpCmt.searchStart }">
-						<input type="hidden" name="searchEnd" value="${ysEmpCmt.searchEnd }">
-						<input type="hidden" name="searchDept" value="${ysEmpCmt.searchDept }">
-						<input type="hidden" name="searchName" value="${ysEmpCmt.searchName }">
-						<input type="hidden" name="currentPage" id="currentPage">
-						<div style="text-align: center;">
-							<c:if test="${yp.startPage > yp.pageBlock }">
-								<button onclick="searchPaging(-1)" style="padding: 0;border: 0;background-color: white;">[이전]</button> 
-							</c:if>
-							<c:forEach var="i" begin="${yp.startPage }" end="${yp.endPage }">
-								<button onclick="searchPaging(${i})" style="padding: 0;border: 0;background-color: white;">[${i}]</button>
-							</c:forEach>
-							<c:if test="${yp.endPage < yp.totalPage }">
-								<button onclick="searchPaging(-2)" style="padding: 0;border: 0;background-color: white;">[다음]</button>
-							</c:if>
-						</div>
-					</form> 
-				</c:if> 
-				
-			    <div>
-		          	<form action="absent" method="post">
-		          		<input type="date" style="width: 15%; font-size: 13px;" name="absent" id="absent" required="required">
-				    	<button class="btn2" type="submit">결근사원조회</button>
-		          	</form>
-	            </div>
+			
+				<a href="cmt">목록으로 돌아가기</a>
               
 
             </div>
@@ -290,47 +217,17 @@ function openNav() {
 
 /////////////////////////////////////////////////
 
-var searchStart = document.getElementById('searchStart');
-var searchEnd = document.getElementById('searchEnd');
+
 var absent = document.getElementById('absent');
 
-searchStart.max = new Date().toISOString().split("T")[0];
-searchEnd.max = new Date().toISOString().split("T")[0]; 
+ 
 absent.max = new Date().toISOString().split("T")[0];
 
-function selectStr(){
-	searchEnd.min = searchStart.value;
-}
-
-function selectEnd(){
-	searchStart.max = searchEnd.value;
-}
 
 
 
 
-function chk() {
-	if(!frm.searchStart.value || !frm.searchEnd.value){
-		alert("조회하기위한 날짜를 모두 입력해주세요.\n하루를 선택하시려면 조회 시작날짜와 종료날짜를 똑같이 해주세요")
-		return false;
-	}
-	return true;
-}
 
-function searchPaging(i){
-	var a = i
-	var currentPage = document.getElementById('currentPage');
-	var searchFrm  = document.getElementById('searchFrm');
-	if(a == -1){
-		currentPage.value = '${yp.startPage-yp.pageBlock}';
-	}else if (a == -2){
-		currentPage.value = '${yp.startPage+yp.pageBlock}';
-	} else{
-		currentPage.value = a;
-	}
-	searchFrm.submit();
-	
-} 
 </script>
 
 </body>

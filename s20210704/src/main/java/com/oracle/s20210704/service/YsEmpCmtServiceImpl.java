@@ -1,5 +1,6 @@
 package com.oracle.s20210704.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,18 @@ public class YsEmpCmtServiceImpl implements YsEmpCmtService {
 	public int cmtAllTotal(YsEmpCmt ysEmpCmt) {
 		int cmtAllTotal = ydcd.cmtAllTotal(ysEmpCmt);
 		return cmtAllTotal;
+	}
+
+	@Override
+	public List<YsEmpCmt> absentList(Date absent) {
+		List<YsEmpCmt> absentList = ydcd.absentList(absent);
+		return absentList;
+	}
+
+	@Override
+	public void cmtInsert(YsEmpCmt ysEmpCmt) {
+		ydcd.cmtInsert(ysEmpCmt);
+		
 	}
 
 }

@@ -29,9 +29,10 @@ public class YsEmpCmt {
 	//조회용
 	private String dcontent;     private String tcontent;     private String rcontent;
 	private String srttime;      private String endtime;      private String cmt_date;
-	private String pageNum;      private int start;           private int end;
+	private String pageNum;      private  int   start;        private  int   end;
+	private String md_str;       private String md_end;
 	
 	//검색용
 	private Date   searchStart;  private Date   searchEnd;    private String searchDept;
-	private String searchName;
+	private String searchName;   private Date   absent;
 }
