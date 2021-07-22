@@ -146,6 +146,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 			    	<button class="btn2" type="submit">검색</button>
 	          	</form>
 	          </div>
+	          
 	          <table border="1" class="cmtTB">
 					<tr><th>사원번호</th><th>이름</th><th>부서</th><th>소속</th><th>직급</th><th>출근시간</th><th>퇴근시간</th><th>날짜</th><th>상태</th></tr>
 						<c:forEach var="cmtList" items="${cmtList}">
