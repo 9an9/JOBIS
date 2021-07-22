@@ -46,10 +46,21 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 
 <!-- Navbar on small screens -->
 <div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large">
-  <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
-  <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
-  <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 3</a>
-  <a href="#" class="w3-bar-item w3-button w3-padding-large">My Profile</a>
+  <a href="#" class="w3-bar-item w3-button w3-padding-large">안보임</a> <!-- 이 줄은 안보이는 줄입니다 -->
+  <button onclick="myFunction1('Demo1')" class="w3-bar-item w3-button w3-padding-large">전자결재</button>
+  	<div id="Demo1" class="w3-hide w3-bar-block">
+    	<a href="#" class="w3-button w3-block w3-theme-l5 w3-left-align">결재 서류 작성</a>
+        <a href="#" class="w3-button w3-block w3-theme-l5 w3-left-align">받은 결재</a>
+        <a href="#" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸결재</a>
+    </div>
+  <a href="#" class="w3-bar-item w3-button w3-padding-large">일정</a>
+  <a href="#" class="w3-bar-item w3-button w3-padding-large">자료실</a>
+  <button onclick="myFunction1('Demo2')" class="w3-bar-item w3-button w3-padding-large">게시판</button>
+  	<div id="Demo2" class="w3-hide w3-bar-block">
+    	<a href="#" class="w3-button w3-block w3-theme-l5 w3-left-align">공지사항</a>
+        <a href="#" class="w3-button w3-block w3-theme-l5 w3-left-align">설문조사</a>
+        <a href="#" class="w3-button w3-block w3-theme-l5 w3-left-align">동호회</a>
+    </div>
 </div>
 
 <!-- Page Container -->
@@ -75,8 +86,8 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <!-- Accordion -->
       <div class="w3-card w3-round">
         <div class="w3-white">
-          <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-envelope fa-fw w3-margin-right" ></i><span class="w3-badge w3-right w3-small w3-green">1</span> 쪽지</button>
-          <div id="Demo1" class="w3-hide w3-bar-block">
+          <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-envelope fa-fw w3-margin-right" ></i><span class="w3-badge w3-right w3-small w3-green">1</span> 쪽지</button>
+          <div id="Demo3" class="w3-hide w3-bar-block">
           	<a href="#" class="w3-button w3-block w3-theme-l5 w3-left-align">쪽지 보내기</a>
             <a href="#" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 쪽지함</a>
             <a href="#" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 쪽지함</a>
@@ -176,6 +187,17 @@ function myFunction(id) {
     x.previousElementSibling.className = 
     x.previousElementSibling.className.replace(" w3-theme-l1", "");
   }
+}
+function myFunction1(id) {
+	  var x = document.getElementById(id);
+	  if (x.className.indexOf("w3-show") == -1) {
+	    x.className += " w3-show";
+	    x.previousElementSibling.className += " w3-theme-d2";
+	  } else { 
+	    x.className = x.className.replace("w3-show", "");
+	    x.previousElementSibling.className = 
+	    x.previousElementSibling.className.replace(" w3-theme-d2", "");
+	  }
 }
 
 // Used to toggle the menu on smaller screens when clicking on the menu button
