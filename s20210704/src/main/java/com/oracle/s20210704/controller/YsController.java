@@ -86,7 +86,7 @@ public class YsController {
 		model.addAttribute("cmtList", cmtList);
 		model.addAttribute("yp", yp);
 		return "cmt/cmt";
-		//커밋테스트 3
+		//커밋테스트 2
 	}
 
 	
