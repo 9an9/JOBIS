@@ -158,13 +158,25 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 								<td>${cmtList.srttime}</td>
 								<td>${cmtList.endtime}</td>
 								<td>${cmtList.cmt_date}</td>
-						<!-- 		<fmt:parseDate value="09:00" pattern="HH:mm" var="start"/>
-								<fmt:formatDate value="start" var="start1" pattern="HH:mm"/> -->
+								
+								<c:set var="sh" value="${fn:substring(cmtList.srttime,1,2)}"/>
+								<c:set var="smm" value="${fn:substring(cmtList.srttime,3,4)}"/>
+								<c:set var="sm" value="${fn:substring(cmtList.srttime,4,5)}"/>
+								
+								<c:set var="ehh" value="${fn:substring(cmtList.endtime,0,1)}"/>
+								<c:set var="eh" value="${fn:substring(cmtList.endtime,1,2)}"/>
+
 								<td>
-								${fn:substring(cmtList.srttime,3,4)}
-								${fn:substring(cmtList.srttime,4,5)}
-								<%-- 	<c:if test="${fn:substring(cmtList.srttime,1,2) > 8  && fn:substring(cmtList.srttime,1,2) > 0}">지각</c:if>
-									<c:if test="${fn:substring(cmtList.srttime,1,2) <= 8 }">정상</c:if> --%>
+									<c:choose>
+										<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&((ehh == 1 && eh == 9) || ehh == 2)}"><p style="margin: 0;">지각,연장</p></c:when>
+										<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&(ehh < 2 && eh < 7)}"><p style="margin: 0;">지각,조퇴</p></c:when>
+
+										<c:when test="${sh >= 9 && (smm > 0 || sm > 0)}"><p style="margin: 0;">지각</p></c:when>										
+										<c:when test="${(ehh == 1 && eh == 9) || ehh == 2}"><p style="margin: 0;">연장</p></c:when>
+										<c:when test="${ehh < 2 && eh < 7}"><p style="margin: 0;">조퇴</p></c:when>
+										
+										<c:otherwise><p style="margin: 0;">정상</p></c:otherwise>
+									</c:choose>
 								</td>
 							</tr> 
 						</c:forEach>	
