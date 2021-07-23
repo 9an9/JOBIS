@@ -47,7 +47,7 @@ public class YjEmpDaoImpl implements YjEmpDao {
 		try {
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+
 		}
 		return 0;
 	}
