@@ -113,6 +113,7 @@ public class YsController {
 		yecs.cmtInsert(ysEmpCmt);
 		return "redirect:cmt";
 	}
+	//커밋테스트
 	
 
 }
