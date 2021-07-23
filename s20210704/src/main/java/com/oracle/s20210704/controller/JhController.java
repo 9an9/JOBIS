@@ -39,16 +39,22 @@ public class JhController {
 	}
 	
 	@GetMapping(value = "calendar/calendar")
-	public String calendar(Model model) {
-		List<JhCalendar> calList = jcs.calList();
-		model.addAttribute("calList", calList);
+	public String calendar(Model model, HttpSession session, SyMemberVO vo) {
+		System.out.println("일정");
+		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
+		vo.setEmp_num(emp_num);								//모든 코딩에 추가
+		SyMemberVO svo = jrs.show(vo);						//모든 코딩에 추가
+		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
+		model.addAttribute("svo",svo);						//모든 코딩에 추가
 		return "calendar/calendar";
 	}
-	
 	@GetMapping(value = "rr/rr")
-	public String rrlist(JhRr jhRr, String currentPage ,Model model,HttpSession session) {
-		System.out.println("�꽭�뀡 : "+ session.getAttribute("member"));
+	public String rrlist(JhRr jhRr, String currentPage ,Model model,HttpSession session, HttpServletRequest request, SyMemberVO vo) {
+		System.out.println("세션 : "+ session.getAttribute("member"));
 		System.out.println("JhController Start list...");
+		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
+		vo.setEmp_num(emp_num);								//모든 코딩에 추가
+		SyMemberVO svo = jrs.show(vo);						//모든 코딩에 추가
 		int total = jrs.total();
 		System.out.println("JhController rrlist total=> "+ total);
 		System.out.println("currentPage => " + currentPage);
@@ -60,33 +66,39 @@ public class JhController {
 		model.addAttribute("total", total);
 		model.addAttribute("listJhRr", listJhRr);
 		model.addAttribute("jhpg", jhpg);
+		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
+		model.addAttribute("svo",svo);						//모든 코딩에 추가
 		return "rr/rr";		
 	}
-	
 	@GetMapping(value = "rr/detail")
-	public String detail(HttpServletRequest request, int rr_num, Model model) {
+	public String detail(HttpServletRequest request, int rr_num, Model model, HttpSession session, SyMemberVO vo) {
 		System.out.println("JhController Start detail"+rr_num);
 		System.out.println("JhController rr_num->" + rr_num);
+		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
+		vo.setEmp_num(emp_num);								//모든 코딩에 추가
+		SyMemberVO svo = jrs.show(vo);						//모든 코딩에 추가
 		JhRr jhRr = jrs.detail(rr_num);
 		System.out.println("JhController detail->"+jhRr.getRr_num());
 		System.out.println("JhController detail->"+jhRr.getRr_content());
 		System.out.println("JhController detail->"+jhRr.getRr_subject());
-		
+		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
+		model.addAttribute("svo",svo);						//모든 코딩에 추가
 		model.addAttribute("jhRr", jhRr);
-		System.out.println("JhController model->"+jhRr);
 		return "rr/detail";
 	}
 	
 	@GetMapping(value = "main")
-	public String main(Model model, HttpSession session, SyMemberVO  vo) {
-		int emp_num = (int)session.getAttribute("member");
-		vo.setEmp_num(emp_num);
-		SyMemberVO svo = jrs.show(vo);
+	public String main(Model model, HttpSession session, SyMemberVO  vo) {	//Model model, HttpSession session, SyMemberVO vo도 사용
+		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
+		vo.setEmp_num(emp_num);								//모든 코딩에 추가
+		SyMemberVO svo = jrs.show(vo);						//모든 코딩에 추가
 		System.out.println(svo.getEmp_name());
 		System.out.println(svo.getDcontent());
 		System.out.println(svo.getRcontent());
-		model.addAttribute("emp_num",emp_num);
-		model.addAttribute("svo",svo);
+		System.out.println(svo.getTcontent());
+		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
+		model.addAttribute("svo",svo);						//모든 코딩에 추가
 		return "mainpage";
 	}
+	
 }

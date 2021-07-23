@@ -67,6 +67,7 @@ public class JhRrDaoImpl implements JhRrDao {
 		SyMemberVO syMemberVO = null;
 		try {
 			syMemberVO = session.selectOne("jhshow", vo);
+			System.out.println("JhRrDaoImpl vo"+vo);
 		} catch (Exception e) {
 			System.out.println("JhRrDaoImplyu SyMemeberVO Exception->" + e.getMessage());
 		}
