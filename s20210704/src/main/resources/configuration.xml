@@ -2,5 +2,8 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.oracle.s20210704.model.YsEmpCmt" alias="YsEmpCmt"/>
+		<typeAlias type="com.oracle.s20210704.model.SyMemberVO" alias="SyMemberVO"/>
+			<typeAlias type="com.oracle.s20210704.model.JhCalendar" alias="JhCalendar"/>
+		<typeAlias type="com.oracle.s20210704.model.JhRr" alias="JhRr"/>
 	</typeAliases>
 </configuration>

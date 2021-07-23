@@ -22,15 +22,6 @@ public class YsController {
 	@Autowired
 	private YsEmpCmtService yecs;
 	
-	@GetMapping("/")
-	public String index(Model model) {
-		return "index";
-	}
-	
-	@GetMapping("/template")
-	public String template(Model model) {
-		return "SpringTemplate";
-	}
 	
 	@GetMapping(value = "cmt/cmt")
 	public String cmt(Model model , YsEmpCmt ysEmpCmt,String currentPage) {
@@ -121,6 +112,68 @@ public class YsController {
 		ysEmpCmt.setMd_end(cmt_end);
 		yecs.cmtInsert(ysEmpCmt);
 		return "redirect:cmt";
+	}
+	/////////////////테스트/////
+	@GetMapping(value = "cmt/mycmt")
+	public String t1 () {
+		System.out.println("나의근태");
+		return "redirect:/";
+	}
+	@GetMapping(value = "apv/apvRcv")
+	public String t2 () {
+		System.out.println("보낸결재");
+		return "redirect:/";
+	}
+	@GetMapping(value = "apv/apvSnd")
+	public String t3 () {
+		System.out.println("받은결재");
+		return "redirect:/";
+	}
+	@GetMapping(value = "apv/apvWrite")
+	public String t4 () {
+		System.out.println("결재작성");
+		return "redirect:/";
+	}
+	@GetMapping(value = "emp/empList")
+	public String t5 () {
+		System.out.println("사원관리");
+		return "redirect:/";
+	}
+	@GetMapping(value = "emp/myInfoUpdate")
+	public String t6 () {
+		System.out.println("개인 정보 수정");
+		return "redirect:/";
+	}
+
+	@GetMapping(value = "note/sendNote")
+	public String t9 () {
+		System.out.println("쪽지보내기");
+		return "redirect:/";
+	}
+	@GetMapping(value = "note/sentNote")
+	public String t11 () {
+		System.out.println("보낸쪽지함");
+		return "redirect:/";
+	}
+	@GetMapping(value = "note/receiveNote")
+	public String t12 () {
+		System.out.println("받은쪽지함");
+		return "redirect:/";
+	}
+	@GetMapping(value = "board/noticeList")
+	public String t13 () {
+		System.out.println("공지");
+		return "redirect:/";
+	}
+	@GetMapping(value = "board/surveyList")
+	public String t14 () {
+		System.out.println("설문");
+		return "redirect:/";
+	}
+	@GetMapping(value = "board/clubList")
+	public String t15 () {
+		System.out.println("동호회");
+		return "redirect:/";
 	}
 
 
