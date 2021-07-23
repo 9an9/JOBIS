@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Note_tb {
+public class SwNote_tb {
 	private int    note_sq;		private int    emp_num;
 	private String note_nm; 	private String note_cnt;
 	private String note_fl_nm;  private String note_fl_link;

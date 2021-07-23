@@ -27,11 +27,11 @@ public class SwNoteDaoImpl implements SwNoteDao{
 	}
 
 	@Override
-	public int insertNote_tb(com.oracle.s20210704.model.Note_tb note_tb) {
+	public int insertNote_tb(com.oracle.s20210704.model.SwNote_tb swnote_tb) {
 		int result = 0;
 		System.out.println("SwNoteDaoImpl insert Start ..." );
 		try {
-			result = session.insert("insertNote_tb", note_tb);
+			result = session.insert("insertNote_tb", swnote_tb);
 		} catch (Exception e) {
 			System.out.println("SwNoteDaoImpl insertNote_tb Exception->"+e.getMessage());
 		}

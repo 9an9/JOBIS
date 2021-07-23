@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Note_rcv_tb {
+public class SwNote_rcv_tb {
 	private int  note_sq;	private int emp_num;
 	private Date rcv_dt;	private int read_count;
 }

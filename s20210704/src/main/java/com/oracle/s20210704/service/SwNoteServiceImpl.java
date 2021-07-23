@@ -22,10 +22,10 @@ public class SwNoteServiceImpl implements SwNoteService {
 	}
 
 	@Override
-	public int insertNote_tb(com.oracle.s20210704.model.Note_tb note_tb) {
+	public int insertNote_tb(com.oracle.s20210704.model.SwNote_tb swnote_tb) {
 		System.out.println("SwNoteServiceImpl insertNote_tb Start..." );
 		// DAO 쪽지함 저장하기 호출 
-		int result = snd.insertNote_tb(note_tb);
+		int result = snd.insertNote_tb(swnote_tb);
 		return 0;
 	}
 	

@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.oracle.s20210704.model.Emp;
-import com.oracle.s20210704.model.Note_tb;
+import com.oracle.s20210704.model.SwNote_tb;
 import com.oracle.s20210704.model.SyMemberVO;
 import com.oracle.s20210704.service.JhRrService;
 import com.oracle.s20210704.service.SwNoteService;
@@ -25,7 +25,7 @@ public class SwController {
 	private JhRrService jrs;
 	
 
-	@GetMapping("/sendNoteForm")
+	@GetMapping("note/sendNote")
 	public String sendNoteForm(Model model, HttpSession session, SyMemberVO  vo) {
 		int emp_num = (int)session.getAttribute("member");
 		vo.setEmp_num(emp_num);
@@ -39,7 +39,7 @@ public class SwController {
 		return "note/sendNote";
 	}
 	
-	@GetMapping("/receiveNoteForm")
+	@GetMapping("note/receiveNote")
 	public String receiveNoteForm(Model model, HttpSession session, SyMemberVO  vo) {
 		int emp_num = (int)session.getAttribute("member");
 		vo.setEmp_num(emp_num);
@@ -48,7 +48,7 @@ public class SwController {
 		return "note/receiveNote";
 	}
 	
-	@GetMapping("/sentNoteForm")
+	@GetMapping("note/sentNote")
 	public String sentNoteForm(Model model, HttpSession session, SyMemberVO  vo) {
 		int emp_num = (int)session.getAttribute("member");
 		vo.setEmp_num(emp_num);
@@ -58,17 +58,17 @@ public class SwController {
 	}
 	
 	
-	@GetMapping("/writeNoteTB")
-	public String writeNoteTB(Model model, HttpSession session, SyMemberVO  vo, Note_tb note_tb) {
+	@GetMapping("note/writeNoteTB")
+	public String writeNoteTB(Model model, HttpSession session, SyMemberVO  vo, SwNote_tb swnote_tb) {
 		int emp_num = (int)session.getAttribute("member");
 		vo.setEmp_num(emp_num);
 		SyMemberVO svo = jrs.show(vo);
 		model.addAttribute("svo",svo);
 		System.out.println("SwController sendNoteForm Start...");
-		System.out.println("SwController sendNoteForm note_tb.getEmp_num()->"+note_tb.getEmp_num());
-		System.out.println("SwController sendNoteForm note_tb.getNote_nm()->"+note_tb.getNote_nm());
-		System.out.println("SwController sendNoteForm note_tb.getNote_cnt()->"+note_tb.getNote_cnt());
-		System.out.println("SwController sendNoteForm note_tb.getEmp_num()->"+note_tb.getEmp_num());
+		System.out.println("SwController sendNoteForm note_tb.getEmp_num()->"+swnote_tb.getEmp_num());
+		System.out.println("SwController sendNoteForm note_tb.getNote_nm()->"+swnote_tb.getNote_nm());
+		System.out.println("SwController sendNoteForm note_tb.getNote_cnt()->"+swnote_tb.getNote_cnt());
+		System.out.println("SwController sendNoteForm note_tb.getEmp_num()->"+swnote_tb.getEmp_num());
 		return "note/sendNote";
 	}
 	

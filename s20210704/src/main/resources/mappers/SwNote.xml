@@ -9,7 +9,7 @@
 		select * from emp
 	
 	</select>
-	<insert id="insertNote_tb" parameterType="Note_tb">
+	<insert id="insertNote_tb" parameterType="SwNote_tb">
 	 insert into note_tb values (#{emp_num},#{note_nm})
 	</insert>
 </mapper>
