@@ -114,6 +114,7 @@ public class YsController {
 		return "redirect:cmt";
 	}
 	//커밋테스트
+	//커밋테스트 2
 	
 
 }
