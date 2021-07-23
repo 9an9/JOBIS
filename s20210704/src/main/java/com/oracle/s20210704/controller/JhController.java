@@ -44,9 +44,10 @@ public class JhController {
 		model.addAttribute("calList", calList);
 		return "calendar/calendar";
 	}
+	
 	@GetMapping(value = "rr/rr")
 	public String rrlist(JhRr jhRr, String currentPage ,Model model,HttpSession session) {
-		System.out.println("세션 : "+ session.getAttribute("member"));
+		System.out.println("�꽭�뀡 : "+ session.getAttribute("member"));
 		System.out.println("JhController Start list...");
 		int total = jrs.total();
 		System.out.println("JhController rrlist total=> "+ total);
@@ -61,6 +62,7 @@ public class JhController {
 		model.addAttribute("jhpg", jhpg);
 		return "rr/rr";		
 	}
+	
 	@GetMapping(value = "rr/detail")
 	public String detail(HttpServletRequest request, int rr_num, Model model) {
 		System.out.println("JhController Start detail"+rr_num);

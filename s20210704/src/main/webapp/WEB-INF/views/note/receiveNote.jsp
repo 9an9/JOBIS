@@ -135,11 +135,11 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     <!-- Middle Column -->
    <div class="w3-col m7" >
     
-      <div class="w3-row-padding">
+     <div class="w3-row-padding">
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
-              <h1><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i><b>오늘의 일정</b></h1><hr>
+              <h1><i class="fa fa-envelope fa-fw w3-margin-right"></i><b>받은 쪽지함</b></h1><hr>
               <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기 다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
               <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
               <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
@@ -151,7 +151,6 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
               <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
               <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
               <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-
             </div>
           </div>
         </div>
