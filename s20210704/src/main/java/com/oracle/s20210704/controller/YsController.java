@@ -3,6 +3,8 @@ package com.oracle.s20210704.controller;
 import java.sql.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.oracle.s20210704.model.SyMemberVO;
 import com.oracle.s20210704.model.YsEmpCmt;
+import com.oracle.s20210704.service.JhRrService;
 import com.oracle.s20210704.service.YsEmpCmtService;
 import com.oracle.s20210704.service.YsPaging;
 
@@ -22,9 +26,17 @@ public class YsController {
 	@Autowired
 	private YsEmpCmtService yecs;
 	
+	@Autowired
+	private JhRrService jrs;
 	
 	@GetMapping(value = "cmt/cmt")
-	public String cmt(Model model , YsEmpCmt ysEmpCmt,String currentPage) {
+	public String cmt(Model model , YsEmpCmt ysEmpCmt,String currentPage, HttpSession session, SyMemberVO  vo) {
+		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
+		vo.setEmp_num(emp_num);								//모든 코딩에 추가
+		SyMemberVO svo = jrs.show(vo);
+		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
+		model.addAttribute("svo",svo);
+		
 		int cmtTotal = yecs.cmtTotal();
 		YsPaging yp = new YsPaging(cmtTotal, currentPage);
 		ysEmpCmt.setStart(yp.getStart());
@@ -36,7 +48,15 @@ public class YsController {
 	}
 	
 	@PostMapping(value = "cmt/cmtSearch")
-	public String searchDateCmt(Model model , YsEmpCmt ysEmpCmt,String currentPage) {
+	public String searchDateCmt(Model model , YsEmpCmt ysEmpCmt,String currentPage, HttpSession session, SyMemberVO  vo) {
+		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
+		vo.setEmp_num(emp_num);								//모든 코딩에 추가
+		SyMemberVO svo = jrs.show(vo);
+		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
+		model.addAttribute("svo",svo);
+		
+		
+		
 		int cmtTotal = 0;
 		//상황별로 total 가져오기
 		//날짜,이름 입력한경우
@@ -82,7 +102,15 @@ public class YsController {
 	}
 	
 	@PostMapping(value = "cmt/absent")
-	public String absent(Model model , YsEmpCmt ysEmpCmt) {
+	public String absent(Model model , YsEmpCmt ysEmpCmt, HttpSession session, SyMemberVO  vo) {
+		
+		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
+		vo.setEmp_num(emp_num);								//모든 코딩에 추가
+		SyMemberVO svo = jrs.show(vo);
+		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
+		model.addAttribute("svo",svo);
+		
+		
 		
 		Date absent = ysEmpCmt.getAbsent();
 		
@@ -100,11 +128,16 @@ public class YsController {
 	}
 	
 	@GetMapping(value = "cmt/absentMD")
-	public String absentMD(int num, String dt,YsEmpCmt ysEmpCmt) {
-		int emp_num = num;
+	public String absentMD(Model model ,int num, String dt,YsEmpCmt ysEmpCmt, HttpSession session, SyMemberVO  vo) {
+		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
+		vo.setEmp_num(emp_num);								//모든 코딩에 추가
+		SyMemberVO svo = jrs.show(vo);
+		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
+		model.addAttribute("svo",svo);
+		
 		String cmt_str = dt + "09:00:00";
 		String cmt_end = dt + "18:00:00";
-		System.out.println("num : "+emp_num);
+		System.out.println("num : "+num);
 		System.out.println("dt : "+cmt_str);
 		System.out.println("dt : "+cmt_end);
 		ysEmpCmt.setEmp_num(num);
@@ -114,7 +147,12 @@ public class YsController {
 		return "redirect:cmt";
 	}
 	@GetMapping(value = "cmt/mycmt")
-	public String mycmt() {
+	public String mycmt(Model model ,HttpSession session, SyMemberVO  vo) {
+		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
+		vo.setEmp_num(emp_num);								//모든 코딩에 추가
+		SyMemberVO svo = jrs.show(vo);
+		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
+		model.addAttribute("svo",svo);
 		return "mycmt";
 	}
 	
