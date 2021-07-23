@@ -18,6 +18,11 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	text-align: center;
 	width: 80%;
 	margin: 0 auto;
+	
+    margin-top: 5px;
+    border: 1px solid #7d97a5;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
 </style>
 <body class="w3-theme-l5">
@@ -163,8 +168,8 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	          	</form>
 	          </div>
 	          
-	          <table border="1" class="cmtTB">
-					<tr><th>사원번호</th><th>이름</th><th>부서</th><th>소속</th><th>직급</th><th>출근시간</th><th>퇴근시간</th><th>날짜</th><th>상태</th><th>수정일</th></tr>
+	          <table class="cmtTB">
+					<tr style="background-color:#384f76; color: white; "><th>사원번호</th><th>이름</th><th>부서</th><th>소속</th><th>직급</th><th>출근시간</th><th>퇴근시간</th><th>날짜</th><th>상태</th><th>수정일</th></tr>
 						<c:forEach var="cmtList" items="${cmtList}">
 							<tr>
 								<td>${cmtList.emp_num }</td>
