@@ -129,7 +129,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
               <h1><i class="fa fa-clock-o fa-fw w3-margin-right" style="font-size: 42px"></i><b>일정</b></h1><hr>
-	          <table border="1" class="calendarTB">
+	     <%--      <table border="1" class="calendarTB">
 					<tr><th>일련번호</th><th>사원번호</th><th>일정분류</th><th>제목</th><th>날짜</th><th>내용</th><th>배경색</th></tr>
 						<c:forEach var="calList" items="${calList}">
 							<tr>
@@ -144,7 +144,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 						</c:forEach>
 					
 				</table>
-
+ --%>
             </div>
           </div>
         </div>

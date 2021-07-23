@@ -6,12 +6,13 @@
 <title>JOBIS</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="css/SpringMain.css">
+<link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
+.w3-col.m7{width:73.33333%}
 </style>
 <body class="w3-theme-l5">
 
@@ -23,32 +24,32 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-file-text fa-fw w3-margin-right"></i>전자결재</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
-      <a href="apv/apvWrite" class="w3-bar-item w3-button">결재 서류 작성</a>
-      <a href="apv/apvSnd" class="w3-bar-item w3-button">받은 결재</a>
-      <a href="apv/apvRcv" class="w3-bar-item w3-button">보낸 결재</a>
+      <a href="../apv/apvWrite" class="w3-bar-item w3-button">결재 서류 작성</a>
+      <a href="../apv/apvSnd" class="w3-bar-item w3-button">받은 결재</a>
+      <a href="../apv/apvRcv" class="w3-bar-item w3-button">보낸 결재</a>
     </div>
   </div>
-  <a href="calendar/calendar" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i>일정</a>
-  <a href="rr/rr" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-list-alt fa-fw w3-margin-right"></i>자료실</a>
+  <a href="../calendar/calendar" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i>일정</a>
+  <a href="rr" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-list-alt fa-fw w3-margin-right"></i>자료실</a>
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-commenting-o fa-fw w3-margin-right fa-flip-horizontal"></i>게시판</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
-      <a href="board/noticeList" class="w3-bar-item w3-button">공지사항</a>
-      <a href="board/surveyList" class="w3-bar-item w3-button">설문</a>
-      <a href="board/clubList" class="w3-bar-item w3-button">동호회</a>
+      <a href="../board/noticeList" class="w3-bar-item w3-button">공지사항</a>
+      <a href="../board/surveyList" class="w3-bar-item w3-button">설문</a>
+      <a href="../board/clubList" class="w3-bar-item w3-button">동호회</a>
     </div>
   </div>
   <c:if test="${svo.dcontent == '인사부' || svo.dcontent == '임원'  }">
 	   <div class="w3-dropdown-hover w3-hide-small">
 	    <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-cog fa-fw w3-margin-right" aria-hidden="true"></i>관리</button>     
 	    <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
-	      <a href="emp/empList" class="w3-bar-item w3-button">사원 정보 관리</a>
-	      <a href="cmt/cmt" class="w3-bar-item w3-button">사원 근태 관리</a>
+	      <a href="../emp/empList" class="w3-bar-item w3-button">사원 정보 관리</a>
+	      <a href="../cmt/cmt" class="w3-bar-item w3-button">사원 근태 관리</a>
 	    </div>
 	  </div>
   </c:if>
   
-  <a href="logout" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+  <a href="../logout" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
     <i class="fa fa-sign-out w3-margin-right"></i>Logout
   </a>
  </div>
@@ -59,23 +60,23 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   <a href="#" class="w3-bar-item w3-button w3-padding-large">안보임</a> <!-- 이 줄은 안보이는 줄입니다 -->
   <button onclick="myFunction1('Demo1')" class="w3-bar-item w3-button w3-padding-large">전자결재</button>
   	<div id="Demo1" class="w3-hide w3-bar-block">
-    	<a href="apv/apvWrite" class="w3-button w3-block w3-theme-l5 w3-left-align">결재 서류 작성</a>
-        <a href="apv/apvSnd" class="w3-button w3-block w3-theme-l5 w3-left-align">받은 결재</a>
-        <a href="apv/apvRcv" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸결재</a>
+    	<a href="../apv/apvWrite" class="w3-button w3-block w3-theme-l5 w3-left-align">결재 서류 작성</a>
+        <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l5 w3-left-align">받은 결재</a>
+        <a href="../apv/apvRcv" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸결재</a>
     </div>
-  <a href="calendar/calendar" class="w3-bar-item w3-button w3-padding-large">일정</a>
-  <a href="rr/rr" class="w3-bar-item w3-button w3-padding-large">자료실</a>
+  <a href="../calendar/calendar" class="w3-bar-item w3-button w3-padding-large">일정</a>
+  <a href="rr" class="w3-bar-item w3-button w3-padding-large">자료실</a>
   <button onclick="myFunction1('Demo2')" class="w3-bar-item w3-button w3-padding-large">게시판</button>
   	<div id="Demo2" class="w3-hide w3-bar-block">
-    	<a href="board/noticeList" class="w3-button w3-block w3-theme-l5 w3-left-align">공지사항</a>
-        <a href="board/surveyList" class="w3-button w3-block w3-theme-l5 w3-left-align">설문조사</a>
-        <a href="board/clubList" class="w3-button w3-block w3-theme-l5 w3-left-align">동호회</a>
+    	<a href="../board/noticeList" class="w3-button w3-block w3-theme-l5 w3-left-align">공지사항</a>
+        <a href="../board/surveyList" class="w3-button w3-block w3-theme-l5 w3-left-align">설문조사</a>
+        <a href="../board/clubList" class="w3-button w3-block w3-theme-l5 w3-left-align">동호회</a>
     </div>
     <c:if test="${svo.dcontent == '인사부' || svo.dcontent == '임원'  }">
 	   <button onclick="myFunction1('Demo4')" class="w3-bar-item w3-button w3-padding-large">관리</button>
 	  	<div id="Demo4" class="w3-hide w3-bar-block">
-	    	<a href="emp/empList" class="w3-button w3-block w3-theme-l5 w3-left-align">사원 정보 관리</a>
-	        <a href="cmt/cmt" class="w3-button w3-block w3-theme-l5 w3-left-align">사원 근태 관리</a>
+	    	<a href="../emp/empList" class="w3-button w3-block w3-theme-l5 w3-left-align">사원 정보 관리</a>
+	        <a href="../cmt/cmt" class="w3-button w3-block w3-theme-l5 w3-left-align">사원 근태 관리</a>
 	    </div>
     </c:if>
 </div>
@@ -90,12 +91,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <div class="w3-card w3-round w3-white">
         <div class="w3-container">
          <h4 class="w3-center">My Profile</h4>
-         <p class="w3-center"><img src="images/LUCY.jpg" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+         <p class="w3-center"><img src="../images/LUCY.jpg" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
          <hr>
          <p><i class="fa fa-id-badge fa-fw w3-margin-right w3-text-theme"></i> ${svo.emp_name }</p>
          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${svo.dcontent } / ${svo.rcontent }</p>
-         <a href="cmt/mycmt" style="display: block; text-decoration: none;"><i class="fa fa-clock-o fa-fw w3-margin-right w3-text-theme"></i> 나의 근태정보</a><p>
-         <a href="emp/myInfoUpdate" style="display: block; text-decoration: none;"><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> 개인정보수정</a>
+         <a href="../cmt/mycmt" style="display: block; text-decoration: none;"><i class="fa fa-clock-o fa-fw w3-margin-right w3-text-theme"></i> 나의 근태정보</a><p>
+         <a href="../emp/myInfoUpdate" style="display: block; text-decoration: none;"><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> 개인정보수정</a>
         </div>
       </div>
       <br>
@@ -105,12 +106,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-white">
           <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-envelope fa-fw w3-margin-right" ></i><span class="w3-badge w3-right w3-small w3-green">1</span> 쪽지</button>
           <div id="Demo3" class="w3-hide w3-bar-block">
-          	<a href="note/sendNote" class="w3-button w3-block w3-theme-l5 w3-left-align">쪽지 보내기</a>
-            <a href="note/sentNote" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 쪽지함</a>
-            <a href="note/receiveNote" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 쪽지함</a>
+          	<a href="../note/sendNote" class="w3-button w3-block w3-theme-l5 w3-left-align">쪽지 보내기</a>
+            <a href="../note/sentNote" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 쪽지함</a>
+            <a href="../note/receiveNote" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 쪽지함</a>
           </div>
-          <a href="apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">3</span> 결재</a>
-          <a href="board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
+          <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">3</span> 결재</a>
+          <a href="../board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
         </div>      
       </div>
       <br>
@@ -132,53 +133,35 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     </div>
     
     <!-- Middle Column -->
-    <div class="w3-col m7">
+       <div class="w3-col m7" >
     
       <div class="w3-row-padding">
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
-              <h4><i class="fa fa-check-square-o fa-fw w3-margin-right"></i>오늘의 일정</h4>
-              <p contenteditable="true" class="w3-border w3-padding">일정목록</p>
+              <h1><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i><b>오늘의 일정</b></h1><hr>
+              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기 다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
+              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
+              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
+              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
+              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
+              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
+              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
+              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
+              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
+              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
+              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
+
             </div>
           </div>
         </div>
       </div>
       
-      <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-        <h4><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i>전체 일정</h4><br>
-        <hr class="w3-clear">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-
-      </div>
-      
-      <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-        <h4><i class="fa fa-bullhorn fa-fw w3-margin-right"></i>공지사항</h4><br>
-        <hr class="w3-clear">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-      </div>  
 
       
     <!-- End Middle Column -->
     </div>
     
-    <!-- Right Column -->
-    <div class="w3-col m2">
-      <div class="w3-card w3-round w3-white w3-center w3-center">
-        <div class="w3-container">
-          <a href="#"></a>
-          
-          
-          <p><button class="w3-button w3-block w3-theme-l4" style=" border-radius:10px;box-shadow:#d6d6d6 1px 3px 2px;text-align: left;"><i class="fa fa-chevron-circle-right fa-fw w3-margin-right"></i>사용방법 바로가기</button></p>
-          <p><button class="w3-button w3-block w3-theme-l4" style=" border-radius:10px;box-shadow:#d6d6d6 1px 3px 2px;text-align: left;" onclick="location.href='rr/rr'"><i class="fa fa-chevron-circle-right fa-fw w3-margin-right"></i>문서양식 바로가기</button></p>
-          <p><button class="w3-button w3-block w3-theme-l4" style=" border-radius:10px;box-shadow:#d6d6d6 1px 3px 2px;text-align: left;"><i class="fa fa-chevron-circle-right fa-fw w3-margin-right"></i>공지사항 바로가기</button></p>
-          <p><button class="w3-button w3-block w3-theme-l4" style=" border-radius:10px;box-shadow:#d6d6d6 1px 3px 2px;text-align: left;"><i class="fa fa-chevron-circle-right fa-fw w3-margin-right"></i>동호회 바로가기</button></p>
-        </div>
-      </div>
-      <br>
-
-    <!-- End Right Column -->
-    </div>
     
   <!-- End Grid -->
   </div>
@@ -186,6 +169,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 <!-- End Page Container -->
 </div>
 <br>
+
 
 <!-- Footer -->
 <footer class="w3-container w3-theme-d5">
