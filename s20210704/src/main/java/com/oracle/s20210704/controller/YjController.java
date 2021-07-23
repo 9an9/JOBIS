@@ -27,7 +27,8 @@ public class YjController {
 	private YjEmpService es;
 	@Autowired
 	private JhRrService jrs;
-	
+
+	//사원정보관리 출력
 	@RequestMapping(value = "emp/empList")
 	public String empList(YjEmp emp, String currentPage, HttpSession session, SyMemberVO  vo, Model model) {
 		int emp_num = (int)session.getAttribute("member");
