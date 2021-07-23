@@ -18,7 +18,7 @@ import com.oracle.s20210704.service.YsPaging;
 
 @Controller
 public class YsController {
-	//테스트
+
 	@Autowired
 	private YsEmpCmtService yecs;
 	
