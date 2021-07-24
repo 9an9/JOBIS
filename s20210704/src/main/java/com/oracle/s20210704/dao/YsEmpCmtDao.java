@@ -22,4 +22,5 @@ public interface YsEmpCmtDao {
 	//상태수정
 	void           cmtInsert(YsEmpCmt ysEmpCmt);
 	int            mycmtTotal(int emp_num);
+	List<YsEmpCmt> mycmtList(YsEmpCmt ysEmpCmt);
 }

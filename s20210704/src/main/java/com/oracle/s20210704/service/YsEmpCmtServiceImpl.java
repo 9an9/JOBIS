@@ -95,4 +95,10 @@ public class YsEmpCmtServiceImpl implements YsEmpCmtService {
 		return mycmtTotal;
 	}
 
+	@Override
+	public List<YsEmpCmt> mycmtList(YsEmpCmt ysEmpCmt) {
+		List<YsEmpCmt> mycmtList = ydcd.mycmtList(ysEmpCmt);
+		return mycmtList;
+	}
+
 }

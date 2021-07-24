@@ -155,6 +155,15 @@ public class YsController {
 		
 		int mycmtTotal = yecs.mycmtTotal(emp_num);
 		model.addAttribute("mycmtTotal", mycmtTotal);
+				
+		YsPaging yp = new YsPaging(mycmtTotal, currentPage);
+		ysEmpCmt.setStart(yp.getStart());
+		ysEmpCmt.setEnd(yp.getEnd());
+		ysEmpCmt.setEmp_num(emp_num);
+		
+		List<YsEmpCmt> mycmtList = yecs.mycmtList(ysEmpCmt);
+		model.addAttribute("mycmtList", mycmtList);
+		model.addAttribute("yp", yp);
 		
 		return "cmt/mycmt";
 	}

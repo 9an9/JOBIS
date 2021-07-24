@@ -94,4 +94,10 @@ public class YsEmpCmtDaoImpl implements YsEmpCmtDao{
 		return mycmtTotal;
 	}
 
+	@Override
+	public List<YsEmpCmt> mycmtList(YsEmpCmt ysEmpCmt) {
+		List<YsEmpCmt> mycmtList = session.selectList("ysMyCmtList", ysEmpCmt);
+		return mycmtList;
+	}
+
 }
