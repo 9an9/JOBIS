@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
@@ -23,6 +24,17 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     border: 1px solid #7d97a5;
     border-collapse: collapse;
     border-spacing: 0;
+}
+.btn2{
+   color: #fff;
+   background-color: #AAABD3;
+   
+   border-color: #AAABD3;
+   border-radius: 6px;
+ }
+.w3-green, .w3-hover-green:hover {
+    color: #F8FAFF!important;
+    background-color: #566270!important;
 }
 </style>
 <body class="w3-theme-l5">
@@ -152,18 +164,18 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <div class="w3-container w3-padding">
               <h1><i class="fa fa-clock-o fa-fw w3-margin-right" style="font-size: 42px"></i><b>사원 근태 관리</b></h1><hr>
 	          <c:if test="${not empty ysEmpCmt.searchStart}">
-		          <h3 style="margin-bottom: 30px;">
+		          <h3 style="margin-bottom: -25px;text-align: center;color: #7d97a5;">
 		          	${ysEmpCmt.searchStart } ~ ${ysEmpCmt.searchEnd } 
 		          	<c:if test="${not empty ysEmpCmt.searchDept }">${ysEmpCmt.searchDept }</c:if>
 		          	<c:if test="${not empty ysEmpCmt.searchName }">${ysEmpCmt.searchName }</c:if>
 		          	검색결과
 		          </h3>
 	          </c:if>
-	          <div>
+	          <div style="width: 80%; height: 40px;margin-top: 60px;margin-left: 12%;">
 	          	<form action="cmtSearch" method="post" name="frm" onsubmit="return chk()">
-	          		 조회하기 <input type="date" style="width: 15%; font-size: 13px;" name="searchStart" id="searchStart" onchange="selectStr()"> ~ <input type="date" style="width: 15% ;font-size: 13px;margin-right: 2%;" name="searchEnd" id="searchEnd" onchange="selectEnd()">
-				          부서 <input type="text" style="width: 17%; font-size: 13px;margin-right: 1%;" name="searchDept" id="searchDept" placeholder="부서를 입력해주세요">
-				          사원 <input type="text" style="width: 17%; font-size: 13px;margin-right: 1%;" name="searchName" id="searchName" placeholder="사원을 입력해주세요">
+	          		 조회하기 <input type="date" style="width: 15%; font-size: 11px;" name="searchStart" id="searchStart" onchange="selectStr()"> ~ <input type="date" style="width: 15% ;font-size: 11px;margin-right: 2%;" name="searchEnd" id="searchEnd" onchange="selectEnd()">
+				          부서 <input type="text" style="width: 17%; font-size: 12px;margin-right: 1%;" name="searchDept" id="searchDept" placeholder="부서를 입력해주세요">
+				          사원 <input type="text" style="width: 17%; font-size: 12px;margin-right: 1%;" name="searchName" id="searchName" placeholder="사원을 입력해주세요">
 			    	<button class="btn2" type="submit">검색</button>
 	          	</form>
 	          </div>
@@ -190,12 +202,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 
 								<td>
 									<c:choose>
-										<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&((ehh == 1 && eh == 9) || ehh == 2)}"><p style="margin: 0;">지각,연장</p></c:when>
-										<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&(ehh < 2 && eh < 7)}"><p style="margin: 0;">지각,조퇴</p></c:when>
+										<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&((ehh == 1 && eh == 9) || ehh == 2)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0;color: rgb(225, 1, 255);">연장</span></c:when>
+										<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&(ehh < 2 && eh < 7)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0; color: #0072ff;">조퇴</span></c:when>
 
-										<c:when test="${sh >= 9 && (smm > 0 || sm > 0)}"><p style="margin: 0;">지각</p></c:when>										
-										<c:when test="${(ehh == 1 && eh == 9) || ehh == 2}"><p style="margin: 0;">연장</p></c:when>
-										<c:when test="${ehh < 2 && eh < 7}"><p style="margin: 0;">조퇴</p></c:when>
+										<c:when test="${sh >= 9 && (smm > 0 || sm > 0)}"><p style="margin: 0; color: red;">지각</p></c:when>										
+										<c:when test="${(ehh == 1 && eh == 9) || ehh == 2}"><p style="margin: 0; color: rgb(225, 1, 255);">연장</p></c:when>
+										<c:when test="${ehh < 2 && eh < 7}"><p style="margin: 0; color: #0072ff;">조퇴</p></c:when>
 										
 										<c:otherwise><p style="margin: 0;">정상</p></c:otherwise>
 									</c:choose>
@@ -203,23 +215,38 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 								
 								<td>
 									<c:if test="${empty cmtList.cmt_md}">-</c:if>
-									<c:if test="${not empty cmtList.cmt_md}">${cmtList.cmt_md }</c:if>
+									<c:if test="${not empty cmtList.cmt_md}"><p style="color: red; margin: 0px;">${cmtList.cmt_md }</p></c:if>
 								</td>
 								
 							</tr> 
 						</c:forEach>	
 				</table>
+				
+				<div style="margin-top: 5px; margin-left: 65%">
+		          	<form action="absent" method="post">
+		          		<input type="date" style="width: 38%; font-size: 13px;" name="absent" id="absent" required="required">
+				    	<button class="btn2" type="submit">결근사원조회</button>
+		          	</form>
+	            </div>
+	            
 				<c:if test="${empty ysEmpCmt.searchStart}">
-					<div style="text-align: center;">
-						<c:if test="${yp.startPage > yp.pageBlock }">
-							<a href="cmt?currentPage=${yp.startPage-yp.pageBlock}">[이전]</a>
-						</c:if>
-						<c:forEach var="i" begin="${yp.startPage }" end="${yp.endPage }">
-							<a href="cmt?currentPage=${i}">[${i}]</a>
-						</c:forEach>
-						<c:if test="${yp.endPage < yp.totalPage }">
-							<a href="cmt?currentPage=${yp.startPage+yp.pageBlock}">[다음]</a>
-						</c:if>
+					<div class="w3-center">
+						<div class="w3-bar w3-border" style=" margin: 10px 0px;border: 1px solid #7d97a5;">
+							<c:if test="${yp.startPage > yp.pageBlock }">
+								<a href="cmt?currentPage=${yp.startPage-yp.pageBlock}" class="w3-bar-item w3-button">&laquo;</a>
+							</c:if>
+							<c:forEach var="i" begin="${yp.startPage }" end="${yp.endPage }">
+								<c:if test="${yp.currentPage == i }">
+									<a href="cmt?currentPage=${i}" class="w3-bar-item w3-button" style="background-color: #384f76; color: white;">${i}</a>
+								</c:if>
+								<c:if test="${yp.currentPage != i }">
+									<a href="cmt?currentPage=${i}" class="w3-bar-item w3-button">${i}</a>
+								</c:if>
+							</c:forEach>
+							<c:if test="${yp.endPage < yp.totalPage }">
+								<a href="cmt?currentPage=${yp.startPage+yp.pageBlock}" class="w3-bar-item w3-button">&raquo;</a>
+							</c:if>
+						</div>
 					</div>
 				</c:if>
 			    <c:if test="${not empty ysEmpCmt.searchStart}">
@@ -229,26 +256,27 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 						<input type="hidden" name="searchDept" value="${ysEmpCmt.searchDept }">
 						<input type="hidden" name="searchName" value="${ysEmpCmt.searchName }">
 						<input type="hidden" name="currentPage" id="currentPage">
-						<div style="text-align: center;">
-							<c:if test="${yp.startPage > yp.pageBlock }">
-								<button onclick="searchPaging(-1)" style="padding: 0;border: 0;background-color: white;">[이전]</button> 
-							</c:if>
-							<c:forEach var="i" begin="${yp.startPage }" end="${yp.endPage }">
-								<button onclick="searchPaging(${i})" style="padding: 0;border: 0;background-color: white;">[${i}]</button>
-							</c:forEach>
-							<c:if test="${yp.endPage < yp.totalPage }">
-								<button onclick="searchPaging(-2)" style="padding: 0;border: 0;background-color: white;">[다음]</button>
-							</c:if>
+						<div class="w3-center">
+							<div class="w3-bar w3-border" style=" margin: 10px 0px;border: 1px solid #7d97a5;">
+								<c:if test="${yp.startPage > yp.pageBlock }">
+									<button onclick="searchPaging(-1)"  class="w3-bar-item w3-button">&laquo;</button> 
+								</c:if>
+								<c:forEach var="i" begin="${yp.startPage }" end="${yp.endPage }">
+									<c:if test="${yp.currentPage == i }">
+										<button onclick="searchPaging(${i})" style="background-color: #384f76; color: white;"  class="w3-bar-item w3-button">${i}</button>
+									</c:if>
+									<c:if test="${yp.currentPage != i }">
+										<button onclick="searchPaging(${i})"   class="w3-bar-item w3-button">${i}</button>
+									</c:if>
+								</c:forEach>
+								<c:if test="${yp.endPage < yp.totalPage }">
+									<button onclick="searchPaging(-2)"   class="w3-bar-item w3-button">&raquo;</button>
+								</c:if>
+							</div>
 						</div>
 					</form> 
 				</c:if> 
 				
-			    <div>
-		          	<form action="absent" method="post">
-		          		<input type="date" style="width: 15%; font-size: 13px;" name="absent" id="absent" required="required">
-				    	<button class="btn2" type="submit">결근사원조회</button>
-		          	</form>
-	            </div>
             </div>
           </div>
         </div>
