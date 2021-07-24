@@ -17,7 +17,19 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	text-align: center;
 	width: 80%;
 	margin: 0 auto;
+	
+    margin-top: 5px;
+    border: 1px solid #7d97a5;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
+.btn2{
+   color: #fff;
+   background-color: #AAABD3;
+   
+   border-color: #AAABD3;
+   border-radius: 6px;
+ }
 </style>
 <body class="w3-theme-l5">
 
@@ -146,10 +158,10 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <div class="w3-container w3-padding">
                <h1><i class="fa fa-clock-o fa-fw w3-margin-right" style="font-size: 42px"></i><b>사원 근태 관리</b></h1><hr>
 	       
-			  <h3>${absent} 결근 목록</h3>	       
+			  <h3 style="text-align: center;color: #7d97a5;">${absent} 결근 목록</h3>	       
 	       
-	          <table border="1" class="cmtTB">
-					<tr><th>사원번호</th><th>이름</th><th>부서</th><th>소속</th><th>직급</th><th>출근시간</th><th>퇴근시간</th><th>날짜</th><th>상태</th><th>상태수정</th></tr>
+	          <table class="cmtTB" style="margin-bottom: 6px;">
+					<tr style="background-color:#384f76; color: white; "><th>사원번호</th><th>이름</th><th>부서</th><th>소속</th><th>직급</th><th>출근시간</th><th>퇴근시간</th><th>날짜</th><th>상태</th><th>상태수정</th></tr>
 						<c:forEach var="cmtList" items="${absentList}">
 							<tr>
 								<td>${cmtList.emp_num }</td>
@@ -160,8 +172,8 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 								<td>-</td>
 								<td>-</td>
 								<td>${absent}</td>
-								<td>결근</td>
-								<td><button><a href="absentMD?num=${cmtList.emp_num }&dt=${absent}">정상</a></button></td>
+								<td style="color: red;">결근</td>
+								<td><button class="btn2"><a href="absentMD?num=${cmtList.emp_num }&dt=${absent}" style="text-decoration: none;">정상</a></button></td>
 								
 							
 								
@@ -169,7 +181,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 						</c:forEach>	
 				</table>
 			
-				<a href="cmt">목록으로 돌아가기</a>
+				<a href="cmt" style="text-decoration: none; margin-left: 75%; color:#000000; ">목록으로 돌아가기</a>
 
             </div>
           </div>
