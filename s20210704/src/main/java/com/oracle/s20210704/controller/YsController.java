@@ -147,13 +147,16 @@ public class YsController {
 		return "redirect:cmt";
 	}
 	@GetMapping(value = "cmt/mycmt")
-	public String mycmt(Model model ,HttpSession session, SyMemberVO  vo) {
+	public String mycmt(Model model ,HttpSession session, SyMemberVO  vo, YsEmpCmt ysEmpCmt,String currentPage) {
 		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
 		vo.setEmp_num(emp_num);								//모든 코딩에 추가
 		SyMemberVO svo = jrs.show(vo);
-		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
 		model.addAttribute("svo",svo);
-		return "mycmt";
+		
+		int mycmtTotal = yecs.mycmtTotal(emp_num);
+		model.addAttribute("mycmtTotal", mycmtTotal);
+		
+		return "cmt/mycmt";
 	}
 	
 

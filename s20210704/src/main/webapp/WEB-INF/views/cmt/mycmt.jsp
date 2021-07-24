@@ -8,5 +8,6 @@
 </head>
 <body>
 	안녕하세요
+	전체 개수 ${mycmtTotal } 개
 </body>
 </html>

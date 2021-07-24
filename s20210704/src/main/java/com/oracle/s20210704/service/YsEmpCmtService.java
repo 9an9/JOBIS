@@ -22,5 +22,6 @@ public interface YsEmpCmtService {
 	List<YsEmpCmt> absentList(Date absent);
 	//상태수정
 	void           cmtInsert(YsEmpCmt ysEmpCmt);
+	int            mycmtTotal(int emp_num);
 	
 }

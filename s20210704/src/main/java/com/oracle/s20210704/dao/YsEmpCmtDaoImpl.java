@@ -88,4 +88,10 @@ public class YsEmpCmtDaoImpl implements YsEmpCmtDao{
 		
 	}
 
+	@Override
+	public int mycmtTotal(int emp_num) {
+		int mycmtTotal = session.selectOne("ysMyCmtTotal", emp_num);
+		return mycmtTotal;
+	}
+
 }
