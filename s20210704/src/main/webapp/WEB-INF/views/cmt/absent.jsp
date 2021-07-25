@@ -161,7 +161,11 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 			  <h3 style="text-align: center;color: #7d97a5;">${absent} 결근 목록</h3>	       
 	       
 	          <table class="cmtTB" style="margin-bottom: 6px;">
-					<tr style="background-color:#384f76; color: white; "><th>사원번호</th><th>이름</th><th>부서</th><th>소속</th><th>직급</th><th>출근시간</th><th>퇴근시간</th><th>날짜</th><th>상태</th><th>상태수정</th></tr>
+					<tr style="background-color:#384f76; color: white; "><th>사원번호</th><th>이름</th><th>부서</th><th>소속</th><th>직급</th><th>출근시간</th><th>퇴근시간</th><th>날짜</th><th>상태</th>
+						<c:if test="${svo.dcontent == '인사부' && svo.rcontent != '사원'  }">
+							<th>상태수정</th>
+						</c:if>
+					</tr>
 						<c:forEach var="cmtList" items="${absentList}">
 							<tr>
 								<td>${cmtList.emp_num }</td>
@@ -173,9 +177,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 								<td>-</td>
 								<td>${absent}</td>
 								<td style="color: red;">결근</td>
-								<td><button class="btn2"><a href="absentMD?num=${cmtList.emp_num }&dt=${absent}" style="text-decoration: none;">정상</a></button></td>
-								
-							
+								<c:if test="${svo.dcontent == '인사부' && svo.rcontent != '사원'  }">
+									<td><button class="btn2"><a href="absentMD?num=${cmtList.emp_num }&dt=${absent}" style="text-decoration: none;">정상</a></button></td>
+								</c:if>
 								
 							</tr> 
 						</c:forEach>	
