@@ -223,12 +223,12 @@ select {
 								
 								
 									<c:if test="${svo.dcontent == '인사부' && svo.rcontent != '사원'  }">										
-										<form action="cmtMD" name="cmtMdFrm" id="cmtMdFrm" method="post">
+										<form action="cmtMD" name="cmtMdFrm" id="cmtMdFrm${cmtList.cmt_num}" method="post">
 										<input type="hidden" name="dt" value="${cmtList.cmt_date}">
 										<input type="hidden" name="cmt_num" value="${cmtList.cmt_num}">
 										<c:choose>
 											<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&((ehh == 1 && eh == 9) || ehh == 2)}">
-												<select name="state" style="color: rgb(225, 1, 255);" onchange="cmtMD()">
+												<select name="state" style="color: rgb(225, 1, 255);" onchange="cmtMD(${cmtList.cmt_num})">
 													<option selected="selected" style="color: rgb(225, 1, 255);" value="1">지각,연장</option>
 													<option style="color: #0072ff;"value="2">지각,조퇴</option>
 													<option style="color: red;"value="3">지각</option>
@@ -238,7 +238,7 @@ select {
 												</select>
 											</c:when>
 											<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&(ehh < 2 && eh < 7)}">
-												<select name="state" style="color: #0072ff;" onchange="cmtMD()">
+												<select name="state" style="color: #0072ff;" onchange="cmtMD(${cmtList.cmt_num})">
 													<option style="color: rgb(225, 1, 255);" value="1">지각,연장</option>
 													<option selected="selected" style="color: #0072ff;"value="2">지각,조퇴</option>
 													<option style="color: red;"value="3">지각</option>
@@ -249,7 +249,7 @@ select {
 											</c:when>
 	
 											<c:when test="${sh >= 9 && (smm > 0 || sm > 0)}">
-												<select name="state" style="color: red;" onchange="cmtMD()">
+												<select name="state" style="color: red;" onchange="cmtMD(${cmtList.cmt_num})">
 													<option style="color: rgb(225, 1, 255);" value="1">지각,연장</option>
 													<option style="color: #0072ff;"value="2">지각,조퇴</option>
 													<option selected="selected" style="color: red;"value="3">지각</option>
@@ -259,7 +259,7 @@ select {
 												</select>
 											</c:when>										
 											<c:when test="${(ehh == 1 && eh == 9) || ehh == 2}">
-												<select name="state" style="color: rgb(225, 1, 255);" onchange="cmtMD()">
+												<select name="state" style="color: rgb(225, 1, 255);" onchange="cmtMD(${cmtList.cmt_num})">
 													<option style="color: rgb(225, 1, 255);" value="1">지각,연장</option>
 													<option style="color: #0072ff;"value="2">지각,조퇴</option>
 													<option style="color: red;"value="3">지각</option>
@@ -269,7 +269,7 @@ select {
 												</select>
 											</c:when>
 											<c:when test="${ehh < 2 && eh < 7}">
-												<select name="state" style="color: #0072ff;" onchange="cmtMD()">
+												<select name="state" style="color: #0072ff;" onchange="cmtMD(${cmtList.cmt_num})">
 													<option style="color: rgb(225, 1, 255);"value="1">지각,연장</option>
 													<option style="color: #0072ff;"value="2">지각,조퇴</option>
 													<option style="color: red;"value="3">지각</option>
@@ -280,7 +280,7 @@ select {
 											</c:when>
 											
 											<c:otherwise>
-												<select name="state" onchange="cmtMD()">
+												<select name="state" onchange="cmtMD(${cmtList.cmt_num})">
 													<option style="color: rgb(225, 1, 255);"value="1">지각,연장</option>
 													<option style="color: #0072ff;"value="2">지각,조퇴</option>
 													<option style="color: red;"value="3">지각</option>
@@ -460,9 +460,12 @@ function searchPaging(i){
 	
 } 
 
-function cmtMD(){
-	var cmtMdFrm  = document.getElementById('cmtMdFrm');
-	cmtMdFrm.submit();
+function cmtMD(num){
+	var cmtMdFrm  = document.getElementById('cmtMdFrm'+num);
+	const md =  confirm("해당 사원의 상태를 변경하시겠습니까?");
+	if (md){		
+		cmtMdFrm.submit();
+	}
 }
 </script>
 
