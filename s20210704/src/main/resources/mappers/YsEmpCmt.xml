@@ -13,7 +13,7 @@
 	<select id="ysCmtList" parameterType="YsEmpCmt" resultType="YsEmpCmt">
 		select * 
 		from (select rownum rn, a.* 
-		      from (select e.emp_num as emp_num, e.emp_name as emp_name,
+		      from (select c.cmt_num as cmt_num,e.emp_num as emp_num, e.emp_name as emp_name,
 		            d.content as dcontent,t.content as tcontent,r.content as rcontent,
 		            to_char(c.cmt_md,'YYYY-MM-DD') as cmt_md,
 		            to_char(c.cmt_srt,'HH24:MI') as srttime, to_char(c.cmt_end,'HH24:MI') as endtime,
@@ -28,7 +28,7 @@
 	<select id="ysCmtDateSearchList" parameterType="YsEmpCmt" resultType="YsEmpCmt">
 		select * 
 		from (select rownum rn, a.* 
-		      from (select e.emp_num as emp_num, e.emp_name as emp_name,
+		      from (select c.cmt_num as cmt_num,e.emp_num as emp_num, e.emp_name as emp_name,
 		            d.content as dcontent,t.content as tcontent,r.content as rcontent,
 		            to_char(c.cmt_md,'YYYY-MM-DD') as cmt_md,
 		            to_char(c.cmt_srt,'HH24:MI') as srttime, to_char(c.cmt_end,'HH24:MI') as endtime,
@@ -46,7 +46,7 @@
 	<select id="ysCmtDeptSearchList" parameterType="YsEmpCmt" resultType="YsEmpCmt">
 		select * 
 		from (select rownum rn, a.* 
-		      from (select e.emp_num as emp_num, e.emp_name as emp_name,
+		      from (select c.cmt_num as cmt_num,e.emp_num as emp_num, e.emp_name as emp_name,
 		            d.content as dcontent,t.content as tcontent,r.content as rcontent,
 		            to_char(c.cmt_md,'YYYY-MM-DD') as cmt_md,
 		            to_char(c.cmt_srt,'HH24:MI') as srttime, to_char(c.cmt_end,'HH24:MI') as endtime,
@@ -65,7 +65,7 @@
 	<select id="ysCmtNameSearchList" parameterType="YsEmpCmt" resultType="YsEmpCmt">
 		select * 
 		from (select rownum rn, a.* 
-		      from (select e.emp_num as emp_num, e.emp_name as emp_name,
+		      from (select c.cmt_num as cmt_num,e.emp_num as emp_num, e.emp_name as emp_name,
 		            d.content as dcontent,t.content as tcontent,r.content as rcontent,
 		            to_char(c.cmt_md,'YYYY-MM-DD') as cmt_md,
 		            to_char(c.cmt_srt,'HH24:MI') as srttime, to_char(c.cmt_end,'HH24:MI') as endtime,
@@ -84,7 +84,7 @@
 	<select id="ysCmtAllSearchList" parameterType="YsEmpCmt" resultType="YsEmpCmt">
 		select * 
 		from (select rownum rn, a.* 
-		      from (select e.emp_num as emp_num, e.emp_name as emp_name,
+		      from (select c.cmt_num as cmt_num,e.emp_num as emp_num, e.emp_name as emp_name,
 		            d.content as dcontent,t.content as tcontent,r.content as rcontent,
 		            to_char(c.cmt_md,'YYYY-MM-DD') as cmt_md,
 		            to_char(c.cmt_srt,'HH24:MI') as srttime, to_char(c.cmt_end,'HH24:MI') as endtime,
@@ -185,4 +185,11 @@
 		where rn between #{start} and #{end}
 		
 	</select>
+	<update id="ysCmtUpdate" parameterType="YsEmpCmt">
+		update cmt
+		set cmt_srt = TO_DATE(#{md_str}, 'YYYY-MM-DD HH24:MI:SS'), 
+			cmt_end = TO_DATE(#{md_end}, 'YYYY-MM-DD HH24:MI:SS'),
+			cmt_md  = sysdate
+		where cmt_num = #{cmt_num}
+	</update>
 </mapper>

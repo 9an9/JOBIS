@@ -100,4 +100,10 @@ public class YsEmpCmtDaoImpl implements YsEmpCmtDao{
 		return mycmtList;
 	}
 
+	@Override
+	public void cmtChange(YsEmpCmt ysEmpCmt) {
+		session.update("ysCmtUpdate", ysEmpCmt);
+		
+	}
+
 }

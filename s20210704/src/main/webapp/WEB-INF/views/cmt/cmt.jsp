@@ -36,6 +36,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     color: #F8FAFF!important;
     background-color: #566270!important;
 }
+select {
+   text-align-last: center;
+   text-align: center;
+   -ms-text-align-last: center;
+   -moz-text-align-last: center;
+}
 </style>
 <body class="w3-theme-l5">
 
@@ -201,16 +207,91 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 								<c:set var="eh" value="${fn:substring(cmtList.endtime,1,2)}"/>
 
 								<td>
-									<c:choose>
-										<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&((ehh == 1 && eh == 9) || ehh == 2)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0;color: rgb(225, 1, 255);">연장</span></c:when>
-										<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&(ehh < 2 && eh < 7)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0; color: #0072ff;">조퇴</span></c:when>
-
-										<c:when test="${sh >= 9 && (smm > 0 || sm > 0)}"><p style="margin: 0; color: red;">지각</p></c:when>										
-										<c:when test="${(ehh == 1 && eh == 9) || ehh == 2}"><p style="margin: 0; color: rgb(225, 1, 255);">연장</p></c:when>
-										<c:when test="${ehh < 2 && eh < 7}"><p style="margin: 0; color: #0072ff;">조퇴</p></c:when>
-										
-										<c:otherwise><p style="margin: 0;">정상</p></c:otherwise>
-									</c:choose>
+									<c:if test="${svo.dcontent == '임원' || (svo.dcontent == '인사부' && svo.rcontent == '사원')  }">
+										<c:choose>
+											<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&((ehh == 1 && eh == 9) || ehh == 2)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0;color: rgb(225, 1, 255);">연장</span></c:when>
+											<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&(ehh < 2 && eh < 7)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0; color: #0072ff;">조퇴</span></c:when>
+	
+											<c:when test="${sh >= 9 && (smm > 0 || sm > 0)}"><p style="margin: 0; color: red;">지각</p></c:when>										
+											<c:when test="${(ehh == 1 && eh == 9) || ehh == 2}"><p style="margin: 0; color: rgb(225, 1, 255);">연장</p></c:when>
+											<c:when test="${ehh < 2 && eh < 7}"><p style="margin: 0; color: #0072ff;">조퇴</p></c:when>
+											
+											<c:otherwise><p style="margin: 0;">정상</p></c:otherwise>
+										</c:choose>
+									</c:if>
+								
+								
+								
+									<c:if test="${svo.dcontent == '인사부' && svo.rcontent != '사원'  }">										
+										<form action="cmtMD" name="cmtMdFrm" id="cmtMdFrm" method="post">
+										<input type="hidden" name="dt" value="${cmtList.cmt_date}">
+										<input type="hidden" name="cmt_num" value="${cmtList.cmt_num}">
+										<c:choose>
+											<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&((ehh == 1 && eh == 9) || ehh == 2)}">
+												<select name="state" style="color: rgb(225, 1, 255);" onchange="cmtMD()">
+													<option selected="selected" style="color: rgb(225, 1, 255);" value="1">지각,연장</option>
+													<option style="color: #0072ff;"value="2">지각,조퇴</option>
+													<option style="color: red;"value="3">지각</option>
+													<option style="color: rgb(225, 1, 255);"value="4">연장</option>
+													<option style="color: #0072ff;"value="5">조퇴</option>
+													<option value="6">정상</option>	
+												</select>
+											</c:when>
+											<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&(ehh < 2 && eh < 7)}">
+												<select name="state" style="color: #0072ff;" onchange="cmtMD()">
+													<option style="color: rgb(225, 1, 255);" value="1">지각,연장</option>
+													<option selected="selected" style="color: #0072ff;"value="2">지각,조퇴</option>
+													<option style="color: red;"value="3">지각</option>
+													<option style="color: rgb(225, 1, 255);"value="4">연장</option>
+													<option style="color: #0072ff;"value="5">조퇴</option>
+													<option value="6">정상</option>	
+												</select>
+											</c:when>
+	
+											<c:when test="${sh >= 9 && (smm > 0 || sm > 0)}">
+												<select name="state" style="color: red;" onchange="cmtMD()">
+													<option style="color: rgb(225, 1, 255);" value="1">지각,연장</option>
+													<option style="color: #0072ff;"value="2">지각,조퇴</option>
+													<option selected="selected" style="color: red;"value="3">지각</option>
+													<option style="color: rgb(225, 1, 255);"value="4">연장</option>
+													<option style="color: #0072ff;"value="5">조퇴</option>
+													<option value="6">정상</option>	
+												</select>
+											</c:when>										
+											<c:when test="${(ehh == 1 && eh == 9) || ehh == 2}">
+												<select name="state" style="color: rgb(225, 1, 255);" onchange="cmtMD()">
+													<option style="color: rgb(225, 1, 255);" value="1">지각,연장</option>
+													<option style="color: #0072ff;"value="2">지각,조퇴</option>
+													<option style="color: red;"value="3">지각</option>
+													<option selected="selected" style="color: rgb(225, 1, 255);"value="4">연장</option>
+													<option style="color: #0072ff;"value="5">조퇴</option>
+													<option value="6">정상</option>	
+												</select>
+											</c:when>
+											<c:when test="${ehh < 2 && eh < 7}">
+												<select name="state" style="color: #0072ff;" onchange="cmtMD()">
+													<option style="color: rgb(225, 1, 255);"value="1">지각,연장</option>
+													<option style="color: #0072ff;"value="2">지각,조퇴</option>
+													<option style="color: red;"value="3">지각</option>
+													<option style="color: rgb(225, 1, 255);"value="4">연장</option>
+													<option selected="selected" style="color: #0072ff;"value="5">조퇴</option>
+													<option value="6">정상</option>	
+												</select>		
+											</c:when>
+											
+											<c:otherwise>
+												<select name="state" onchange="cmtMD()">
+													<option style="color: rgb(225, 1, 255);"value="1">지각,연장</option>
+													<option style="color: #0072ff;"value="2">지각,조퇴</option>
+													<option style="color: red;"value="3">지각</option>
+													<option style="color: rgb(225, 1, 255);"value="4">연장</option>
+													<option style="color: #0072ff;"value="5">조퇴</option>
+													<option selected="selected"value="6">정상</option>	
+												</select>
+											</c:otherwise>
+										</c:choose>
+										</form>
+									</c:if>
 								</td>
 								
 								<td>
@@ -378,6 +459,11 @@ function searchPaging(i){
 	searchFrm.submit();
 	
 } 
+
+function cmtMD(){
+	var cmtMdFrm  = document.getElementById('cmtMdFrm');
+	cmtMdFrm.submit();
+}
 </script>
 
 </body>

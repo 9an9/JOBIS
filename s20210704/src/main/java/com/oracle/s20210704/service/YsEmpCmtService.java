@@ -24,5 +24,6 @@ public interface YsEmpCmtService {
 	void           cmtInsert(YsEmpCmt ysEmpCmt);
 	int            mycmtTotal(int emp_num);
 	List<YsEmpCmt> mycmtList(YsEmpCmt ysEmpCmt);
+	void           cmtChange(YsEmpCmt ysEmpCmt);
 	
 }

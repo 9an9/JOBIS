@@ -101,4 +101,10 @@ public class YsEmpCmtServiceImpl implements YsEmpCmtService {
 		return mycmtList;
 	}
 
+	@Override
+	public void cmtChange(YsEmpCmt ysEmpCmt) {
+		ydcd.cmtChange(ysEmpCmt);
+		
+	}
+
 }

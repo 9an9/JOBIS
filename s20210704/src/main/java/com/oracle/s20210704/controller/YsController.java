@@ -167,6 +167,34 @@ public class YsController {
 		
 		return "cmt/mycmt";
 	}
-	
+	@PostMapping(value = "cmt/cmtMD")
+	public String mycmt(int state,String dt,int cmt_num,YsEmpCmt ysEmpCmt) {
+		String cmt_str = null;
+		String cmt_end = null;
+		if(state == 1) {            //지각,연장
+			cmt_str = dt + "09:01:00";
+			cmt_end = dt + "21:01:00";
+		}else if(state == 2) {      //지각,조퇴
+			cmt_str = dt + "09:01:00";
+			cmt_end = dt + "13:00:00";
+		}else if(state == 3) {      //지각
+			cmt_str = dt + "09:01:00";
+			cmt_end = dt + "18:00:00";
+		}else if(state == 4) {      //연장
+			cmt_str = dt + "09:00:00";
+			cmt_end = dt + "21:01:00";
+		}else if(state == 5) {      //조퇴
+			cmt_str = dt + "09:00:00";
+			cmt_end = dt + "13:00:00";
+		}else {                     //정상
+			cmt_str = dt + "09:00:00";
+			cmt_end = dt + "18:00:00";
+		}
+		ysEmpCmt.setCmt_num(cmt_num);
+		ysEmpCmt.setMd_str(cmt_str);
+		ysEmpCmt.setMd_end(cmt_end);
+		yecs.cmtChange(ysEmpCmt);
+		return "redirect:cmt";
+	}
 
 }
