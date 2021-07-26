@@ -18,6 +18,7 @@ public class YsApv {
 	//APV_MID
 	private  int   apv_mid_num;
 	private  int   apv_mid_emp;
+	private  int   apv_mid_ok;
 	
 	//조회용
 	private String srt_name;      private String mid_name;    private String fnl_name;
