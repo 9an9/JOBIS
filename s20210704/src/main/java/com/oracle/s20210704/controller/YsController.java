@@ -197,5 +197,15 @@ public class YsController {
 		redirect.addAttribute("currentPage", currentPage);
 		return "redirect:cmt";
 	}
+	
+	/////////   결재      /////////
+	@GetMapping(value = "apv/apvSnd")
+	public String apvSnd(Model model ,HttpSession session, SyMemberVO vo) {
+		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
+		vo.setEmp_num(emp_num);								//모든 코딩에 추가
+		SyMemberVO svo = jrs.show(vo);
+		model.addAttribute("svo",svo);
+		return "apv/apvSnd";
+	}
 
 }
