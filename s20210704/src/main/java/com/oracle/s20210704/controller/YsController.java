@@ -206,16 +206,23 @@ public class YsController {
 	/////////   결재      /////////
 	//snd가 받은결제..연결점 잘못잡아서 그냥 이대로 진행
 	@GetMapping(value = "apv/apvSnd")
-	public String apvSnd(Model model ,HttpSession session, SyMemberVO vo,YsApv ysApv) {
+	public String apvSnd(Model model ,HttpSession session, SyMemberVO vo,YsApv ysApv,String currentPage) {
 		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
 		vo.setEmp_num(emp_num);								//모든 코딩에 추가
 		SyMemberVO svo = jrs.show(vo);
 		model.addAttribute("svo",svo);
 		
+		int rcv_num = emp_num;
+		int rcvTotal = yas.rcvTotal(rcv_num);
+		
+		YsPaging yp = new YsPaging(rcvTotal, currentPage);
+		ysApv.setStart(yp.getStart());
+		ysApv.setEnd(yp.getEnd());
 		ysApv.setApv_mid_emp(emp_num);
 		
 		List<YsApv> rcvList = yas.apv_RcvList(ysApv);
 		model.addAttribute("rcvList", rcvList);
+		model.addAttribute("yp", yp);
 		
 		return "apv/apvSnd";
 	}

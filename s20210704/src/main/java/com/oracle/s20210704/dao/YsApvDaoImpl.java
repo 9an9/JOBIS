@@ -15,9 +15,16 @@ public class YsApvDaoImpl implements YsApvDao {
 	private SqlSession session;
 	
 	@Override
+	public int rcvTotal(int rcv_num) {
+		int rcvTotal = session.selectOne("ysRcvTotal", rcv_num);
+		return rcvTotal;
+	}
+	
+	@Override
 	public List<YsApv> apv_RcvList(YsApv ysApv) {
 		List<YsApv> apv_RcvList = session.selectList("ysApvRcvList", ysApv);
 		return apv_RcvList;
 	}
+
 
 }

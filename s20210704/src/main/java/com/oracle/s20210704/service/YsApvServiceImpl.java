@@ -15,9 +15,16 @@ public class YsApvServiceImpl implements YsApvService {
 	private YsApvDao yad;
 	
 	@Override
+	public int rcvTotal(int rcv_num) {
+		int rcvTotal = yad.rcvTotal(rcv_num);
+		return rcvTotal;
+	}
+	
+	@Override
 	public List<YsApv> apv_RcvList(YsApv ysApv) {
 		List<YsApv> apv_RcvList = yad.apv_RcvList(ysApv);
 		return apv_RcvList;
 	}
+
 
 }

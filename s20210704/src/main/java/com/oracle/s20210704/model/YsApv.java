@@ -22,4 +22,5 @@ public class YsApv {
 	
 	//조회용
 	private String srt_name;      private String mid_name;    private String fnl_name;
+	private  int   start;         private  int   end;
 }
