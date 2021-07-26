@@ -39,12 +39,12 @@ public class YJEmpServiceImpl implements YjEmpService {
 
 
 	@Override
-	public int updateRef(int empno, int ref) {
+	public int updateRef(YjEmp emp) {
 		int result = 0;
 		System.out.println("YjEmpServiceImpl updateRef Start...");
-		result = ed.updateRef(empno, ref);
+		result = ed.updateRef(emp);
 		System.out.println("YjEmpServiceImpl updateRef result--> " + result);
-		return result;		
+		return result;
 	}
 
 }

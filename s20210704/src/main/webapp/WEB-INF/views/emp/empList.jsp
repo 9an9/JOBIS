@@ -20,7 +20,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-    <a href="main" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Home</a>
+    <a href="../main" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Home</a>
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-file-text fa-fw w3-margin-right"></i>전자결재</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
@@ -154,10 +154,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 						<td>${empList.emp_phnum }</td>
 						<td>${empList.address }</td>
 						<td>${empList.emp_hiredate }</td>
-						<td><select onchange="javascript:updateRef(empList.empnum, this.value);">
+						<td><c:if test="${emp_num=12% }">					
+							<select onchange="alert('변경')">
 							<option value="0" <c:if test="${empList.ref==0 }">selected="selected"</c:if>></option>
 							<option value="1" <c:if test="${empList.ref!=0 }">selected="selected"</c:if>>부재중</option>
-							</select></td>
+							</select>
+							</c:if></td>
 					</tr>
 					<c:set var="num" value="${num + 1 }"></c:set>
 				</c:forEach>
@@ -223,31 +225,32 @@ function myFunction1(id) {
 
 // Used to toggle the menu on smaller screens when clicking on the menu button
 function openNav() {
-  var x = document.getElementById("navDemo");
-  if (x.className.indexOf("w3-show") == -1) {
+  	var x = document.getElementById("navDemo");
+  	if (x.className.indexOf("w3-show") == -1) {
     x.className += " w3-show";
-  } else { 
+  	} else { 
     x.className = x.className.replace(" w3-show", "");
-  }
+  	}
 }
 
 //사원관리에서 부재중 처리
-function updateRef(a, b) {
+function updateRef(int a, int b) {
+	var updateR = {"empno" : a, "ref" : b};
 	$.ajax({
-		url: "updateRef",
-		data: {empno:a,
-				ref:b,
+		url: "emp/updateRef",
+		type: "post",
+		data: JSON.stringify(updateR),
+		dataType: "json",
+		contentType: "application/json",
+		success: function(data) {
+			alert("성공");
+		},
+		error: function(errorThrown) {
+			alert(errorThrown.statusText);
 		}
-		type: "POST"
-		success: function(data){
-            alert("수정되었습니다.")
-            
-        },
-        error: function(){
-            alert("실패했습니다.");
-        }
-	})
-	
+	});
+		location.href(updateRef?empno=a&ref=b);
+		alert(request.getAttribute('result'));
 }
 </script>
 

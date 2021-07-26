@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -55,19 +56,22 @@ public class YjController {
 	}
 	
 	@ResponseBody
-	@PostMapping(value = "/updateRef")
-	public String updateRef(int empno, int ref, HttpSession session, SyMemberVO  vo, Model model) {
+	@PostMapping(value = "emp/updateRef")
+	public String updateRef(@RequestBody YjEmp emp, HttpSession session, SyMemberVO  vo, Model model) {
 		int emp_num = (int)session.getAttribute("member");
 		vo.setEmp_num(emp_num);
 		SyMemberVO svo = jrs.show(vo);
 		model.addAttribute("emp_num",emp_num);
 		model.addAttribute("svo",svo);
 		
+		emp.getEmpno();
+		emp.getRef();
 		System.out.println("YjEmpController updateRef Start...");
-		System.out.println("YjEmpController empno--> " + empno);
-		System.out.println("YjEmpController ref--> " + ref);
-		int result = es.updateRef(empno, ref);
-		return "emp/empList";
+		System.out.println("YjEmpController updateR empno--> " + emp.getEmpno());
+		System.out.println("YjEmpController updateR ref--> " + emp.getRef());
+		int result = es.updateRef(emp);
+		model.addAttribute("result", result);
+		return "forward:emp/empList";
 	}
 
 }

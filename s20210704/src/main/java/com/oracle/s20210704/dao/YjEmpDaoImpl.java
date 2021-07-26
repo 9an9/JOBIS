@@ -41,15 +41,15 @@ public class YjEmpDaoImpl implements YjEmpDao {
 	}
 
 	@Override
-	public int updateRef(int empno, int ref) {
+	public int updateRef(YjEmp emp) {
 		int result = 0;
 		System.out.println("YjEmpDaoImpl updateRef Start...");
 		try {
-			
+			result = session.update("updateRef", emp);
 		} catch (Exception e) {
-
+			System.out.println("YjEmpDaoImpl updateRef Exception->"+e.getMessage());
 		}
-		return 0;
+		return result;
 	}
 
 }

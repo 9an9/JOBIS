@@ -20,4 +20,7 @@
 		order by emp_num asc) a)
 		where rn between #{start} and #{end}
 	</select>
+	<update id="updateRef">
+		update emp set ref=#{ref} where emp_num=#{empno}
+	</update>
 </mapper>
