@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.oracle.s20210704.model.SyMemberVO;
+import com.oracle.s20210704.model.YsApv;
 import com.oracle.s20210704.model.YsEmpCmt;
 import com.oracle.s20210704.service.JhRrService;
+import com.oracle.s20210704.service.YsApvService;
 import com.oracle.s20210704.service.YsEmpCmtService;
 import com.oracle.s20210704.service.YsPaging;
 
@@ -25,6 +27,9 @@ public class YsController {
 
 	@Autowired
 	private YsEmpCmtService yecs;
+	
+	@Autowired
+	private YsApvService    yas;
 	
 	@Autowired
 	private JhRrService jrs;
@@ -199,12 +204,19 @@ public class YsController {
 	}
 	
 	/////////   결재      /////////
+	//snd가 받은결제..연결점 잘못잡아서 그냥 이대로 진행
 	@GetMapping(value = "apv/apvSnd")
-	public String apvSnd(Model model ,HttpSession session, SyMemberVO vo) {
+	public String apvSnd(Model model ,HttpSession session, SyMemberVO vo,YsApv ysApv) {
 		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
 		vo.setEmp_num(emp_num);								//모든 코딩에 추가
 		SyMemberVO svo = jrs.show(vo);
 		model.addAttribute("svo",svo);
+		
+		ysApv.setApv_mid_emp(emp_num);
+		
+		List<YsApv> rcvList = yas.apv_RcvList(ysApv);
+		model.addAttribute("rcvList", rcvList);
+		
 		return "apv/apvSnd";
 	}
 

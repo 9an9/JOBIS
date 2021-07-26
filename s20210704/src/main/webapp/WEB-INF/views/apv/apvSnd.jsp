@@ -138,9 +138,27 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <div class="w3-row-padding">
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
-            <div class="w3-container w3-padding">
-              <h1><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i><b>오늘의 일정</b></h1><hr>
-              <p>결재입니당</p>
+            <div class="w3-container w3-padding">          
+              <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>받은 결재함</b></h1><hr>
+              <table border="1">
+              	<tr><th>결제구분</th><th>제목</th><th>제출자</th><th>제출일</th><th>진행상황</th></tr>
+              	<c:forEach var="rcvList" items="${rcvList }">
+              		<tr>
+              			<td>${rcvList.apv_type }</td>
+              			<td>${rcvList.apv_title }</td>
+              			<td>${rcvList.srt_name }</td>
+              			<td>${rcvList.apv_date }</td>
+              			<td>
+              				<c:if test="${rcvList.apv_ok == 0 }">진행중</c:if>
+              				<c:if test="${rcvList.apv_ok == 1 }">승인(중간)</c:if>
+              				<c:if test="${rcvList.apv_ok == 2 }">승인(최종)</c:if>
+              				<c:if test="${rcvList.apv_ok == 3 }">반려</c:if>
+              				<c:if test="${rcvList.apv_ok == 4 }">승인(중간)</c:if>
+              				<c:if test="${rcvList.apv_ok == 5 }">승인(중간)</c:if>
+              			</td>
+              		</tr>
+              	</c:forEach>
+              </table>
            
 
             </div>
