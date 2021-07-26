@@ -226,6 +226,7 @@ select {
 										<form action="cmtMD" name="cmtMdFrm" id="cmtMdFrm${cmtList.cmt_num}" method="post">
 										<input type="hidden" name="dt" value="${cmtList.cmt_date}">
 										<input type="hidden" name="cmt_num" value="${cmtList.cmt_num}">
+										<input type="hidden" name="currentPage" value="${yp.currentPage}">
 										<c:choose>
 											<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&((ehh == 1 && eh == 9) || ehh == 2)}">
 												<select name="state" style="color: rgb(225, 1, 255);" onchange="cmtMD(${cmtList.cmt_num})">

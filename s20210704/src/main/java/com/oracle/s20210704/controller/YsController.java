@@ -168,7 +168,7 @@ public class YsController {
 		return "cmt/mycmt";
 	}
 	@PostMapping(value = "cmt/cmtMD")
-	public String mycmt(int state,String dt,int cmt_num,YsEmpCmt ysEmpCmt) {
+	public String mycmt(int state,String dt,int cmt_num,YsEmpCmt ysEmpCmt,String currentPage,RedirectAttributes redirect) {
 		String cmt_str = null;
 		String cmt_end = null;
 		if(state == 1) {            //지각,연장
@@ -194,6 +194,7 @@ public class YsController {
 		ysEmpCmt.setMd_str(cmt_str);
 		ysEmpCmt.setMd_end(cmt_end);
 		yecs.cmtChange(ysEmpCmt);
+		redirect.addAttribute("currentPage", currentPage);
 		return "redirect:cmt";
 	}
 
