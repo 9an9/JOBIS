@@ -13,16 +13,19 @@
 	</select>
 	<select id="ysApvRcvList" parameterType="com.oracle.s20210704.model.YsApv" resultType="com.oracle.s20210704.model.YsApv">
 		select * 
-		from (select rownum rn, b.* 
-		      from (select a.*,m.apv_mid_ok,m.apv_mid_num,e.emp_name as srt_name 
-		      		from apv a,apv_mid m,emp e
-					where a.apv_mid = m.apv_mid
-					and a.apv_snd = e.emp_num 
-					and (m.apv_mid_emp = #{apv_mid_emp} or a.apv_fnl = #{apv_mid_emp})
-					order by m.apv_mid_ok,a.apv_ok,a.apv_date desc
-		            ) b
-		      )
+		     from (select rownum rn,  b.*
+		           from (select a1.*,e1.emp_name as srt_name
+		                 from apv a1,apv_mid m,emp e1
+		                 where a1.apv_mid = m.apv_mid
+		                 and a1.apv_snd = e1.emp_num and m.apv_mid_emp = #{apv_mid_emp}
+		                 union
+		                 select a2.*,e2.emp_name as srt_name
+		                 from apv a2,emp e2
+		                 where a2.apv_snd = e2.emp_num and a2.apv_fnl = #{apv_mid_emp}
+		                 ) b 
+		          )
 		where rn between #{start} and #{end}
+		order by apv_ok,apv_date desc
 	</select>
 	<select id="ysSndTotal" parameterType="int" resultType="int">
 		select count(*)
