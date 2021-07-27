@@ -88,4 +88,17 @@
 		dep_num = (select code from comm where content = '총무부')
 		and rnk_num = (select code from comm where content = '부장')
 	</select>
+	
+	<insert id="ysMidRcvInsert" parameterType="com.oracle.s20210704.model.YsApv">
+	   {call
+	        declare
+	        begin
+	            insert into apv values ((select nvl(max(apv_sq),0)+1 from apv),#{apv_type},#{apv_snd},(select nvl(max(apv_sq),0)+1 from apv),'',#{apv_title},#{apv_content},'','',sysdate,'',0);
+	            insert into apv_mid values ((select nvl(max(apv_mid_num),0)+1 from apv_mid),(select nvl(max(apv_sq),0) from apv),#{apv_mid_emp},0);
+	        end
+	    }
+	</insert>
+	<insert id="ysFnlRcvInsert" parameterType="com.oracle.s20210704.model.YsApv">
+		insert into apv values ((select nvl(max(apv_sq),0)+1 from apv),#{apv_type},#{apv_snd},'',#{apv_fnl},#{apv_title},#{apv_content},'','',sysdate,'',0)
+	</insert>
 </mapper>

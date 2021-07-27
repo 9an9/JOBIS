@@ -75,5 +75,15 @@ public class YsApvServiceImpl implements YsApvService {
 		return rcvList8;
 	}
 
+	@Override
+	public void midRcvInsert(YsApv ysApv) {
+		yad.midRcvInsert(ysApv);
+	}
+
+	@Override
+	public void fnlRcvInsert(YsApv ysApv) {
+		yad.fnlRcvInsert(ysApv);
+	}
+
 
 }

@@ -16,4 +16,6 @@ public interface YsApvService {
 	List<YsEmpCmt> rcvList4();
 	List<YsEmpCmt> rcvList567(String rnk);
 	List<YsEmpCmt> rcvList8();
+	void           midRcvInsert(YsApv ysApv);
+	void           fnlRcvInsert(YsApv ysApv);
 }

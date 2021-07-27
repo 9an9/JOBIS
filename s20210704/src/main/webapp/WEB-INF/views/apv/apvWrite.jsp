@@ -275,23 +275,23 @@ function getRcvList(){
 	var fnlChk2 = 0;
 	if(apv_type == '일일보고'){
 		if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
-		else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; }
+		else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; fnlChk2 = 1; fnlChk.value = 1; }
 	}else if(apv_type == '주간보고'){
 		if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; }
-		else if(emp_rnk == '부장'){ url = "../rcvList4"; }
+		else if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1; fnlChk.value = 1; }
 	}else if(apv_type == '근태보고'){
 		if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
-		else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; }
+		else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; fnlChk2 = 1; fnlChk.value = 1; }
 	}else if(apv_type == '비용신청'){
 		if(emp_rnk == '부장'){ url = "../rcvList5"; }
 	}else if(apv_type == '사업보고'){
 		if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; }
 		else if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; }
-		else if(emp_rnk == '부장'){ url = "../rcvList4"; }
+		else if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1; fnlChk.value = 1; }
 	}else if(apv_type == '인사보고'){
 		if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
 		else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; }
-		else if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; }
+		else if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; fnlChk2 = 1; fnlChk.value = 1; }
 	}else if(apv_type == '행사보고'){
 		if(emp_rnk == '부장'){ url = "../rcvList6"; }
 	}else if(apv_type == '월간보고'){

@@ -264,21 +264,11 @@ public class YsController {
 	
 	@PostMapping(value = "apv/apvWrite")
 	public String apvInsert(YsApv ysApv) {
-		String apv_type = ysApv.getApv_type();
-		int apv_snd = ysApv.getApv_snd();
-		String apv_title = ysApv.getApv_title();
-		String apv_content = ysApv.getApv_content();
-		int rcv = 0;
-		if(ysApv.getFnlChk() == 1) {
-			rcv = ysApv.getApv_fnl();
-		}else {
-			rcv = ysApv.getApv_mid_emp();
+		if(ysApv.getFnlChk() == 1) {        // 중간 결재자가 없는 경우 
+			yas.fnlRcvInsert(ysApv);
+		}else {                             // 중간 결재자가 있는 경우
+			yas.midRcvInsert(ysApv);
 		}
-		System.out.println("apv_type : "+apv_type);
-		System.out.println("apv_snd : "+apv_snd);
-		System.out.println("apv_title : "+apv_title);
-		System.out.println("apv_content : "+apv_content);
-		System.out.println("rcv : "+rcv);
 		return "redirect:apvRcv";
 	}
 	

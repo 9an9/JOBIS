@@ -75,5 +75,15 @@ public class YsApvDaoImpl implements YsApvDao {
 		return rcvList8;
 	}
 
+	@Override
+	public void midRcvInsert(YsApv ysApv) {
+		session.insert("ysMidRcvInsert", ysApv);	
+	}
+
+	@Override
+	public void fnlRcvInsert(YsApv ysApv) {
+		session.insert("ysFnlRcvInsert", ysApv);
+	}
+
 
 }
