@@ -141,17 +141,17 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">          
               <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>결재 작성</b></h1><hr>
-          	  <div style="border: 1px solid black;">
-          	  	 <form action="#" method="post">
+          	  <div style="border: 1px solid black; width: 90%; margin: 50px auto;">
+          	  	 <form action="#" method="post" style="margin-left: 30px; margin-top: 30px;" name="frm" onsubmit="return chk()">
         	  	 	<div style="font-size: 20px;">
         	  	 		<span><b>사원번호</b> : ${emp_num }&nbsp; <b>이름</b> : ${svo.emp_name }&nbsp; <b>부서</b> : ${svo.dcontent }&nbsp; <b>직급</b> : ${svo.rcontent }&nbsp;</span>
         	  	 	</div>
-        	  	 	<div style="font-size: 20px;">
+        	  	 	<div>
         	  	 		<span>
-        	  	 			<b>결재분류</b> :
-        	  	 			<select name="apv_type" id="apv_type" onchange="getRcvList()">
+        	  	 			<b style="font-size: 20px;">결재분류 : </b>
+        	  	 			<select name="apv_type" id="apv_type" onchange="getRcvList()" required="required">
         	  	 				<option value="-결재-" selected="selected">-결재-</option>
-        	  	 				<c:if test="${svo.dcontent == '임원'}"><option value="최종보고" selected="selected">최종보고</option></c:if>
+        	  	 				<c:if test="${svo.dcontent == '임원'}"><option value="최종보고">최종보고</option></c:if>
         	  	 				<c:if test="${svo.dcontent != '임원'}">
         	  	 					<c:if test="${svo.rcontent == '사원'}">
         	  	 						<option value="일일보고">일일보고</option>
@@ -179,13 +179,18 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 				</c:if>
         	  	 			</select>
         	  	 		</span>
-        	  	 		<span id="Rcv_List">
+        	  	 		<span id="Rcv_List" style="margin-left: 132px;">
         	  	 			<c:if test="${svo.dcontent == '임원'}">
-        	  	 				<b>결재자 : </b>서팔광
+        	  	 				<b style="font-size: 20px;">결재자 : </b> <span style="margin: 0px; font-size: 20px;">서팔광</span>
         	  	 				<input type="hidden" name="apv_fnl" value="1701001">
         	  	 			</c:if>
         	  	 		</span>
         	  	 	</div>
+        	  	 	<div><b style="font-size: 20px;">제목 : </b><input type="text" name="apv_title" placeholder="결재 제목을 작성해주세요" required="required" style="width: 80%;"></div>
+        	  	 	<div><b style="font-size: 20px;">첨부파일 : </b> 첨부파일예시</div>
+        	  	 	<b style="font-size: 20px;">내용 </b><p style="margin: 0px;">
+        	  	 	<div><textarea placeholder="결재 내용을 작성해주세요" name="apv_content" maxlength="4000"  style="height:150px; width: 80%; margin-left: 55px;" required="required"></textarea></div>
+        	  	 	<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="결재신청"></div>
           	  	 </form>
           	  </div>
             </div>
@@ -292,7 +297,7 @@ function getRcvList(){
 		dataType:'json',
 		success:function(data){
 			$('#Rcv_List *').remove();
-			str += "<b>결재자 : </b><select name = 'apv_mid_emp'>";
+			str += "<b style='font-size: 20px;'>결재자 : </b><select name = 'apv_mid_emp' required='required'><option value='-결재자-' selected='selected'>-결재자-</option>";
 			$(data).each(
 					function(){
 						str2 = "<option value = '"+this.emp_num + "'>"+this.emp_name + "</option>";
@@ -305,6 +310,17 @@ function getRcvList(){
 	});
 }
 
+function chk(){
+	if(frm.apv_type.value == '-결재-'){
+		alert("결재분류를 선택해주세요");
+		return false;
+	}
+	if(frm.apv_mid_emp.value == '-결재자-'){
+		alert("결재자를 선택해주세요");
+		return false;
+	}
+	return true;
+}
 
 
 
