@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.oracle.s20210704.model.YsApv;
+import com.oracle.s20210704.model.YsEmpCmt;
 
 @Repository
 public class YsApvDaoImpl implements YsApvDao {
@@ -36,6 +37,42 @@ public class YsApvDaoImpl implements YsApvDao {
 	public List<YsApv> apv_SndList(YsApv ysApv) {
 		List<YsApv> apv_SndList = session.selectList("ysApvSndList", ysApv);
 		return apv_SndList;
+	}
+
+	@Override
+	public List<YsEmpCmt> rcvList1(int emp_num) {
+		List<YsEmpCmt> rcvList1 = session.selectList("ysRcvList1", emp_num);
+		return rcvList1;
+	}
+
+	@Override
+	public List<YsEmpCmt> rcvList2(int emp_num) {
+		List<YsEmpCmt> rcvList2 = session.selectList("ysRcvList2", emp_num);
+		return rcvList2;
+	}
+
+	@Override
+	public List<YsEmpCmt> rcvList3(int emp_num) {
+		List<YsEmpCmt> rcvList3 = session.selectList("ysRcvList3", emp_num);
+		return rcvList3;
+	}
+
+	@Override
+	public List<YsEmpCmt> rcvList4() {
+		List<YsEmpCmt> rcvList4 = session.selectList("ysRcvList4");
+		return rcvList4;
+	}
+
+	@Override
+	public List<YsEmpCmt> rcvList567(String rnk) {
+		List<YsEmpCmt> rcvList567 = session.selectList("ysRcvList567", rnk);
+		return rcvList567;
+	}
+
+	@Override
+	public List<YsEmpCmt> rcvList8() {
+		List<YsEmpCmt> rcvList8 = session.selectList("ysRcvList8");
+		return rcvList8;
 	}
 
 

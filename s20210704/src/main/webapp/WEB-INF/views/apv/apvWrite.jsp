@@ -257,37 +257,50 @@ function openNav() {
 function getRcvList(){
 	$("#apv_type option[value='-결재-']").remove();
 	var emp_rnk  = '${svo.rcontent }';
+	var emp_num  = '${emp_num }';
 	var apv_type = document.getElementById('apv_type').value;
 	var url = "";
 	if(apv_type == '일일보고'){
-		if(emp_rnk == '사원'){ url = "../rcvList1"; }
-		else if(emp_rnk == '대리'){ url = "../rcvList2"; }
+		if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
+		else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; }
 	}else if(apv_type == '주간보고'){
-		if(emp_rnk == '팀장'){ url = "../rcvList3"; }
+		if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; }
 		else if(emp_rnk == '부장'){ url = "../rcvList4"; }
 	}else if(apv_type == '근태보고'){
-		if(emp_rnk == '사원'){ url = "../rcvList1"; }
-		else if(emp_rnk == '대리'){ url = "../rcvList2"; }
+		if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
+		else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; }
 	}else if(apv_type == '비용신청'){
 		if(emp_rnk == '부장'){ url = "../rcvList5"; }
 	}else if(apv_type == '사업보고'){
-		if(emp_rnk == '대리'){ url = "../rcvList2"; }
-		else if(emp_rnk == '팀장'){ url = "../rcvList3"; }
+		if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; }
+		else if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; }
 		else if(emp_rnk == '부장'){ url = "../rcvList4"; }
 	}else if(apv_type == '인사보고'){
-		if(emp_rnk == '사원'){ url = "../rcvList1"; }
-		else if(emp_rnk == '대리'){ url = "../rcvList2"; }
-		else if(emp_rnk == '팀장'){ url = "../rcvList3"; }
+		if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
+		else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; }
+		else if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; }
 	}else if(apv_type == '행사보고'){
 		if(emp_rnk == '부장'){ url = "../rcvList6"; }
 	}else if(apv_type == '월간보고'){
 		if(emp_rnk == '부장'){ url = "../rcvList4"; }
 	}
+	
+	var str  = "";
+	var str2 = "";
 	$.ajax({
 		url:url,
-		dataType:'text',
+		dataType:'json',
 		success:function(data){
-			$('#Rcv_List').html(data);
+			$('#Rcv_List *').remove();
+			str += "<b>결재자 : </b><select name = 'apv_mid_emp'>";
+			$(data).each(
+					function(){
+						str2 = "<option value = '"+this.emp_num + "'>"+this.emp_name + "</option>";
+						str += str2;
+					}		
+				);
+				str += "</select><p>";
+				$('#Rcv_List').append(str);
 		}
 	});
 }

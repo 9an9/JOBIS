@@ -43,4 +43,49 @@
 		           )
 		where rn between #{start} and #{end}
 	</select>
+	<select id="ysRcvList1" parameterType="int" resultType="YsEmpCmt">
+		select emp_num,emp_name
+		from emp 
+		where 
+		team_num = (select team_num from emp where emp_num = #{emp_num})
+		and rnk_num = (select code from comm where content = '대리')
+		and ref = 0
+	</select>
+	<select id="ysRcvList2" parameterType="int" resultType="YsEmpCmt">
+		select emp_num,emp_name
+		from emp 
+		where 
+		team_num = (select team_num from emp where emp_num = #{emp_num})
+		and rnk_num = (select code from comm where content = '팀장')
+	</select>
+	<select id="ysRcvList3" parameterType="int" resultType="YsEmpCmt">
+		select emp_num,emp_name
+		from emp 
+		where 
+		dep_num = (select dep_num from emp where emp_num = #{emp_num})
+		and rnk_num = (select code from comm where content = '부장')
+	</select>
+	<select id="ysRcvList4" resultType="YsEmpCmt">
+		select emp_num,emp_name
+		from emp 
+		where 
+		dep_num = (select code from comm where content = '임원')
+		and rnk_num != 210 
+		and ref = 0
+	</select>
+	<select id="ysRcvList567" parameterType="java.lang.String" resultType="YsEmpCmt">
+		select emp_num,emp_name
+		from emp 
+		where 
+		dep_num = (select code from comm where content = '총무부')
+		and rnk_num = (select code from comm where content = #{rnk})
+		and ref = 0
+	</select>
+	<select id="ysRcvList8" resultType="YsEmpCmt">
+		select emp_num,emp_name
+		from emp 
+		where 
+		dep_num = (select code from comm where content = '총무부')
+		and rnk_num = (select code from comm where content = '부장')
+	</select>
 </mapper>
