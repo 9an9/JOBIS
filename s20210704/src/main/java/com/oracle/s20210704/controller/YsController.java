@@ -250,5 +250,15 @@ public class YsController {
 		
 		return "apv/apvRcv";
 	}
-
+	@GetMapping(value = "apv/apvWrite")
+	public String apvapvWrite(Model model ,HttpSession session, SyMemberVO vo,YsApv ysApv) {
+		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
+		vo.setEmp_num(emp_num);								//모든 코딩에 추가
+		SyMemberVO svo = jrs.show(vo);
+		model.addAttribute("svo",svo);
+		model.addAttribute("emp_num", emp_num);
+		
+		
+		return "apv/apvWrite";
+	}
 }
