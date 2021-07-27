@@ -139,21 +139,21 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">          
-              <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>받은 결재함</b></h1><hr>
+              <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>보낸 결재함</b></h1><hr>
               <table border="1">
               	<tr><th>결제구분</th><th>제목</th><th>제출자</th><th>제출일</th><th>진행상황</th></tr>
-              	<c:forEach var="rcvList" items="${rcvList }">
+              	<c:forEach var="sndList" items="${sndList }">
               		<tr>
-              			<td>${rcvList.apv_type }</td>
-              			<td>${rcvList.apv_title }</td>
-              			<td>${rcvList.srt_name }</td>
-              			<td>${rcvList.apv_date }</td>
+              			<td>${sndList.apv_type }</td>
+              			<td>${sndList.apv_title }</td>
+              			<td>${sndList.srt_name }</td>
+              			<td>${sndList.apv_date }</td>
               			<td>
-              				<c:if test="${rcvList.apv_ok == 0 }">진행중</c:if>
-              				<c:if test="${rcvList.apv_ok == 1 }">승인(중간)</c:if>
-              				<c:if test="${rcvList.apv_ok == 2 }">승인(중간)</c:if>
-              				<c:if test="${rcvList.apv_ok == 3 }">승인(최종)</c:if>
-              				<c:if test="${rcvList.apv_ok == 4 }">반려</c:if>
+              				<c:if test="${sndList.apv_ok == 0 }">진행중</c:if>
+              				<c:if test="${sndList.apv_ok == 1 }">승인(중간)</c:if>
+              				<c:if test="${sndList.apv_ok == 2 }">승인(중간)</c:if>
+              				<c:if test="${sndList.apv_ok == 3 }">승인(최종)</c:if>
+              				<c:if test="${sndList.apv_ok == 4 }">반려</c:if>
               			</td>
               		</tr>
               	</c:forEach>
@@ -162,18 +162,18 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
               <div class="w3-center">
 					<div class="w3-bar w3-border" style=" margin: 10px 0px;border: 1px solid #7d97a5;">
 						<c:if test="${yp.startPage > yp.pageBlock }">
-							<a href="apvSnd?currentPage=${yp.startPage-yp.pageBlock}" class="w3-bar-item w3-button">&laquo;</a>
+							<a href="apvRcv?currentPage=${yp.startPage-yp.pageBlock}" class="w3-bar-item w3-button">&laquo;</a>
 						</c:if>
 						<c:forEach var="i" begin="${yp.startPage }" end="${yp.endPage }">
 							<c:if test="${yp.currentPage == i }">
-								<a href="apvSnd?currentPage=${i}" class="w3-bar-item w3-button" style="background-color: #384f76; color: white;">${i}</a>
+								<a href="apvRcv?currentPage=${i}" class="w3-bar-item w3-button" style="background-color: #384f76; color: white;">${i}</a>
 							</c:if>
 							<c:if test="${yp.currentPage != i }">
-								<a href="apvSnd?currentPage=${i}" class="w3-bar-item w3-button">${i}</a>
+								<a href="apvRcv?currentPage=${i}" class="w3-bar-item w3-button">${i}</a>
 							</c:if>
 						</c:forEach>
 						<c:if test="${yp.endPage < yp.totalPage }">
-							<a href="apvSnd?currentPage=${yp.startPage+yp.pageBlock}" class="w3-bar-item w3-button">&raquo;</a>
+							<a href="apvRcv?currentPage=${yp.startPage+yp.pageBlock}" class="w3-bar-item w3-button">&raquo;</a>
 						</c:if>
 					</div>
 				</div>

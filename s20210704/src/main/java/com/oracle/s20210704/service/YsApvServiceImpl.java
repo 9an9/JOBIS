@@ -26,5 +26,17 @@ public class YsApvServiceImpl implements YsApvService {
 		return apv_RcvList;
 	}
 
+	@Override
+	public int sndTotal(int snd_num) {
+		int sndTotal = yad.sndTotal(snd_num);
+		return sndTotal;
+	}
+
+	@Override
+	public List<YsApv> apv_SndList(YsApv ysApv) {
+		List<YsApv> apv_SndList = yad.apv_SndList(ysApv);
+		return apv_SndList;
+	}
+
 
 }

@@ -14,7 +14,7 @@
 	<select id="ysApvRcvList" parameterType="com.oracle.s20210704.model.YsApv" resultType="com.oracle.s20210704.model.YsApv">
 		select * 
 		from (select rownum rn, b.* 
-		      from (select a.*,m.apv_mid_ok,e.emp_name as srt_name 
+		      from (select a.*,m.apv_mid_ok,m.apv_mid_num,e.emp_name as srt_name 
 		      		from apv a,apv_mid m,emp e
 					where a.apv_mid = m.apv_mid
 					and a.apv_snd = e.emp_num 
@@ -22,6 +22,25 @@
 					order by m.apv_mid_ok,a.apv_ok,a.apv_date desc
 		            ) b
 		      )
+		where rn between #{start} and #{end}
+	</select>
+	<select id="ysSndTotal" parameterType="int" resultType="int">
+		select count(*)
+		from apv a,apv_mid m,emp e
+		where a.apv_mid = m.apv_mid
+		and a.apv_snd = e.emp_num
+		and a.apv_snd = #{snd_num}
+	</select>
+	<select id="ysApvSndList" parameterType="com.oracle.s20210704.model.YsApv" resultType="com.oracle.s20210704.model.YsApv">
+		select * 
+		     from (select rownum rn, b.* 
+		          from (select a.*,m.apv_mid_ok,m.apv_mid_num,e.emp_name as srt_name
+		                from apv a,apv_mid m,emp e
+		                where a.apv_mid = m.apv_mid
+		                and a.apv_snd = e.emp_num
+		                and a.apv_snd = #{apv_snd}
+		               ) b
+		           )
 		where rn between #{start} and #{end}
 	</select>
 </mapper>

@@ -26,5 +26,17 @@ public class YsApvDaoImpl implements YsApvDao {
 		return apv_RcvList;
 	}
 
+	@Override
+	public int sndTotal(int snd_num) {
+		int sndTotal = session.selectOne("ysSndTotal", snd_num);
+		return sndTotal;
+	}
+
+	@Override
+	public List<YsApv> apv_SndList(YsApv ysApv) {
+		List<YsApv> apv_SndList = session.selectList("ysApvSndList", ysApv);
+		return apv_SndList;
+	}
+
 
 }

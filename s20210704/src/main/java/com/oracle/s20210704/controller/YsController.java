@@ -204,6 +204,7 @@ public class YsController {
 	}
 	
 	/////////   결재      /////////
+	
 	//snd가 받은결제..연결점 잘못잡아서 그냥 이대로 진행
 	@GetMapping(value = "apv/apvSnd")
 	public String apvSnd(Model model ,HttpSession session, SyMemberVO vo,YsApv ysApv,String currentPage) {
@@ -218,13 +219,36 @@ public class YsController {
 		YsPaging yp = new YsPaging(rcvTotal, currentPage);
 		ysApv.setStart(yp.getStart());
 		ysApv.setEnd(yp.getEnd());
-		ysApv.setApv_mid_emp(emp_num);
+		ysApv.setApv_mid_emp(rcv_num);
 		
 		List<YsApv> rcvList = yas.apv_RcvList(ysApv);
 		model.addAttribute("rcvList", rcvList);
 		model.addAttribute("yp", yp);
 		
 		return "apv/apvSnd";
+	}
+	
+	//rcv가 보낸결제..연결점 잘못잡아서 그냥 이대로 진행
+	@GetMapping(value = "apv/apvRcv")
+	public String apvRcv(Model model ,HttpSession session, SyMemberVO vo,YsApv ysApv,String currentPage) {
+		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
+		vo.setEmp_num(emp_num);								//모든 코딩에 추가
+		SyMemberVO svo = jrs.show(vo);
+		model.addAttribute("svo",svo);
+		
+		int snd_num = emp_num;
+		int sndTotal = yas.sndTotal(snd_num);
+		
+		YsPaging yp = new YsPaging(sndTotal, currentPage);
+		ysApv.setStart(yp.getStart());
+		ysApv.setEnd(yp.getEnd());
+		ysApv.setApv_snd(snd_num);
+		
+		List<YsApv> sndList = yas.apv_SndList(ysApv);
+		model.addAttribute("sndList", sndList);
+		model.addAttribute("yp", yp);
+		
+		return "apv/apvRcv";
 	}
 
 }
