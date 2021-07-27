@@ -52,4 +52,42 @@ public class YjEmpDaoImpl implements YjEmpDao {
 		return result;
 	}
 
+	@Override
+	public String deptSelect(int emp_num) {
+		String dept = null;
+		System.out.println("YjEmpDaoImpl deptSelect Start...");
+		try {
+			dept = session.selectOne("deptSelect", emp_num);
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl deptSelect Exception->"+e.getMessage());
+		}
+		return dept;
+	}
+
+	@Override
+	public List<YjEmp> searchListE(YjEmp emp) {
+		List<YjEmp> searchListE = null;
+		System.out.println("YjEmpDaoImpl searchListE Start ..." );
+		try {
+			// Naming Rule 
+			searchListE = session.selectList("searchListE", emp);
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl searchListE Exception->"+e.getMessage());
+		}
+		return searchListE;
+	}
+
+	@Override
+	public List<YjEmp> searchListD(YjEmp emp) {
+		List<YjEmp> searchListD = null;
+		System.out.println("YjEmpDaoImpl searchListD Start ..." );
+		try {
+			// Naming Rule 
+			searchListD = session.selectList("searchListD", emp);
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl searchListD Exception->"+e.getMessage());
+		}
+		return searchListD;
+	}
+
 }

@@ -47,4 +47,33 @@ public class YJEmpServiceImpl implements YjEmpService {
 		return result;
 	}
 
+
+	@Override
+	public String deptSelect(int emp_num) {
+		String dept = null;
+		System.out.println("YjEmpServiceImpl deptSelect Start...");
+		dept = ed.deptSelect(emp_num);
+		return dept;
+	}
+
+
+	@Override
+	public List<YjEmp> searchListE(YjEmp emp) {
+		List<YjEmp> searchListE = null;
+		System.out.println("YjEmpServiceImpl searchListE Start..." );
+		searchListE = ed.searchListE(emp);
+		System.out.println("YjEmpServiceImpl listEmp searchListE.size()->" +searchListE.size());
+		return searchListE;
+	}
+
+
+	@Override
+	public List<YjEmp> searchListD(YjEmp emp) {
+		List<YjEmp> searchListD = null;
+		System.out.println("YjEmpServiceImpl searchListD Start..." );
+		searchListD = ed.searchListD(emp);
+		System.out.println("YjEmpServiceImpl listEmp searchListD.size()->" +searchListD.size());
+		return searchListD;
+	}
+
 }

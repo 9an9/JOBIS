@@ -17,7 +17,7 @@ public class YjEmp {
 	private String dept;			private String team;
 	private String rank;			private String address;
 	
-	private String search;   		private String keyword;
+	private int search;   		private String keyword;
 	private String pageNum;  
 	private int start; 		 		private int end;
 	
