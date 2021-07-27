@@ -251,7 +251,7 @@ public class YsController {
 		return "apv/apvRcv";
 	}
 	@GetMapping(value = "apv/apvWrite")
-	public String apvapvWrite(Model model ,HttpSession session, SyMemberVO vo,YsApv ysApv) {
+	public String apvWrite(Model model ,HttpSession session, SyMemberVO vo,YsApv ysApv) {
 		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
 		vo.setEmp_num(emp_num);								//모든 코딩에 추가
 		SyMemberVO svo = jrs.show(vo);
@@ -261,4 +261,26 @@ public class YsController {
 		
 		return "apv/apvWrite";
 	}
+	
+	@PostMapping(value = "apv/apvWrite")
+	public String apvInsert(YsApv ysApv) {
+		String apv_type = ysApv.getApv_type();
+		int apv_snd = ysApv.getApv_snd();
+		String apv_title = ysApv.getApv_title();
+		String apv_content = ysApv.getApv_content();
+		int rcv = 0;
+		if(ysApv.getFnlChk() == 1) {
+			rcv = ysApv.getApv_fnl();
+		}else {
+			rcv = ysApv.getApv_mid_emp();
+		}
+		System.out.println("apv_type : "+apv_type);
+		System.out.println("apv_snd : "+apv_snd);
+		System.out.println("apv_title : "+apv_title);
+		System.out.println("apv_content : "+apv_content);
+		System.out.println("rcv : "+rcv);
+		return "redirect:apvRcv";
+	}
+	
+	
 }

@@ -142,7 +142,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <div class="w3-container w3-padding">          
               <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>결재 작성</b></h1><hr>
           	  <div style="border: 1px solid black; width: 90%; margin: 50px auto;">
-          	  	 <form action="#" method="post" style="margin-left: 30px; margin-top: 30px;" name="frm" onsubmit="return chk()">
+          	  	 <form action="apvWrite" method="post" style="margin-left: 30px; margin-top: 30px;" name="frm" onsubmit="return chk()">
+        	  	 	<input type="hidden" name="apv_snd" value="${emp_num }">
+        	  	 	<input type="hidden" name="fnlChk" id="fnlChk" value="0">
         	  	 	<div style="font-size: 20px;">
         	  	 		<span><b>사원번호</b> : ${emp_num }&nbsp; <b>이름</b> : ${svo.emp_name }&nbsp; <b>부서</b> : ${svo.dcontent }&nbsp; <b>직급</b> : ${svo.rcontent }&nbsp;</span>
         	  	 	</div>
@@ -181,6 +183,10 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 		</span>
         	  	 		<span id="Rcv_List" style="margin-left: 132px;">
         	  	 			<c:if test="${svo.dcontent == '임원'}">
+        	  	 				<script type="text/javascript">
+        	  	 					var fnlChk   = document.getElementById('fnlChk');
+        	  	 					fnlChk.value = 1;
+        	  	 				</script>
         	  	 				<b style="font-size: 20px;">결재자 : </b> <span style="margin: 0px; font-size: 20px;">서팔광</span>
         	  	 				<input type="hidden" name="apv_fnl" value="1701001">
         	  	 			</c:if>
@@ -264,7 +270,9 @@ function getRcvList(){
 	var emp_rnk  = '${svo.rcontent }';
 	var emp_num  = '${emp_num }';
 	var apv_type = document.getElementById('apv_type').value;
+	var fnlChk   = document.getElementById('fnlChk');
 	var url = "";
+	var fnlChk2 = 0;
 	if(apv_type == '일일보고'){
 		if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
 		else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; }
@@ -287,7 +295,9 @@ function getRcvList(){
 	}else if(apv_type == '행사보고'){
 		if(emp_rnk == '부장'){ url = "../rcvList6"; }
 	}else if(apv_type == '월간보고'){
-		if(emp_rnk == '부장'){ url = "../rcvList4"; }
+		if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1; fnlChk.value = 1; }
+	}else if(apv_type == '최종보고'){
+		return;
 	}
 	
 	var str  = "";
@@ -297,7 +307,11 @@ function getRcvList(){
 		dataType:'json',
 		success:function(data){
 			$('#Rcv_List *').remove();
-			str += "<b style='font-size: 20px;'>결재자 : </b><select name = 'apv_mid_emp' required='required'><option value='-결재자-' selected='selected'>-결재자-</option>";
+			if(fnlChk2 == 1){
+				str += "<b style='font-size: 20px;'>결재자 : </b><select name = 'apv_fnl' required='required'><option value='-결재자-' selected='selected'>-결재자-</option>";
+			}else{			
+				str += "<b style='font-size: 20px;'>결재자 : </b><select name = 'apv_mid_emp' required='required'><option value='-결재자-' selected='selected'>-결재자-</option>";
+			}
 			$(data).each(
 					function(){
 						str2 = "<option value = '"+this.emp_num + "'>"+this.emp_name + "</option>";
