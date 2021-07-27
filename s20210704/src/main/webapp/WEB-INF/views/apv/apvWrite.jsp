@@ -250,8 +250,15 @@ function openNav() {
 function getRcvList(){
 	var emp_rnk  = '${svo.rcontent }';
 	var apv_type = document.getElementById('apv_type').value;
-	var url = "/s20210704";
-	console.log(url);
+	var url2 = "/s20210704/rcvList1";
+	$.ajax({
+		url:url2,
+		data:{deptno : Vdeptno},
+		dataType:'text',
+		success:function(data){
+			$('#Rcv_List').html(data);
+		}
+	});
 }
 
 
