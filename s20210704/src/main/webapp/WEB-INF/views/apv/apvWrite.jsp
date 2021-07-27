@@ -9,7 +9,8 @@
 <link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
@@ -149,7 +150,8 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 		<span>
         	  	 			<b>결재분류</b> :
         	  	 			<select name="apv_type" id="apv_type" onchange="getRcvList()">
-        	  	 				<c:if test="${svo.dcontent == '임원'}"><option value="최종보고">최종보고</option></c:if>
+        	  	 				<option value="-결재-" selected="selected">-결재-</option>
+        	  	 				<c:if test="${svo.dcontent == '임원'}"><option value="최종보고" selected="selected">최종보고</option></c:if>
         	  	 				<c:if test="${svo.dcontent != '임원'}">
         	  	 					<c:if test="${svo.rcontent == '사원'}">
         	  	 						<option value="일일보고">일일보고</option>
@@ -177,7 +179,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 				</c:if>
         	  	 			</select>
         	  	 		</span>
-        	  	 		<span id="Rcv_List"></span>
+        	  	 		<span id="Rcv_List">
+        	  	 			<c:if test="${svo.dcontent == '임원'}">
+        	  	 				<b>결재자 : </b>서팔광
+        	  	 				<input type="hidden" name="apv_fnl" value="1701001">
+        	  	 			</c:if>
+        	  	 		</span>
         	  	 	</div>
           	  	 </form>
           	  </div>
@@ -248,12 +255,36 @@ function openNav() {
 
 
 function getRcvList(){
+	$("#apv_type option[value='-결재-']").remove();
 	var emp_rnk  = '${svo.rcontent }';
 	var apv_type = document.getElementById('apv_type').value;
-	var url2 = "/s20210704/rcvList1";
+	var url = "";
+	if(apv_type == '일일보고'){
+		if(emp_rnk == '사원'){ url = "../rcvList1"; }
+		else if(emp_rnk == '대리'){ url = "../rcvList2"; }
+	}else if(apv_type == '주간보고'){
+		if(emp_rnk == '팀장'){ url = "../rcvList3"; }
+		else if(emp_rnk == '부장'){ url = "../rcvList4"; }
+	}else if(apv_type == '근태보고'){
+		if(emp_rnk == '사원'){ url = "../rcvList1"; }
+		else if(emp_rnk == '대리'){ url = "../rcvList2"; }
+	}else if(apv_type == '비용신청'){
+		if(emp_rnk == '부장'){ url = "../rcvList5"; }
+	}else if(apv_type == '사업보고'){
+		if(emp_rnk == '대리'){ url = "../rcvList2"; }
+		else if(emp_rnk == '팀장'){ url = "../rcvList3"; }
+		else if(emp_rnk == '부장'){ url = "../rcvList4"; }
+	}else if(apv_type == '인사보고'){
+		if(emp_rnk == '사원'){ url = "../rcvList1"; }
+		else if(emp_rnk == '대리'){ url = "../rcvList2"; }
+		else if(emp_rnk == '팀장'){ url = "../rcvList3"; }
+	}else if(apv_type == '행사보고'){
+		if(emp_rnk == '부장'){ url = "../rcvList6"; }
+	}else if(apv_type == '월간보고'){
+		if(emp_rnk == '부장'){ url = "../rcvList4"; }
+	}
 	$.ajax({
-		url:url2,
-		data:{deptno : Vdeptno},
+		url:url,
 		dataType:'text',
 		success:function(data){
 			$('#Rcv_List').html(data);
