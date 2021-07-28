@@ -143,7 +143,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
               <div style="border: 1px solid black; width: 90%; margin: 50px auto;">
           	  	 <form action="#" method="post" style="margin-left: 30px; margin-top: 30px;">
         	  	 	<div style="font-size: 20px;">
-        	  	 		<span><b>사원번호</b> : ${rcvDetail.apv_snd }&nbsp; <b>이름</b> : ${rcvDetail.srt_name }&nbsp; <b>부서</b> : 수정&nbsp; <b>직급</b> : 수정&nbsp;</span>
+        	  	 		<span><b>사원번호</b> : ${rcvDetail.apv_snd }&nbsp; <b>이름</b> : ${rcvDetail.srt_name }&nbsp; <b>부서</b> : ${rcvDetail.srt_dep }&nbsp; <b>직급</b> : ${rcvDetail.srt_rnk }&nbsp;</span>
         	  	 	</div>
         	  	 	<div>
         	  	 		<span>

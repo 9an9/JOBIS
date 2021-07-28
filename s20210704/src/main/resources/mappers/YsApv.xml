@@ -108,16 +108,18 @@
 		select * from apv_mid where apv_mid = #{apv_sq} and apv_mid_emp = #{rcv_num}
 	</select>
 	<select id="ysMidRcv" parameterType="com.oracle.s20210704.model.YsApv" resultType="com.oracle.s20210704.model.YsApv">
-		select a.*,m.*,e1.emp_name as srt_name ,e2.emp_name as rcv_name  
-		from apv a , apv_mid m , emp e1, emp e2
+		select a.*,m.*,e1.emp_name as srt_name ,e2.emp_name as rcv_name ,c1.content as srt_dep, c2.content as srt_rnk  
+		from apv a , apv_mid m , emp e1, emp e2,comm c1, comm c2 
 		where a.apv_mid = m.apv_mid
 		and a.apv_snd = e1.emp_num and m.apv_mid_emp = e2.emp_num
+		and e1.dep_num = c1.code and e1.rnk_num = c2.code
 		and m.apv_mid = #{apv_sq} and apv_mid_emp = #{rcv_num}
 	</select>
 	<select id="ysFnlRcv" parameterType="com.oracle.s20210704.model.YsApv" resultType="com.oracle.s20210704.model.YsApv">
-		select a.*,e1.emp_name as srt_name ,e2.emp_name as rcv_name 
-		from apv a,emp e1,emp e2 
+		select a.*,e1.emp_name as srt_name ,e2.emp_name as rcv_name ,c1.content as srt_dep, c2.content as srt_rnk 
+		from apv a,emp e1,emp e2 ,comm c1, comm c2 
 		where  a.apv_snd = e1.emp_num and a.apv_fnl = e2.emp_num
+		and e1.dep_num = c1.code and e1.rnk_num = c2.code
 		and a.apv_sq = #{apv_sq} and a.apv_fnl = #{rcv_num}
 	</select>
 </mapper>
