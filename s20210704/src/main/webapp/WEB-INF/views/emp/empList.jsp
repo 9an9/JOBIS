@@ -146,6 +146,8 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
               		<option value="1">부서명</option>
               	</select>
                <input type="text" id="keyword" name="keyword">  <input type="submit" value="검색"></form><p>
+               <c:if test="${dept ne '110' }"><input type="button" value="사원등록" onclick="location.href='empWrite'"></c:if>
+               <c:if test="${dept eq '120' && rank eq '240' }"><input type="button" value="부서관리" onclick="javascript:openDept()"></c:if>
               <c:set var="num" value="${(pg.currentPage*pg.rowPage)-pg.rowPage+1}"></c:set>
               <table>
 			  	<tr><th>No.</th><th>사원번호</th><th>사원명</th><th>부서명</th><th>소속</th><th>직책</th><th>이메일</th><th>전화번호</th><th>주소</th><th>입사일</th><th>비고</th></tr>

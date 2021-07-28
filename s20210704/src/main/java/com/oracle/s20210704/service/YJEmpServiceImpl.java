@@ -76,4 +76,13 @@ public class YJEmpServiceImpl implements YjEmpService {
 		return searchListD;
 	}
 
+
+	@Override
+	public String rankSelect(int emp_num) {
+			String rank = null;
+			System.out.println("YjEmpServiceImpl rankSelect Start...");
+			rank = ed.rankSelect(emp_num);
+			return rank;
+	}
+
 }

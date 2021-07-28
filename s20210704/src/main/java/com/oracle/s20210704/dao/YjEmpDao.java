@@ -12,4 +12,5 @@ public interface YjEmpDao {
 	String		    deptSelect(int emp_num);
 	List<YjEmp> 	searchListE(YjEmp emp);	
 	List<YjEmp> 	searchListD(YjEmp emp);	
+	String		    rankSelect(int emp_num);
 }

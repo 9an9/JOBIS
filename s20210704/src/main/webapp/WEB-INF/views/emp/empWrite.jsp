@@ -141,15 +141,14 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <div class="w3-container w3-padding">
               <h1><i class="fa fa-pencil-square-o fa-fw w3-margin-right"></i><b>사원 등록</b></h1><hr>
               <input type="text" id="name" name="name" required="required">
-              <select>
-              	<c:forEach var="dept" items="deptList">
-              		<option>${dept.dname}</option>
-              	</c:forEach>
+              <select name="dept" onchange="get_team(this.value, team)">
+
               </select>
-              <select>
-              	<c:forEach var="team" items="teamList">
-              		<option>${team.tname}</option>
-              	</c:forEach>
+              <select name="team">
+
+              </select>
+              <select name="rank">
+              
               </select>
               <input type="text" id="email" name="email" required="required">
               <input type="text" id="phnum" name="phnum" required="required">
@@ -213,6 +212,22 @@ function openNav() {
   } else { 
     x.className = x.className.replace(" w3-show", "");
   }
+}
+function get_team(dept, team) {
+    $.ajax({
+        type: 'GET',
+        url: '/' + dept,
+        contentType: "application/json; charset=UTF-8",
+        dataType: 'json',
+        success: function (result) {
+            console.log(result)
+            for (i = 0; i < result.length; i++) {
+                selectOption.options[i] = new Option(result[i], i);
+            }
+        }
+    }).fail(function (error) {
+        alert(JSON.stringify(error));
+    })
 }
 </script>
 

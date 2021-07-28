@@ -1,14 +1,20 @@
 package com.oracle.s20210704.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigData.Option;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,17 +58,22 @@ public class YjController {
 		String dept = es.deptSelect(emp_num);
 		System.out.println("YjEmpController empList dept--> " + dept);
 		
+		String rank = es.rankSelect(emp_num);
+		System.out.println("YjEmpController empList rank--> " + rank);
+		
 		List<YjEmp> empList = es.empList(emp);
 		System.out.println("YjEmpController list empList.size()=>" + empList.size());
 		
 		model.addAttribute("total", total);
 		model.addAttribute("dept", dept);
+		model.addAttribute("rank", rank);
 		model.addAttribute("empList",empList);
 		model.addAttribute("pg",pg);
 		return "emp/empList";
 		
 	}
 	
+	//부재중처리
 	@RequestMapping(value = "emp/updateRef", method = RequestMethod.POST)
 	public String updateRef(int empno, int ref, YjEmp emp, HttpSession session, SyMemberVO  vo, Model model) {
 		int emp_num = (int)session.getAttribute("member");
@@ -84,6 +95,7 @@ public class YjController {
 		return "forward:empList";
 	}
 	
+	//검색페이지
 	@RequestMapping(value = "emp/searchList", method = RequestMethod.POST)
 	public String searchList(int search, String keyword, YjEmp emp, HttpSession session, SyMemberVO  vo, Model model) {
 		int emp_num = (int)session.getAttribute("member");
@@ -111,5 +123,18 @@ public class YjController {
 		return "emp/searchList";
 
 	}
+	
+	//사원등록페이지
+	@RequestMapping(value = "emp/empWrite")
+	public String empWrite(YjEmp emp, HttpSession session, SyMemberVO  vo, Model model) {
+		int emp_num = (int)session.getAttribute("member");
+		vo.setEmp_num(emp_num);
+		SyMemberVO svo = jrs.show(vo);
+		model.addAttribute("emp_num",emp_num);
+		model.addAttribute("svo",svo);
+		
+		return "emp/empWrite";
+	}
+	
 
 }

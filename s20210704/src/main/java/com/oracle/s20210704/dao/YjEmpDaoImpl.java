@@ -90,4 +90,16 @@ public class YjEmpDaoImpl implements YjEmpDao {
 		return searchListD;
 	}
 
+	@Override
+	public String rankSelect(int emp_num) {
+		String rank = null;
+		System.out.println("YjEmpDaoImpl rankSelect Start...");
+		try {
+			rank = session.selectOne("rankSelect", emp_num);
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl rankSelect Exception->"+e.getMessage());
+		}
+		return rank;
+	}
+
 }
