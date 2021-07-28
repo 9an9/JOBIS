@@ -104,4 +104,20 @@
 	<insert id="ysFnlRcvInsert" parameterType="com.oracle.s20210704.model.YsApv">
 		insert into apv values ((select nvl(max(apv_sq),0)+1 from apv),#{apv_type},#{apv_snd},'',#{apv_fnl},#{apv_title},#{apv_content},'','',sysdate,'',0)
 	</insert>
+	<select id="ysRcvChk" parameterType="com.oracle.s20210704.model.YsApv" resultType="java.lang.String">
+		select * from apv_mid where apv_mid = #{apv_sq} and apv_mid_emp = #{rcv_num}
+	</select>
+	<select id="ysMidRcv" parameterType="com.oracle.s20210704.model.YsApv" resultType="com.oracle.s20210704.model.YsApv">
+		select a.*,m.*,e1.emp_name as srt_name ,e2.emp_name as rcv_name  
+		from apv a , apv_mid m , emp e1, emp e2
+		where a.apv_mid = m.apv_mid
+		and a.apv_snd = e1.emp_num and m.apv_mid_emp = e2.emp_num
+		and m.apv_mid = #{apv_sq} and apv_mid_emp = #{rcv_num}
+	</select>
+	<select id="ysFnlRcv" parameterType="com.oracle.s20210704.model.YsApv" resultType="com.oracle.s20210704.model.YsApv">
+		select a.*,e1.emp_name as srt_name ,e2.emp_name as rcv_name 
+		from apv a,emp e1,emp e2 
+		where  a.apv_snd = e1.emp_num and a.apv_fnl = e2.emp_num
+		and a.apv_sq = #{apv_sq} and a.apv_fnl = #{rcv_num}
+	</select>
 </mapper>

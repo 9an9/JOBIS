@@ -21,6 +21,6 @@ public class YsApv {
 	private  int   apv_mid_ok;
 	
 	//조회용
-	private String srt_name;      private String rcv_name; 
+	private String srt_name;      private String rcv_name;    private  int   rcv_num;
 	private  int   start;         private  int   end;         private  int   fnlChk;
 }

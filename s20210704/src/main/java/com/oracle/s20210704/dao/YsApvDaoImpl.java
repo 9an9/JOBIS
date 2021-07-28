@@ -85,5 +85,19 @@ public class YsApvDaoImpl implements YsApvDao {
 		session.insert("ysFnlRcvInsert", ysApv);
 	}
 
+	@Override
+	public YsApv rcvDetail(YsApv ysApv) {
+		YsApv rcvDetail = new YsApv();
+		String chk = session.selectOne("ysRcvChk", ysApv);
+		if(chk != null) {      //중간결재
+			System.out.println("중간결재입니다");
+			rcvDetail = session.selectOne("ysMidRcv", ysApv);
+		}else {            //최종결재
+			System.out.println("최종결재입니다");
+			rcvDetail = session.selectOne("ysFnlRcv", ysApv);
+		}	
+		return rcvDetail;
+	}
+
 
 }

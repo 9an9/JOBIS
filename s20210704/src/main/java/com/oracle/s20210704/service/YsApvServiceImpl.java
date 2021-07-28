@@ -85,5 +85,11 @@ public class YsApvServiceImpl implements YsApvService {
 		yad.fnlRcvInsert(ysApv);
 	}
 
+	@Override
+	public YsApv rcvDetail(YsApv ysApv) {
+		YsApv rcvDetail = yad.rcvDetail(ysApv);
+		return rcvDetail;
+	}
+
 
 }

@@ -280,9 +280,11 @@ public class YsController {
 		model.addAttribute("svo",svo);
 		model.addAttribute("emp_num", emp_num);
 		
-		System.out.println("결재번호 : "+sq);
-		System.out.println("받는사원번호 : "+emp_num);
-		
+		ysApv.setApv_sq(sq);
+		ysApv.setRcv_num(emp_num);
+
+		YsApv rcvDetail = yas.rcvDetail(ysApv);
+		model.addAttribute("rcvDetail", rcvDetail);
 		
 		return "apv/apvRcvDetail";
 	}
