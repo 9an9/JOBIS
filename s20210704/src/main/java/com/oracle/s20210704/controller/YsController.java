@@ -272,5 +272,20 @@ public class YsController {
 		return "redirect:apvRcv";
 	}
 	
+	@GetMapping(value = "apv/apvRcvDetail")
+	public String apvRcvDetail(Model model ,HttpSession session, SyMemberVO vo,YsApv ysApv,int sq) {
+		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
+		vo.setEmp_num(emp_num);								//모든 코딩에 추가
+		SyMemberVO svo = jrs.show(vo);
+		model.addAttribute("svo",svo);
+		model.addAttribute("emp_num", emp_num);
+		
+		System.out.println("결재번호 : "+sq);
+		System.out.println("받는사원번호 : "+emp_num);
+		
+		
+		return "apv/apvRcvDetail";
+	}
+	
 	
 }
