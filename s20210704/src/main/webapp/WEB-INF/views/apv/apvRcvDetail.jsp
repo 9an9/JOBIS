@@ -9,11 +9,86 @@
 <link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
 </style>
+
+
+<script type="text/javascript">
+	function getRcvList(){
+		/* $("#apv_type option[value='-결재-']").remove(); */
+		var emp_rnk  = '${svo.rcontent }';
+		var emp_num  = '${emp_num }';
+		var apv_type = '${rcvDetail.apv_type }';
+		var url = "";
+		var fnlChk2 = 0;
+		if(apv_type == '일일보고'){
+			if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
+			else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; fnlChk2 = 1;}
+		}else if(apv_type == '주간보고'){
+			if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; }
+			else if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1; }
+		}else if(apv_type == '근태보고'){
+			if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
+			else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; fnlChk2 = 1;  }
+		}else if(apv_type == '비용신청'){
+			if(emp_rnk == '부장'){ url = "../rcvList5"; }
+		}else if(apv_type == '사업보고'){
+			if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; }
+			else if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; }
+			else if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1;  }
+		}else if(apv_type == '인사보고'){
+			if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
+			else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; }
+			else if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; fnlChk2 = 1;  }
+		}else if(apv_type == '행사보고'){
+			if(emp_rnk == '부장'){ url = "../rcvList6"; }
+		}else if(apv_type == '월간보고'){
+			if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1;  }
+		}else if(apv_type == '최종보고'){
+			return;
+		}
+		
+		var str  = "";
+		var str2 = "";
+		$.ajax({
+			url:url,
+			dataType:'json',
+			success:function(data){
+				$('#Rcv_List *').remove();
+				if(fnlChk2 == 1){
+					str += "<b style='font-size: 20px;'>다음 결재자 : </b><select name = 'apv_fnl' required='required'><option value='-결재자-' selected='selected'>-결재자-</option>";
+				}else{			
+					str += "<b style='font-size: 20px;'>다음 결재자 : </b><select name = 'apv_mid_emp' required='required'><option value='-결재자-' selected='selected'>-결재자-</option>";
+				}
+				$(data).each(
+						function(){
+							str2 = "<option value = '"+this.emp_num + "'>"+this.emp_name + "</option>";
+							str += str2;
+						}		
+					);
+					str += "</select><p>";
+					$('#Rcv_List').append(str);
+			}
+		});
+	}
+	
+	function chk(){
+		if(frm.apv_mid_emp.value == '-결재자-'){
+			alert("결재자를 선택해주세요");
+			return false;
+		}
+		return true;
+	}
+	
+	getRcvList();
+</script>
+
+
+
 <body class="w3-theme-l5">
 
 <!-- Navbar -->
@@ -150,11 +225,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 			<b style="font-size: 20px;">결재분류 : </b>
         	  	 			${rcvDetail.apv_type }
         	  	 		</span>
-        	  	 		<span id="Rcv_List" style="margin-left: 132px;">
-        	  	 			<c:if test="${svo.dcontent == '임원'}">
-        	  	 				<b style="font-size: 20px;">결재자 : </b> <span style="margin: 0px; font-size: 20px;">서팔광</span>
-        	  	 				<input type="hidden" name="apv_fnl" value="1701001">
+       	  	 			<c:if test="${not empty rcvDetail.apv_fnl }">
+        	  	 			<c:if test="${rcvDetail.apv_fnl == emp_num }">
+        	  	 				<span style="margin-left: 132px; "><b style="font-size: 20px;">최종 결재자 : </b>${rcvDetail.rcv_name }</span>
         	  	 			</c:if>
+        	  	 		</c:if>
+        	  	 		<span id="Rcv_List" style="margin-left: 132px;">
         	  	 		</span>
         	  	 	</div>
         	  	 	<div><b style="font-size: 20px;">제목 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b>${rcvDetail.apv_title }</div>
@@ -225,6 +301,8 @@ function openNav() {
     x.className = x.className.replace(" w3-show", "");
   }
 }
+
+
 </script>
 
 </body>
