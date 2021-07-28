@@ -60,9 +60,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 			success:function(data){
 				$('#Rcv_List *').remove();
 				if(fnlChk2 == 1){
-					str += "<b style='font-size: 20px;'>다음 결재자 : </b><select name = 'apv_fnl' required='required'><option value='-결재자-' selected='selected'>-결재자-</option>";
+					str += "<b style='font-size: 20px;'>다음 결재자 : </b><select name = 'apv_fnl' required='required' id='slt' onchange='sltrm()'><option value='-결재자-' selected='selected'>-결재자-</option>";
 				}else{			
-					str += "<b style='font-size: 20px;'>다음 결재자 : </b><select name = 'apv_mid_emp' required='required'><option value='-결재자-' selected='selected'>-결재자-</option>";
+					str += "<b style='font-size: 20px;'>다음 결재자 : </b><select name = 'apv_mid_emp' required='required' id='slt' onchange='sltrm()'><option value='-결재자-' selected='selected'>-결재자-</option>";
 				}
 				$(data).each(
 						function(){
@@ -84,7 +84,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 		return true;
 	}
 	
+	
 	getRcvList();
+	
+	function sltrm(){
+		$("#slt option[value='-결재자-']").remove();
+	}
 </script>
 
 
