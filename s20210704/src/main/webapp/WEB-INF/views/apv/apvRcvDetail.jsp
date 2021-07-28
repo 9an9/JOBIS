@@ -140,7 +140,31 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">          
               <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>받은 결재</b></h1><hr>
-             
+              <div style="border: 1px solid black; width: 90%; margin: 50px auto;">
+          	  	 <form action="#" method="post" style="margin-left: 30px; margin-top: 30px;">
+        	  	 	<div style="font-size: 20px;">
+        	  	 		<span><b>사원번호</b> : ${rcvDetail.apv_snd }&nbsp; <b>이름</b> : ${rcvDetail.srt_name }&nbsp; <b>부서</b> : 수정&nbsp; <b>직급</b> : 수정&nbsp;</span>
+        	  	 	</div>
+        	  	 	<div>
+        	  	 		<span>
+        	  	 			<b style="font-size: 20px;">결재분류 : </b>
+        	  	 			${rcvDetail.apv_type }
+        	  	 		</span>
+        	  	 		<span id="Rcv_List" style="margin-left: 132px;">
+        	  	 			<c:if test="${svo.dcontent == '임원'}">
+        	  	 				<b style="font-size: 20px;">결재자 : </b> <span style="margin: 0px; font-size: 20px;">서팔광</span>
+        	  	 				<input type="hidden" name="apv_fnl" value="1701001">
+        	  	 			</c:if>
+        	  	 		</span>
+        	  	 	</div>
+        	  	 	<div><b style="font-size: 20px;">제목 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b>${rcvDetail.apv_title }</div>
+        	  	 	<div><b style="font-size: 20px;">첨부파일 : </b> 첨부파일예시</div>
+        	  	 	<div><b style="font-size: 20px;">내용 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :  </b> ${rcvDetail.apv_content }</div>
+        	  	 	<p>
+        	  	 	<div><b style="font-size: 20px;">반려사유 : </b><input type="text" name="apv_no" placeholder="반려를 하신다면 이류를 작성해주세요"  style="width: 75%;"></div>
+        	  	 	<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="결재승인"></div>
+          	  	 </form>
+          	  </div>
            
 
             </div>
