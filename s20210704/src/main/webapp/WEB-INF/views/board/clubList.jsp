@@ -30,13 +30,13 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     </div>
   </div>
   <a href="../calendar/calendar" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i>일정</a>
-  <a href="rr" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-list-alt fa-fw w3-margin-right"></i>자료실</a>
+  <a href="../rr/rr" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-list-alt fa-fw w3-margin-right"></i>자료실</a>
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-commenting-o fa-fw w3-margin-right fa-flip-horizontal"></i>게시판</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
       <a href="../board/noticeList" class="w3-bar-item w3-button">공지사항</a>
       <a href="../board/surveyList" class="w3-bar-item w3-button">설문</a>
-      <a href="../board/clubList" class="w3-bar-item w3-button">동호회</a>
+      <a href="clubList" class="w3-bar-item w3-button">동호회</a>
     </div>
   </div>
   <c:if test="${svo.dcontent == '인사부' || svo.dcontent == '임원'  }">
@@ -139,25 +139,41 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
-              <h1><i class="fa fa-clock-o fa-fw w3-margin-right" style="font-size: 42px"></i><b>자료실 글쓰기</b></h1><hr>
-              
-	          <form action="rrwrite" method="post">
-	          			<input type="hidden" name="emp_num" value="${emp_num }">
-	          			<select name="rr_type" style="height: 40px; width: 10%;">
-		          			<option value="0">문서양식</option>
-		          			<option value="1">기타양식</option>
-	          			</select>	          
-		          		<input type="text" placeholder="글 제목" name="rr_subject"><p>
-		         
-	          		
-	          		<textarea maxlength="4000" style="height: 350px;" name="rr_content"></textarea><p>
-	          		<div><input type="submit" value="글쓰기"></div>
-	      	</form>
-	      	<!-- 파일첨부 -->
-	      	<form action="/common/upload" method="post" enctype="multipart/form-data">
-	      		<div><input type="file" name="uploadFile"><button type="submit">Upload</button></div>
-	      	</form>
-	      	<!-- 파일첨부 -->
+              <h1><i class="fa fa-clock-o fa-fw w3-margin-right" style="font-size: 42px"></i><b>동호회</b></h1><hr>
+	          <table border="1" class="cmtTB" style="align-content: center;">
+					<tr><th>자료종류</th><th>작성자</th><th>제목</th><th>작성일</th></tr>
+						<c:forEach var="rrList" items="${listJhRr1}">
+							<tr>
+								<c:if test="${rrList.rr_type == 2}">
+									
+										<td>
+											<c:if test="${rrList.rr_type == 0 }">문서양식</c:if>
+											<c:if test="${rrList.rr_type == 1 }">기타양식</c:if>
+											<c:if test="${rrList.rr_type == 2 }">동호회</c:if>
+											<c:if test="${rrList.rr_type == 3 }">공지사항</c:if>
+										</td>
+									
+									<td>${rrList.emp_name }</td>
+									<%-- <td><a href="detail?rr_num=${rrList.rr_num }">${rrList.rr_content}</a></td>  --%>
+									<td><a href="clubListdetail?rr_num=${rrList.rr_num }&detail_num=${rrList.emp_num}">${rrList.rr_subject}</a></td>
+									<td>${rrList.rr_date}</td>
+								</c:if>
+							</tr> 
+						</c:forEach>
+				</table>
+				<div style="text-align: center;"><a href="clubwriteForm">글쓰기</a></div>
+				<div style="text-align: center;">
+					<c:if test="${jhpg2.startPage > jhpg2.pageBlock }">
+						<a href="clubList?currentPage2=${jhpg2.startPage-jhpg2.pageBlock}">[이전]</a>
+					</c:if>
+					<c:forEach var="i" begin="${jhpg2.startPage}" end="${jhpg2.endPage}">
+						<a href="clubList?currentPage2=${i}">[${i}]</a>
+					</c:forEach>
+					<c:if test="${jhpg2.endPage < jhpg2.totalPage }">
+						<a href="clubList?currentPage2=${jhpg2.startPage+jhpg2.pageBlock}">[다음]</a>
+					</c:if>
+
+            </div>
           </div>
         </div>
       </div>

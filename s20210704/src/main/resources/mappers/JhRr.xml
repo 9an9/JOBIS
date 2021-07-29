@@ -2,13 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="JhRr">
-	<select id="jhRrtotal" resultType="int">
-		select Count(*) from rr
+<!-- 	<select id="jhRrtotal" resultType="int"> -->
+<!-- 		select Count(*) from rr -->
+<!-- 	</select> -->
+	<select id="jhRrtotal0" resultType="int">
+		select Count(*) from rr where rr_type = 0
+	</select>
+	<select id="jhRrtotal1" resultType="int">
+		select Count(*) from rr where rr_type between 0 and 1
+	</select>
+	<select id="jhRrtotal2" resultType="int">
+		select Count(*) from rr where rr_type = 2
+	</select>
+	<select id="jhRrtotal3" resultType="int">
+		select Count(*) from rr where rr_type = 3
 	</select>
 	<select id="jhRrListAll" parameterType="JhRr" resultType="JhRr">
 		select * 
          from (select rownum rn, a.* 
-               from (select * from rr order by rr_num) a
+               from (select r.*,e.emp_name from rr r,emp e
+				where r.emp_num=e.emp_num
+				and r.rr_type between 0 and 1
+				order by r.rr_date desc) a
+              ) 
+    	 where rn between #{start} and #{end}   
+	</select>
+	<!-- 삭제가능 동호회List -->
+	<select id="jhRrListAll1" parameterType="JhRr" resultType="JhRr">
+		select * 
+         from (select rownum rn, a.* 
+               from (select r.*,e.emp_name from rr r,emp e
+				where r.emp_num=e.emp_num
+				and r.rr_type = #{rr_type}
+				order by r.rr_date desc) a
               ) 
     	 where rn between #{start} and #{end}   
 	</select>
@@ -21,4 +47,12 @@
 		where e.dep_num = d.code and e.team_num = t.code and e.rnk_num = r.code
 		and emp_num = #{emp_num}
 	</select>
+	<!-- 글 작성 -->
+	<insert id="jhInsertJhRr" parameterType="JhRr">
+		insert into rr(emp_num, rr_num, rr_type, rr_subject, rr_content, rr_date) values (#{emp_num}, rr_seq.nextval, #{rr_type}, #{rr_subject}, #{rr_content}, sysdate)
+	</insert>
+	<!-- 글 수정 -->
+	<update id="jhClubUpdate" parameterType="JhRr">
+		update rr set rr_subject=#{rr_subject}, rr_content=#{rr_content}, rr_date=sysdate where rr_num = #{rr_num}
+	</update>
 </mapper>

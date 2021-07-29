@@ -139,18 +139,18 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
-              <h1><i class="fa fa-clock-o fa-fw w3-margin-right" style="font-size: 42px"></i><b>자료실 글쓰기</b></h1><hr>
+              <h1><i class="fa fa-clock-o fa-fw w3-margin-right" style="font-size: 42px"></i><b>동호회 글쓰기</b></h1><hr>
               
-	          <form action="rrwrite" method="post">
+	          <form action="clubupdate" method="post">
 	          			<input type="hidden" name="emp_num" value="${emp_num }">
+	          			<input type="hidden" name="rr_num" value="${rr_num }">
 	          			<select name="rr_type" style="height: 40px; width: 10%;">
-		          			<option value="0">문서양식</option>
-		          			<option value="1">기타양식</option>
+		          			<option value="2">동호회</option>
 	          			</select>	          
-		          		<input type="text" placeholder="글 제목" name="rr_subject"><p>
+		          		<input type="text" placeholder="글 제목" name="rr_subject" value="${jhRr.rr_subject }"><p>
 		         
 	          		
-	          		<textarea maxlength="4000" style="height: 350px;" name="rr_content"></textarea><p>
+	          		<pre><textarea maxlength="4000" style="height: 350px;" name="rr_content">${jhRr.rr_content }</textarea></pre><p>
 	          		<div><input type="submit" value="글쓰기"></div>
 	      	</form>
 	      	<!-- 파일첨부 -->

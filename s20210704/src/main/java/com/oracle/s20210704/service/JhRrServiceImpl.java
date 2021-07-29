@@ -39,7 +39,15 @@ public class JhRrServiceImpl implements JhRrService {
 		System.out.println("JhRrServiceImpl listJhRr jhRrList.size()->"+jhRrList.size());
 		return jhRrList;
 	}
-
+	//삭제가능
+	@Override
+	public List<JhRr> listJhRr1(JhRr jhRr) {
+		List<JhRr> jhRrList1 = null;
+		System.out.println("JhRrServiceImpl listJhRr1 Start...");
+		jhRrList1 = jrd.listJhRr1(jhRr);
+		System.out.println("JhRrServiceImpl listJhRr jhRrList1.size()->"+jhRrList1.size());
+		return jhRrList1;
+	}
 	@Override
 	public JhRr detail(int rr_num) {
 		System.out.println("JhRrServiceImpl detail...");
@@ -56,5 +64,56 @@ public class JhRrServiceImpl implements JhRrService {
 		svo = jrd.show(vo);
 		return svo;
 	}
+
+	@Override
+	public int insert(JhRr jhRr) {
+		int result = 0;
+		System.out.println("JhRrServiceImpl Start...");
+		result = jrd.insert(jhRr);
+		return result;
+	}
+	
+	//삭제가능
+	@Override
+	public int total0() {
+		System.out.println("JhRrServiceImpl Start total0()");
+		int totCnt0 = jrd.total0();
+		System.out.println("JhRrServiceImpl total0 totcnt->" + totCnt0);
+		return totCnt0;
+	}
+	
+	//삭제가능
+	@Override
+	public int total1() {
+		System.out.println("JhRrServiceImpl Start total1()");
+		int totCnt1 = jrd.total1();
+		System.out.println("JhRrServiceImpl total1 totcont-> " + totCnt1);
+		return totCnt1;
+	}
+	
+	@Override
+	public int total2() {
+		System.out.println("JhRrServiceImpl Start total2()");
+		int totCnt2 = jrd.total2();
+		System.out.println("JhRrServiceImpl total2 totcnt->" + totCnt2);
+		return totCnt2;
+	}
+
+	@Override
+	public int total3() {
+		System.out.println("JhRrServiceImpl Start total3()");
+		int totCnt3 = jrd.total3();
+		System.out.println("JhRrServiceImpl total3 totcnt->" + totCnt3);
+		return totCnt3;
+	}
+
+	@Override
+	public int update(JhRr jhRr) {
+		System.out.println("JhRrServiceImpl update...");
+		int cu = 0;
+		cu = jrd.update(jhRr);
+		return cu;
+	}
+
 
 }
