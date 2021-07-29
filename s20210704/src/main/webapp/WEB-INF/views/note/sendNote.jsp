@@ -20,7 +20,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-    <a href="main" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Home</a>
+    <a href="../main" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Home</a>
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-file-text fa-fw w3-margin-right"></i>전자결재</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
@@ -139,45 +139,32 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
- <h1><i class="fa fa-envelope fa-fw w3-margin-right"></i><b>쪽지 보내기</b></h1><hr>
-       
-              <h2>쪽지 보내기</h2>
-			 <form action="writeNoteTB"  name="frm" >
-				 <table border="1" width="900">
-				 	<!-- 보낸사원번호 hidden으로 설정함. 현재강제, 나중  필히 교체 -->
-				 	<input type="hidden" name="emp_num" required="required" value="1701001">
+<h1><i class="fa fa-envelope fa-fw w3-margin-right"></i><b>쪽지 보내기</b></h1><hr>
+
+			 <!-- 파일 첨부만 구현하면 끝 -->
+			 <form action="writeNoteTB">
+				 <table border="1" width="800">
+				 	<input type="hidden" name="emp_num" required="required" value="${emp_num}">
 					<tr><th>받는사람</th>
-						<td><select name="mgr">
+						<td><select name="emp_num2">
 							<c:forEach var="emp" items="${listEmp}">
 								<option value="${emp.emp_num}">${emp.emp_name}</option>
 							</c:forEach>
 							</select>
 						</td>
 					<tr><th>제목</th>
-						<td><input type="text" name="note_nm" required="required"> </td></tr>
+						<td><input type="text" name="note_nm" style= "width:840px;" required="required"></td></tr>
 					<tr><th>내용</th>
-						<td><input type="text" name="note_cnt" required="required"></td></tr>
-					
-					<!-- <tr><th>파일명</th>
-					<td><input type="text" name="note_fl_nm" required="required"></td></tr>
-					<tr><th>파일경로</th>
-					<td><input type="text" name="note_fl_link" required="required"></td></tr> -->
-					<!-- <tr><th>발신시간</th>
-						<td><input type="text" name="snd_dt" required="required"></td></tr> 
-					</tr> -->
+						<td height="400"><input type="text" name="note_cnt" style="height:400px; width:840px;" required="required"></td></tr>
 					<tr><td><input type="button" value="파일첨부"></td>
-					    <td><input type="submit" value="전송">
-					   		<input type="reset"  value="취소"></td>
-					</tr>
-						  	
-				   </table>
+					    <td><input type="reset"  value="취소" style="float: right;">
+					   		<input type="submit" value="전송" style="float: right;"></td></tr>
+				 </table>
 			 </form>
             </div>
           </div>
         </div>
       </div>
-      
-
       
     <!-- End Middle Column -->
     </div>

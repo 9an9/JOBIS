@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 <!DOCTYPE html>
 <html>
 <title>JOBIS</title>
@@ -14,13 +15,73 @@
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
 </style>
+
+<script type="text/javascript">
+	function chk() {
+		var list = new Array();
+		var note_sq;
+		var check1;
+		var listCnt  = 0;
+	 	<c:forEach items="${listSwNote_tb }" var="list" >	
+	 	    note_sq = document.frm.note_sq[listCnt++].value;
+	        list.push(note_sq);
+		</c:forEach>
+		
+       alert("list.length->"+list.length);
+       
+       
+		for (var i=0; i<list.length;){
+			alert("list->"+ i + " :  "+ list[i++]);
+		}
+		// return false;
+	}	
+	
+	function fn_eaChange(index) {
+		var i = index;
+		var test;
+		var check;
+
+	test = document.frm.bookname[i].value;
+	check = document.frm.check1[i].value;
+	alert("test->"+test);
+	alert("check->"+check);
+
+	}
+	function fn_chkClick(index) {
+		var i = index;
+		var test;
+		var check;
+		if(document.frm.check1[i].checked) {
+		   document.frm.check1[i].value = document.frm.note_sq[i].value;
+		}else {
+		   document.frm.check1[i].value = '0';
+		}
+
+	}
+	
+	function fn_selectAll(selectAll){
+		var  listCnt  = 0;
+		 const checkboxes  = document.getElementsByName('check1');
+		 checkboxes.forEach((checkbox) => {
+		 	checkbox.checked = selectAll.checked;
+		  })
+		 <c:forEach items="${listSwNote_tb }" var="list" >	
+		 	document.frm.check1[listCnt].value = document.frm.note_sq[listCnt].value;
+		 	listCnt = listCnt + 1;
+		 </c:forEach>
+
+		}
+	
+	/* Ajax 결과값 */
+</script>
+	
 <body class="w3-theme-l5">
 
 <!-- Navbar -->
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-    <a href="main" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Home</a>
+    <a href="../main" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Home</a>
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-file-text fa-fw w3-margin-right"></i>전자결재</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
@@ -140,24 +201,34 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
               <h1><i class="fa fa-envelope fa-fw w3-margin-right"></i><b>받은 쪽지함</b></h1><hr>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기 다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-            </div>
+ 	          <form  name="frm"   action="deleteNote">
+	            	<table border="1" width="800">
+						<tr>
+							<td><input type="checkbox" onclick='fn_selectAll(this)' ></td>
+							<th>보낸사람</th>
+							<th width="500">내용</th>
+							<th>수신시간</th>
+						</tr>
+						<c:forEach var="list" items="${listSwNote_tb }" varStatus="status">	
+						<tr>
+							<input type="hidden" name="note_sq" value="${list.note_sq }">
+							<td><input type="checkbox" name="check1" value="0" onclick="fn_chkClick(${status.index})"></td>
+							<td>${list.emp_name }</td>
+							<td width="500">${list.note_cnt }</td>
+						    <td><fmt:formatDate value="${list.snd_dt }" type="date" pattern="yyyy-MM-dd HH-mm"/></td>
+						</tr>
+						</c:forEach>
+						<tr> 
+					       <td>
+					   		  <input type="submit" value="삭제">
+					   		</td>
+						</tr>
+					</table>
+ 	           </form>
+ 	           </div>
           </div>
         </div>
       </div>
-      
-
-      
     <!-- End Middle Column -->
     </div>
     

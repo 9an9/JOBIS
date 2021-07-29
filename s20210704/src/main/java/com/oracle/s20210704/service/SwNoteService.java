@@ -2,9 +2,13 @@ package com.oracle.s20210704.service;
 
 import java.util.List;
 
-// 비지니스 업무 수행
+
 public interface SwNoteService {
-	List<com.oracle.s20210704.model.Emp>     listEmp();   // 전송사원 선택
-	// 쪽지함 저장하기
-	int           insertNote_tb(com.oracle.s20210704.model.SwNote_tb swnote_tb);
+	List<com.oracle.s20210704.model.Emp>  		   listEmp();   
+	List<com.oracle.s20210704.model.SwNote_rcv_tb> listSwNote_rcv_tb(int emp_num);
+	List<com.oracle.s20210704.model.SwNote_tb> 	   listSwNote_tb(int emp_num);
+	int     delete(String checks);
+	int     delete2(String checks);
+	int     insertNote_tb	   (com.oracle.s20210704.model.SwNote_tb swnote_tb);
+	int		insertNote_rcv_tb(com.oracle.s20210704.model.SwNote_rcv_tb swnote_rcv_tb);
 }

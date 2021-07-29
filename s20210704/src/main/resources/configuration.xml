@@ -1,9 +1,9 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "HTTP://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias type="com.oracle.s20210704.model.YsEmpCmt" alias="YsEmpCmt"/>
-		<typeAlias type="com.oracle.s20210704.model.SyMemberVO" alias="SyMemberVO"/>
-			<typeAlias type="com.oracle.s20210704.model.JhCalendar" alias="JhCalendar"/>
-		<typeAlias type="com.oracle.s20210704.model.JhRr" alias="JhRr"/>
+		<typeAlias type="com.oracle.s20210704.model.YsEmpCmt"       alias="YsEmpCmt"/>
+		<typeAlias type="com.oracle.s20210704.model.SyMemberVO"     alias="SyMemberVO"/>
+		<typeAlias type="com.oracle.s20210704.model.JhCalendar"     alias="JhCalendar"/>
+		<typeAlias type="com.oracle.s20210704.model.JhRr"           alias="JhRr"/>
 	</typeAliases>
 </configuration>

@@ -135,24 +135,29 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     <!-- Middle Column -->
    <div class="w3-col m7" >
     
-       <div class="w3-row-padding">
+     <div class="w3-row-padding">
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
-              <h1><i class="fa fa-envelope fa-fw w3-margin-right"></i><b>보낸 쪽지함</b></h1><hr>
-            <table border="1" width="800">
-					<tr><td><input type="checkbox"><th>받은사람</th><th colspan="8">제목</th><th>수신시간</th></tr>
-					<c:forEach var="list" items="${listSwNote_rcv_tb }">	
-					<tr><td><input type="checkbox"></td><td>${list.emp_name }</td><td colspan="8">${li.note_cnt }</td><td>${li.snd_dt }</td></tr>
-					</c:forEach> 
+              <h1><i class="fa fa-envelope fa-fw w3-margin-right"></i><b>받은 쪽지함</b></h1><hr>
+            	<table border="1" width="800">
+					<tr><th colspan="5">받은 쪽지함</th></tr>
+					<tr><th>발신자</th><th>내용</th><th>수신시간</th><th>답장</th><th>삭제</th></tr>
+					<tr><td>[개발1팀]정길동</td><td>안녕하십니까 신입사원 정길동입니다.</td><td>2017년10월4일오전5시</td><td><input type="submit" value="답장"></td><td><input type="submit" value="삭제"></td></tr>
+					<tr><td>[개발1팀]정길동</td><td>안녕하십니까 신입사원 정길동입니다.</td><td>2017년10월4일오전5시</td><td><input type="submit" value="답장"></td><td><input type="submit" value="삭제"></td></tr>
+					<tr><td>[개발1팀]정길동</td><td>안녕하십니까 신입사원 정길동입니다.</td><td>2017년10월4일오전5시</td><td><input type="submit" value="답장"></td><td><input type="submit" value="삭제"></td></tr>
+					<tr><td>[개발1팀]정길동</td><td>안녕하십니까 신입사원 정길동입니다.</td><td>2017년10월4일오전5시</td><td><input type="submit" value="답장"></td><td><input type="submit" value="삭제"></td></tr>
+					<tr><td>[개발1팀]정길동</td><td>안녕하십니까 신입사원 정길동입니다.</td><td>2017년10월4일오전5시</td><td><input type="submit" value="답장"></td><td><input type="submit" value="삭제"></td></tr>
+					<tr><td>[개발1팀]정길동</td><td>안녕하십니까 신입사원 정길동입니다.</td><td>2017년10월4일오전5시</td><td><input type="submit" value="답장"></td><td><input type="submit" value="삭제"></td></tr>
+					<tr><td>[개발1팀]정길동</td><td>안녕하십니까 신입사원 정길동입니다.</td><td>2017년10월4일오전5시</td><td><input type="submit" value="답장"></td><td><input type="submit" value="삭제"></td></tr>
+					<tr><td>[개발1팀]정길동</td><td>안녕하십니까 신입사원 정길동입니다.</td><td>2017년10월4일오전5시</td><td><input type="submit" value="답장"></td><td><input type="submit" value="삭제"></td></tr>
+					<tr><td>[개발1팀]정길동</td><td>안녕하십니까 신입사원 정길동입니다.</td><td>2017년10월4일오전5시</td><td><input type="submit" value="답장"></td><td><input type="submit" value="삭제"></td></tr>
+					<tr><td>[개발1팀]정길동</td><td>안녕하십니까 신입사원 정길동입니다.</td><td>2017년10월4일오전5시</td><td><input type="submit" value="답장"></td><td><input type="submit" value="삭제"></td></tr>	
 				</table>
             </div>
           </div>
         </div>
       </div>
-      
-
-      
     <!-- End Middle Column -->
     </div>
     

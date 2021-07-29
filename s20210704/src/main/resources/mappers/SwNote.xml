@@ -5,11 +5,43 @@
 <mapper namespace="com.oracle.s20210704.dao.SwNoteServiceImpl">
 
 	<select id="swEmpListAll" resultType="Emp">
-	
 		select * from emp
-	
 	</select>
+	
+	<select id="swNote_rcv_tbListAll" parameterType="int" resultType="SwNote_rcv_tb">
+		select n.note_sq, n.emp_num, n.rcv_dt, n.read_count, e.emp_name emp_name
+		from note_rcv_tb n, emp e
+		where n.emp_num = e.emp_num
+		and n.emp_num = #{emp_num} order by note_sq desc
+	</select>
+	
+	<!-- 받은 쪽지함 구현 -->
+	<select id="swNote_tbListAll" parameterType="int" resultType="SwNote_tb">
+		select n.note_sq, e.emp_name emp_name, n.note_cnt, n.snd_dt
+        from  note_tb n, emp e
+        where  n.emp_num = e.emp_num
+        and    n.emp_num = #{emp_num} order by note_sq desc
+	</select>
+	
+	<select id="sentNoteListAll" parameterType="int" resultType="SwNote_tb">
+		select nt.note_sq, nt.note_nm, nt.note_cnt, nrt2.rcv_dt 
+		from note_tb nt, note_rcv_tb nrt2 where nt.note_sq in 
+		(select nrt.note_sq from note_rcv_tb nrt where nrt.emp_num = #{emp_num})
+	</select>
+	
 	<insert id="insertNote_tb" parameterType="SwNote_tb">
-	 insert into note_tb values (#{emp_num},#{note_nm})
+	 	insert into note_tb(NOTE_SQ, EMP_NUM, NOTE_NM, NOTE_CNT, SND_DT) values (NOTE_SEQ.NEXTVAL, #{emp_num}, #{note_nm}, #{note_cnt}, sysdate)
 	</insert>
+	
+	<insert id="insertSwNote_rcv_tb" parameterType="SwNote_rcv_tb">
+		insert into note_rcv_tb(NOTE_SQ, EMP_NUM, RCV_DT, READ_COUNT) values (NOTE_SEQ.CURRVAL, #{emp_num2}, sysdate, 0)
+	</insert>
+	
+	<delete id="delete"  parameterType="string">
+	    delete from note_tb where note_sq = #{checks[i]}
+    </delete>
+    
+    <delete id="delete2" parameterType="string">
+	    delete from note_rcv_tb where note_sq = #{checks[i]}
+    </delete>
 </mapper>

@@ -15,6 +15,5 @@ public class Emp {
 	private String emp_cm_addr;	private String emp_dt_addr;
 	private String emp_email;	private Date emp_hiredate;
 	private String ph_path;		private int	   ref;
-	// 조회용.참조용
 
 }
