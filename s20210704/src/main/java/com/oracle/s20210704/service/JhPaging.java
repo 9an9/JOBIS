@@ -17,6 +17,7 @@ public class JhPaging {
 		if (currentPage1 != null) {
 			this.currentPage = Integer.parseInt(currentPage1);			
 		}
+		
 		start = (currentPage - 1) * rowPage + 1;  // 시작시 1
 		end   = start + rowPage - 1;              // 시작시 10 
 		totalPage = (int) Math.ceil((double)total / rowPage);  // 시작시 2

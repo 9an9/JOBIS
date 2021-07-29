@@ -18,4 +18,17 @@ public interface JhRrService {
 
 	SyMemberVO show(SyMemberVO vo);
 
+	int insert(JhRr jhRr);
+	
+	List<JhRr> listJhRr1(JhRr jhRr);
+	
+	int total0();
+	
+	int total1();
+	
+	int total2();
+	
+	int total3();
+
+	int update(JhRr jhRr);
 }

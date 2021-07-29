@@ -47,6 +47,18 @@ public class JhRrDaoImpl implements JhRrDao {
 		}
 		return jhRrList;
 	}
+	//삭제가능
+	@Override
+	public List<JhRr> listJhRr1(JhRr jhRr) {
+		List<JhRr> jhRrList1 = null;
+		System.out.println("JhRrDaoImpl listjhRr Start...");
+		try {
+			jhRrList1 = session.selectList("jhRrListAll1", jhRr);
+		} catch(Exception e) {
+			System.out.println("JhRrDaoImpl listjhRr Exception ->" + e.getMessage());
+		}
+		return jhRrList1;
+	}
 
 	@Override
 	public JhRr detail(int rr_num) {
@@ -72,6 +84,84 @@ public class JhRrDaoImpl implements JhRrDao {
 			System.out.println("JhRrDaoImplyu SyMemeberVO Exception->" + e.getMessage());
 		}
 		return syMemberVO;
+	}
+
+	@Override
+	public int insert(JhRr jhRr) {
+		int result = 0;
+		System.out.println("JhRrDaoImpl insert Start...");
+		try {
+			result = session.insert("jhInsertJhRr", jhRr);
+		} catch (Exception e ) {
+			System.out.println("JhRrDaoImpl insert Exception -> "+e.getMessage());
+		}
+		return result;
+	}
+
+	//삭제가능
+	@Override
+	public int total0() {
+		int tot0 = 0;
+		System.out.println("JhRrDaoImpl Start total0...");
+		try {
+			tot0 = session.selectOne("jhRrtotal0");
+			System.out.println("jhRrDaoImpl Start total...");
+		} catch(Exception e) {
+			System.out.println("jhRrDaoImpl total Exception-> "+e.getMessage());
+		}
+		return tot0;
+	}
+	
+	//삭제가능
+	@Override
+	public int total1() {
+		int tot1 = 0;
+		System.out.println("JhRrDaoImpl Start total1...");
+		try {
+			tot1 = session.selectOne("jhRrtotal1");
+			System.out.println("jhRrDaoImpl Start total...");
+		} catch(Exception e) {
+			System.out.println("jhRrDaoImpl total Exception-> "+e.getMessage());
+		}
+		return tot1;
+	}
+	//삭제가능
+	@Override
+	public int total2() {
+		int tot2 = 0;
+		System.out.println("JhRrDaoImpl Start total2...");
+		try {
+			tot2 = session.selectOne("jhRrtotal2");
+			System.out.println("jhRrDaoImpl Start total...");
+		} catch(Exception e) {
+			System.out.println("jhRrDaoImpl total Exception-> "+e.getMessage());
+		}
+		return tot2;
+	}
+	//삭제가능
+	@Override
+	public int total3() {
+		int tot3 = 0;
+		System.out.println("JhRrDaoImpl Start total3...");
+		try {
+			tot3 = session.selectOne("jhRrtotal3");
+			System.out.println("jhRrDaoImpl Start total...");
+		} catch(Exception e) {
+			System.out.println("jhRrDaoImpl total Exception-> "+e.getMessage());
+		}
+		return tot3;
+	}
+
+	@Override
+	public int update(JhRr jhRr) {
+		System.out.println("JhRrDaoImpl update Start...");
+		int cu = 0;
+		try {
+			cu = session.update("jhClubUpdate", jhRr);
+		} catch (Exception e) {
+			System.out.println("jhRrDaoImpl update Exception -> " +e.getMessage());
+		}
+		return cu;
 	}
 
 }

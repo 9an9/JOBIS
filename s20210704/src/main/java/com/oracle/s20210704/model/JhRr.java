@@ -1,6 +1,8 @@
 package com.oracle.s20210704.model;
 
-import java.util.Date;
+
+
+import java.sql.Date;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -22,4 +24,9 @@ public class JhRr {
 	private String pageNum;  
 	private int start; 		 private int end;
 
+	private int empnum;
+	private int rsubject;
+	private int rnum;
+	private String emp_name;
+	
 }

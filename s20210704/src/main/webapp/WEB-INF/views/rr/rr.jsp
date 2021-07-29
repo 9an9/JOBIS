@@ -20,7 +20,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-    <a href="main" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Home</a>
+    <a href="../main" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Home</a>
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-file-text fa-fw w3-margin-right"></i>전자결재</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
@@ -140,20 +140,24 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
               <h1><i class="fa fa-clock-o fa-fw w3-margin-right" style="font-size: 42px"></i><b>자료실</b></h1><hr>
-	          <table border="1" class="cmtTB">
-					<tr><th>자료번호</th><th>자료종류</th><th>작성자</th><th>제목</th><th>내용</th><th>조회수</th><th>파일경로</th><th>파일</th><th>작성일</th></tr>
+	          <table border="1" class="cmtTB" style="align-content: center;">
+					<tr><th>자료종류</th><th>작성자</th><th>제목</th><th>작성일</th></tr>
 						<c:forEach var="rrList" items="${listJhRr}">
 							<tr>
-								<td>${rrList.rr_num }</td>
-								<td>${rrList.rr_type}</td>
-								<td>${rrList.emp_num }</td>
-								<td>${rrList.rr_subject}</td>
-								<%-- <td><a href="detail?rr_num=${rrList.rr_num }">${rrList.rr_content}</a></td>  --%>
-								<td><a href="detail?rr_num=${rrList.rr_num }">${rrList.rr_content}</a></td>
-								<td>${rrList.rr_hits}</td>
-								<td>${rrList.rr_path}</td>
-								<td>${rrList.rr_filename}</td>
-								<td>${rrList.rr_date}</td>
+								<c:if test="${rrList.rr_type == 0 || rrList.rr_type == 1}">
+									
+										<td>
+											<c:if test="${rrList.rr_type == 0 }">문서양식</c:if>
+											<c:if test="${rrList.rr_type == 1 }">기타양식</c:if>
+											<c:if test="${rrList.rr_type == 2 }">동호회</c:if>
+											<c:if test="${rrList.rr_type == 3 }">공지사항</c:if>
+										</td>
+									
+									<td>${rrList.emp_name }</td>
+									<%-- <td><a href="detail?rr_num=${rrList.rr_num }">${rrList.rr_content}</a></td>  --%>
+									<td><a href="detail?rr_num=${rrList.rr_num }&detail_num=${rrList.emp_num}">${rrList.rr_subject}</a></td>
+									<td>${rrList.rr_date}</td>
+								</c:if>
 							</tr> 
 						</c:forEach>
 				</table>

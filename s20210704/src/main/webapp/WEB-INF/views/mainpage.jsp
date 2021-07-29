@@ -170,9 +170,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           
           
           <p><button class="w3-button w3-block w3-theme-l4" style=" border-radius:10px;box-shadow:#d6d6d6 1px 3px 2px;text-align: left;"><i class="fa fa-chevron-circle-right fa-fw w3-margin-right"></i>사용방법 바로가기</button></p>
-          <p><button class="w3-button w3-block w3-theme-l4" style=" border-radius:10px;box-shadow:#d6d6d6 1px 3px 2px;text-align: left;" onclick="location.href='rr/rr'"><i class="fa fa-chevron-circle-right fa-fw w3-margin-right"></i>문서양식 바로가기</button></p>
-          <p><button class="w3-button w3-block w3-theme-l4" style=" border-radius:10px;box-shadow:#d6d6d6 1px 3px 2px;text-align: left;"><i class="fa fa-chevron-circle-right fa-fw w3-margin-right"></i>공지사항 바로가기</button></p>
-          <p><button class="w3-button w3-block w3-theme-l4" style=" border-radius:10px;box-shadow:#d6d6d6 1px 3px 2px;text-align: left;"><i class="fa fa-chevron-circle-right fa-fw w3-margin-right"></i>동호회 바로가기</button></p>
+          <p><button class="w3-button w3-block w3-theme-l4" style=" border-radius:10px;box-shadow:#d6d6d6 1px 3px 2px;text-align: left;" onclick="location.href='rr/rr?rr_type=0'"><i class="fa fa-chevron-circle-right fa-fw w3-margin-right"></i>문서양식 바로가기</button></p>
+          <p><button class="w3-button w3-block w3-theme-l4" style=" border-radius:10px;box-shadow:#d6d6d6 1px 3px 2px;text-align: left;" onclick="location.href='board/noticeList'"><i class="fa fa-chevron-circle-right fa-fw w3-margin-right"></i>공지사항 바로가기</button></p>
+          <p><button class="w3-button w3-block w3-theme-l4" style=" border-radius:10px;box-shadow:#d6d6d6 1px 3px 2px;text-align: left;" onclick="location.href='board/clubList'"><i class="fa fa-chevron-circle-right fa-fw w3-margin-right"></i>동호회 바로가기</button></p>
         </div>
       </div>
       <br>
