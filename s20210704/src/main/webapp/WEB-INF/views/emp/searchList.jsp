@@ -145,14 +145,11 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
               		<option value="0">사원명</option>
               		<option value="1">부서명</option>
               	</select>
-               <input type="text" id="keyword" name="keyword">  <input type="submit" value="검색"></form><p>
-               <c:if test="${dept ne '110' }"><input type="button" value="사원등록" onclick="location.href='empWrite'"></c:if>
-               <c:if test="${dept eq '120' && rank eq '240' }"><input type="button" value="부서관리" onclick="javascript:openDept()"></c:if>
-              <c:set var="num" value="${(pg.currentPage*pg.rowPage)-pg.rowPage+1}"></c:set>
+               <input type="text" id="keyword" name="keyword" value="${keyword}"> <input type="submit" value="검색"></form><p>
               <table>
-			  	<tr><th>No.</th><th>사원번호</th><th>사원명</th><th>부서명</th><th>소속</th><th>직책</th><th>이메일</th><th>전화번호</th><th>주소</th><th>입사일</th><th>비고</th></tr>
+			  	<tr><th>사원번호</th><th>사원명</th><th>부서명</th><th>소속</th><th>직책</th><th>이메일</th><th>전화번호</th><th>주소</th><th>입사일</th><th>비고</th></tr>
 				<c:forEach var="empList" items="${empList}">
-					<tr><td>${num }</td>
+					<tr>
 						<td>${empList.emp_num }</td>
 				    	<td>${empList.emp_name }</td>
 						<td>${empList.dept }</td>
@@ -188,19 +185,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 							</c:otherwise>
 						</c:choose>
 					</tr>
-					<c:set var="num" value="${num + 1 }"></c:set>
 				</c:forEach>
 			  </table>
-			  <c:if test="${pg.startPage > pg.pageBlock }">
-			  	<a href="empList?currentPage=${pg.startPage-pg.pageBlock}">[이전]</a>
-			  </c:if>
-			  <c:forEach var="i" begin="${pg.startPage}" end="${pg.endPage}">
-			  	<a href="empList?currentPage=${i}">[${i}]</a>
-		  	  </c:forEach>
-			  <c:if test="${pg.endPage < pg.totalPage }">
-	  		  	<a href="empList?currentPage=${pg.startPage+pg.pageBlock}">[다음]</a>
-			  </c:if>
-
+			<input type="button" value="사원전체목록" onclick="location.href='empList'">
             </div>
           </div>
         </div>
@@ -219,6 +206,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 </div>
 <br>
 
+
 <!-- Footer -->
 <footer class="w3-container w3-theme-d5">
   <p>&copy copyright is reserved by JOBIS/<a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
@@ -229,7 +217,8 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 		alert("수정되었습니다");
 	</script>
 </c:if>
-
+ 
+ 
 <script>
 // Accordion
 function myFunction(id) {
@@ -269,6 +258,7 @@ function chg(num){
 	var frm = document.getElementById('frm'+num);
 	frm.submit();
 }
+
 </script>
 
 </body>

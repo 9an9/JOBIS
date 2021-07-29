@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>     
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <title>JOBIS</title>
@@ -13,11 +13,6 @@
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
-.cmtTB{
-	text-align: center;
-	width: 80%;
-	margin: 0 auto;
-}
 </style>
 <body class="w3-theme-l5">
 
@@ -25,27 +20,36 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-    <a href="/" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Home</a>
+    <a href="main" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Home</a>
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-file-text fa-fw w3-margin-right"></i>전자결재</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
-      <a href="#" class="w3-bar-item w3-button">결재 서류 작성</a>
-      <a href="#" class="w3-bar-item w3-button">받은 결재</a>
-      <a href="#" class="w3-bar-item w3-button">보낸 결재</a>
+      <a href="../apv/apvWrite" class="w3-bar-item w3-button">결재 서류 작성</a>
+      <a href="../apv/apvSnd" class="w3-bar-item w3-button">받은 결재</a>
+      <a href="../apv/apvRcv" class="w3-bar-item w3-button">보낸 결재</a>
     </div>
   </div>
-  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i>일정</a>
-  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-list-alt fa-fw w3-margin-right"></i>자료실</a>
+  <a href="../calendar/calendar" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i>일정</a>
+  <a href="rr" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-list-alt fa-fw w3-margin-right"></i>자료실</a>
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-commenting-o fa-fw w3-margin-right fa-flip-horizontal"></i>게시판</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
-      <a href="#" class="w3-bar-item w3-button">공지사항</a>
-      <a href="#" class="w3-bar-item w3-button">설문조사</a>
-      <a href="#" class="w3-bar-item w3-button">동호회</a>
+      <a href="../board/noticeList" class="w3-bar-item w3-button">공지사항</a>
+      <a href="../board/surveyList" class="w3-bar-item w3-button">설문</a>
+      <a href="../board/clubList" class="w3-bar-item w3-button">동호회</a>
     </div>
   </div>
+  <c:if test="${svo.dcontent == '인사부' || svo.dcontent == '임원'  }">
+	   <div class="w3-dropdown-hover w3-hide-small">
+	    <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-cog fa-fw w3-margin-right" aria-hidden="true"></i>관리</button>     
+	    <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
+	      <a href="../emp/empList" class="w3-bar-item w3-button">사원 정보 관리</a>
+	      <a href="../cmt/cmt" class="w3-bar-item w3-button">사원 근태 관리</a>
+	    </div>
+	  </div>
+  </c:if>
   
-  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+  <a href="../logout" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
     <i class="fa fa-sign-out w3-margin-right"></i>Logout
   </a>
  </div>
@@ -56,18 +60,25 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   <a href="#" class="w3-bar-item w3-button w3-padding-large">안보임</a> <!-- 이 줄은 안보이는 줄입니다 -->
   <button onclick="myFunction1('Demo1')" class="w3-bar-item w3-button w3-padding-large">전자결재</button>
   	<div id="Demo1" class="w3-hide w3-bar-block">
-    	<a href="#" class="w3-button w3-block w3-theme-l5 w3-left-align">결재 서류 작성</a>
-        <a href="#" class="w3-button w3-block w3-theme-l5 w3-left-align">받은 결재</a>
-        <a href="#" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸결재</a>
+    	<a href="../apv/apvWrite" class="w3-button w3-block w3-theme-l5 w3-left-align">결재 서류 작성</a>
+        <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l5 w3-left-align">받은 결재</a>
+        <a href="../apv/apvRcv" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸결재</a>
     </div>
-  <a href="#" class="w3-bar-item w3-button w3-padding-large">일정</a>
-  <a href="#" class="w3-bar-item w3-button w3-padding-large">자료실</a>
+  <a href="../calendar/calendar" class="w3-bar-item w3-button w3-padding-large">일정</a>
+  <a href="rr" class="w3-bar-item w3-button w3-padding-large">자료실</a>
   <button onclick="myFunction1('Demo2')" class="w3-bar-item w3-button w3-padding-large">게시판</button>
   	<div id="Demo2" class="w3-hide w3-bar-block">
-    	<a href="#" class="w3-button w3-block w3-theme-l5 w3-left-align">공지사항</a>
-        <a href="#" class="w3-button w3-block w3-theme-l5 w3-left-align">설문조사</a>
-        <a href="#" class="w3-button w3-block w3-theme-l5 w3-left-align">동호회</a>
+    	<a href="../board/noticeList" class="w3-button w3-block w3-theme-l5 w3-left-align">공지사항</a>
+        <a href="../board/surveyList" class="w3-button w3-block w3-theme-l5 w3-left-align">설문조사</a>
+        <a href="../board/clubList" class="w3-button w3-block w3-theme-l5 w3-left-align">동호회</a>
     </div>
+    <c:if test="${svo.dcontent == '인사부' || svo.dcontent == '임원'  }">
+	   <button onclick="myFunction1('Demo4')" class="w3-bar-item w3-button w3-padding-large">관리</button>
+	  	<div id="Demo4" class="w3-hide w3-bar-block">
+	    	<a href="../emp/empList" class="w3-button w3-block w3-theme-l5 w3-left-align">사원 정보 관리</a>
+	        <a href="../cmt/cmt" class="w3-button w3-block w3-theme-l5 w3-left-align">사원 근태 관리</a>
+	    </div>
+    </c:if>
 </div>
 
 <!-- Page Container -->
@@ -82,10 +93,10 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
          <h4 class="w3-center">My Profile</h4>
          <p class="w3-center"><img src="../images/LUCY.jpg" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
          <hr>
-         <p><i class="fa fa-id-badge fa-fw w3-margin-right w3-text-theme"></i> 이름</p>
-         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;직위/부서</p>
-         <a href="#" style="display: block; text-decoration: none;"><i class="fa fa-clock-o fa-fw w3-margin-right w3-text-theme"></i> 나의 근태정보</a><p>
-         <a href="#" style="display: block; text-decoration: none;"><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> 개인정보수정</a>
+         <p><i class="fa fa-id-badge fa-fw w3-margin-right w3-text-theme"></i> ${svo.emp_name }</p>
+         <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${svo.dcontent } / ${svo.rcontent }</p>
+         <a href="../cmt/mycmt" style="display: block; text-decoration: none;"><i class="fa fa-clock-o fa-fw w3-margin-right w3-text-theme"></i> 나의 근태정보</a><p>
+         <a href="../emp/myInfoUpdate" style="display: block; text-decoration: none;"><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> 개인정보수정</a>
         </div>
       </div>
       <br>
@@ -93,14 +104,14 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <!-- Accordion -->
       <div class="w3-card w3-round">
         <div class="w3-white">
-          <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-envelope fa-fw w3-margin-right" ></i><span class="w3-badge w3-right w3-small w3-green">1</span> 쪽지</button>
-          <div id="Demo1" class="w3-hide w3-bar-block">
-          	<a href="#" class="w3-button w3-block w3-theme-l5 w3-left-align">쪽지 보내기</a>
-            <a href="#" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 쪽지함</a>
-            <a href="#" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 쪽지함</a>
+          <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-envelope fa-fw w3-margin-right" ></i><span class="w3-badge w3-right w3-small w3-green">1</span> 쪽지</button>
+          <div id="Demo3" class="w3-hide w3-bar-block">
+          	<a href="../note/sendNote" class="w3-button w3-block w3-theme-l5 w3-left-align">쪽지 보내기</a>
+            <a href="../note/sentNote" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 쪽지함</a>
+            <a href="../note/receiveNote" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 쪽지함</a>
           </div>
-          <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">3</span> 결재</a>
-          <a href="#" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
+          <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">3</span> 결재</a>
+          <a href="../board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
         </div>      
       </div>
       <br>
@@ -122,58 +133,58 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     </div>
     
     <!-- Middle Column -->
-    <div class="w3-col m7" >
+       <div class="w3-col m7" >
     
       <div class="w3-row-padding">
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
-              <h1><i class="fa fa-clock-o fa-fw w3-margin-right" style="font-size: 42px"></i><b>자료실</b></h1><hr>
-	          	<table>
+              <h1><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i><b>오늘의 일정</b></h1><hr>
+	            <table>
+						<tr>
+							<td>자료번호</td>
+							<td>${jhRr.rr_num }</td>			
+						</tr>
+						<tr>
+							<td>사원번호</td>
+							<td>${jhRr.emp_num }</td>			
+						</tr>
+						<tr>
+							<td>자료종류</td>
+							<td>${jhRr.rr_type }</td>			
+						</tr>
+						<tr>
+							<td>제목</td>
+							<td>${jhRr.rr_subject }</td>			
+						</tr>
+						<tr>
+							<td>내용</td>
+							<td>${jhRr.rr_content }</td>			
+						</tr>
+						<tr>
+							<td>조회수</td>
+							<td>${jhRr.rr_hits }</td>			
+						</tr>
+						<tr>
+							<td>파일경로</td>
+							<td>${jhRr.rr_path }</td>			
+						</tr>
+						<tr>
+							<td>파일</td>
+							<td>${jhRr.rr_filename }</td>			
+						</tr>
+						<tr>
+							<td>작성일</td>
+							<td>${jhRr.rr_date }</td>			
+						</tr>
 					<tr>
-						<td>자료번호</td>
-						<td>${jhRr.rr_num }</td>			
+						<td colspan="2">
+							<input type="button" value="목록" onclick="location.href='rr'">
+							<input type="button" value="수정" onclick="location.href='JhupdateForm?emp_num=${rr.emp_num}'">				
+							<input type="button" value="삭제" onclick="location.href='Jhdelete?emp_num=${rr.emp_num}'">
+						</td>
 					</tr>
-					<tr>
-						<td>사원번호</td>
-						<td>${jhRr.emp_num }</td>			
-					</tr>
-					<tr>
-						<td>자료종류</td>
-						<td>${jhRr.rr_type }</td>			
-					</tr>
-					<tr>
-						<td>제목</td>
-						<td>${jhRr.rr_subject }</td>			
-					</tr>
-					<tr>
-						<td>내용</td>
-						<td>${jhRr.rr_content }</td>			
-					</tr>
-					<tr>
-						<td>조회수</td>
-						<td>${jhRr.rr_hits }</td>			
-					</tr>
-					<tr>
-						<td>파일경로</td>
-						<td>${jhRr.rr_path }</td>			
-					</tr>
-					<tr>
-						<td>파일</td>
-						<td>${jhRr.rr_filename }</td>			
-					</tr>
-					<tr>
-						<td>작성일</td>
-						<td>${jhRr.rr_date }</td>			
-					</tr>
-		<tr>
-			<td colspan="2">
-				<input type="button" value="목록" onclick="location.href='rr'">
-				<input type="button" value="수정" onclick="location.href='JhupdateForm?emp_num=${rr.emp_num}'">				
-				<input type="button" value="삭제" onclick="location.href='Jhdelete?emp_num=${rr.emp_num}'">
-			</td>
-		</tr>
-	</table>
+				</table>
             </div>
           </div>
         </div>
@@ -191,6 +202,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 <!-- End Page Container -->
 </div>
 <br>
+
 
 <!-- Footer -->
 <footer class="w3-container w3-theme-d5">
@@ -220,7 +232,7 @@ function myFunction1(id) {
 	    x.previousElementSibling.className = 
 	    x.previousElementSibling.className.replace(" w3-theme-d2", "");
 	  }
-	}
+}
 
 // Used to toggle the menu on smaller screens when clicking on the menu button
 function openNav() {

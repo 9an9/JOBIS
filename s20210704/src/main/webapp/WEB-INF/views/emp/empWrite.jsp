@@ -20,7 +20,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-    <a href="main" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Home</a>
+    <a href="../main" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Home</a>
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-file-text fa-fw w3-margin-right"></i>전자결재</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
@@ -141,15 +141,14 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <div class="w3-container w3-padding">
               <h1><i class="fa fa-pencil-square-o fa-fw w3-margin-right"></i><b>사원 등록</b></h1><hr>
               <input type="text" id="name" name="name" required="required">
-              <select>
-              	<c:forEach var="dept" items="deptList">
-              		<option>${dept.dname}</option>
-              	</c:forEach>
+              <select name="dept" onchange="get_team(this.value, team)">
+
               </select>
-              <select>
-              	<c:forEach var="team" items="teamList">
-              		<option>${team.tname}</option>
-              	</c:forEach>
+              <select name="team">
+
+              </select>
+              <select name="rank">
+              
               </select>
               <input type="text" id="email" name="email" required="required">
               <input type="text" id="phnum" name="phnum" required="required">
@@ -213,6 +212,22 @@ function openNav() {
   } else { 
     x.className = x.className.replace(" w3-show", "");
   }
+}
+function get_team(dept, team) {
+    $.ajax({
+        type: 'GET',
+        url: '/' + dept,
+        contentType: "application/json; charset=UTF-8",
+        dataType: 'json',
+        success: function (result) {
+            console.log(result)
+            for (i = 0; i < result.length; i++) {
+                selectOption.options[i] = new Option(result[i], i);
+            }
+        }
+    }).fail(function (error) {
+        alert(JSON.stringify(error));
+    })
 }
 </script>
 

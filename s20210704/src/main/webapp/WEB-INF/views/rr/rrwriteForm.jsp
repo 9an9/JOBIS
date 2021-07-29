@@ -1,18 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>     
 <!DOCTYPE html>
 <html>
 <title>JOBIS</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="css/SpringMain.css">
+<link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
+.cmtTB{
+	text-align: center;
+	width: 80%;
+	margin: 0 auto;
+}
 </style>
 <body class="w3-theme-l5">
 
@@ -20,7 +25,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-    <a href="../main" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Home</a>
+    <a href="/" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Home</a>
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-file-text fa-fw w3-margin-right"></i>전자결재</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
@@ -75,7 +80,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <div class="w3-card w3-round w3-white">
         <div class="w3-container">
          <h4 class="w3-center">My Profile</h4>
-         <p class="w3-center"><img src="images/LUCY.jpg" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+         <p class="w3-center"><img src="../images/LUCY.jpg" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
          <hr>
          <p><i class="fa fa-id-badge fa-fw w3-margin-right w3-text-theme"></i> 이름</p>
          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;직위/부서</p>
@@ -123,19 +128,22 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
-              <h1><i class="fa fa-pencil-square-o fa-fw w3-margin-right"></i><b>부서 관리</b></h1><hr>
-              <form action="">
-              <input type="text" name="deptname"><input type="submit" value="부서추가">
-              </form>              
-              <table>
-			  	<tr><th>부서</th><th>팀</th></tr>
-				<c:forEach var="deptList" items="${deptList}">
-					<tr><td>${empList.empnum }</td>
-				    	<td><tr></tr></td>
-					</tr>
-				</c:forEach>
-			  </table>
-
+              <h1><i class="fa fa-clock-o fa-fw w3-margin-right" style="font-size: 42px"></i><b>자료실</b></h1><hr>
+              	<!-- 구현 작성란 -->
+	         		
+				<!-- 구현 작성란 -->
+				<div style="text-align: center;"><a href="rrwriteForm">글쓰기</a></div>
+				<div style="text-align: center;">
+					<c:if test="${jhpg.startPage > jhpg.pageBlock }">
+						<a href="rr?currentPage=${jhpg.startPage-jhpg.pageBlock}">[이전]</a>
+					</c:if>
+					<c:forEach var="i" begin="${jhpg.startPage}" end="${jhpg.endPage}">
+						<a href="rr?currentPage=${i}">[${i}]</a>
+					</c:forEach>
+					<c:if test="${jhpg.endPage < jhpg.totalPage }">
+						<a href="rr?currentPage=${jhpg.startPage+jhpg.pageBlock}">[다음]</a>
+					</c:if>
+				</div>
             </div>
           </div>
         </div>

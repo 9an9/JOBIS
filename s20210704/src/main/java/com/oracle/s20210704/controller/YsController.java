@@ -113,6 +113,10 @@ public class YsController {
 		yecs.cmtInsert(ysEmpCmt);
 		return "redirect:cmt";
 	}
+	@GetMapping(value = "cmt/mycmt")
+	public String mycmt() {
+		return "mycmt";
+	}
 	
 
 }

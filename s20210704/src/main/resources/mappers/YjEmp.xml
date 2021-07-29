@@ -20,4 +20,36 @@
 		order by emp_num asc) a)
 		where rn between #{start} and #{end}
 	</select>
+	<update id="updateRef" parameterType="com.oracle.s20210704.model.YjEmp">
+		update emp set ref=#{ref} where emp_num=#{empno}
+	</update>
+	<select id="deptSelect" parameterType="int" resultType="string">
+		select code as dept
+		from comm
+		where code=(select dep_num from emp where emp_num=#{emp_num})
+	</select>
+	<select id="rankSelect" parameterType="int" resultType="string">
+		select code as rank
+		from comm
+		where code=(select rnk_num from emp where emp_num=#{emp_num})
+	</select>
+	<select id="searchListE" parameterType="com.oracle.s20210704.model.YjEmp" resultType="com.oracle.s20210704.model.YjEmp">
+		select e.emp_num as emp_num, e.emp_name as emp_name, d.content as dept, 
+        t.content as team,r.content as rank, e.emp_email as emp_email, 
+        e.emp_phnum as emp_phnum, e.emp_cm_addr||''||e.emp_dt_addr as address,
+        to_char(e.emp_hiredate, 'YY/MM/DD') as emp_hiredate, e.ref
+		from emp e, comm d, comm t, comm r
+		where e.dep_num = d.code and e.team_num = t.code and e.rnk_num = r.code
+		and emp_name=#{keyword}
+	</select>
+	<select id="searchListD" parameterType="com.oracle.s20210704.model.YjEmp" resultType="com.oracle.s20210704.model.YjEmp">
+		select * from 
+		(select e.emp_num as emp_num, e.emp_name as emp_name, d.content as dept, 
+        t.content as team,r.content as rank, e.emp_email as emp_email, 
+        e.emp_phnum as emp_phnum, e.emp_cm_addr||''||e.emp_dt_addr as address,
+        to_char(e.emp_hiredate, 'YY/MM/DD') as emp_hiredate, e.ref
+		from emp e, comm d, comm t, comm r
+		where e.dep_num = d.code and e.team_num = t.code and e.rnk_num = r.code)
+		where dept=#{keyword}
+	</select>	
 </mapper>
