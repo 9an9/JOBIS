@@ -297,7 +297,7 @@ function getRcvList(){
 	}else if(apv_type == '월간보고'){
 		if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1; fnlChk.value = 1; }
 	}else if(apv_type == '최종보고'){
-		return;
+		fnlChk.value = 1;
 	}
 	
 	var str  = "";
@@ -329,7 +329,7 @@ function chk(){
 		alert("결재분류를 선택해주세요");
 		return false;
 	}
-	if(frm.apv_mid_emp.value == '-결재자-'){
+	if(frm.apv_mid_emp.value == '-결재자-' || frm.apv_fnl.value == '-결재자-'){
 		alert("결재자를 선택해주세요");
 		return false;
 	}

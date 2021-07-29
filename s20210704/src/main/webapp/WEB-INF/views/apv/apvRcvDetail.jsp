@@ -17,81 +17,6 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 </style>
 
 
-<script type="text/javascript">
-	function getRcvList(){
-		/* $("#apv_type option[value='-결재-']").remove(); */
-		var emp_rnk  = '${svo.rcontent }';
-		var emp_num  = '${emp_num }';
-		var apv_type = '${rcvDetail.apv_type }';
-		var url = "";
-		var fnlChk2 = 0;
-		if(apv_type == '일일보고'){
-			if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
-			else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; fnlChk2 = 1;}
-		}else if(apv_type == '주간보고'){
-			if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; }
-			else if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1; }
-		}else if(apv_type == '근태보고'){
-			if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
-			else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; fnlChk2 = 1;  }
-		}else if(apv_type == '비용신청'){
-			if(emp_rnk == '부장'){ url = "../rcvList5"; }
-		}else if(apv_type == '사업보고'){
-			if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; }
-			else if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; }
-			else if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1;  }
-		}else if(apv_type == '인사보고'){
-			if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
-			else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; }
-			else if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; fnlChk2 = 1;  }
-		}else if(apv_type == '행사보고'){
-			if(emp_rnk == '부장'){ url = "../rcvList6"; }
-		}else if(apv_type == '월간보고'){
-			if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1;  }
-		}else if(apv_type == '최종보고'){
-			return;
-		}
-		
-		var str  = "";
-		var str2 = "";
-		$.ajax({
-			url:url,
-			dataType:'json',
-			success:function(data){
-				$('#Rcv_List *').remove();
-				if(fnlChk2 == 1){
-					str += "<b style='font-size: 20px;'>다음 결재자 : </b><select name = 'apv_fnl' required='required' id='slt' onchange='sltrm()'><option value='-결재자-' selected='selected'>-결재자-</option>";
-				}else{			
-					str += "<b style='font-size: 20px;'>다음 결재자 : </b><select name = 'apv_mid_emp' required='required' id='slt' onchange='sltrm()'><option value='-결재자-' selected='selected'>-결재자-</option>";
-				}
-				$(data).each(
-						function(){
-							str2 = "<option value = '"+this.emp_num + "'>"+this.emp_name + "</option>";
-							str += str2;
-						}		
-					);
-					str += "</select><p>";
-					$('#Rcv_List').append(str);
-			}
-		});
-	}
-	
-	function chk(){
-		if(frm.apv_mid_emp.value == '-결재자-'){
-			alert("결재자를 선택해주세요");
-			return false;
-		}
-		return true;
-	}
-	
-	
-	getRcvList();
-	
-	function sltrm(){
-		$("#slt option[value='-결재자-']").remove();
-	}
-</script>
-
 
 
 <body class="w3-theme-l5">
@@ -221,7 +146,10 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <div class="w3-container w3-padding">          
               <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>받은 결재</b></h1><hr>
               <div style="border: 1px solid black; width: 90%; margin: 50px auto;">
-          	  	 <form action="#" method="post" style="margin-left: 30px; margin-top: 30px;">
+          	  	 <form action="apvok" method="post" style="margin-left: 30px; margin-top: 30px;" onsubmit="return chk()">
+        	  	 	<input type="hidden" name="apv_ok" id="apv_ok">
+        	  	 	<input type="hidden" name="apv_sq" value="${rcvDetail.apv_sq }">
+        	  	 	<input type="hidden" name="apv_mid_emp" value="${emp_num }">
         	  	 	<div style="font-size: 20px;">
         	  	 		<span><b>사원번호</b> : ${rcvDetail.apv_snd }&nbsp; <b>이름</b> : ${rcvDetail.srt_name }&nbsp; <b>부서</b> : ${rcvDetail.srt_dep }&nbsp; <b>직급</b> : ${rcvDetail.srt_rnk }&nbsp;</span>
         	  	 	</div>
@@ -243,8 +171,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 	<div><b style="font-size: 20px;">내용 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :  </b> ${rcvDetail.apv_content }</div>
         	  	 	<p>
         	  	 	<div><b style="font-size: 20px;">반려사유 : </b><input type="text" name="apv_no" placeholder="반려를 하신다면 이류를 작성해주세요"  style="width: 75%;"></div>
-        	  	 	<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="결재승인"></div>
-        	  	 	브런치테스트
+        	  	 	<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="승인"></div>
           	  	 </form>
           	  </div>
            
@@ -307,6 +234,89 @@ function openNav() {
     x.className = x.className.replace(" w3-show", "");
   }
 }
+
+
+
+///////////
+
+
+
+function getRcvList(){
+	var apv_ok   = document.getElementById('apv_ok');
+	var emp_rnk  = '${svo.rcontent }';
+	var emp_num  = '${emp_num }';
+	var apv_type = '${rcvDetail.apv_type }';
+	var url = "";
+	if(apv_type == '일일보고'){
+		if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; apv_ok.value = 2;}
+		else if(emp_rnk == '팀장'){ apv_ok.value = 3; }
+	}else if(apv_type == '주간보고'){
+		if(emp_rnk == '부장'){ url = "../rcvList4"; apv_ok.value = 2; }
+		else if(emp_rnk == '전무'){ apv_ok.value = 3; }
+		else if(emp_rnk == '상무'){ apv_ok.value = 3; }
+	}else if(apv_type == '근태보고'){
+		if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; apv_ok.value = 2; }
+		else if(emp_rnk == '팀장'){ apv_ok.value = 3; }
+	}else if(apv_type == '비용신청'){
+		if(emp_rnk == '사원'){ url = "../rcvList6"; apv_ok.value = 1; }
+		else if(emp_rnk == '대리'){ url = "../rcvList7"; apv_ok.value = 2; }
+		else if(emp_rnk == '팀장'){ apv_ok.value = 3;}
+	}else if(apv_type == '사업보고'){
+		if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; apv_ok.value = 1; }
+		else if(emp_rnk == '부장'){ url = "../rcvList4"; apv_ok.value = 2; }
+		else if(emp_rnk == '전무'){ apv_ok.value = 3; }
+		else if(emp_rnk == '상무'){ apv_ok.value = 3; }
+	}else if(apv_type == '인사보고'){
+		if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; apv_ok.value = 1; }
+		else if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; apv_ok.value = 2; }
+		else if(emp_rnk == '부장'){ apv_ok.value = 3; }
+	}else if(apv_type == '행사보고'){
+		if(emp_rnk == '대리'){ url = "../rcvList7"; apv_ok.value = 1; }
+		else if(emp_rnk == '팀장'){ url = "../rcvList8";apv_ok.value = 2; }
+		else if(emp_rnk == '부장'){ apv_ok.value = 3; }
+	}else if(apv_type == '월간보고'){
+		apv_ok.value = 3;
+	}else if(apv_type == '최종보고'){
+		apv_ok.value = 3;
+	}
+	
+	var str  = "";
+	var str2 = "";
+	$.ajax({
+		url:url,
+		dataType:'json',
+		success:function(data){
+			$('#Rcv_List *').remove();
+			str += "<b style='font-size: 20px;'>다음 결재자 : </b><select name = 'apv_fnl' required='required' id='slt' onchange='sltrm()'><option value='-결재자-' selected='selected'>-결재자-</option>";
+			$(data).each(
+					function(){
+						str2 = "<option value = '"+this.emp_num + "'>"+this.emp_name + "</option>";
+						str += str2;
+					}		
+				);
+				str += "</select><p>";
+				$('#Rcv_List').append(str);
+		}
+	});
+}
+
+function chk(){
+	if(frm.apv_fnl.value == '-결재자-'){
+		alert("결재자를 선택해주세요");
+		return false;
+	}
+	return true;
+}
+
+
+getRcvList();
+
+function sltrm(){
+	$("#slt option[value='-결재자-']").remove();
+}
+
+
+
 
 
 </script>

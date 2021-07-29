@@ -289,5 +289,18 @@ public class YsController {
 		return "apv/apvRcvDetail";
 	}
 	
+	@PostMapping(value = "apv/apvok")
+	public String apvok(YsApv ysApv) {
+		int apv_sq = ysApv.getApv_sq();
+		int apv_ok = ysApv.getApv_ok();
+		int apv_fnl = ysApv.getApv_fnl();
+		int apv_mid_emp = ysApv.getApv_mid_emp();
+		System.out.println("apv_sq : "+apv_sq);
+		System.out.println("apv_ok : "+apv_ok);
+		System.out.println("apv_fnl : "+apv_fnl);
+		System.out.println("apv_mid_emp : "+apv_mid_emp);
+		return "redirect:apvSnd";
+	}
+	
 	
 }
