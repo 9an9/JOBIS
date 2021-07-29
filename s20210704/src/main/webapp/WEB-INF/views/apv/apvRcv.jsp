@@ -13,23 +13,6 @@
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
-.cmtTB{
-	text-align: center;
-	width: 80%;
-	margin: 0 auto;
-	
-    margin-top: 5px;
-    border: 1px solid #7d97a5;
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-.btn2{
-   color: #fff;
-   background-color: #AAABD3;
-   
-   border-color: #AAABD3;
-   border-radius: 6px;
- }
 </style>
 <body class="w3-theme-l5">
 
@@ -41,9 +24,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-file-text fa-fw w3-margin-right"></i>전자결재</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
-      <a href="../apv/apvWrite" class="w3-bar-item w3-button">결재 서류 작성</a>
-      <a href="../apv/apvSnd" class="w3-bar-item w3-button">받은 결재</a>
-      <a href="../apv/apvRcv" class="w3-bar-item w3-button">보낸 결재</a>
+      <a href="apvWrite" class="w3-bar-item w3-button">결재 서류 작성</a>
+      <a href="apvSnd" class="w3-bar-item w3-button">받은 결재</a>
+      <a href="apvRcv" class="w3-bar-item w3-button">보낸 결재</a>
     </div>
   </div>
   <a href="../calendar/calendar" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i>일정</a>
@@ -58,10 +41,10 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   </div>
   <c:if test="${svo.dcontent == '인사부' || svo.dcontent == '임원'  }">
 	   <div class="w3-dropdown-hover w3-hide-small">
-	  <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-cog fa-fw w3-margin-right" aria-hidden="true"></i>관리</button>      
+	    <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-cog fa-fw w3-margin-right" aria-hidden="true"></i>관리</button>      
 	    <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
 	      <a href="../emp/empList" class="w3-bar-item w3-button">사원 정보 관리</a>
-	      <a href="cmt" class="w3-bar-item w3-button">사원 근태 관리</a>
+	      <a href="../cmt/cmt" class="w3-bar-item w3-button">사원 근태 관리</a>
 	    </div>
 	  </div>
   </c:if>
@@ -77,9 +60,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   <a href="#" class="w3-bar-item w3-button w3-padding-large">안보임</a> <!-- 이 줄은 안보이는 줄입니다 -->
   <button onclick="myFunction1('Demo1')" class="w3-bar-item w3-button w3-padding-large">전자결재</button>
   	<div id="Demo1" class="w3-hide w3-bar-block">
-    	<a href="../apv/apvWrite" class="w3-button w3-block w3-theme-l5 w3-left-align">결재 서류 작성</a>
-        <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l5 w3-left-align">받은 결재</a>
-        <a href="../apv/apvRcv" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸결재</a>
+    	<a href="apvWrite" class="w3-button w3-block w3-theme-l5 w3-left-align">결재 서류 작성</a>
+        <a href="apvSnd" class="w3-button w3-block w3-theme-l5 w3-left-align">받은 결재</a>
+        <a href="apvRcv" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸결재</a>
     </div>
   <a href="../calendar/calendar" class="w3-bar-item w3-button w3-padding-large">일정</a>
   <a href="../rr/rr" class="w3-bar-item w3-button w3-padding-large">자료실</a>
@@ -93,7 +76,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	   <button onclick="myFunction1('Demo4')" class="w3-bar-item w3-button w3-padding-large">관리</button>
 	  	<div id="Demo4" class="w3-hide w3-bar-block">
 	    	<a href="../emp/empList" class="w3-button w3-block w3-theme-l5 w3-left-align">사원 정보 관리</a>
-	        <a href="cmt" class="w3-button w3-block w3-theme-l5 w3-left-align">사원 근태 관리</a>
+	        <a href="../cmt/cmt" class="w3-button w3-block w3-theme-l5 w3-left-align">사원 근태 관리</a>
 	    </div>
     </c:if>
 </div>
@@ -112,7 +95,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
          <hr>
          <p><i class="fa fa-id-badge fa-fw w3-margin-right w3-text-theme"></i> ${svo.emp_name }</p>
          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${svo.dcontent } / ${svo.rcontent }</p>
-         <a href="mycmt" style="display: block; text-decoration: none;"><i class="fa fa-clock-o fa-fw w3-margin-right w3-text-theme"></i> 나의 근태정보</a><p>
+         <a href="../cmt/mycmt" style="display: block; text-decoration: none;"><i class="fa fa-clock-o fa-fw w3-margin-right w3-text-theme"></i> 나의 근태정보</a><p>
          <a href="../emp/myInfoUpdate" style="display: block; text-decoration: none;"><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> 개인정보수정</a>
         </div>
       </div>
@@ -127,7 +110,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <a href="../note/sentNote" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 쪽지함</a>
             <a href="../note/receiveNote" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 쪽지함</a>
           </div>
-          <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">3</span> 결재</a>
+          <a href="apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">3</span> 결재</a>
           <a href="../board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
         </div>      
       </div>
@@ -150,42 +133,51 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     </div>
     
     <!-- Middle Column -->
-     <div class="w3-col m7" >
+   <div class="w3-col m7" >
     
       <div class="w3-row-padding">
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
-            <div class="w3-container w3-padding">
-               <h1><i class="fa fa-clock-o fa-fw w3-margin-right" style="font-size: 42px"></i><b>사원 근태 관리</b></h1><hr>
-	       
-			  <h3 style="text-align: center;color: #7d97a5;">${absent} 결근 목록</h3>	       
-	       
-	          <table class="cmtTB" style="margin-bottom: 6px;">
-					<tr style="background-color:#384f76; color: white; "><th>사원번호</th><th>이름</th><th>부서</th><th>소속</th><th>직급</th><th>출근시간</th><th>퇴근시간</th><th>날짜</th><th>상태</th>
-						<c:if test="${svo.dcontent == '인사부' && svo.rcontent != '사원'  }">
-							<th>상태수정</th>
+            <div class="w3-container w3-padding">          
+              <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>보낸 결재함</b></h1><hr>
+              <table border="1">
+              	<tr><th>결제구분</th><th>제목</th><th>제출자</th><th>제출일</th><th>진행상황</th></tr>
+              	<c:forEach var="sndList" items="${sndList }">
+              		<tr>
+              			<td>${sndList.apv_type }</td>
+              			<td>${sndList.apv_title }</td>
+              			<td>${sndList.srt_name }</td>
+              			<td>${sndList.apv_date }</td>
+              			<td>
+              				<c:if test="${sndList.apv_ok == 0 }">진행중</c:if>
+              				<c:if test="${sndList.apv_ok == 1 }">승인(중간)</c:if>
+              				<c:if test="${sndList.apv_ok == 2 }">승인(중간)</c:if>
+              				<c:if test="${sndList.apv_ok == 3 }">승인(최종)</c:if>
+              				<c:if test="${sndList.apv_ok == 4 }">반려</c:if>
+              			</td>
+              		</tr>
+              	</c:forEach>
+              </table>
+              
+              <div class="w3-center">
+					<div class="w3-bar w3-border" style=" margin: 10px 0px;border: 1px solid #7d97a5;">
+						<c:if test="${yp.startPage > yp.pageBlock }">
+							<a href="apvRcv?currentPage=${yp.startPage-yp.pageBlock}" class="w3-bar-item w3-button">&laquo;</a>
 						</c:if>
-					</tr>
-						<c:forEach var="cmtList" items="${absentList}">
-							<tr>
-								<td>${cmtList.emp_num }</td>
-								<td>${cmtList.emp_name}</td> 
-								<td>${cmtList.dcontent}</td>
-								<td>${cmtList.tcontent}</td>
-								<td>${cmtList.rcontent}</td>
-								<td>-</td>
-								<td>-</td>
-								<td>${absent}</td>
-								<td style="color: red;">결근</td>
-								<c:if test="${svo.dcontent == '인사부' && svo.rcontent != '사원'  }">
-									<td><button class="btn2"><a href="absentMD?num=${cmtList.emp_num }&dt=${absent}" style="text-decoration: none;">정상</a></button></td>
-								</c:if>
-								
-							</tr> 
-						</c:forEach>	
-				</table>
-			
-				<a href="cmt" style="text-decoration: none; margin-left: 75%; color:#000000; ">목록으로 돌아가기</a>
+						<c:forEach var="i" begin="${yp.startPage }" end="${yp.endPage }">
+							<c:if test="${yp.currentPage == i }">
+								<a href="apvRcv?currentPage=${i}" class="w3-bar-item w3-button" style="background-color: #384f76; color: white;">${i}</a>
+							</c:if>
+							<c:if test="${yp.currentPage != i }">
+								<a href="apvRcv?currentPage=${i}" class="w3-bar-item w3-button">${i}</a>
+							</c:if>
+						</c:forEach>
+						<c:if test="${yp.endPage < yp.totalPage }">
+							<a href="apvRcv?currentPage=${yp.startPage+yp.pageBlock}" class="w3-bar-item w3-button">&raquo;</a>
+						</c:if>
+					</div>
+				</div>
+           
 
             </div>
           </div>
@@ -245,15 +237,6 @@ function openNav() {
     x.className = x.className.replace(" w3-show", "");
   }
 }
-
-
-/////////////////////////////////////////////////
-
-
-var absent = document.getElementById('absent');
-
-
-absent.max = new Date().toISOString().split("T")[0];
 </script>
 
 </body>

@@ -89,4 +89,22 @@ public class YsEmpCmtServiceImpl implements YsEmpCmtService {
 		
 	}
 
+	@Override
+	public int mycmtTotal(int emp_num) {
+		int mycmtTotal = ydcd.mycmtTotal(emp_num);
+		return mycmtTotal;
+	}
+
+	@Override
+	public List<YsEmpCmt> mycmtList(YsEmpCmt ysEmpCmt) {
+		List<YsEmpCmt> mycmtList = ydcd.mycmtList(ysEmpCmt);
+		return mycmtList;
+	}
+
+	@Override
+	public void cmtChange(YsEmpCmt ysEmpCmt) {
+		ydcd.cmtChange(ysEmpCmt);
+		
+	}
+
 }

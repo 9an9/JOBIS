@@ -9,28 +9,91 @@
 <link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
-.cmtTB{
-	text-align: center;
-	width: 80%;
-	margin: 0 auto;
-	
-    margin-top: 5px;
-    border: 1px solid #7d97a5;
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-.btn2{
-   color: #fff;
-   background-color: #AAABD3;
-   
-   border-color: #AAABD3;
-   border-radius: 6px;
- }
 </style>
+
+
+<script type="text/javascript">
+	function getRcvList(){
+		/* $("#apv_type option[value='-결재-']").remove(); */
+		var emp_rnk  = '${svo.rcontent }';
+		var emp_num  = '${emp_num }';
+		var apv_type = '${rcvDetail.apv_type }';
+		var url = "";
+		var fnlChk2 = 0;
+		if(apv_type == '일일보고'){
+			if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
+			else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; fnlChk2 = 1;}
+		}else if(apv_type == '주간보고'){
+			if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; }
+			else if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1; }
+		}else if(apv_type == '근태보고'){
+			if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
+			else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; fnlChk2 = 1;  }
+		}else if(apv_type == '비용신청'){
+			if(emp_rnk == '부장'){ url = "../rcvList5"; }
+		}else if(apv_type == '사업보고'){
+			if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; }
+			else if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; }
+			else if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1;  }
+		}else if(apv_type == '인사보고'){
+			if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
+			else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; }
+			else if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; fnlChk2 = 1;  }
+		}else if(apv_type == '행사보고'){
+			if(emp_rnk == '부장'){ url = "../rcvList6"; }
+		}else if(apv_type == '월간보고'){
+			if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1;  }
+		}else if(apv_type == '최종보고'){
+			return;
+		}
+		
+		var str  = "";
+		var str2 = "";
+		$.ajax({
+			url:url,
+			dataType:'json',
+			success:function(data){
+				$('#Rcv_List *').remove();
+				if(fnlChk2 == 1){
+					str += "<b style='font-size: 20px;'>다음 결재자 : </b><select name = 'apv_fnl' required='required' id='slt' onchange='sltrm()'><option value='-결재자-' selected='selected'>-결재자-</option>";
+				}else{			
+					str += "<b style='font-size: 20px;'>다음 결재자 : </b><select name = 'apv_mid_emp' required='required' id='slt' onchange='sltrm()'><option value='-결재자-' selected='selected'>-결재자-</option>";
+				}
+				$(data).each(
+						function(){
+							str2 = "<option value = '"+this.emp_num + "'>"+this.emp_name + "</option>";
+							str += str2;
+						}		
+					);
+					str += "</select><p>";
+					$('#Rcv_List').append(str);
+			}
+		});
+	}
+	
+	function chk(){
+		if(frm.apv_mid_emp.value == '-결재자-'){
+			alert("결재자를 선택해주세요");
+			return false;
+		}
+		return true;
+	}
+	
+	
+	getRcvList();
+	
+	function sltrm(){
+		$("#slt option[value='-결재자-']").remove();
+	}
+</script>
+
+
+
 <body class="w3-theme-l5">
 
 <!-- Navbar -->
@@ -41,9 +104,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-file-text fa-fw w3-margin-right"></i>전자결재</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
-      <a href="../apv/apvWrite" class="w3-bar-item w3-button">결재 서류 작성</a>
-      <a href="../apv/apvSnd" class="w3-bar-item w3-button">받은 결재</a>
-      <a href="../apv/apvRcv" class="w3-bar-item w3-button">보낸 결재</a>
+      <a href="apvWrite" class="w3-bar-item w3-button">결재 서류 작성</a>
+      <a href="apvSnd" class="w3-bar-item w3-button">받은 결재</a>
+      <a href="apvRcv" class="w3-bar-item w3-button">보낸 결재</a>
     </div>
   </div>
   <a href="../calendar/calendar" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i>일정</a>
@@ -58,10 +121,10 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   </div>
   <c:if test="${svo.dcontent == '인사부' || svo.dcontent == '임원'  }">
 	   <div class="w3-dropdown-hover w3-hide-small">
-	  <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-cog fa-fw w3-margin-right" aria-hidden="true"></i>관리</button>      
+	    <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-cog fa-fw w3-margin-right" aria-hidden="true"></i>관리</button>      
 	    <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
 	      <a href="../emp/empList" class="w3-bar-item w3-button">사원 정보 관리</a>
-	      <a href="cmt" class="w3-bar-item w3-button">사원 근태 관리</a>
+	      <a href="../cmt/cmt" class="w3-bar-item w3-button">사원 근태 관리</a>
 	    </div>
 	  </div>
   </c:if>
@@ -77,9 +140,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   <a href="#" class="w3-bar-item w3-button w3-padding-large">안보임</a> <!-- 이 줄은 안보이는 줄입니다 -->
   <button onclick="myFunction1('Demo1')" class="w3-bar-item w3-button w3-padding-large">전자결재</button>
   	<div id="Demo1" class="w3-hide w3-bar-block">
-    	<a href="../apv/apvWrite" class="w3-button w3-block w3-theme-l5 w3-left-align">결재 서류 작성</a>
-        <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l5 w3-left-align">받은 결재</a>
-        <a href="../apv/apvRcv" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸결재</a>
+    	<a href="apvWrite" class="w3-button w3-block w3-theme-l5 w3-left-align">결재 서류 작성</a>
+        <a href="apvSnd" class="w3-button w3-block w3-theme-l5 w3-left-align">받은 결재</a>
+        <a href="apvRcv" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸결재</a>
     </div>
   <a href="../calendar/calendar" class="w3-bar-item w3-button w3-padding-large">일정</a>
   <a href="../rr/rr" class="w3-bar-item w3-button w3-padding-large">자료실</a>
@@ -93,7 +156,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	   <button onclick="myFunction1('Demo4')" class="w3-bar-item w3-button w3-padding-large">관리</button>
 	  	<div id="Demo4" class="w3-hide w3-bar-block">
 	    	<a href="../emp/empList" class="w3-button w3-block w3-theme-l5 w3-left-align">사원 정보 관리</a>
-	        <a href="cmt" class="w3-button w3-block w3-theme-l5 w3-left-align">사원 근태 관리</a>
+	        <a href="../cmt/cmt" class="w3-button w3-block w3-theme-l5 w3-left-align">사원 근태 관리</a>
 	    </div>
     </c:if>
 </div>
@@ -112,7 +175,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
          <hr>
          <p><i class="fa fa-id-badge fa-fw w3-margin-right w3-text-theme"></i> ${svo.emp_name }</p>
          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${svo.dcontent } / ${svo.rcontent }</p>
-         <a href="mycmt" style="display: block; text-decoration: none;"><i class="fa fa-clock-o fa-fw w3-margin-right w3-text-theme"></i> 나의 근태정보</a><p>
+         <a href="../cmt/mycmt" style="display: block; text-decoration: none;"><i class="fa fa-clock-o fa-fw w3-margin-right w3-text-theme"></i> 나의 근태정보</a><p>
          <a href="../emp/myInfoUpdate" style="display: block; text-decoration: none;"><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> 개인정보수정</a>
         </div>
       </div>
@@ -127,7 +190,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <a href="../note/sentNote" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 쪽지함</a>
             <a href="../note/receiveNote" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 쪽지함</a>
           </div>
-          <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">3</span> 결재</a>
+          <a href="apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">3</span> 결재</a>
           <a href="../board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
         </div>      
       </div>
@@ -150,42 +213,40 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     </div>
     
     <!-- Middle Column -->
-     <div class="w3-col m7" >
+   <div class="w3-col m7" >
     
       <div class="w3-row-padding">
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
-            <div class="w3-container w3-padding">
-               <h1><i class="fa fa-clock-o fa-fw w3-margin-right" style="font-size: 42px"></i><b>사원 근태 관리</b></h1><hr>
-	       
-			  <h3 style="text-align: center;color: #7d97a5;">${absent} 결근 목록</h3>	       
-	       
-	          <table class="cmtTB" style="margin-bottom: 6px;">
-					<tr style="background-color:#384f76; color: white; "><th>사원번호</th><th>이름</th><th>부서</th><th>소속</th><th>직급</th><th>출근시간</th><th>퇴근시간</th><th>날짜</th><th>상태</th>
-						<c:if test="${svo.dcontent == '인사부' && svo.rcontent != '사원'  }">
-							<th>상태수정</th>
-						</c:if>
-					</tr>
-						<c:forEach var="cmtList" items="${absentList}">
-							<tr>
-								<td>${cmtList.emp_num }</td>
-								<td>${cmtList.emp_name}</td> 
-								<td>${cmtList.dcontent}</td>
-								<td>${cmtList.tcontent}</td>
-								<td>${cmtList.rcontent}</td>
-								<td>-</td>
-								<td>-</td>
-								<td>${absent}</td>
-								<td style="color: red;">결근</td>
-								<c:if test="${svo.dcontent == '인사부' && svo.rcontent != '사원'  }">
-									<td><button class="btn2"><a href="absentMD?num=${cmtList.emp_num }&dt=${absent}" style="text-decoration: none;">정상</a></button></td>
-								</c:if>
-								
-							</tr> 
-						</c:forEach>	
-				</table>
-			
-				<a href="cmt" style="text-decoration: none; margin-left: 75%; color:#000000; ">목록으로 돌아가기</a>
+            <div class="w3-container w3-padding">          
+              <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>받은 결재</b></h1><hr>
+              <div style="border: 1px solid black; width: 90%; margin: 50px auto;">
+          	  	 <form action="#" method="post" style="margin-left: 30px; margin-top: 30px;">
+        	  	 	<div style="font-size: 20px;">
+        	  	 		<span><b>사원번호</b> : ${rcvDetail.apv_snd }&nbsp; <b>이름</b> : ${rcvDetail.srt_name }&nbsp; <b>부서</b> : ${rcvDetail.srt_dep }&nbsp; <b>직급</b> : ${rcvDetail.srt_rnk }&nbsp;</span>
+        	  	 	</div>
+        	  	 	<div>
+        	  	 		<span>
+        	  	 			<b style="font-size: 20px;">결재분류 : </b>
+        	  	 			${rcvDetail.apv_type }
+        	  	 		</span>
+       	  	 			<c:if test="${not empty rcvDetail.apv_fnl }">
+        	  	 			<c:if test="${rcvDetail.apv_fnl == emp_num }">
+        	  	 				<span style="margin-left: 132px; "><b style="font-size: 20px;">최종 결재자 : </b>${rcvDetail.rcv_name }</span>
+        	  	 			</c:if>
+        	  	 		</c:if>
+        	  	 		<span id="Rcv_List" style="margin-left: 132px;">
+        	  	 		</span>
+        	  	 	</div>
+        	  	 	<div><b style="font-size: 20px;">제목 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b>${rcvDetail.apv_title }</div>
+        	  	 	<div><b style="font-size: 20px;">첨부파일 : </b> 첨부파일예시</div>
+        	  	 	<div><b style="font-size: 20px;">내용 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :  </b> ${rcvDetail.apv_content }</div>
+        	  	 	<p>
+        	  	 	<div><b style="font-size: 20px;">반려사유 : </b><input type="text" name="apv_no" placeholder="반려를 하신다면 이류를 작성해주세요"  style="width: 75%;"></div>
+        	  	 	<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="결재승인"></div>
+          	  	 </form>
+          	  </div>
+           
 
             </div>
           </div>
@@ -247,13 +308,6 @@ function openNav() {
 }
 
 
-/////////////////////////////////////////////////
-
-
-var absent = document.getElementById('absent');
-
-
-absent.max = new Date().toISOString().split("T")[0];
 </script>
 
 </body>
