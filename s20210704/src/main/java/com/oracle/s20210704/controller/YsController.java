@@ -291,14 +291,15 @@ public class YsController {
 	
 	@PostMapping(value = "apv/apvok")
 	public String apvok(YsApv ysApv) {
-		int apv_sq = ysApv.getApv_sq();
-		int apv_ok = ysApv.getApv_ok();
-		int apv_fnl = ysApv.getApv_fnl();
-		int apv_mid_emp = ysApv.getApv_mid_emp();
-		System.out.println("apv_sq : "+apv_sq);
-		System.out.println("apv_ok : "+apv_ok);
-		System.out.println("apv_fnl : "+apv_fnl);
-		System.out.println("apv_mid_emp : "+apv_mid_emp);
+	
+		if(ysApv.getApv_ok() == 1) {        //다음 결재가 중간결재인경우
+			yas.midOk(ysApv);
+		}else if(ysApv.getApv_ok() == 2) {  //다음 결재가 최종결재인경우
+			yas.midToFnlOk(ysApv);
+		}else if(ysApv.getApv_ok() == 3) {  //다음 결재가 없고 지금이 최종결재인경우
+			yas.fnlOk(ysApv);
+		}
+
 		return "redirect:apvSnd";
 	}
 	

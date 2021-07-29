@@ -19,4 +19,7 @@ public interface YsApvService {
 	void           midRcvInsert(YsApv ysApv);
 	void           fnlRcvInsert(YsApv ysApv);
 	YsApv          rcvDetail(YsApv ysApv);
+	void           midOk(YsApv ysApv);
+	void           midToFnlOk(YsApv ysApv);
+	void           fnlOk(YsApv ysApv);
 }

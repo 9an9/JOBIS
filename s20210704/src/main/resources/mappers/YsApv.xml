@@ -122,4 +122,29 @@
 		and e1.dep_num = c1.code and e1.rnk_num = c2.code
 		and a.apv_sq = #{apv_sq} and a.apv_fnl = #{rcv_num}
 	</select>
+
+	<update id="ysMidOk" parameterType="com.oracle.s20210704.model.YsApv">
+	   {call
+	        declare
+	        begin
+	        	update apv set  apv_ok = #{apv_ok}  where apv_sq = #{apv_sq};
+				update apv_mid set apv_mid_ok = 1 where apv_mid = #{apv_sq} and apv_mid_emp = #{apv_mid_emp};
+				insert into apv_mid values ((select nvl(max(apv_mid_num),0)+1 from apv_mid),#{apv_sq},#{apv_fnl},0);
+	            
+	        end
+	    }
+	</update>
+	<update id="ysMTFok" parameterType="com.oracle.s20210704.model.YsApv">
+	   {call
+	        declare
+	        begin
+	            update apv set apv_fnl = #{apv_fnl} , apv_ok = #{apv_ok}   where apv_sq = #{apv_sq};
+				update apv_mid set apv_mid_ok = 1 where apv_mid = #{apv_sq} and apv_mid_emp = #{apv_mid_emp};
+	            
+	        end
+	    }
+	</update>
+	<update id="ysFnlOk" parameterType="com.oracle.s20210704.model.YsApv">
+		update apv set apv_ok = 3   where apv_sq = #{apv_sq}
+	</update>
 </mapper>

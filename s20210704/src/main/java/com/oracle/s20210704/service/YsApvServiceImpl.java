@@ -91,5 +91,23 @@ public class YsApvServiceImpl implements YsApvService {
 		return rcvDetail;
 	}
 
+	@Override
+	public void midOk(YsApv ysApv) {
+		yad.midOk(ysApv);
+		
+	}
+
+	@Override
+	public void midToFnlOk(YsApv ysApv) {
+		yad.midToFnlOk(ysApv);
+		
+	}
+
+	@Override
+	public void fnlOk(YsApv ysApv) {
+		yad.fnlOk(ysApv);
+		
+	}
+
 
 }

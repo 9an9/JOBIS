@@ -99,5 +99,23 @@ public class YsApvDaoImpl implements YsApvDao {
 		return rcvDetail;
 	}
 
+	@Override
+	public void midOk(YsApv ysApv) {
+		session.update("ysMidOk", ysApv);
+		
+	}
+
+	@Override
+	public void midToFnlOk(YsApv ysApv) {
+		session.update("ysMTFok", ysApv);
+		
+	}
+
+	@Override
+	public void fnlOk(YsApv ysApv) {
+		session.update("ysFnlOk", ysApv);
+		
+	}
+
 
 }
