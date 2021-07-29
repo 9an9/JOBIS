@@ -244,6 +244,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 	<p>
         	  	 	<div><b style="font-size: 20px;">반려사유 : </b><input type="text" name="apv_no" placeholder="반려를 하신다면 이류를 작성해주세요"  style="width: 75%;"></div>
         	  	 	<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="결재승인"></div>
+        	  	 	브런치테스트
           	  	 </form>
           	  </div>
            
