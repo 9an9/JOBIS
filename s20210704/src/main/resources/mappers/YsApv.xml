@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.oracle.s20210704.dao.YsApvDao">
+	<select id="ysRcvTotal" parameterType="int" resultType="int">
+		select count(*)
+		from apv a,apv_mid m,emp e
+		where a.apv_mid = m.apv_mid
+		and a.apv_snd = e.emp_num 
+		and (m.apv_mid_emp = #{rcv_num} or a.apv_fnl = #{rcv_num})
+	</select>
+	<select id="ysApvRcvList" parameterType="com.oracle.s20210704.model.YsApv" resultType="com.oracle.s20210704.model.YsApv">
+		select * 
+		     from (select rownum rn,  b.*
+		           from (select a1.*,e1.emp_name as srt_name
+		                 from apv a1,apv_mid m,emp e1
+		                 where a1.apv_mid = m.apv_mid
+		                 and a1.apv_snd = e1.emp_num and m.apv_mid_emp = #{apv_mid_emp}
+		                 union
+		                 select a2.*,e2.emp_name as srt_name
+		                 from apv a2,emp e2
+		                 where a2.apv_snd = e2.emp_num and a2.apv_fnl = #{apv_mid_emp}
+		                 ) b 
+		          )
+		where rn between #{start} and #{end}
+		order by apv_ok,apv_date desc
+	</select>
+	<select id="ysSndTotal" parameterType="int" resultType="int">
+		select count(*)
+		from apv a,apv_mid m,emp e
+		where a.apv_mid = m.apv_mid
+		and a.apv_snd = e.emp_num
+		and a.apv_snd = #{snd_num}
+	</select>
+	<select id="ysApvSndList" parameterType="com.oracle.s20210704.model.YsApv" resultType="com.oracle.s20210704.model.YsApv">
+		select * 
+		     from (select rownum rn, b.* 
+		          from (select a.*,e.emp_name as srt_name
+		                from apv a,emp e
+		                where a.apv_snd = e.emp_num
+		                and a.apv_snd = #{apv_snd}
+		                order by a.apv_date desc,a.apv_ok
+		               ) b
+		           )
+		where rn between #{start} and #{end}
+	</select>
+	<select id="ysRcvList1" parameterType="int" resultType="YsEmpCmt">
+		select emp_num,emp_name
+		from emp 
+		where 
+		team_num = (select team_num from emp where emp_num = #{emp_num})
+		and rnk_num = (select code from comm where content = '대리')
+		and ref = 0
+	</select>
+	<select id="ysRcvList2" parameterType="int" resultType="YsEmpCmt">
+		select emp_num,emp_name
+		from emp 
+		where 
+		team_num = (select team_num from emp where emp_num = #{emp_num})
+		and rnk_num = (select code from comm where content = '팀장')
+	</select>
+	<select id="ysRcvList3" parameterType="int" resultType="YsEmpCmt">
+		select emp_num,emp_name
+		from emp 
+		where 
+		dep_num = (select dep_num from emp where emp_num = #{emp_num})
+		and rnk_num = (select code from comm where content = '부장')
+	</select>
+	<select id="ysRcvList4" resultType="YsEmpCmt">
+		select emp_num,emp_name
+		from emp 
+		where 
+		dep_num = (select code from comm where content = '임원')
+		and rnk_num != 210 
+		and ref = 0
+	</select>
+	<select id="ysRcvList567" parameterType="java.lang.String" resultType="YsEmpCmt">
+		select emp_num,emp_name
+		from emp 
+		where 
+		dep_num = (select code from comm where content = '총무부')
+		and rnk_num = (select code from comm where content = #{rnk})
+		and ref = 0
+	</select>
+	<select id="ysRcvList8" resultType="YsEmpCmt">
+		select emp_num,emp_name
+		from emp 
+		where 
+		dep_num = (select code from comm where content = '총무부')
+		and rnk_num = (select code from comm where content = '부장')
+	</select>
+	
+	<insert id="ysMidRcvInsert" parameterType="com.oracle.s20210704.model.YsApv">
+	   {call
+	        declare
+	        begin
+	            insert into apv values ((select nvl(max(apv_sq),0)+1 from apv),#{apv_type},#{apv_snd},(select nvl(max(apv_sq),0)+1 from apv),'',#{apv_title},#{apv_content},'','',sysdate,'',0);
+	            insert into apv_mid values ((select nvl(max(apv_mid_num),0)+1 from apv_mid),(select nvl(max(apv_sq),0) from apv),#{apv_mid_emp},0);
+	        end
+	    }
+	</insert>
+	<insert id="ysFnlRcvInsert" parameterType="com.oracle.s20210704.model.YsApv">
+		insert into apv values ((select nvl(max(apv_sq),0)+1 from apv),#{apv_type},#{apv_snd},'',#{apv_fnl},#{apv_title},#{apv_content},'','',sysdate,'',0)
+	</insert>
+	<select id="ysRcvChk" parameterType="com.oracle.s20210704.model.YsApv" resultType="java.lang.String">
+		select * from apv_mid where apv_mid = #{apv_sq} and apv_mid_emp = #{rcv_num}
+	</select>
+	<select id="ysMidRcv" parameterType="com.oracle.s20210704.model.YsApv" resultType="com.oracle.s20210704.model.YsApv">
+		select a.*,m.*,e1.emp_name as srt_name ,e2.emp_name as rcv_name ,c1.content as srt_dep, c2.content as srt_rnk  
+		from apv a , apv_mid m , emp e1, emp e2,comm c1, comm c2 
+		where a.apv_mid = m.apv_mid
+		and a.apv_snd = e1.emp_num and m.apv_mid_emp = e2.emp_num
+		and e1.dep_num = c1.code and e1.rnk_num = c2.code
+		and m.apv_mid = #{apv_sq} and apv_mid_emp = #{rcv_num}
+	</select>
+	<select id="ysFnlRcv" parameterType="com.oracle.s20210704.model.YsApv" resultType="com.oracle.s20210704.model.YsApv">
+		select a.*,e1.emp_name as srt_name ,e2.emp_name as rcv_name ,c1.content as srt_dep, c2.content as srt_rnk 
+		from apv a,emp e1,emp e2 ,comm c1, comm c2 
+		where  a.apv_snd = e1.emp_num and a.apv_fnl = e2.emp_num
+		and e1.dep_num = c1.code and e1.rnk_num = c2.code
+		and a.apv_sq = #{apv_sq} and a.apv_fnl = #{rcv_num}
+	</select>
+</mapper>

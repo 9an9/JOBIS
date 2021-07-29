@@ -9,7 +9,8 @@
 <link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
@@ -138,20 +139,66 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <div class="w3-row-padding">
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
-            <div class="w3-container w3-padding">
-              <h1><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i><b>오늘의 일정</b></h1><hr>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기 다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-
+            <div class="w3-container w3-padding">          
+              <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>결재 작성</b></h1><hr>
+          	  <div style="border: 1px solid black; width: 90%; margin: 50px auto;">
+          	  	 <form action="apvWrite" method="post" style="margin-left: 30px; margin-top: 30px;" name="frm" onsubmit="return chk()">
+        	  	 	<input type="hidden" name="apv_snd" value="${emp_num }">
+        	  	 	<input type="hidden" name="fnlChk" id="fnlChk" value="0">
+        	  	 	<div style="font-size: 20px;">
+        	  	 		<span><b>사원번호</b> : ${emp_num }&nbsp; <b>이름</b> : ${svo.emp_name }&nbsp; <b>부서</b> : ${svo.dcontent }&nbsp; <b>직급</b> : ${svo.rcontent }&nbsp;</span>
+        	  	 	</div>
+        	  	 	<div>
+        	  	 		<span>
+        	  	 			<b style="font-size: 20px;">결재분류 : </b>
+        	  	 			<select name="apv_type" id="apv_type" onchange="getRcvList()" required="required">
+        	  	 				<option value="-결재-" selected="selected">-결재-</option>
+        	  	 				<c:if test="${svo.dcontent == '임원'}"><option value="최종보고">최종보고</option></c:if>
+        	  	 				<c:if test="${svo.dcontent != '임원'}">
+        	  	 					<c:if test="${svo.rcontent == '사원'}">
+        	  	 						<option value="일일보고">일일보고</option>
+        	  	 						<option value="근태보고">근태보고</option>
+        	  	 						<c:if test="${svo.dcontent == '인사부'}"><option value="인사보고">인사보고</option></c:if>
+        	  	 					</c:if>
+        	  	 					<c:if test="${svo.rcontent == '대리'}">
+        	  	 						<option value="일일보고">일일보고</option>
+        	  	 						<option value="근태보고">근태보고</option>
+        	  	 						<option value="사업보고">사업보고</option>
+        	  	 						<c:if test="${svo.dcontent == '인사부'}"><option value="인사보고">인사보고</option></c:if>
+        	  	 					</c:if>
+        	  	 					<c:if test="${svo.rcontent == '팀장'}">
+        	  	 						<option value="주간보고">주간보고</option>
+        	  	 						<option value="사업보고">사업보고</option>
+        	  	 						<c:if test="${svo.dcontent == '인사부'}"><option value="인사보고">인사보고</option></c:if>
+        	  	 					</c:if>
+        	  	 					<c:if test="${svo.rcontent == '부장'}">
+        	  	 						<option value="주간보고">주간보고</option>
+        	  	 						<option value="비용신청">비용신청</option>
+        	  	 						<option value="사업보고">사업보고</option>
+        	  	 						<option value="행사보고">행사보고</option>
+        	  	 						<option value="월간보고">월간보고</option>
+        	  	 					</c:if>
+        	  	 				</c:if>
+        	  	 			</select>
+        	  	 		</span>
+        	  	 		<span id="Rcv_List" style="margin-left: 132px;">
+        	  	 			<c:if test="${svo.dcontent == '임원'}">
+        	  	 				<script type="text/javascript">
+        	  	 					var fnlChk   = document.getElementById('fnlChk');
+        	  	 					fnlChk.value = 1;
+        	  	 				</script>
+        	  	 				<b style="font-size: 20px;">결재자 : </b> <span style="margin: 0px; font-size: 20px;">서팔광</span>
+        	  	 				<input type="hidden" name="apv_fnl" value="1701001">
+        	  	 			</c:if>
+        	  	 		</span>
+        	  	 	</div>
+        	  	 	<div><b style="font-size: 20px;">제목 : </b><input type="text" name="apv_title" placeholder="결재 제목을 작성해주세요" required="required" style="width: 80%;"></div>
+        	  	 	<div><b style="font-size: 20px;">첨부파일 : </b> 첨부파일예시</div>
+        	  	 	<b style="font-size: 20px;">내용 </b><p style="margin: 0px;">
+        	  	 	<div><textarea placeholder="결재 내용을 작성해주세요" name="apv_content" maxlength="4000"  style="height:150px; width: 80%; margin-left: 55px;" required="required"></textarea></div>
+        	  	 	<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="결재신청"></div>
+          	  	 </form>
+          	  </div>
             </div>
           </div>
         </div>
@@ -210,6 +257,90 @@ function openNav() {
     x.className = x.className.replace(" w3-show", "");
   }
 }
+
+
+
+
+/////////////////////////////////////////////////////////
+
+
+
+function getRcvList(){
+	$("#apv_type option[value='-결재-']").remove();
+	var emp_rnk  = '${svo.rcontent }';
+	var emp_num  = '${emp_num }';
+	var apv_type = document.getElementById('apv_type').value;
+	var fnlChk   = document.getElementById('fnlChk');
+	var url = "";
+	var fnlChk2 = 0;
+	if(apv_type == '일일보고'){
+		if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
+		else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; fnlChk2 = 1; fnlChk.value = 1; }
+	}else if(apv_type == '주간보고'){
+		if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; }
+		else if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1; fnlChk.value = 1; }
+	}else if(apv_type == '근태보고'){
+		if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
+		else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; fnlChk2 = 1; fnlChk.value = 1; }
+	}else if(apv_type == '비용신청'){
+		if(emp_rnk == '부장'){ url = "../rcvList5"; }
+	}else if(apv_type == '사업보고'){
+		if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; }
+		else if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; }
+		else if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1; fnlChk.value = 1; }
+	}else if(apv_type == '인사보고'){
+		if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
+		else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; }
+		else if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; fnlChk2 = 1; fnlChk.value = 1; }
+	}else if(apv_type == '행사보고'){
+		if(emp_rnk == '부장'){ url = "../rcvList6"; }
+	}else if(apv_type == '월간보고'){
+		if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1; fnlChk.value = 1; }
+	}else if(apv_type == '최종보고'){
+		return;
+	}
+	
+	var str  = "";
+	var str2 = "";
+	$.ajax({
+		url:url,
+		dataType:'json',
+		success:function(data){
+			$('#Rcv_List *').remove();
+			if(fnlChk2 == 1){
+				str += "<b style='font-size: 20px;'>결재자 : </b><select name = 'apv_fnl' required='required' id='slt' onchange='sltrm()'><option value='-결재자-' selected='selected'>-결재자-</option>";
+			}else{			
+				str += "<b style='font-size: 20px;'>결재자 : </b><select name = 'apv_mid_emp' required='required' id='slt' onchange='sltrm()'><option value='-결재자-' selected='selected'>-결재자-</option>";
+			}
+			$(data).each(
+					function(){
+						str2 = "<option value = '"+this.emp_num + "'>"+this.emp_name + "</option>";
+						str += str2;
+					}		
+				);
+				str += "</select><p>";
+				$('#Rcv_List').append(str);
+		}
+	});
+}
+
+function chk(){
+	if(frm.apv_type.value == '-결재-'){
+		alert("결재분류를 선택해주세요");
+		return false;
+	}
+	if(frm.apv_mid_emp.value == '-결재자-'){
+		alert("결재자를 선택해주세요");
+		return false;
+	}
+	return true;
+}
+
+
+function sltrm(){
+	$("#slt option[value='-결재자-']").remove();
+}
+
 </script>
 
 </body>
