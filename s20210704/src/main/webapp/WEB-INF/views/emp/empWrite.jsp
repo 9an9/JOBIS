@@ -140,20 +140,21 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
               <h1><i class="fa fa-pencil-square-o fa-fw w3-margin-right"></i><b>사원 등록</b></h1><hr>
-              <input type="text" id="name" name="name" required="required">
-              <select name="dept" onchange="get_team(this.value, team)">
+                                이름 : <input type="text" id="name" name="name" required="required">
+                                부서 : <select name="dept" onchange="get_team(this.value, team)">
 
               </select>
-              <select name="team">
+                                팀 : <select name="team">
 
               </select>
-              <select name="rank">
+                                직급 : <select name="rank">
               
               </select>
-              <input type="text" id="email" name="email" required="required">
-              <input type="text" id="phnum" name="phnum" required="required">
-              <input type="text" id="add_cm" name="add_cm" required="required">
-              <input type="text" id="add_dt" name="add_dt" required="required">
+                                이메일 : <input type="text" id="email" name="email" required="required">
+                                전화번호 : <input type="text" id="phnum" name="phnum" required="required">
+                                우편번호 : <input type="text" id="add_zc" name="add_zc" readonly="readonly" onclick="findAddr()">                 
+                                주소 : <input type="text" id="add_cm" name="add_cm" readonly="readonly" >
+                                상세주소 : <input type="text" id="add_dt" name="add_dt" required="required">
 
             </div>
           </div>
@@ -212,6 +213,29 @@ function openNav() {
   } else { 
     x.className = x.className.replace(" w3-show", "");
   }
+}
+//우편번호찾기
+function findAddr(){
+	new daum.Postcode({
+        oncomplete: function(data) {
+        	
+        	console.log(data);
+        	
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+            // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+            var roadAddr = data.roadAddress; // 도로명 주소 변수
+            var jibunAddr = data.jibunAddress; // 지번 주소 변수
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById('add_zc').value = data.zonecode;
+            if(roadAddr !== ''){
+                document.getElementById("add_cm").value = roadAddr;
+            } 
+            else if(jibunAddr !== ''){
+                document.getElementById("add_cm").value = jibunAddr;
+            }
+        }
+    }).open();
 }
 function get_team(dept, team) {
     $.ajax({
