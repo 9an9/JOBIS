@@ -109,5 +109,11 @@ public class YsApvServiceImpl implements YsApvService {
 		
 	}
 
+	@Override
+	public void apv_no(YsApv ysApv) {
+		yad.apv_no(ysApv);
+		
+	}
+
 
 }

@@ -302,6 +302,12 @@ public class YsController {
 
 		return "redirect:apvSnd";
 	}
-	
+	@GetMapping(value = "apv/apvno")
+	public String apvnp(int sq,String nono, YsApv ysApv) {
+		ysApv.setApv_sq(sq);
+		ysApv.setApv_no(nono);
+		yas.apv_no(ysApv);
+		return "redirect:apvSnd";
+	}
 	
 }

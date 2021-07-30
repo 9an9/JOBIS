@@ -147,4 +147,7 @@
 	<update id="ysFnlOk" parameterType="com.oracle.s20210704.model.YsApv">
 		update apv set apv_ok = 3   where apv_sq = #{apv_sq}
 	</update>
+	<update id="ysApvNo" parameterType="com.oracle.s20210704.model.YsApv">
+		update apv set apv_no = #{apv_no} , apv_ok = 4  where apv_sq = #{apv_sq}
+	</update>
 </mapper>

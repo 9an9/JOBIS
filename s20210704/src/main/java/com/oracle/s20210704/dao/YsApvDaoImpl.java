@@ -117,5 +117,10 @@ public class YsApvDaoImpl implements YsApvDao {
 		
 	}
 
+	@Override
+	public void apv_no(YsApv ysApv) {
+		session.update("ysApvNo", ysApv);
+	}
+
 
 }

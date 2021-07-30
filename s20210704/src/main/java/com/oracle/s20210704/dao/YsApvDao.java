@@ -22,4 +22,5 @@ public interface YsApvDao {
 	void           midOk(YsApv ysApv);
 	void           midToFnlOk(YsApv ysApv);
 	void           fnlOk(YsApv ysApv);
+	void		   apv_no(YsApv ysApv);
 }

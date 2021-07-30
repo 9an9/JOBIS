@@ -146,7 +146,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <div class="w3-container w3-padding">          
               <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>받은 결재</b></h1><hr>
               <div style="border: 1px solid black; width: 90%; margin: 50px auto;">
-          	  	 <form action="apvok" method="post" style="margin-left: 30px; margin-top: 30px;" onsubmit="return chk()">
+          	  	 <form action="apvok" method="post" style="margin-left: 30px; margin-top: 30px;" name="frm" onsubmit="return chk()">
         	  	 	<input type="hidden" name="apv_ok" id="apv_ok">
         	  	 	<input type="hidden" name="apv_sq" value="${rcvDetail.apv_sq }">
         	  	 	<input type="hidden" name="apv_mid_emp" value="${emp_num }">
@@ -170,7 +170,6 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 	<div><b style="font-size: 20px;">첨부파일 : </b> 첨부파일예시</div>
         	  	 	<div><b style="font-size: 20px;">내용 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :  </b> ${rcvDetail.apv_content }</div>
         	  	 	<p>
-        	  	 	<div><b style="font-size: 20px;">반려사유 : </b><input type="text" name="apv_no" placeholder="반려를 하신다면 이류를 작성해주세요"  style="width: 75%;"></div>
         	  	<%--  	<c:if test="${not empty rcvDetail.apv_fnl }">
         	  	 		<c:if test="${rcvDetail.apv_fnl == emp_num && rcvDetail.apv_ok < 3}">
         	  	 			<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="승인"><input type="button" value="반려"></div>
@@ -178,7 +177,11 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
        	  	 		</c:if> --%>
        	  	 		<c:if test="${not empty rcvDetail.apv_mid_ok }">
         	  	 		<c:if test="${rcvDetail.apv_mid_ok == 0 && rcvDetail.apv_ok < 3}">
-        	  	 			<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="승인"><input type="button" value="반려"></div>
+        	  	 			<div><b style="font-size: 20px;">반려사유 : </b><input type="text" name="apv_no" placeholder="반려를 하신다면 이류를 작성해주세요"  style="width: 75%;"></div>
+        	  	 			<div style="margin-left: 77%; margin-bottom: 20px;">
+        	  	 				<input type="submit" value="승인">
+        	  	 				<button type="button" onclick="apvno()">반려</button>
+        	  	 			</div>
         	  	 		</c:if>
        	  	 		</c:if>
         	  	 	
@@ -326,7 +329,15 @@ function sltrm(){
 }
 
 
-
+function apvno(){
+	var nono= frm.apv_no.value;
+	if(!frm.apv_no.value){
+		alert("반려사유를 작성해주세요");
+		return;
+	}else{
+		location.href='apvno?sq=${rcvDetail.apv_sq }&nono='+nono;
+	}
+}
 
 
 </script>
