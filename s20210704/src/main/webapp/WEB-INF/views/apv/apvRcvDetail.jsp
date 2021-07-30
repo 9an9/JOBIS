@@ -171,11 +171,33 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 	<div><b style="font-size: 20px;">첨부파일 : </b> 첨부파일예시</div>
         	  	 	<div><b style="font-size: 20px;">내용 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :  </b> ${rcvDetail.apv_content }</div>
         	  	 	<p>
-        	  	<%--  	<c:if test="${not empty rcvDetail.apv_fnl }">
-        	  	 		<c:if test="${rcvDetail.apv_fnl == emp_num && rcvDetail.apv_ok < 3}">
-        	  	 			<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="승인"><input type="button" value="반려"></div>
-        	  	 		</c:if>
-       	  	 		</c:if> --%>
+					
+					<div>
+						<b style="font-size: 20px;">진행과정 : </b>
+						<c:set value="0" var="i"/>
+						<c:set value="0" var="ing_no"/>
+						<c:forEach var="apv_ing" items="${apv_ing }">
+							<c:if test="${apv_ing.apv_ok == 4}"><c:set value="${ing_no + 1 }" var="ing_no"/></c:if>
+							<c:if test="${i == 0 }">
+								<span>${apv_ing.rcv_name }</span>						
+							</c:if>
+							<c:if test="${i > 0 }">
+								<c:choose>
+									<c:when test="${(apv_ing.apv_ok == 0 || apv_ing.apv_ok == 4) && ing_no > 0}">
+										<span> &nbsp; ->  &nbsp; ${apv_ing.rcv_name } (반려)</span>						
+									</c:when>
+									<c:when test="${apv_ing.apv_ok == 1 || apv_ing.apv_ok == 3 }">
+										<span> &nbsp; ->  &nbsp; ${apv_ing.rcv_name } (승인)</span>						
+									</c:when>
+									<c:otherwise>
+										<span> &nbsp; ->  &nbsp; ${apv_ing.rcv_name } (진행중)</span>
+									</c:otherwise>
+								</c:choose>
+							</c:if>
+							<c:set value="${i + 1 }" var="i"/>	
+						</c:forEach>
+					</div>
+					
        	  	 		<c:if test="${not empty rcvDetail.apv_mid_ok }">
         	  	 		<c:if test="${rcvDetail.apv_mid_ok == 0 && rcvDetail.apv_ok < 3}">
         	  	 			<c:set var="okChk" value="${okChk + 1 }"/>

@@ -115,5 +115,11 @@ public class YsApvServiceImpl implements YsApvService {
 		
 	}
 
+	@Override
+	public List<YsApv> apv_ing(int apv_sq) {
+		List<YsApv> apv_ing = yad.apv_ing(apv_sq);
+		return apv_ing;
+	}
+
 
 }

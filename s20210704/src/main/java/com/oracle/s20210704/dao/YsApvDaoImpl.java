@@ -122,5 +122,11 @@ public class YsApvDaoImpl implements YsApvDao {
 		session.update("ysApvNo", ysApv);
 	}
 
+	@Override
+	public List<YsApv> apv_ing(int apv_sq) {
+		List<YsApv> apv_ing = session.selectList("ysApvIng", apv_sq);
+		return apv_ing;
+	}
+
 
 }

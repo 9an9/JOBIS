@@ -23,4 +23,5 @@ public interface YsApvService {
 	void           midToFnlOk(YsApv ysApv);
 	void           fnlOk(YsApv ysApv);
 	void		   apv_no(YsApv ysApv);
+	List<YsApv>    apv_ing(int apv_sq);
 }

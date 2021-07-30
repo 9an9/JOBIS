@@ -164,4 +164,24 @@
 	<update id="ysApvNo" parameterType="com.oracle.s20210704.model.YsApv">
 		update apv set apv_no = #{apv_no} , apv_ok = 4  where apv_sq = #{apv_sq}
 	</update>
+	<select id="ysApvIng" parameterType="int" resultType="com.oracle.s20210704.model.YsApv">
+		select b.*
+		from (select e.emp_name as rcv_name, a.apv_ok,(select 0 from dual) as apv_mid_num
+		      from apv a ,emp e
+		      where a.apv_snd = e.emp_num
+		      and apv_sq = #{apv_sq}
+		      union
+		      select e.emp_name as rcv_name, m.apv_mid_ok as apv_ok,m.apv_mid_num
+		      from apv a,apv_mid m,emp e
+		      where a.apv_mid = m.apv_mid
+		      and e.emp_num = m.apv_mid_emp
+		      and m.apv_mid = #{apv_sq}
+		      union
+		      select e.emp_name as rcv_name, a.apv_ok,(select max(apv_mid_num)+1 from apv_mid where apv_mid = #{apv_sq}) as apv_mid_num
+		      from apv a ,emp e
+		      where a.apv_fnl = e.emp_num
+		      and apv_sq = #{apv_sq}
+		    ) b
+		order by b.apv_mid_num
+	</select>
 </mapper>

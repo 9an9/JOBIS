@@ -290,6 +290,9 @@ public class YsController {
 		YsApv rcvDetail = yas.rcvDetail(ysApv);
 		model.addAttribute("rcvDetail", rcvDetail);
 		
+		List<YsApv> apv_ing = yas.apv_ing(sq);
+		model.addAttribute("apv_ing", apv_ing);
+		
 		return "apv/apvRcvDetail";
 	}
 	
