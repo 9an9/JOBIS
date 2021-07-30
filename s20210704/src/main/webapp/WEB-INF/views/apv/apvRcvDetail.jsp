@@ -147,6 +147,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
               <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>받은 결재</b></h1><hr>
               <div style="border: 1px solid black; width: 90%; margin: 50px auto;">
           	  	 <form action="apvok" method="post" style="margin-left: 30px; margin-top: 30px;" name="frm" onsubmit="return chk()">
+        	  	 	<c:set var="okChk" value="0"/>
         	  	 	<input type="hidden" name="apv_ok" id="apv_ok">
         	  	 	<input type="hidden" name="apv_sq" value="${rcvDetail.apv_sq }">
         	  	 	<input type="hidden" name="apv_mid_emp" value="${emp_num }">
@@ -177,6 +178,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
        	  	 		</c:if> --%>
        	  	 		<c:if test="${not empty rcvDetail.apv_mid_ok }">
         	  	 		<c:if test="${rcvDetail.apv_mid_ok == 0 && rcvDetail.apv_ok < 3}">
+        	  	 			<c:set var="okChk" value="${okChk + 1 }"/>
         	  	 			<div><b style="font-size: 20px;">반려사유 : </b><input type="text" name="apv_no" placeholder="반려를 하신다면 이류를 작성해주세요"  style="width: 75%;"></div>
         	  	 			<div style="margin-left: 77%; margin-bottom: 20px;">
         	  	 				<input type="submit" value="승인">
@@ -313,6 +315,9 @@ function getRcvList(){
 	});
 }
 
+var okChk = '${okChk}';
+if(okChk > 0){ getRcvList(); }
+
 function chk(){
 	if(frm.apv_fnl.value == '-결재자-'){
 		alert("결재자를 선택해주세요");
@@ -322,7 +327,6 @@ function chk(){
 }
 
 
-getRcvList();
 
 function sltrm(){
 	$("#slt option[value='-결재자-']").remove();
@@ -338,6 +342,7 @@ function apvno(){
 		location.href='apvno?sq=${rcvDetail.apv_sq }&nono='+nono;
 	}
 }
+
 
 
 </script>
