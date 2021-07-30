@@ -144,14 +144,21 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
               	<tr><th>결제구분</th><th>제목</th><th>제출자</th><th>제출일</th><th>진행상황</th></tr>
               	<c:forEach var="rcvList" items="${rcvList }">
               		<tr>
+	              		<c:set var="midChk" value="0"/>
+              			<c:if test="${rcvList.apv_type == '비용신청' && svo.rcontent == '대리'}"><c:set var="midChk" value="${midChk + 1 }"/></c:if>
+              			<c:if test="${rcvList.apv_type == '사업보고' && svo.rcontent == '부장'}"><c:set var="midChk" value="${midChk + 1 }"/></c:if>
+              			<c:if test="${rcvList.apv_type == '인사보고' && svo.rcontent == '팀장'}"><c:set var="midChk" value="${midChk + 1 }"/></c:if>
+              			<c:if test="${rcvList.apv_type == '행사보고' && svo.rcontent == '팀장'}"><c:set var="midChk" value="${midChk + 1 }"/></c:if>
               			<td>${rcvList.apv_type }</td>
               			<td><a href="apvRcvDetail?sq=${rcvList.apv_sq }" style="text-decoration: none; color: black;">${rcvList.apv_title }</a></td>
               			<td>${rcvList.srt_name }</td>
               			<td>${rcvList.apv_date }</td>
               			<td>
-              				<c:if test="${rcvList.apv_ok == 0 }">진행중</c:if>
-              				<c:if test="${rcvList.apv_ok == 1 }">승인(중간)</c:if>
-              				<c:if test="${rcvList.apv_ok == 2 }">승인(중간)</c:if>
+              				<c:if test="${rcvList.apv_ok == 0 }"><span style="margin: 0px; color: red;">진행중</span></c:if>
+              				<c:if test="${rcvList.apv_ok == 1 && midChk == 0}">승인(중간)</c:if>
+              				<c:if test="${rcvList.apv_ok == 1 && midChk > 0}"><span style="margin: 0px; color: red;">승인(중간)</span></c:if>
+              				<c:if test="${rcvList.apv_ok == 2 && rcvList.apv_fnl != emp_num}">승인(중간)</c:if>
+              				<c:if test="${rcvList.apv_ok == 2 && rcvList.apv_fnl == emp_num}"><span style="margin: 0px; color: red;">승인(중간)</span></c:if>
               				<c:if test="${rcvList.apv_ok == 3 }">승인(최종)</c:if>
               				<c:if test="${rcvList.apv_ok == 4 }">반려</c:if>
               			</td>

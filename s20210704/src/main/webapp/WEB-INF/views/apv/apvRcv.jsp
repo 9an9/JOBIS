@@ -153,7 +153,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
               				<c:if test="${sndList.apv_ok == 1 }">승인(중간)</c:if>
               				<c:if test="${sndList.apv_ok == 2 }">승인(중간)</c:if>
               				<c:if test="${sndList.apv_ok == 3 }">승인(최종)</c:if>
-              				<c:if test="${sndList.apv_ok == 4 }">반려</c:if>
+              				<c:if test="${sndList.apv_ok == 4 }"><span style="margin: 0px; color: red;">반려</span></c:if>
               			</td>
               		</tr>
               	</c:forEach>

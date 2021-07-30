@@ -212,6 +212,7 @@ public class YsController {
 		vo.setEmp_num(emp_num);								//모든 코딩에 추가
 		SyMemberVO svo = jrs.show(vo);
 		model.addAttribute("svo",svo);
+		model.addAttribute("emp_num", emp_num);
 		
 		int rcv_num = emp_num;
 		int rcvTotal = yas.rcvTotal(rcv_num);
@@ -235,6 +236,7 @@ public class YsController {
 		vo.setEmp_num(emp_num);								//모든 코딩에 추가
 		SyMemberVO svo = jrs.show(vo);
 		model.addAttribute("svo",svo);
+		model.addAttribute("emp_num", emp_num);
 		
 		int snd_num = emp_num;
 		int sndTotal = yas.sndTotal(snd_num);
