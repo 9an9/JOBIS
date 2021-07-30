@@ -25,7 +25,13 @@
 		                 ) b 
 		          )
 		where rn between #{start} and #{end}
-		order by apv_ok,apv_date desc
+		order by 
+		DECODE(apv_ok, 0, 1),
+		DECODE(apv_ok, 1, 2),
+		DECODE(apv_ok, 2, 3),
+		DECODE(apv_ok, 4, 4),
+		DECODE(apv_ok, 3, 5),
+		apv_date desc
 	</select>
 	<select id="ysSndTotal" parameterType="int" resultType="int">
 		select count(*)
@@ -41,7 +47,13 @@
 		                from apv a,emp e
 		                where a.apv_snd = e.emp_num
 		                and a.apv_snd = #{apv_snd}
-		                order by a.apv_date desc,a.apv_ok
+		                order by 
+                        DECODE(a.apv_ok, 4, 1),
+		                DECODE(a.apv_ok, 1, 2),
+		                DECODE(a.apv_ok, 2, 3),
+		                DECODE(a.apv_ok, 0, 4),
+		                DECODE(a.apv_ok, 3, 5),
+		                a.apv_date desc
 		               ) b
 		           )
 		where rn between #{start} and #{end}
