@@ -13,25 +13,27 @@
 	</select>
 	<select id="ysApvRcvList" parameterType="com.oracle.s20210704.model.YsApv" resultType="com.oracle.s20210704.model.YsApv">
 		select * 
-		     from (select rownum rn,  b.*
-		           from (select a1.*,e1.emp_name as srt_name
-		                 from apv a1,apv_mid m,emp e1
-		                 where a1.apv_mid = m.apv_mid
-		                 and a1.apv_snd = e1.emp_num and m.apv_mid_emp = #{apv_mid_emp}
-		                 union
-		                 select a2.*,e2.emp_name as srt_name
-		                 from apv a2,emp e2
-		                 where a2.apv_snd = e2.emp_num and a2.apv_fnl = #{apv_mid_emp}
-		                 ) b 
+		     from (select rownum rn,  q.*
+		     	   from (select b.*
+			             from (select a1.*,e1.emp_name as srt_name
+			                   from apv a1,apv_mid m,emp e1
+			                   where a1.apv_mid = m.apv_mid
+			                   and a1.apv_snd = e1.emp_num and m.apv_mid_emp = #{apv_mid_emp}
+			                   union
+			                   select a2.*,e2.emp_name as srt_name
+			                   from apv a2,emp e2
+			                   where a2.apv_snd = e2.emp_num and a2.apv_fnl = #{apv_mid_emp}
+			                  ) b 
+			             order by 
+                         DECODE(b.apv_ok, 0, 1),
+                         DECODE(b.apv_ok, 1, 2),
+                         DECODE(b.apv_ok, 2, 3),
+                         DECODE(b.apv_ok, 4, 4),
+                         DECODE(b.apv_ok, 3, 5),
+                         b.apv_date desc
+                        ) q
 		          )
 		where rn between #{start} and #{end}
-		order by 
-		DECODE(apv_ok, 0, 1),
-		DECODE(apv_ok, 1, 2),
-		DECODE(apv_ok, 2, 3),
-		DECODE(apv_ok, 4, 4),
-		DECODE(apv_ok, 3, 5),
-		apv_date desc
 	</select>
 	<select id="ysSndTotal" parameterType="int" resultType="int">
 		select count(*)
