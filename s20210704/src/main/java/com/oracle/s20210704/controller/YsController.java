@@ -226,6 +226,9 @@ public class YsController {
 		model.addAttribute("rcvList", rcvList);
 		model.addAttribute("yp", yp);
 		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		
 		return "apv/apvSnd";
 	}
 	

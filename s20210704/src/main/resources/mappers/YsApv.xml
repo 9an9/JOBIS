@@ -184,4 +184,18 @@
 		    ) b
 		order by b.apv_mid_num
 	</select>
+	<select id="ysUnreadTotal" parameterType="int" resultType="int">
+		select count(*)
+		from (select a1.*,e1.emp_name as srt_name1
+		     from apv a1,apv_mid m,emp e1
+		     where a1.apv_mid = m.apv_mid
+		     and a1.apv_snd = e1.emp_num and m.apv_mid_emp = #{emp_num}
+		     and m.apv_mid_ok = 0 and apv_ok != 4
+		     union
+		     select a2.*,e2.emp_name as srt_name2
+		     from apv a2,emp e2
+		     where a2.apv_snd = e2.emp_num and a2.apv_fnl = #{emp_num}
+		     and ( a2.apv_ok = 2 or a2.apv_ok = 0 )
+		     ) 
+	</select>
 </mapper>

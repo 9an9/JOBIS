@@ -24,4 +24,5 @@ public interface YsApvDao {
 	void           fnlOk(YsApv ysApv);
 	void		   apv_no(YsApv ysApv);
 	List<YsApv>    apv_ing(int apv_sq);
+	int            unreadTotal(int emp_num); 
 }

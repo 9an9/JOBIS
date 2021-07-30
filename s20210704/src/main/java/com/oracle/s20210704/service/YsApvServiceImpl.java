@@ -121,5 +121,11 @@ public class YsApvServiceImpl implements YsApvService {
 		return apv_ing;
 	}
 
+	@Override
+	public int unreadTotal(int emp_num) {
+		int unreadTotal = yad.unreadTotal(emp_num);
+		return unreadTotal;
+	}
+
 
 }

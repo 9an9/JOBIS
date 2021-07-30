@@ -128,5 +128,11 @@ public class YsApvDaoImpl implements YsApvDao {
 		return apv_ing;
 	}
 
+	@Override
+	public int unreadTotal(int emp_num) {
+		int unreadTotal = session.selectOne("ysUnreadTotal", emp_num);
+		return unreadTotal;
+	}
+
 
 }
