@@ -267,8 +267,10 @@ public class YsController {
 	@PostMapping(value = "apv/apvWrite")
 	public String apvInsert(YsApv ysApv) {
 		if(ysApv.getFnlChk() == 1) {        // 중간 결재자가 없는 경우 
+			System.out.println("중간x");
 			yas.fnlRcvInsert(ysApv);
 		}else {                             // 중간 결재자가 있는 경우
+			System.out.println("중간 o");
 			yas.midRcvInsert(ysApv);
 		}
 		return "redirect:apvRcv";

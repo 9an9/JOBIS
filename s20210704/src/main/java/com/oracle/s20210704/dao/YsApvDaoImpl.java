@@ -88,8 +88,8 @@ public class YsApvDaoImpl implements YsApvDao {
 	@Override
 	public YsApv rcvDetail(YsApv ysApv) {
 		YsApv rcvDetail = new YsApv();
-		String chk = session.selectOne("ysRcvChk", ysApv);
-		if(chk != null) {      //중간결재
+		int chk = session.selectOne("ysRcvChk", ysApv);
+		if(chk > 0) {      //중간결재
 			System.out.println("중간결재입니다");
 			rcvDetail = session.selectOne("ysMidRcv", ysApv);
 		}else {            //최종결재
