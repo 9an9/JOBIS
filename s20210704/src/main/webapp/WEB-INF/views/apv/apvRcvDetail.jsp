@@ -171,7 +171,17 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 	<div><b style="font-size: 20px;">내용 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :  </b> ${rcvDetail.apv_content }</div>
         	  	 	<p>
         	  	 	<div><b style="font-size: 20px;">반려사유 : </b><input type="text" name="apv_no" placeholder="반려를 하신다면 이류를 작성해주세요"  style="width: 75%;"></div>
-        	  	 	<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="승인"></div>
+        	  	<%--  	<c:if test="${not empty rcvDetail.apv_fnl }">
+        	  	 		<c:if test="${rcvDetail.apv_fnl == emp_num && rcvDetail.apv_ok < 3}">
+        	  	 			<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="승인"><input type="button" value="반려"></div>
+        	  	 		</c:if>
+       	  	 		</c:if> --%>
+       	  	 		<c:if test="${not empty rcvDetail.apv_mid_ok }">
+        	  	 		<c:if test="${rcvDetail.apv_mid_ok == 0 && rcvDetail.apv_ok < 3}">
+        	  	 			<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="승인"><input type="button" value="반려"></div>
+        	  	 		</c:if>
+       	  	 		</c:if>
+        	  	 	
           	  	 </form>
           	  </div>
            
