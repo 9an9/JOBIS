@@ -320,7 +320,7 @@ if(okChk > 0){ getRcvList(); }
 
 function chk(){
 	if(frm.apv_fnl.value == '-결재자-'){
-		alert("결재자를 선택해주세요");
+		alert("다음 결재자를 선택해주세요");
 		return false;
 	}
 	return true;

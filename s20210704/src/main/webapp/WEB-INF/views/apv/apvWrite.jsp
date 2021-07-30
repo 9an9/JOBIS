@@ -308,7 +308,7 @@ function getRcvList(){
 		success:function(data){
 			$('#Rcv_List *').remove();
 			if(fnlChk2 == 1){
-				str += "<b style='font-size: 20px;'>결재자 : </b><select name = 'apv_fnl' required='required' id='slt' onchange='sltrm()'><option value='-결재자-' selected='selected'>-결재자-</option>";
+				str += "<b style='font-size: 20px;'>결재자 : </b><select name = 'apv_fnl' required='required' id='slt2' onchange='sltrm2()'><option value='' selected='selected'>-결재자-</option>";
 			}else{			
 				str += "<b style='font-size: 20px;'>결재자 : </b><select name = 'apv_mid_emp' required='required' id='slt' onchange='sltrm()'><option value='-결재자-' selected='selected'>-결재자-</option>";
 			}
@@ -329,16 +329,24 @@ function chk(){
 		alert("결재분류를 선택해주세요");
 		return false;
 	}
-	if(frm.apv_mid_emp.value == '-결재자-' || frm.apv_fnl.value == '-결재자-'){
+	if(frm.apv_mid_emp.value == '-결재자-'){
 		alert("결재자를 선택해주세요");
 		return false;
 	}
+	if(frm.apv_fnl.value == ''){
+		alert("결재자를 선택해주세요");
+		return false;
+	}
+	
 	return true;
 }
 
 
 function sltrm(){
 	$("#slt option[value='-결재자-']").remove();
+}
+function sltrm2(){
+	$("#slt2 option[value='']").remove();
 }
 
 </script>
