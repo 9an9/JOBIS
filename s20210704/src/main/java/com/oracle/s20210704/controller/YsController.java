@@ -320,4 +320,24 @@ public class YsController {
 		return "redirect:apvSnd";
 	}
 	
+	@GetMapping(value = "apv/apvSndDetail")
+	public String apvSndDetail(Model model ,HttpSession session, SyMemberVO vo,YsApv ysApv,int sq) {
+		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
+		vo.setEmp_num(emp_num);								//모든 코딩에 추가
+		SyMemberVO svo = jrs.show(vo);
+		model.addAttribute("svo",svo);
+		model.addAttribute("emp_num", emp_num);
+		
+		ysApv.setApv_sq(sq);
+		ysApv.setRcv_num(emp_num);
+
+		//YsApv rcvDetail = yas.rcvDetail(ysApv);
+		//model.addAttribute("rcvDetail", rcvDetail);
+		
+		List<YsApv> apv_ing = yas.apv_ing(sq);
+		model.addAttribute("apv_ing", apv_ing);
+		
+		return "apv/apvSndDetail";
+	}
+	
 }

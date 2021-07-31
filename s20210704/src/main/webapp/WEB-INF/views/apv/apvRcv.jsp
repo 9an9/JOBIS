@@ -145,7 +145,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
               	<c:forEach var="sndList" items="${sndList }">
               		<tr>
               			<td>${sndList.apv_type }</td>
-              			<td>${sndList.apv_title }</td>
+              			<td><a href="apvSndDetail?sq=${rcvList.apv_sq }" style="text-decoration: none; color: black;">${sndList.apv_title }</a></td>
               			<td>${sndList.srt_name }</td>
               			<td>${sndList.apv_date }</td>
               			<td>
