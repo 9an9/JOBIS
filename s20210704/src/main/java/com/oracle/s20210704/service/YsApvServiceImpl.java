@@ -127,5 +127,11 @@ public class YsApvServiceImpl implements YsApvService {
 		return unreadTotal;
 	}
 
+	@Override
+	public YsApv sndDetail(int apv_sq) {
+		YsApv sndDetail = yad.sndDetail(apv_sq);
+		return sndDetail;
+	}
+
 
 }

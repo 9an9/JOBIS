@@ -134,5 +134,11 @@ public class YsApvDaoImpl implements YsApvDao {
 		return unreadTotal;
 	}
 
+	@Override
+	public YsApv sndDetail(int apv_sq) {
+		YsApv sndDetail = session.selectOne("ysSndDetail", apv_sq);
+		return sndDetail;
+	}
+
 
 }

@@ -146,30 +146,14 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <div class="w3-container w3-padding">          
               <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>받은 결재</b></h1><hr>
               <div style="border: 1px solid black; width: 90%; margin: 50px auto;">
-          	  	 <form action="apvok" method="post" style="margin-left: 30px; margin-top: 30px;" name="frm" onsubmit="return chk()">
-        	  	 	<c:set var="okChk" value="0"/>
-        	  	 	<input type="hidden" name="apv_ok" id="apv_ok">
-        	  	 	<input type="hidden" name="apv_sq" value="${rcvDetail.apv_sq }">
-        	  	 	<input type="hidden" name="apv_mid_emp" value="${emp_num }">
+          	  	 <div style="margin-left: 30px; margin-top: 30px;">
         	  	 	<div style="font-size: 20px;">
-        	  	 		<span><b>사원번호</b> : ${rcvDetail.apv_snd }&nbsp; <b>이름</b> : ${rcvDetail.srt_name }&nbsp; <b>부서</b> : ${rcvDetail.srt_dep }&nbsp; <b>직급</b> : ${rcvDetail.srt_rnk }&nbsp;</span>
+        	  	 		<span><b>사원번호</b> : ${emp_num }&nbsp; <b>이름</b> : ${svo.emp_name }&nbsp; <b>부서</b> : ${svo.dcontent }&nbsp; <b>직급</b> : ${svo.rcontent }&nbsp;</span>
         	  	 	</div>
-        	  	 	<div>
-        	  	 		<span>
-        	  	 			<b style="font-size: 20px;">결재분류 : </b>
-        	  	 			${rcvDetail.apv_type }
-        	  	 		</span>
-       	  	 			<c:if test="${not empty rcvDetail.apv_fnl }">
-        	  	 			<c:if test="${rcvDetail.apv_fnl == emp_num }">
-        	  	 				<span style="margin-left: 132px; "><b style="font-size: 20px;">최종 결재자 : </b>${rcvDetail.rcv_name }</span>
-        	  	 			</c:if>
-        	  	 		</c:if>
-        	  	 		<span id="Rcv_List" style="margin-left: 132px;">
-        	  	 		</span>
-        	  	 	</div>
-        	  	 	<div><b style="font-size: 20px;">제목 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b>${rcvDetail.apv_title }</div>
+        	  	 	<div><span><b style="font-size: 20px;">결재분류 : </b>${sndDetail.apv_type }</span></div>
+        	  	 	<div><b style="font-size: 20px;">제목 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b>${sndDetail.apv_title }</div>
         	  	 	<div><b style="font-size: 20px;">첨부파일 : </b> 첨부파일예시</div>
-        	  	 	<div><b style="font-size: 20px;">내용 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :  </b> ${rcvDetail.apv_content }</div>
+        	  	 	<div><b style="font-size: 20px;">내용 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :  </b> ${sndDetail.apv_content }</div>
         	  	 	<p>
 					
 					<div>
@@ -199,25 +183,14 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 					</div>
 					
 					<div>
-						<c:if test="${rcvDetail.apv_ok == 4 }">
-							<span><b style="font-size: 20px;">반려사유 : </b>${rcvDetail.apv_no }</span>
+						<c:if test="${sndDetail.apv_ok == 4 }">
+							<span><b style="font-size: 20px;">반려사유 : </b>${sndDetail.apv_no }</span>
 						</c:if>
 					</div>
 					
-       	  	 		<c:if test="${not empty rcvDetail.apv_mid_ok }">
-        	  	 		<c:if test="${rcvDetail.apv_mid_ok == 0 && rcvDetail.apv_ok < 3}">
-        	  	 			<c:set var="okChk" value="${okChk + 1 }"/>
-        	  	 			<div><b style="font-size: 20px;">반려사유 : </b><input type="text" name="apv_no" placeholder="반려를 하신다면 이류를 작성해주세요"  style="width: 75%;"></div>
-        	  	 			<div style="margin-left: 77%; margin-bottom: 20px;">
-        	  	 				<input type="submit" value="승인">
-        	  	 				<button type="button" onclick="apvno()">반려</button>
-        	  	 			</div>
-        	  	 		</c:if>
-       	  	 		</c:if>
-        	  	 	
-          	  	 </form>
-          	  </div>
-           
+					
+          	    </div>
+           	  </div>
 
             </div>
           </div>
@@ -279,97 +252,6 @@ function openNav() {
 }
 
 
-
-///////////
-
-
-
-function getRcvList(){
-	var apv_ok   = document.getElementById('apv_ok');
-	var emp_rnk  = '${svo.rcontent }';
-	var emp_num  = '${emp_num }';
-	var apv_type = '${rcvDetail.apv_type }';
-	var url = "";
-	if(apv_type == '일일보고'){
-		if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; apv_ok.value = 2;}
-		else if(emp_rnk == '팀장'){ apv_ok.value = 3; }
-	}else if(apv_type == '주간보고'){
-		if(emp_rnk == '부장'){ url = "../rcvList4"; apv_ok.value = 2; }
-		else if(emp_rnk == '전무'){ apv_ok.value = 3; }
-		else if(emp_rnk == '상무'){ apv_ok.value = 3; }
-	}else if(apv_type == '근태보고'){
-		if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; apv_ok.value = 2; }
-		else if(emp_rnk == '팀장'){ apv_ok.value = 3; }
-	}else if(apv_type == '비용신청'){
-		if(emp_rnk == '사원'){ url = "../rcvList6"; apv_ok.value = 1; }
-		else if(emp_rnk == '대리'){ url = "../rcvList7"; apv_ok.value = 2; }
-		else if(emp_rnk == '팀장'){ apv_ok.value = 3;}
-	}else if(apv_type == '사업보고'){
-		if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; apv_ok.value = 1; }
-		else if(emp_rnk == '부장'){ url = "../rcvList4"; apv_ok.value = 2; }
-		else if(emp_rnk == '전무'){ apv_ok.value = 3; }
-		else if(emp_rnk == '상무'){ apv_ok.value = 3; }
-	}else if(apv_type == '인사보고'){
-		if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; apv_ok.value = 1; }
-		else if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; apv_ok.value = 2; }
-		else if(emp_rnk == '부장'){ apv_ok.value = 3; }
-	}else if(apv_type == '행사보고'){
-		if(emp_rnk == '대리'){ url = "../rcvList7"; apv_ok.value = 1; }
-		else if(emp_rnk == '팀장'){ url = "../rcvList8";apv_ok.value = 2; }
-		else if(emp_rnk == '부장'){ apv_ok.value = 3; }
-	}else if(apv_type == '월간보고'){
-		apv_ok.value = 3;
-	}else if(apv_type == '최종보고'){
-		apv_ok.value = 3;
-	}
-	
-	var str  = "";
-	var str2 = "";
-	$.ajax({
-		url:url,
-		dataType:'json',
-		success:function(data){
-			$('#Rcv_List *').remove();
-			str += "<b style='font-size: 20px;'>다음 결재자 : </b><select name = 'apv_fnl' required='required' id='slt' onchange='sltrm()'><option value='-결재자-' selected='selected'>-결재자-</option>";
-			$(data).each(
-					function(){
-						str2 = "<option value = '"+this.emp_num + "'>"+this.emp_name + "</option>";
-						str += str2;
-					}		
-				);
-				str += "</select><p>";
-				$('#Rcv_List').append(str);
-		}
-	});
-}
-
-var okChk = '${okChk}';
-if(okChk > 0){ getRcvList(); }
-
-function chk(){
-	if(frm.apv_fnl.value == '-결재자-'){
-		alert("다음 결재자를 선택해주세요");
-		return false;
-	}
-	return true;
-}
-
-
-
-function sltrm(){
-	$("#slt option[value='-결재자-']").remove();
-}
-
-
-function apvno(){
-	var nono= frm.apv_no.value;
-	if(!frm.apv_no.value){
-		alert("반려사유를 작성해주세요");
-		return;
-	}else{
-		location.href='apvno?sq=${rcvDetail.apv_sq }&nono='+nono;
-	}
-}
 
 
 

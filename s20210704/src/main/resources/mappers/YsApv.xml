@@ -198,4 +198,7 @@
 		     and ( a2.apv_ok = 2 or a2.apv_ok = 0 )
 		     ) 
 	</select>
+	<select id="ysSndDetail" parameterType="int" resultType="com.oracle.s20210704.model.YsApv">
+		select * from apv where apv_sq = #{apv_sq}
+	</select>
 </mapper>
