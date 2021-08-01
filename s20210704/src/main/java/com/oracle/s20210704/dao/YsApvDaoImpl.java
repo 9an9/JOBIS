@@ -146,5 +146,11 @@ public class YsApvDaoImpl implements YsApvDao {
 		return apvNoTotal;
 	}
 
+	@Override
+	public YsApv nextEmp(int apv_sq) {
+		YsApv nextEmp = session.selectOne("ysNextEmp", apv_sq);
+		return nextEmp;
+	}
+
 
 }

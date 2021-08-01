@@ -142,7 +142,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <div class="w3-container w3-padding">          
               <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>결재 작성</b></h1><hr>
           	  <div style="border: 1px solid black; width: 90%; margin: 50px auto;">
-          	  	 <form action="#" method="post" style="margin-left: 30px; margin-top: 30px;" name="frm" onsubmit="return chk()">
+          	  	 <form action="#" method="post" style="margin-left: 30px; margin-top: 30px;" name="frm" >
         	  	 	<input type="hidden" name="apv_snd" value="${emp_num }">
         	  	 	<input type="hidden" name="fnlChk" id="fnlChk" value="0">
         	  	 	<input type="hidden" name="apv_sq" value="${sndDetail.apv_sq }">
@@ -264,21 +264,6 @@ function openNav() {
 
 /////////////////////////////////////////////////////////
 
-var obj = {};
-$("select").children("option").each(function(){
- let val = $(this).attr("value");
- if(obj[val]){
-   if($(this).is(":selected")){
-    obj[val].remove();
-    obj[val] = $(this);
-   }else if(obj[val].is(":selected")){
-    $(this).remove()
-   }else{
-    $(this).remove();
-   }
- }
- obj[val] = $(this);
-});
 
 function getRcvList(){
 	var emp_rnk  = '${svo.rcontent }';
@@ -316,20 +301,23 @@ function getRcvList(){
 	
 	var str  = "";
 	var str2 = "";
+	var nextNum = '${nextEmp.rcv_num}';
 	$.ajax({
 		url:url,
 		dataType:'json',
 		success:function(data){
 			$('#Rcv_List *').remove();
 			if(fnlChk2 == 1){
-				str += "<b style='font-size: 20px;'>결재자 : </b><select name = 'apv_fnl' required='required' id='slt2' onchange='sltrm2()'><option value='' selected='selected'>-결재자-</option>";
+				str += "<b style='font-size: 20px;'>결재자 : </b><select name = 'apv_fnl' required='required' id='slt2' ><option value='${nextEmp.rcv_num}' selected='selected'>${nextEmp.rcv_name}</option>";
 			}else{			
-				str += "<b style='font-size: 20px;'>결재자 : </b><select name = 'apv_mid_emp' required='required' id='slt' onchange='sltrm()'><option value='-결재자-' selected='selected'>-결재자-</option>";
+				str += "<b style='font-size: 20px;'>결재자 : </b><select name = 'apv_mid_emp' required='required' id='slt' ><option value='${nextEmp.rcv_num}' selected='selected'>${nextEmp.rcv_name}</option>";
 			}
 			$(data).each(
 					function(){
-						str2 = "<option value = '"+this.emp_num + "'>"+this.emp_name + "</option>";
-						str += str2;
+						if(this.emp_num != nextNum){							
+							str2 = "<option value = '"+this.emp_num + "'>"+this.emp_name + "</option>";
+							str += str2;
+						}
 					}		
 				);
 				str += "</select><p>";
@@ -340,26 +328,25 @@ function getRcvList(){
 
 getRcvList();
 
-function chk(){
-	if(frm.apv_mid_emp.value == '-결재자-'){
-		alert("결재자를 선택해주세요");
-		return false;
-	}
-	if(frm.apv_fnl.value == ''){
-		alert("결재자를 선택해주세요");
-		return false;
-	}
-	
-	return true;
-}
 
 
-function sltrm(){
-	$("#slt option[value='-결재자-']").remove();
-}
-function sltrm2(){
-	$("#slt2 option[value='']").remove();
-}
+var obj = {};
+$("select").children("option").each(function(){
+ let val = $(this).attr("value");
+ if(obj[val]){
+   if($(this).is(":selected")){
+    obj[val].remove();
+    obj[val] = $(this);
+   }else if(obj[val].is(":selected")){
+    $(this).remove()
+   }else{
+    $(this).remove();
+   }
+ }
+ obj[val] = $(this);
+});
+
+
 
 </script>
 

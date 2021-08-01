@@ -397,6 +397,9 @@ public class YsController {
 		model.addAttribute("unreadTotal", unreadTotal);
 		model.addAttribute("apvNoTotal", apvNoTotal);
 		
+		YsApv nextEmp   = yas.nextEmp(sq);
+		model.addAttribute("nextEmp", nextEmp);
+		
 		return "apv/apvReWrite";
 	}
 	

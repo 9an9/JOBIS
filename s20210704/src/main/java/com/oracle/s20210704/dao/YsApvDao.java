@@ -27,4 +27,5 @@ public interface YsApvDao {
 	int            unreadTotal(int emp_num);
 	YsApv          sndDetail(int apv_sq);
 	int            apvNoTotal(int emp_num);
+	YsApv          nextEmp(int apv_sq);
 }
