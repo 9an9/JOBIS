@@ -15,10 +15,6 @@
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
 </style>
-
-
-
-
 <body class="w3-theme-l5">
 
 <!-- Navbar -->
@@ -144,58 +140,66 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">          
-              <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>보낸 결재</b></h1><hr>
-              <div style="border: 1px solid black; width: 90%; margin: 50px auto;">
-          	  	 <div style="margin-left: 30px; margin-top: 30px;">
+              <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>결재 작성</b></h1><hr>
+          	  <div style="border: 1px solid black; width: 90%; margin: 50px auto;">
+          	  	 <form action="#" method="post" style="margin-left: 30px; margin-top: 30px;" name="frm" onsubmit="return chk()">
+        	  	 	<input type="hidden" name="apv_snd" value="${emp_num }">
+        	  	 	<input type="hidden" name="fnlChk" id="fnlChk" value="0">
+        	  	 	<input type="hidden" name="apv_sq" value="${sndDetail.apv_sq }">
         	  	 	<div style="font-size: 20px;">
         	  	 		<span><b>사원번호</b> : ${emp_num }&nbsp; <b>이름</b> : ${svo.emp_name }&nbsp; <b>부서</b> : ${svo.dcontent }&nbsp; <b>직급</b> : ${svo.rcontent }&nbsp;</span>
         	  	 	</div>
-        	  	 	<div><span><b style="font-size: 20px;">결재분류 : </b>${sndDetail.apv_type }</span></div>
-        	  	 	<div><b style="font-size: 20px;">제목 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b>${sndDetail.apv_title }</div>
+        	  	 	<div>
+        	  	 		<span>
+        	  	 			<b style="font-size: 20px;">결재분류 : </b>
+        	  	 			<select name="apv_type" id="apv_type" onchange="getRcvList()" required="required">
+        	  	 				<option value="${sndDetail.apv_type }" selected="selected">${sndDetail.apv_type }</option>
+        	  	 				<c:if test="${svo.dcontent == '임원'}"><option value="최종보고">최종보고</option></c:if>
+        	  	 				<c:if test="${svo.dcontent != '임원'}">
+        	  	 					<c:if test="${svo.rcontent == '사원'}">
+        	  	 						<option value="일일보고">일일보고</option>
+        	  	 						<option value="근태보고">근태보고</option>
+        	  	 						<c:if test="${svo.dcontent == '인사부'}"><option value="인사보고">인사보고</option></c:if>
+        	  	 					</c:if>
+        	  	 					<c:if test="${svo.rcontent == '대리'}">
+        	  	 						<option value="일일보고">일일보고</option>
+        	  	 						<option value="근태보고">근태보고</option>
+        	  	 						<option value="사업보고">사업보고</option>
+        	  	 						<c:if test="${svo.dcontent == '인사부'}"><option value="인사보고">인사보고</option></c:if>
+        	  	 					</c:if>
+        	  	 					<c:if test="${svo.rcontent == '팀장'}">
+        	  	 						<option value="주간보고">주간보고</option>
+        	  	 						<option value="사업보고">사업보고</option>
+        	  	 						<c:if test="${svo.dcontent == '인사부'}"><option value="인사보고">인사보고</option></c:if>
+        	  	 					</c:if>
+        	  	 					<c:if test="${svo.rcontent == '부장'}">
+        	  	 						<option value="주간보고">주간보고</option>
+        	  	 						<option value="비용신청">비용신청</option>
+        	  	 						<option value="사업보고">사업보고</option>
+        	  	 						<option value="행사보고">행사보고</option>
+        	  	 						<option value="월간보고">월간보고</option>
+        	  	 					</c:if>
+        	  	 				</c:if>
+        	  	 			</select>
+        	  	 		</span>
+        	  	 		<span id="Rcv_List" style="margin-left: 132px;">
+        	  	 			<c:if test="${svo.dcontent == '임원'}">
+        	  	 				<script type="text/javascript">
+        	  	 					var fnlChk   = document.getElementById('fnlChk');
+        	  	 					fnlChk.value = 1;
+        	  	 				</script>
+        	  	 				<b style="font-size: 20px;">결재자 : </b> <span style="margin: 0px; font-size: 20px;">서팔광</span>
+        	  	 				<input type="hidden" name="apv_fnl" value="1701001">
+        	  	 			</c:if>
+        	  	 		</span>
+        	  	 	</div>
+        	  	 	<div><b style="font-size: 20px;">제목 : </b><input type="text" name="apv_title" placeholder="결재 제목을 작성해주세요" required="required" style="width: 80%;" value="${sndDetail.apv_title }"></div>
         	  	 	<div><b style="font-size: 20px;">첨부파일 : </b> 첨부파일예시</div>
-        	  	 	<div><b style="font-size: 20px;">내용 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :  </b> ${sndDetail.apv_content }</div>
-        	  	 	<p>
-					
-					<div>
-						<b style="font-size: 20px;">진행과정 : </b>
-						<c:set value="0" var="i"/>
-						<c:set value="0" var="ing_no"/>
-						<c:forEach var="apv_ing" items="${apv_ing }">
-							<c:if test="${apv_ing.apv_ok == 4}"><c:set value="${ing_no + 1 }" var="ing_no"/></c:if>
-							<c:if test="${i == 0 }">
-								<span>${apv_ing.rcv_name }</span>						
-							</c:if>
-							<c:if test="${i > 0 }">
-								<c:choose>
-									<c:when test="${(apv_ing.apv_ok == 0 || apv_ing.apv_ok == 4) && ing_no > 0}">
-										<span> &nbsp; ->  &nbsp; ${apv_ing.rcv_name } (반려)</span>						
-									</c:when>
-									<c:when test="${apv_ing.apv_ok == 1 || apv_ing.apv_ok == 3 }">
-										<span> &nbsp; ->  &nbsp; ${apv_ing.rcv_name } (승인)</span>						
-									</c:when>
-									<c:otherwise>
-										<span> &nbsp; ->  &nbsp; ${apv_ing.rcv_name } (진행중)</span>
-									</c:otherwise>
-								</c:choose>
-							</c:if>
-							<c:set value="${i + 1 }" var="i"/>	
-						</c:forEach>
-					</div>
-					
-					<div>
-						<c:if test="${sndDetail.apv_ok == 4 }">
-							<span><b style="font-size: 20px;">반려사유 : </b>${sndDetail.apv_no }</span>
-						</c:if>
-					</div>
-					
-					<c:if test="${sndDetail.apv_ok == 4 }">
-						<div style="margin-left: 77%; margin-bottom: 20px;"><a href="apvReWrite?sq=${sndDetail.apv_sq }"><button type="button">재결재</button></a></div>
-					</c:if>
-					
-					
-          	    </div>
-           	  </div>
-
+        	  	 	<b style="font-size: 20px;">내용 </b><p style="margin: 0px;">
+        	  	 	<div><pre><textarea placeholder="결재 내용을 작성해주세요" name="apv_content" maxlength="4000"  style="height:150px; width: 80%; margin-left: 55px;" required="required">${sndDetail.apv_content }</textarea></pre></div>
+        	  	 	<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="재결재신청"></div>
+          	  	 </form>
+          	  </div>
             </div>
           </div>
         </div>
@@ -258,6 +262,104 @@ function openNav() {
 
 
 
+/////////////////////////////////////////////////////////
+
+var obj = {};
+$("select").children("option").each(function(){
+ let val = $(this).attr("value");
+ if(obj[val]){
+   if($(this).is(":selected")){
+    obj[val].remove();
+    obj[val] = $(this);
+   }else if(obj[val].is(":selected")){
+    $(this).remove()
+   }else{
+    $(this).remove();
+   }
+ }
+ obj[val] = $(this);
+});
+
+function getRcvList(){
+	var emp_rnk  = '${svo.rcontent }';
+	var emp_num  = '${emp_num }';
+	var apv_type = document.getElementById('apv_type').value;
+	var fnlChk   = document.getElementById('fnlChk');
+	var url = "";
+	var fnlChk2 = 0;
+	if(apv_type == '일일보고'){
+		if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
+		else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; fnlChk2 = 1; fnlChk.value = 1; }
+	}else if(apv_type == '주간보고'){
+		if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; }
+		else if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1; fnlChk.value = 1; }
+	}else if(apv_type == '근태보고'){
+		if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
+		else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; fnlChk2 = 1; fnlChk.value = 1; }
+	}else if(apv_type == '비용신청'){
+		if(emp_rnk == '부장'){ url = "../rcvList5"; }
+	}else if(apv_type == '사업보고'){
+		if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; }
+		else if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; }
+		else if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1; fnlChk.value = 1; }
+	}else if(apv_type == '인사보고'){
+		if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
+		else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; }
+		else if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; fnlChk2 = 1; fnlChk.value = 1; }
+	}else if(apv_type == '행사보고'){
+		if(emp_rnk == '부장'){ url = "../rcvList6"; }
+	}else if(apv_type == '월간보고'){
+		if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1; fnlChk.value = 1; }
+	}else if(apv_type == '최종보고'){
+		fnlChk.value = 1;
+	}
+	
+	var str  = "";
+	var str2 = "";
+	$.ajax({
+		url:url,
+		dataType:'json',
+		success:function(data){
+			$('#Rcv_List *').remove();
+			if(fnlChk2 == 1){
+				str += "<b style='font-size: 20px;'>결재자 : </b><select name = 'apv_fnl' required='required' id='slt2' onchange='sltrm2()'><option value='' selected='selected'>-결재자-</option>";
+			}else{			
+				str += "<b style='font-size: 20px;'>결재자 : </b><select name = 'apv_mid_emp' required='required' id='slt' onchange='sltrm()'><option value='-결재자-' selected='selected'>-결재자-</option>";
+			}
+			$(data).each(
+					function(){
+						str2 = "<option value = '"+this.emp_num + "'>"+this.emp_name + "</option>";
+						str += str2;
+					}		
+				);
+				str += "</select><p>";
+				$('#Rcv_List').append(str);
+		}
+	});
+}
+
+getRcvList();
+
+function chk(){
+	if(frm.apv_mid_emp.value == '-결재자-'){
+		alert("결재자를 선택해주세요");
+		return false;
+	}
+	if(frm.apv_fnl.value == ''){
+		alert("결재자를 선택해주세요");
+		return false;
+	}
+	
+	return true;
+}
+
+
+function sltrm(){
+	$("#slt option[value='-결재자-']").remove();
+}
+function sltrm2(){
+	$("#slt2 option[value='']").remove();
+}
 
 </script>
 

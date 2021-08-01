@@ -381,4 +381,23 @@ public class YsController {
 		return "apv/apvSndDetail";
 	}
 	
+	@GetMapping(value = "apv/apvReWrite")
+	public String apvReWrite(Model model ,HttpSession session, SyMemberVO vo, int sq) {
+		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
+		vo.setEmp_num(emp_num);								//모든 코딩에 추가
+		SyMemberVO svo = jrs.show(vo);
+		model.addAttribute("svo",svo);
+		model.addAttribute("emp_num", emp_num);
+		
+		YsApv sndDetail = yas.sndDetail(sq);
+		model.addAttribute("sndDetail", sndDetail);
+		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+		
+		return "apv/apvReWrite";
+	}
+	
 }
