@@ -403,4 +403,19 @@ public class YsController {
 		return "apv/apvReWrite";
 	}
 	
+	@PostMapping(value = "apv/apvReWrite")
+	public String apvReInsert(YsApv ysApv) {
+		if(ysApv.getFnlChk() == 1) {        // 중간 결재자가 없는 경우 
+			System.out.println("중간x");
+			yas.fnlSndDelete(ysApv.getApv_sq());
+			yas.fnlRcvInsert(ysApv);
+		}else {                             // 중간 결재자가 있는 경우
+			System.out.println("중간 o");
+			yas.midSndDelete(ysApv.getApv_sq());
+			yas.midRcvInsert(ysApv);
+		}
+		
+		return "redirect:apvRcv";	
+	}
+	
 }

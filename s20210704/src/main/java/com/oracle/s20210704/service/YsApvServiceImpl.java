@@ -145,5 +145,15 @@ public class YsApvServiceImpl implements YsApvService {
 		return nextEmp;
 	}
 
+	@Override
+	public void midSndDelete(int apv_sq) {
+		yad.midSndDelete(apv_sq);	
+	}
+
+	@Override
+	public void fnlSndDelete(int apv_sq) {
+		yad.fnlSndDelete(apv_sq);		
+	}
+
 
 }

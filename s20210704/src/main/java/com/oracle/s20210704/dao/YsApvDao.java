@@ -28,4 +28,6 @@ public interface YsApvDao {
 	YsApv          sndDetail(int apv_sq);
 	int            apvNoTotal(int emp_num);
 	YsApv          nextEmp(int apv_sq);
+	void           midSndDelete(int apv_sq);
+	void           fnlSndDelete(int apv_sq);
 }

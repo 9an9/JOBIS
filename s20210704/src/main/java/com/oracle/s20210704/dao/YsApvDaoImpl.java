@@ -152,5 +152,15 @@ public class YsApvDaoImpl implements YsApvDao {
 		return nextEmp;
 	}
 
+	@Override
+	public void midSndDelete(int apv_sq) {
+		session.delete("ysMidSndDelete", apv_sq);
+	}
+
+	@Override
+	public void fnlSndDelete(int apv_sq) {
+		session.delete("ysFnlSndDelete", apv_sq);
+	}
+
 
 }

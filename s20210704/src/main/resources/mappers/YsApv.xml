@@ -221,4 +221,16 @@
 		           )
 		where rn between 1 and 1
 	</select>
+	<delete id="ysMidSndDelete" parameterType="int">
+	   {call
+	        declare
+	        begin
+	            delete from apv     where apv_sq  = #{apv_sq} ;
+	            delete from apv_mid where apv_mid = #{apv_sq} ;
+	        end
+	    }
+	</delete>
+	<delete id="ysFnlSndDelete" parameterType="int">
+		delete from apv  where apv_sq  = #{apv_sq}
+	</delete>
 </mapper>
