@@ -201,4 +201,7 @@
 	<select id="ysSndDetail" parameterType="int" resultType="com.oracle.s20210704.model.YsApv">
 		select * from apv where apv_sq = #{apv_sq}
 	</select>
+	<select id="ysApvNoTotal" parameterType="int" resultType="int">
+		select count(*) from apv where apv_ok = 4 and apv_snd = #{emp_num}
+	</select>
 </mapper>

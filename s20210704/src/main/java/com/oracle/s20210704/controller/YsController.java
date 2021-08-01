@@ -253,6 +253,11 @@ public class YsController {
 		model.addAttribute("sndList", sndList);
 		model.addAttribute("yp", yp);
 		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+		
 		return "apv/apvRcv";
 	}
 	@GetMapping(value = "apv/apvWrite")

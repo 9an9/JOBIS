@@ -133,5 +133,11 @@ public class YsApvServiceImpl implements YsApvService {
 		return sndDetail;
 	}
 
+	@Override
+	public int apvNoTotal(int emp_num) {
+		int apvNoTotal = yad.apvNoTotal(emp_num);
+		return apvNoTotal;
+	}
+
 
 }
