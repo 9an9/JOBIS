@@ -144,7 +144,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">          
-              <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>받은 결재</b></h1><hr>
+              <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>보낸 결재</b></h1><hr>
               <div style="border: 1px solid black; width: 90%; margin: 50px auto;">
           	  	 <div style="margin-left: 30px; margin-top: 30px;">
         	  	 	<div style="font-size: 20px;">
