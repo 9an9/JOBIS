@@ -49,6 +49,12 @@ public class YsController {
 		List<YsEmpCmt> cmtList = yecs.cmtList(ysEmpCmt);
 		model.addAttribute("cmtList", cmtList);
 		model.addAttribute("yp", yp);
+		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+		
 		return "cmt/cmt";
 	}
 	
@@ -102,6 +108,12 @@ public class YsController {
 		model.addAttribute("ysEmpCmt", ysEmpCmt);
 		model.addAttribute("cmtList", cmtList);
 		model.addAttribute("yp", yp);
+		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+		
 		return "cmt/cmt";
 		//커밋테스트 2
 	}
@@ -128,6 +140,11 @@ public class YsController {
 		
 		model.addAttribute("absent", absent);
 		model.addAttribute("absentList", absentList);
+		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
 
 		return "cmt/absent";
 	}
@@ -169,6 +186,11 @@ public class YsController {
 		List<YsEmpCmt> mycmtList = yecs.mycmtList(ysEmpCmt);
 		model.addAttribute("mycmtList", mycmtList);
 		model.addAttribute("yp", yp);
+		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
 		
 		return "cmt/mycmt";
 	}
@@ -227,7 +249,9 @@ public class YsController {
 		model.addAttribute("yp", yp);
 		
 		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
 		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
 		
 		return "apv/apvSnd";
 	}
@@ -268,6 +292,11 @@ public class YsController {
 		model.addAttribute("svo",svo);
 		model.addAttribute("emp_num", emp_num);
 		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+		
 		
 		return "apv/apvWrite";
 	}
@@ -300,6 +329,11 @@ public class YsController {
 		
 		List<YsApv> apv_ing = yas.apv_ing(sq);
 		model.addAttribute("apv_ing", apv_ing);
+		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
 		
 		return "apv/apvRcvDetail";
 	}
@@ -338,6 +372,11 @@ public class YsController {
 		
 		List<YsApv> apv_ing = yas.apv_ing(sq);
 		model.addAttribute("apv_ing", apv_ing);
+		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
 		
 		return "apv/apvSndDetail";
 	}
