@@ -110,13 +110,13 @@
 	   {call
 	        declare
 	        begin
-	            insert into apv values ((select nvl(max(apv_sq),0)+1 from apv),#{apv_type},#{apv_snd},(select nvl(max(apv_sq),0)+1 from apv),'',#{apv_title},#{apv_content},'','',sysdate,'',0);
+	            insert into apv values ((select nvl(max(apv_sq),0)+1 from apv),#{apv_type},#{apv_snd},(select nvl(max(apv_sq),0)+1 from apv),'',#{apv_title},#{apv_content},'',#{apv_pl_nm},sysdate,'',0);
 	            insert into apv_mid values ((select nvl(max(apv_mid_num),0)+1 from apv_mid),(select nvl(max(apv_sq),0) from apv),#{apv_mid_emp},0);
 	        end
 	    }
 	</insert>
 	<insert id="ysFnlRcvInsert" parameterType="com.oracle.s20210704.model.YsApv">
-		insert into apv values ((select nvl(max(apv_sq),0)+1 from apv),#{apv_type},#{apv_snd},'',#{apv_fnl},#{apv_title},#{apv_content},'','',sysdate,'',0)
+		insert into apv values ((select nvl(max(apv_sq),0)+1 from apv),#{apv_type},#{apv_snd},'',#{apv_fnl},#{apv_title},#{apv_content},'',#{apv_pl_nm},sysdate,'',0)
 	</insert>
 	<select id="ysRcvChk" parameterType="com.oracle.s20210704.model.YsApv" resultType="int">
 		select nvl(max(apv_mid_num),0) from apv_mid where apv_mid = #{apv_sq} and apv_mid_emp = #{rcv_num}

@@ -142,7 +142,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <div class="w3-container w3-padding">          
               <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>결재 작성</b></h1><hr>
           	  <div style="border: 1px solid black; width: 90%; margin: 50px auto;">
-          	  	 <form action="apvWrite" method="post" style="margin-left: 30px; margin-top: 30px;" name="frm" onsubmit="return chk()">
+          	  	 <form action="apvWrite" method="post"  enctype="multipart/form-data" style="margin-left: 30px; margin-top: 30px;" name="frm" onsubmit="return chk()">
         	  	 	<input type="hidden" name="apv_snd" value="${emp_num }">
         	  	 	<input type="hidden" name="fnlChk" id="fnlChk" value="0">
         	  	 	<div style="font-size: 20px;">
@@ -193,7 +193,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 		</span>
         	  	 	</div>
         	  	 	<div><b style="font-size: 20px;">제목 : </b><input type="text" name="apv_title" placeholder="결재 제목을 작성해주세요" required="required" style="width: 80%;"></div>
-        	  	 	<div><b style="font-size: 20px;">첨부파일 : </b> 첨부파일예시</div>
+        	  	 	<div><b style="font-size: 20px;">첨부파일 : </b> <input type="file" name="file1"></div>
         	  	 	<b style="font-size: 20px;">내용 </b><p style="margin: 0px;">
         	  	 	<div><textarea placeholder="결재 내용을 작성해주세요" name="apv_content" maxlength="4000"  style="height:150px; width: 80%; margin-left: 55px;" required="required"></textarea></div>
         	  	 	<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="결재신청"></div>

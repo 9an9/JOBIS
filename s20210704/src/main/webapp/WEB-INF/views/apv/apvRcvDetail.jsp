@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>   
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 <!DOCTYPE html>
 <html>
 <title>JOBIS</title>
@@ -168,7 +169,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 		</span>
         	  	 	</div>
         	  	 	<div><b style="font-size: 20px;">제목 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b>${rcvDetail.apv_title }</div>
-        	  	 	<div><b style="font-size: 20px;">첨부파일 : </b> 첨부파일예시</div>
+        	  	 	<div><b style="font-size: 20px;">첨부파일 : </b> <a href="ysdownload?fileName=${rcvDetail.apv_pl_nm }" style="text-decoration: none; color: black;">📁${fn:substringAfter(rcvDetail.apv_pl_nm, '_') }</a></div>
         	  	 	<div><b style="font-size: 20px;">내용 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :  </b> ${rcvDetail.apv_content }</div>
         	  	 	<p>
 					
