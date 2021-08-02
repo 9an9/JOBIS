@@ -9,7 +9,8 @@
 <link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
@@ -140,22 +141,33 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
               <h1><i class="fa fa-pencil-square-o fa-fw w3-margin-right"></i><b>사원 등록</b></h1><hr>
-                                이름 : <input type="text" id="name" name="name" required="required">
-                                부서 : <select name="dept" onchange="get_team(this.value, team)">
-
-              </select>
-                                팀 : <select name="team">
-
-              </select>
-                                직급 : <select name="rank">
-              
-              </select>
-                                이메일 : <input type="text" id="email" name="email" required="required">
-                                전화번호 : <input type="text" id="phnum" name="phnum" required="required">
-                                우편번호 : <input type="text" id="add_zc" name="add_zc" readonly="readonly" onclick="findAddr()">                 
-                                주소 : <input type="text" id="add_cm" name="add_cm" readonly="readonly" >
-                                상세주소 : <input type="text" id="add_dt" name="add_dt" required="required">
-
+              <form action="writeEmp" method="post" enctype="multipart/form-data">                
+                                입사날짜 : <input type="date" id="emp_hiredate" name="emp_hiredate" required="required"><p>                   
+                                이름 : <input type="text" id="emp_name" name="emp_name" required="required"><p> 
+                                부서 : <select id="dep_num" name="dep_num" onchange="getTeam()">
+                   <option selected='selected' disabled='disabled'></option>             
+              <c:forEach var="deptList" items="${deptList }" >                                 
+                   <option value="${deptList.dcode }">${deptList.dept }</option>
+              </c:forEach>
+              </select><p> 
+                                팀 : <select id="team_num" name="team_num">
+                  <option selected='selected' disabled='disabled'></option>              
+              </select><p>            
+                                직급 : <select name="rnk_num">
+                   <option selected='selected' disabled='disabled'></option>             
+              <c:forEach var="rankList" items="${rankList }">                                 
+              	   <option value="${rankList.rcode }">${rankList.rank }</option>
+              </c:forEach>
+              </select><p>
+                                이메일 : <input type="text" id="emp_email" name="emp_email" required="required"><p>
+                                전화번호 : <input type="text" id="emp_phnum" name="emp_phnum" required="required"><p>
+                                우편번호 : <input type="text" id="emp_zc_addr" name="emp_zc_addr" readonly="readonly" onclick="findAddr()"><p>                 
+                                주소 : <input type="text" id="emp_cm_addr" name="emp_cm_addr" readonly="readonly" ><p>
+                                상세주소 : <input type="text" id="emp_dt_addr" name="emp_dt_addr" ><p>
+                                사진 : <input type="file" id="myImg" name="myImg"><p> 
+                                <img id="preImage" src="${pageContext.request.contextPath}/saveFile/${noticeVO.filename}" alt="image_title" onerror='this.src="../images/LUCY.jpg"'/><p>
+			  <input type="submit" value="등록">
+			  </form> 
             </div>
           </div>
         </div>
@@ -227,34 +239,56 @@ function findAddr(){
             var roadAddr = data.roadAddress; // 도로명 주소 변수
             var jibunAddr = data.jibunAddress; // 지번 주소 변수
             // 우편번호와 주소 정보를 해당 필드에 넣는다.
-            document.getElementById('add_zc').value = data.zonecode;
+            document.getElementById('emp_zc_addr').value = data.zonecode;
             if(roadAddr !== ''){
-                document.getElementById("add_cm").value = roadAddr;
+                document.getElementById("emp_cm_addr").value = roadAddr;
             } 
             else if(jibunAddr !== ''){
-                document.getElementById("add_cm").value = jibunAddr;
+                document.getElementById("emp_cm_addr").value = jibunAddr;
             }
         }
     }).open();
 }
-function get_team(dept, team) {
-    $.ajax({
-        type: 'GET',
-        url: '/' + dept,
-        contentType: "application/json; charset=UTF-8",
+function getTeam() {
+	console.log("team 시작")
+    var dcode = document.getElementById('dep_num').value;
+	console.log(dcode);
+	var url = '../selectTeam?dcode='+dcode;
+	var str = "";
+	var str2 = "";
+	$.ajax({
+        url: url,
         dataType: 'json',
-        success: function (result) {
-            console.log(result)
-            for (i = 0; i < result.length; i++) {
-                selectOption.options[i] = new Option(result[i], i);
-            }
+        success: function (data) {
+        	$('#team_num *').remove();
+        	$('#team_num').append('<option value="100">-</option>');
+        	$(data).each(
+        			function(){
+        				str2 = "<option value='" +this.tcode + "'>" + this.team + "</option>";
+        				str += str2;
+        			}
+        		);
+			
+			$('#team_num').append(str);
         }
-    }).fail(function (error) {
-        alert(JSON.stringify(error));
-    })
+    });
+}
+$(function() {
+    $("#myImg").on('change', function(){
+        readURL(this);
+    });
+});
+function readURL(input) {
+    if (input.files && input.files[0]) {
+       var reader = new FileReader();
+       reader.onload = function (e) {
+          $('#preImage').attr('src', e.target.result);
+       }
+       reader.readAsDataURL(input.files[0]);
+    }
 }
 </script>
-
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
 </html> 
 

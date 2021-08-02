@@ -102,4 +102,116 @@ public class YjEmpDaoImpl implements YjEmpDao {
 		return rank;
 	}
 
+	@Override
+	public List<YjEmp> myInfo(int emp_num) {
+		List<YjEmp> myInfo = null;
+		System.out.println("YjEmpDaoImpl myInfo Start ..." );
+		try {
+			// Naming Rule 
+			myInfo = session.selectList("myInfo", emp_num);
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl myInfo Exception->"+e.getMessage());
+		}
+		return myInfo;
+	}
+
+	@Override
+	public String chkPw(int emp_num) {
+		String emp_pw = null;
+		System.out.println("YjEmpDaoImpl chkPw Start...");
+		try {
+			emp_pw = session.selectOne("chkPw", emp_num);
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl chkPw Exception->"+e.getMessage());
+		}
+		return emp_pw;
+	}
+
+	@Override
+	public int changePw(YjEmp emp) {
+		int result = 0;
+		System.out.println("YjEmpDaoImpl changePw Start...");
+		try {
+			result = session.update("changePw", emp);
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl changePw Exception->"+e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public int updateInfo(YjEmp emp) {
+		int result = 0;
+		System.out.println("YjEmpDaoImpl updateInfo Start...");
+		try {
+			result = session.update("updateInfo", emp);
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl updateInfo Exception->"+e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public int countEmp() {
+		int result = 0;
+		System.out.println("YjEmpDaoImpl countEmp Start...");
+		try {
+			result = session.selectOne("countEmp");
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl countEmp Exception->"+e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public int writeEmp(YjEmp emp) {
+		int result = 0;
+		System.out.println("YjEmpDaoImpl writeEmp Start...");
+		try {
+			result = session.insert("writeEmp", emp);
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl writeEmp Exception->"+e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public List<YjEmp> deptList() {
+		List<YjEmp> deptList = null;
+		System.out.println("YjEmpDaoImpl deptList Start ..." );
+		try {
+			// Naming Rule 
+			deptList = session.selectList("deptList");
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl deptList Exception->"+e.getMessage());
+		}
+		return deptList;
+	}
+
+	@Override
+	public List<YjEmp> teamList(String dept) {
+		List<YjEmp> teamList = null;
+		System.out.println("YjEmpDaoImpl teamList Start ..." );
+		try {
+			// Naming Rule 
+			teamList = session.selectList("teamList",dept);
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl teamList Exception->"+e.getMessage());
+		}
+		return teamList;
+	}
+
+	@Override
+	public List<YjEmp> rankList() {
+		List<YjEmp> rankList = null;
+		System.out.println("YjEmpDaoImpl rankList Start ..." );
+		try {
+			// Naming Rule 
+			rankList = session.selectList("rankList");
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl rankList Exception->"+e.getMessage());
+		}
+		return rankList;
+	}
+
 }

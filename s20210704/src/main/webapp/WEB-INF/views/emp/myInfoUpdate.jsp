@@ -140,18 +140,23 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
               <h1><i class="fa fa-pencil fa-fw w3-margin-right"></i><b>개인정보수정</b></h1><hr>
-              <form action="updateInfo">
+              <form action="updateInfo" method="post" enctype="multipart/form-data">
+              <input type="submit" value="수정">
+			  <c:forEach var="myInfo" items="${myInfo}">              
               <table>
-              <tr><th>사번</th><td>${emp.empno }
-              <tr><th>이름</th><td><input type="text" id="name" name="name" required="required" value="${emp.name}"></td>
-              <tr><th>현재비밀번호</th><td><input type="text" id="pw" name="pw" value=""><button onclick="updatePw()">비밀번호 변경</button></td></tr>
-              <tr><th>이메일</th><td><input type="text" id="email" name="email" required="required" value="${emp.email}"></td>
-              <tr><th>전화번호</th><td><input type="text" id="phnum" name="phnum" required="required" value="${emp.phnum}"></td>
-              <tr><th>우편번호</th><td><input type="text" id="add_zc" name="add_zc" readonly="readonly" value="${emp.add_zc}" onclick="findAddr()"></td>
-              <tr><th>주소</th><td><input type="text" id="add_cm" name="add_cm" readonly="readonly" value="${emp.add_cm}"></td>
-              <tr><th>상세주소</th><td><input type="text" id="add_dt" name="add_dt" ></td></tr>
-              <tr><th>사진</th><td><input type="file">
+              <tr><th>사번</th><td>${myInfo.emp_num }
+              <tr><th>이름</th><td><input type="text" id="emp_name" name="emp_name" required="required" value="${myInfo.emp_name}"></td>
+              <tr><th>현재비밀번호</th><td><input type="emp_pw" id="pw" name="emp_pw" value="${myInfo.emp_pw }"><button type="button" onclick="updatePw()">비밀번호 변경</button></td></tr>
+              <tr><th>이메일</th><td><input type="text" id="emp_email" name="emp_email" required="required" value="${myInfo.emp_email}"></td>
+              <tr><th>전화번호</th><td><input type="text" id="emp_phnum" name="emp_phnum" required="required" value="${myInfo.emp_phnum}"></td>
+              <tr><th>우편번호</th><td><input type="text" id="emp_zc_addr" name="emp_zc_addr" readonly="readonly" value="${myInfo.emp_zc_addr}"> <input type="button" value="수정" onclick="findAddr()"></td>
+              <tr><th>주소</th><td><input type="text" id="emp_cm_addr" name="emp_cm_addr" readonly="readonly" value="${myInfo.emp_cm_addr}"></td>
+              <tr><th>상세주소</th><td><input type="text" id="emp_dt_addr" name="emp_dt_addr" value="${myInfo.emp_dt_addr }"></td></tr>
+              <tr><th>사진</th><td><input type="file" id="myImg" name="myImg" value="${myInfo.ph_path }">
+              <tr><th>사진view</th><td><img id="preImage" src="${pageContext.request.contextPath}/saveFile/${noticeVO.filename}" alt="image_title" onerror='this.src="../images/LUCY.jpg"'/><p>
+			  <input type="submit" value="수정"></td>
 			  </table>
+			  </c:forEach>
 			  </form>
 
             </div>
@@ -225,22 +230,37 @@ function findAddr(){
             var roadAddr = data.roadAddress; // 도로명 주소 변수
             var jibunAddr = data.jibunAddress; // 지번 주소 변수
             // 우편번호와 주소 정보를 해당 필드에 넣는다.
-            document.getElementById('add_zc').value = data.zonecode;
+            document.getElementById('emp_zc_addr').value = data.zonecode;
             if(roadAddr !== ''){
-                document.getElementById("add_cm").value = roadAddr;
+                document.getElementById("emp_cm_addr").value = roadAddr;
             } 
             else if(jibunAddr !== ''){
-                document.getElementById("add_cm").value = jibunAddr;
+                document.getElementById("emp_cm_addr").value = jibunAddr;
             }
         }
     }).open();
 }
-function cWrite() {	
+function updatePw() {	
 	var w = (window.screen.width/2) - 200;
 	var h = (window.screen.height/2) - 200;
-	var url = "cwriteView.do";
-	window.open(url,"cPlanWrite","width=400,height=400,left="+w+",top="+h);
+	var url = "updatePw";
+	window.open(url,"","width=400,height=400,left="+w+",top="+h);
 }
+$(function() {
+    $("#myImg").on('change', function(){
+        readURL(this);
+    });
+});
+function readURL(input) {
+    if (input.files && input.files[0]) {
+       var reader = new FileReader();
+       reader.onload = function (e) {
+          $('#preImage').attr('src', e.target.result);
+       }
+       reader.readAsDataURL(input.files[0]);
+    }
+}
+
 </script>
 
 </body>

@@ -52,4 +52,39 @@
 		where e.dep_num = d.code and e.team_num = t.code and e.rnk_num = r.code)
 		where dept=#{keyword}
 	</select>	
+	<select id="myInfo" parameterType="int" resultType="com.oracle.s20210704.model.YjEmp">
+		select * from emp where emp_num=#{emp_num}
+	</select>
+	<select id="chkPw" parameterType="int" resultType="string">
+		select emp_pw
+		from emp
+		where emp_num=#{emp_num}
+	</select>	
+	<update id="changePw" parameterType="com.oracle.s20210704.model.YjEmp">
+		update emp set emp_pw=#{newpw} where emp_num=#{emp_num}
+	</update>
+		<update id="updateInfo" parameterType="com.oracle.s20210704.model.YjEmp">
+		update emp set emp_name=#{emp_name}, emp_phnum=#{emp_phnum}, emp_zc_addr=#{emp_zc_addr},
+		emp_cm_addr=#{emp_cm_addr}, emp_dt_addr=#{emp_dt_addr}, emp_email=#{emp_email}, ph_path=#{ph_path} 
+		where emp_num=#{emp_num}
+	</update>
+	<select id="countEmp" resultType="int">
+	select count(*) from emp where EXTRACT(year from emp_hiredate)=EXTRACT(year from sysdate)
+	</select>
+	<insert id="writeEmp" parameterType="com.oracle.s20210704.model.YjEmp">
+	insert into emp (emp_num, emp_name, dep_num, team_num, rnk_num, emp_pw, emp_phnum, 
+	emp_zc_addr, emp_cm_addr, emp_dt_addr, emp_email, emp_hiredate, ph_path) 
+	values (#{emp_num}, #{emp_name}, #{dep_num}, #{team_num}, #{rnk_num}, #{emp_pw}, #{emp_phnum}, 
+	#{emp_zc_addr}, #{emp_cm_addr}, #{emp_dt_addr}, #{emp_email}, #{emp_hiredate}, #{ph_path})
+	</insert>
+	<select id="deptList" resultType="com.oracle.s20210704.model.YjEmp">
+	select code as dcode, content as dept from comm where code like '1%' and code like '%0' and substr(code,2,1) !=0
+	</select>
+	<select id="teamList" parameterType="java.lang.String" resultType="com.oracle.s20210704.model.YjEmp">
+	select code as tcode, content as team from comm where code like '1%' and substr(code,2,1) = substr(#{dept},2,1) 
+	and substr(code,3,1)!=0
+	</select>
+		<select id="rankList" resultType="com.oracle.s20210704.model.YjEmp">
+	select code as rcode, content as rank from comm where code like '2%'
+	</select>
 </mapper>

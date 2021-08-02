@@ -85,4 +85,93 @@ public class YJEmpServiceImpl implements YjEmpService {
 			return rank;
 	}
 
+
+	@Override
+	public List<YjEmp> myInfo(int emp_num) {
+		List<YjEmp> myInfo = null;
+		System.out.println("YjEmpServiceImpl myInfo Start..." );
+		myInfo = ed.myInfo(emp_num);
+		System.out.println("YjEmpServiceImpl myInfo myInfo.size()->" +myInfo.size());
+		return myInfo;
+	}
+
+
+	@Override
+	public String chkPw(int emp_num) {
+		String emp_pw = null;
+		System.out.println("YjEmpServiceImpl chkPw Start...");
+		emp_pw = ed.chkPw(emp_num);
+		return emp_pw;
+	}
+
+
+	@Override
+	public int changePw(YjEmp emp) {
+		int result = 0;
+		System.out.println("YjEmpServiceImpl changePw Start...");
+		result = ed.changePw(emp);
+		System.out.println("YjEmpServiceImpl changePw result--> " + result);
+		return result;
+	}
+
+
+	@Override
+	public int updateInfo(YjEmp emp) {
+		int result = 0;
+		System.out.println("YjEmpServiceImpl updateInfo Start...");
+		result = ed.updateInfo(emp);
+		System.out.println("YjEmpServiceImpl updateInfo result--> " + result);
+		return result;
+	}
+
+
+	@Override
+	public int countEmp() {
+		int result = 0;
+		System.out.println("YjEmpServiceImpl countEmp Start...");
+		result = ed.countEmp();
+		System.out.println("YjEmpServiceImpl countEmp result--> " + result);
+		return result;
+	}
+
+
+	@Override
+	public int writeEmp(YjEmp emp) {
+		int result = 0;
+		System.out.println("YjEmpServiceImpl writeEmp Start...");
+		result = ed.writeEmp(emp);
+		System.out.println("YjEmpServiceImpl writeEmp result--> " + result);
+		return result;
+	}
+
+
+	@Override
+	public List<YjEmp> deptList() {
+		List<YjEmp> deptList = null;
+		System.out.println("YjEmpServiceImpl deptList Start..." );
+		deptList = ed.deptList();
+		System.out.println("YjEmpServiceImpl deptList deptList.size()->" +deptList.size());
+		return deptList;
+	}
+
+
+	@Override
+	public List<YjEmp> teamList(String dept) {
+		List<YjEmp> teamList = null;
+		System.out.println("YjEmpServiceImpl teamList Start..." );
+		teamList = ed.teamList(dept);
+		System.out.println("YjEmpServiceImpl deptList teamList.size()->" +teamList.size());
+		return teamList;
+	}
+
+
+	@Override
+	public List<YjEmp> rankList() {
+		List<YjEmp> rankList = null;
+		System.out.println("YjEmpServiceImpl rankList Start..." );
+		rankList = ed.rankList();
+		System.out.println("YjEmpServiceImpl rankList rankList.size()->" +rankList.size());
+		return rankList;
+	}
+
 }
