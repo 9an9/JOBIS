@@ -147,7 +147,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <div class="w3-container w3-padding">          
               <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>받은 결재</b></h1><hr>
               <div style="border: 1px solid black; width: 90%; margin: 50px auto;">
-          	  	 <form action="apvok" method="post" style="margin-left: 30px; margin-top: 30px;" name="frm" onsubmit="return chk()">
+          	  	 <form action="apvok" method="post" style="margin-left: 30px; margin-top: 30px;" name="frm" target="_self" onsubmit="return chk()">
         	  	 	<c:set var="okChk" value="0"/>
         	  	 	<input type="hidden" name="apv_ok" id="apv_ok">
         	  	 	<input type="hidden" name="apv_sq" value="${rcvDetail.apv_sq }">
@@ -171,7 +171,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 	<div><b style="font-size: 20px;">제목 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b>${rcvDetail.apv_title }</div>
         	  	 	<div><b style="font-size: 20px;">첨부파일 : </b> <a href="ysdownload?fileName=${rcvDetail.apv_pl_nm }" style="text-decoration: none; color: black;">📁${fn:substringAfter(rcvDetail.apv_pl_nm, '_') }</a></div>
         	  	 	<div><b style="font-size: 20px;">내용 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :  </b> ${rcvDetail.apv_content }</div>
-        	  	 	<p>
+        	  	 	
 					
 					<div>
 						<b style="font-size: 20px;">진행과정 : </b>
@@ -198,6 +198,8 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 							<c:set value="${i + 1 }" var="i"/>	
 						</c:forEach>
 					</div>
+					
+					<div style="text-align: center;" id="pdf"></div>
 					
 					<div>
 						<c:if test="${rcvDetail.apv_ok == 4 }">
@@ -372,7 +374,8 @@ function apvno(){
 	}
 }
 
-
+var pdfPath = '<iframe name="pdf"  width="80%" height="600" src="../upload/${rcvDetail.apv_pl_nm}" />';
+$('#pdf').append(pdfPath);
 
 </script>
 
