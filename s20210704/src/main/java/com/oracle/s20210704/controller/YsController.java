@@ -313,11 +313,13 @@ public class YsController {
 	
 	@PostMapping(value = "apv/apvWrite")
 	public String apvInsert(HttpServletRequest request, MultipartFile file1,YsApv ysApv) throws Exception {
-		
-		String uploadPath = request.getSession().getServletContext().getRealPath("/upload/");
-		String saveName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), uploadPath);
-		ysApv.setApv_pl_nm(saveName);
-		
+		if(file1.isEmpty()) { ysApv.setApv_pl_nm("");}
+		else {			
+			String uploadPath = request.getSession().getServletContext().getRealPath("/upload/");
+			String saveName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), uploadPath);
+			ysApv.setApv_pl_nm(saveName);
+			
+		}
 		if(ysApv.getFnlChk() == 1) {        // 중간 결재자가 없는 경우 
 			System.out.println("중간x");
 			yas.fnlRcvInsert(ysApv);
@@ -420,9 +422,14 @@ public class YsController {
 	
 	@PostMapping(value = "apv/apvReWrite")
 	public String apvReInsert(HttpServletRequest request, MultipartFile file1, YsApv ysApv)throws Exception {
-		String uploadPath = request.getSession().getServletContext().getRealPath("/upload/");
-		String saveName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), uploadPath);
-		ysApv.setApv_pl_nm(saveName);
+		System.out.println("왔음1");
+		if(ysApv.getApv_pl_nm().equals("change") || ysApv.getApv_pl_nm() == "change") {
+			System.out.println("왔음2");
+			String uploadPath = request.getSession().getServletContext().getRealPath("/upload/");
+			String saveName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), uploadPath);
+			ysApv.setApv_pl_nm(saveName);			
+		}
+		System.out.println("왔음3");
 		if(ysApv.getFnlChk() == 1) {        // 중간 결재자가 없는 경우 
 			System.out.println("중간x");
 			yas.fnlSndDelete(ysApv.getApv_sq());
@@ -485,6 +492,26 @@ public class YsController {
 			System.out.println(e.getMessage());
 		} 
 		
+	}
+  
+  
+  @GetMapping(value = "apv/fileDelete")
+	public void uploadFileDelete(HttpServletRequest request, Model model,String fileName) throws Exception{
+	   try {
+		  String uploadPath = request.getSession().getServletContext().getRealPath("/upload/");
+		  String deleteFile = uploadPath + fileName;
+		  upFileDelete(deleteFile);
+		
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+  	private void upFileDelete(String deleteFileName)   throws Exception {
+		File file = new File(deleteFileName); 
+		if( file.exists() ){ 
+			file.delete();
+		}
 	}
 	
 }

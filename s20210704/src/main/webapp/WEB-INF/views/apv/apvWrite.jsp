@@ -14,6 +14,50 @@
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
+.fileBox .fileName {
+		display:inline-block;
+		width:170px;
+		height:30px;
+		padding-left:10px;
+		margin-right:5px;
+		line-height:30px;
+		border:1px solid #aaa;
+		background-color:#fff;
+		vertical-align:middle;
+		border-radius: 10px;
+	}
+.fileBox .btn_file {
+	display:inline-block;
+	border:2px solid #66677f;
+	border-top-width: 0px;
+	border-left-width: 0px;
+	width:100px;
+	height:30px;
+	line-height:30px;
+	text-align:center;
+	vertical-align:middle;
+	background-color: #AAABD3;
+	color:white;
+	border-radius: 6px;
+}
+.fileBox input[type="file"] {
+	position:absolute;
+	width:1px;
+	height:1px;
+	padding:0;
+	margin:-1px;
+	overflow:hidden;
+	clip:rect(0,0,0,0);
+	border:0
+}
+.btn2{
+   color: #fff;
+   background-color: #AAABD3;
+   
+   border-color: #AAABD3;
+   border-radius: 6px;
+ }
+
 </style>
 <body class="w3-theme-l5">
 
@@ -193,10 +237,18 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 		</span>
         	  	 	</div>
         	  	 	<div><b style="font-size: 20px;">제목 : </b><input type="text" name="apv_title" placeholder="결재 제목을 작성해주세요" required="required" style="width: 80%;"></div>
-        	  	 	<div><b style="font-size: 20px;">첨부파일 : </b> <input type="file" name="file1"></div>
+        	  	 	<div>
+        	  	 		<b style="font-size: 20px;">첨부파일 : </b> 
+        	  	 		<span class="fileBox">
+							<input type="text" class="fileName" readonly="readonly">
+							<label for="uploadBtn" class="btn_file">파일 업로드</label>
+							<input type="file" id="uploadBtn" class="uploadBtn" name="file1">
+							<input type="button" class="btn2" value="제거" onclick="fdel()">
+						</span>
+        	  	 	</div>
         	  	 	<b style="font-size: 20px;">내용 </b><p style="margin: 0px;">
         	  	 	<div><textarea placeholder="결재 내용을 작성해주세요" name="apv_content" maxlength="4000"  style="height:150px; width: 80%; margin-left: 55px;" required="required"></textarea></div>
-        	  	 	<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="결재신청"></div>
+        	  	 	<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="결재신청" class="btn2"></div>
           	  	 </form>
           	  </div>
             </div>
@@ -347,6 +399,27 @@ function sltrm(){
 }
 function sltrm2(){
 	$("#slt2 option[value='']").remove();
+}
+
+var uploadFile = $('.fileBox .uploadBtn');
+uploadFile.on('change', function(){
+	if(window.FileReader){
+		var filename = $(this)[0].files[0].name;
+	} else {
+		var filename = $(this).val().split('/').pop().split('\\').pop();
+	}
+	$(this).siblings('.fileName').val(filename);
+});
+
+function fdel(){
+    $('.fileName').val('');
+	var agent = navigator.userAgent.toLowerCase();
+	//파일초기화
+	if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
+		$("#uploadBtn").replaceWith($("#uploadBtn").clone(true));
+	}else{
+	    $("#uploadBtn").val("");
+	}	
 }
 
 </script>

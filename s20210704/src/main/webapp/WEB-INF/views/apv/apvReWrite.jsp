@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>    
 <!DOCTYPE html>
 <html>
 <title>JOBIS</title>
@@ -14,6 +15,49 @@
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
+.fileBox .fileName {
+		display:inline-block;
+		width:170px;
+		height:30px;
+		padding-left:10px;
+		margin-right:5px;
+		line-height:30px;
+		border:1px solid #aaa;
+		background-color:#fff;
+		vertical-align:middle;
+		border-radius: 10px;
+	}
+.fileBox .btn_file {
+	display:inline-block;
+	border:2px solid #66677f;
+	border-top-width: 0px;
+	border-left-width: 0px;
+	width:100px;
+	height:30px;
+	line-height:30px;
+	text-align:center;
+	vertical-align:middle;
+	background-color: #AAABD3;
+	color:white;
+	border-radius: 6px;
+}
+.fileBox input[type="file"] {
+	position:absolute;
+	width:1px;
+	height:1px;
+	padding:0;
+	margin:-1px;
+	overflow:hidden;
+	clip:rect(0,0,0,0);
+	border:0
+}
+.btn2{
+   color: #fff;
+   background-color: #AAABD3;
+   
+   border-color: #AAABD3;
+   border-radius: 6px;
+ }
 </style>
 <body class="w3-theme-l5">
 
@@ -146,6 +190,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 	<input type="hidden" name="apv_snd" value="${emp_num }">
         	  	 	<input type="hidden" name="fnlChk" id="fnlChk" value="0">
         	  	 	<input type="hidden" name="apv_sq" value="${sndDetail.apv_sq }">
+        	  	 	<input type="hidden" name="apv_pl_nm" id="apv_pl_nm" value="${sndDetail.apv_pl_nm }">
         	  	 	<div style="font-size: 20px;">
         	  	 		<span><b>사원번호</b> : ${emp_num }&nbsp; <b>이름</b> : ${svo.emp_name }&nbsp; <b>부서</b> : ${svo.dcontent }&nbsp; <b>직급</b> : ${svo.rcontent }&nbsp;</span>
         	  	 	</div>
@@ -194,10 +239,18 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 		</span>
         	  	 	</div>
         	  	 	<div><b style="font-size: 20px;">제목 : </b><input type="text" name="apv_title" placeholder="결재 제목을 작성해주세요" required="required" style="width: 80%;" value="${sndDetail.apv_title }"></div>
-        	  	 	<div><b style="font-size: 20px;">첨부파일 : </b> 첨부파일예시 <input type="file" name="file1"></div>
+        	  	 	<div>
+        	  	 		<b style="font-size: 20px;">첨부파일 : </b> 
+        	  	 		<span class="fileBox">
+							<input type="text" class="fileName" readonly="readonly" value="${fn:substringAfter(sndDetail.apv_pl_nm, '_') }">
+							<label for="uploadBtn" class="btn_file">업로드 수정</label>
+							<input type="file" id="uploadBtn" class="uploadBtn" name="file1">
+							<input type="button" class="btn2" value="제거" onclick="fdel()">
+						</span>
+        	  	 	</div>
         	  	 	<b style="font-size: 20px;">내용 </b><p style="margin: 0px;">
-        	  	 	<div><pre><textarea placeholder="결재 내용을 작성해주세요" name="apv_content" maxlength="4000"  style="height:150px; width: 80%; margin-left: 55px;" required="required">${sndDetail.apv_content }</textarea></pre></div>
-        	  	 	<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="재결재신청"></div>
+        	  	 	<div><pre><textarea name="apv_content" maxlength="4000"  style="height:150px; width: 80%; margin-left: 55px;" required="required">${sndDetail.apv_content }</textarea></pre></div>
+        	  	 	<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="재결재신청" class="btn2"></div>
           	  	 </form>
           	  </div>
             </div>
@@ -346,7 +399,24 @@ $("select").children("option").each(function(){
  obj[val] = $(this);
 });
 
+var uploadFile = $('.fileBox .uploadBtn');
+uploadFile.on('change', function(){
+	if(window.FileReader){
+		var filename = $(this)[0].files[0].name;
+	} else {
+		var filename = $(this).val().split('/').pop().split('\\').pop();
+	}
+	$(this).siblings('.fileName').val(filename);
+	$('#apv_pl_nm').val('change');
+	$.get('fileDelete?fileName=${sndDetail.apv_pl_nm }');
+});
 
+function fdel(){
+    $('.fileName').val('');
+	$('#apv_pl_nm').val('');
+	$.get('fileDelete?fileName=${sndDetail.apv_pl_nm }');
+	/* location.href='fileDelete?fileName=${sndDetail.apv_pl_nm }'; */
+}
 
 </script>
 
