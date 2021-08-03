@@ -214,4 +214,126 @@ public class YjEmpDaoImpl implements YjEmpDao {
 		return rankList;
 	}
 
+	@Override
+	public List<YjEmp> empMng(int empno) {
+		List<YjEmp> empMng = null;
+		System.out.println("YjEmpDaoImpl empMng Start ..." );
+		try {
+			// Naming Rule 
+			empMng = session.selectList("empMng", empno);
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl empMng Exception->"+e.getMessage());
+		}
+		return empMng;
+	}
+
+	@Override
+	public int updateEmp(YjEmp emp) {
+		int result = 0;
+		System.out.println("YjEmpDaoImpl updateEmp Start...");
+		try {
+			result = session.update("updateEmp", emp);
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl updateEmp Exception->"+e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public int deleteEmp(int empno) {
+		int result = 0;
+		System.out.println("YjEmpDaoImpl deleteEmp Start...");
+		try {
+			result = session.delete("deleteEmp", empno);
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl deleteEmp Exception->"+e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public List<YjEmp> dtList() {
+		List<YjEmp> dtList = null;
+		System.out.println("YjEmpDaoImpl dtList Start ..." );
+		try {
+			// Naming Rule 
+			dtList = session.selectList("dtList");
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl dtList Exception->"+e.getMessage());
+		}
+		return dtList;
+	}
+
+	@Override
+	public int countDept() {
+		int result = 0;
+		System.out.println("YjEmpDaoImpl countDept Start...");
+		try {
+			result = session.selectOne("countDept");
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl countDept Exception->"+e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public int countTeam(String dept) {
+		int result = 0;
+		System.out.println("YjEmpDaoImpl countTeam Start...");
+		try {
+			result = session.selectOne("countTeam", dept);
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl countTeam Exception->"+e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public int addDept(YjEmp emp) {
+		int result = 0;
+		System.out.println("YjEmpDaoImpl addDept Start...");
+		try {
+			result = session.insert("addDept", emp);
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl addDept Exception->"+e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public int addTeam(YjEmp emp) {
+		int result = 0;
+		System.out.println("YjEmpDaoImpl addTeam Start...");
+		try {
+			result = session.insert("addTeam", emp);
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl addTeam Exception->"+e.getMessage());
+		}
+		return result;
+	}
+
+	@Override
+	public String getcodetD(String dept) {
+		String result = null;
+		System.out.println("YjEmpDaoImpl getcodetD Start...");
+		try {
+			result = session.selectOne("getcodetD", dept);
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl getcodetD Exception->"+e.getMessage());
+		}
+		return result;		
+	}
+
+	@Override
+	public int deleteTeam(String team) {
+		int result = 0;
+		System.out.println("YjEmpDaoImpl deleteTeam Start...");
+		try {
+			result = session.delete("deleteTeam", team);
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl deleteTeam Exception->"+e.getMessage());
+		}
+		return result;
+	}
+
 }

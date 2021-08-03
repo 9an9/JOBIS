@@ -63,7 +63,7 @@
 	<update id="changePw" parameterType="com.oracle.s20210704.model.YjEmp">
 		update emp set emp_pw=#{newpw} where emp_num=#{emp_num}
 	</update>
-		<update id="updateInfo" parameterType="com.oracle.s20210704.model.YjEmp">
+	<update id="updateInfo" parameterType="com.oracle.s20210704.model.YjEmp">
 		update emp set emp_name=#{emp_name}, emp_phnum=#{emp_phnum}, emp_zc_addr=#{emp_zc_addr},
 		emp_cm_addr=#{emp_cm_addr}, emp_dt_addr=#{emp_dt_addr}, emp_email=#{emp_email}, ph_path=#{ph_path} 
 		where emp_num=#{emp_num}
@@ -84,7 +84,46 @@
 	select code as tcode, content as team from comm where code like '1%' and substr(code,2,1) = substr(#{dept},2,1) 
 	and substr(code,3,1)!=0
 	</select>
-		<select id="rankList" resultType="com.oracle.s20210704.model.YjEmp">
+	<select id="rankList" resultType="com.oracle.s20210704.model.YjEmp">
 	select code as rcode, content as rank from comm where code like '2%'
 	</select>
+	<select id="empMng" parameterType="int" resultType="com.oracle.s20210704.model.YjEmp">
+		select e.emp_name, d.content as dept, t.content as team, r.content as rank  
+		from emp e, comm d, comm t, comm r
+		where e.dep_num = d.code and e.team_num = t.code and e.rnk_num = r.code
+		and e.emp_num=#{empno} 
+	</select>
+	<update id="updateEmp" parameterType="com.oracle.s20210704.model.YjEmp">
+		update emp set dep_num=#{dep_num}, team_num=#{team_num}, rnk_num=#{rnk_num} 
+		where emp_num=#{empno}
+	</update>
+	<delete id="deleteEmp" parameterType="int">
+		delete from emp where emp_num=#{empno}
+	</delete>
+	<select id="dtList" resultType="com.oracle.s20210704.model.YjEmp">
+		select d.content as dept, t.content as team from comm d, comm t where d.code like '1%0' and t.code like '1%%' and 
+		substr(d.code,2,1)=substr(t.code,2,1) and d.code != '100' and substr(t.code,3,1)!='0'
+		order by t.code
+	</select>
+	<select id="countDept" resultType="int">
+		select count(*) from comm where code like '1_0' and code !='100'
+	</select>
+	<select id="countTeam" parameterType="string" resultType="int">
+		select count(*) from comm where substr(content,1,2)=substr(#{dept},1,2) and substr(code,3,1)!='0'
+	</select>
+	<select id="getcodetD" parameterType="string" resultType="string">
+		select substr(code,2,1) from comm where content=#{dept}
+	</select>
+	<insert id="addDept" parameterType="com.oracle.s20210704.model.YjEmp">
+		insert all 
+    	into comm (code, content) values (#{dcode}, #{dept})
+    	into comm (code, content) values (#{tcode}, #{team})
+		select * from dual
+	</insert>
+		<insert id="addTeam" parameterType="com.oracle.s20210704.model.YjEmp">
+		insert into comm (code, content) values(#{tcode}, #{team})
+	</insert>
+	<delete id="deleteTeam" parameterType="string">
+		delete from comm where content=#{team}
+	</delete>
 </mapper>

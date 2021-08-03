@@ -153,7 +153,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 			  	<tr><th>No.</th><th>사원번호</th><th>사원명</th><th>부서명</th><th>소속</th><th>직책</th><th>이메일</th><th>전화번호</th><th>주소</th><th>입사일</th><th>비고</th></tr>
 				<c:forEach var="empList" items="${empList}">
 					<tr><td>${num }</td>
-						<td>${empList.emp_num }</td>
+						<td><a href="javascript:openEmpMng(${empList.emp_num })">${empList.emp_num }</a></td>
 				    	<td>${empList.emp_name }</td>
 						<td>${empList.dept }</td>
 						<td>${empList.team }</td>
@@ -268,6 +268,18 @@ function chg(num){
 	console.log("체인지 넘어옴");
 	var frm = document.getElementById('frm'+num);
 	frm.submit();
+}
+function openEmpMng(empno) {	
+	var w = (window.screen.width/2) - 200;
+	var h = (window.screen.height/2) - 200;
+	var url = "empMng?empno="+empno;
+	window.open(url,"","width=400,height=400,left="+w+",top="+h);
+}
+function openDept() {	
+	var w = (window.screen.width/2) - 200;
+	var h = (window.screen.height/2) - 200;
+	var url = "deptUpdate";
+	window.open(url,"","width=400,height=400,left="+w+",top="+h);
 }
 </script>
 

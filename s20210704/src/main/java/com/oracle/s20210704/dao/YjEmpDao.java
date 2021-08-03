@@ -22,4 +22,14 @@ public interface YjEmpDao {
 	List<YjEmp> 	deptList();
 	List<YjEmp> 	teamList(String dept);
 	List<YjEmp> 	rankList();
+	List<YjEmp> 	empMng(int empno);
+	int 		    updateEmp(YjEmp emp);
+	int			 	deleteEmp(int empno);
+	List<YjEmp> 	dtList();
+	int				countDept();
+	int				countTeam(String dept);
+	int				addDept(YjEmp emp);
+	int 			addTeam(YjEmp emp);	
+	String			getcodetD(String dept);
+	int				deleteTeam(String team);
 }

@@ -220,7 +220,7 @@ public class YjController {
 	}	
 	
 	//개인 정보 수정
-	@RequestMapping(value = "emp/updateInfo")
+	@RequestMapping(value = "emp/updateInfo", method = RequestMethod.POST)
 	public String updateInfo(HttpServletRequest request, MultipartFile myImg, YjEmp emp, HttpSession session, SyMemberVO  vo, Model model) 
 			throws Exception{
 		int emp_num = (int)session.getAttribute("member");
@@ -236,6 +236,7 @@ public class YjController {
 	    System.out.println("YjController writeEmp fileupload savedName-->" + savedName);
 	    emp.setPh_path(uploadPath + savedName);
 	    
+	    emp.setEmp_num(emp_num);
 		int result = es.updateInfo(emp);
 		System.out.println("YjEmpController updateInfo Start...");
 		System.out.println("YjEmpController updateInfo result--> " + result);
@@ -336,6 +337,144 @@ public class YjController {
 		return "forward:emp/empList";
 	}
 	
+	//인사이동페이지
+	@RequestMapping(value = "emp/empMng")
+	public String empMng(int empno, YjEmp emp, HttpSession session, SyMemberVO  vo, Model model) {
+		int emp_num = (int)session.getAttribute("member");
+		vo.setEmp_num(emp_num);
+		SyMemberVO svo = jrs.show(vo);
+		model.addAttribute("emp_num",emp_num);
+		model.addAttribute("svo",svo);	
+		
+		model.addAttribute("empno", empno);
+		List<YjEmp> empMng = es.empMng(empno);
+		model.addAttribute("empMng", empMng);
+		
+		List<YjEmp> deptList = es.deptList();
+		model.addAttribute("deptList", deptList);
+		
+		List<YjEmp> rankList = es.rankList();
+		model.addAttribute("rankList", rankList);
+		
+		return "emp/empMng";
+	}
+	
+	//인사이동
+	@RequestMapping(value = "emp/mngEmp", method = RequestMethod.POST)
+	public String mngEmp(YjEmp emp, HttpSession session, SyMemberVO  vo, Model model) {
+		int emp_num = (int)session.getAttribute("member");
+		vo.setEmp_num(emp_num);
+		SyMemberVO svo = jrs.show(vo);
+		model.addAttribute("emp_num",emp_num);
+		model.addAttribute("svo",svo);	
+		
+		System.out.println("YjController mngEmp Start...");
+		int result = es.updateEmp(emp);
+		System.out.println("YjController mngEmp result-->" + result);
+		model.addAttribute("result", result);
+		
+		return "emp/empMng";
+	}
+	
+	//사원삭제
+	@RequestMapping(value = "emp/deleteEmp")
+	public String deleteEmp(int empno, YjEmp emp, HttpSession session, SyMemberVO  vo, Model model) {
+		int emp_num = (int)session.getAttribute("member");
+		vo.setEmp_num(emp_num);
+		SyMemberVO svo = jrs.show(vo);
+		model.addAttribute("emp_num",emp_num);
+		model.addAttribute("svo",svo);	
+		
+		System.out.println("YjController depeteEmp empno--> " + empno);
+		int result2 = es.deleteEmp(empno);
+		System.out.println("YjController deleteEmp Start...");
+		System.out.println("YjController deleteEmp result--> " + result2);
+		model.addAttribute("result2", result2);
+		
+		return "emp/empMng";
+	}
+	
+	//부서관리 페이지
+	@RequestMapping(value = "emp/deptUpdate")
+	public String deptUpdate(YjEmp emp, HttpSession session, SyMemberVO  vo, Model model) {
+		int emp_num = (int)session.getAttribute("member");
+		vo.setEmp_num(emp_num);
+		SyMemberVO svo = jrs.show(vo);
+		model.addAttribute("emp_num",emp_num);
+		model.addAttribute("svo",svo);			
+		
+		System.out.println("YjController deptUpdate Start...");
+		List<YjEmp> dtList = es.dtList();
+		model.addAttribute("dtList", dtList);
+		
+		return "emp/deptUpdate";
+	}
+	
+	//부서추가
+	@RequestMapping(value = "emp/addDept", method = RequestMethod.POST)
+	public String addDept(String dept, YjEmp emp, HttpSession session, SyMemberVO  vo, Model model) {
+		int emp_num = (int)session.getAttribute("member");
+		vo.setEmp_num(emp_num);
+		SyMemberVO svo = jrs.show(vo);
+		model.addAttribute("emp_num",emp_num);
+		model.addAttribute("svo",svo);	
+		
+		emp.setDept(dept);
+		String dcode = "1" + Integer.toString(es.countDept()+1) + "0";
+		emp.setDcode(dcode);
+		String tcode = "1" + Integer.toString(es.countDept()+1) + "1";
+		emp.setTcode(tcode);
+		String team = dept.substring(0,2) + "1" + "팀";
+		emp.setTeam(team);
+		System.out.println("YjController addDept Start...");
+		System.out.println("YjController addDept dept-->" + dept);
+		System.out.println("YjController addDept team-->" + team);
+		
+		int result = es.addDept(emp);
+		System.out.println("YjController addDept result--> " + result);
+		 
+		return "forward:deptUpdate";
+	}
+	
+	//팀 삭제
+	@RequestMapping(value = "emp/deleteTeam")
+	public String deleteTeam(String team, YjEmp emp, HttpSession session, SyMemberVO  vo, Model model) {
+		int emp_num = (int)session.getAttribute("member");
+		vo.setEmp_num(emp_num);
+		SyMemberVO svo = jrs.show(vo);
+		model.addAttribute("emp_num",emp_num);
+		model.addAttribute("svo",svo);	
+		
+		System.out.println("YjController deleteTeam Start...");
+		System.out.println("YjController deleteTeam team-->" + team);
+		
+		int result = es.deleteTeam(team);
+		System.out.println("YjController deleteTeam result--> " + result);
+		 
+		return "forward:deptUpdate";		
+	}
+	
+	//팀추가
+	@RequestMapping(value = "emp/addTeam")
+	public String addTeam(String dept, YjEmp emp, HttpSession session, SyMemberVO  vo, Model model) {
+		int emp_num = (int)session.getAttribute("member");
+		vo.setEmp_num(emp_num);
+		SyMemberVO svo = jrs.show(vo);
+		model.addAttribute("emp_num",emp_num);
+		model.addAttribute("svo",svo);	
+
+		emp.setDept(dept);
+		String tcode = "1" + es.getcodetD(dept) + Integer.toString(es.countTeam(dept)+1);
+		emp.setTcode(tcode);
+		String team = dept.substring(0,2) + Integer.toString(es.countTeam(dept)+1) + '팀';
+		emp.setTeam(team);
+		System.out.println("YjController addTeam Start...");
+		int result = es.addTeam(emp);
+		System.out.println("YjController addTeam result--> " + result);		
+		
+		return "forward:deptUpdate";
+	}
+	
 	  //사진파일 업로드
 	  private String uploadFile(String originalName, byte[] fileData , String uploadPath) 
 			  throws Exception {
@@ -348,11 +487,11 @@ public class YjController {
 			fileDirectory.mkdirs();
 			System.out.println("업로드용 폴더 생성 : " + uploadPath);
 		}
-
+	
 	    String savedName = uid.toString() + "_" + originalName;
 	    System.out.println("savedName: " + savedName);
 	    File target = new File(uploadPath, savedName);
-//	    File target = new File(requestPath, savedName);
+	//	    File target = new File(requestPath, savedName);
 	    FileCopyUtils.copy(fileData, target);   // org.springframework.util.FileCopyUtils
 	    
 	    return savedName;

@@ -141,22 +141,21 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <div class="w3-container w3-padding">
               <h1><i class="fa fa-pencil fa-fw w3-margin-right"></i><b>개인정보수정</b></h1><hr>
               <form action="updateInfo" method="post" enctype="multipart/form-data">
-              <input type="submit" value="수정">
 			  <c:forEach var="myInfo" items="${myInfo}">              
               <table>
               <tr><th>사번</th><td>${myInfo.emp_num }
               <tr><th>이름</th><td><input type="text" id="emp_name" name="emp_name" required="required" value="${myInfo.emp_name}"></td>
-              <tr><th>현재비밀번호</th><td><input type="emp_pw" id="pw" name="emp_pw" value="${myInfo.emp_pw }"><button type="button" onclick="updatePw()">비밀번호 변경</button></td></tr>
-              <tr><th>이메일</th><td><input type="text" id="emp_email" name="emp_email" required="required" value="${myInfo.emp_email}"></td>
+              <tr><th>현재비밀번호</th><td><input type="password" id="emp_pw" name="emp_pw" readonly="readonly" value="${myInfo.emp_pw }"><button type="button" onclick="updatePw()">비밀번호 변경</button></td></tr>
+              <tr><th>이메일</th><td><input type="email" id="emp_email" name="emp_email" required="required" value="${myInfo.emp_email}"></td>
               <tr><th>전화번호</th><td><input type="text" id="emp_phnum" name="emp_phnum" required="required" value="${myInfo.emp_phnum}"></td>
               <tr><th>우편번호</th><td><input type="text" id="emp_zc_addr" name="emp_zc_addr" readonly="readonly" value="${myInfo.emp_zc_addr}"> <input type="button" value="수정" onclick="findAddr()"></td>
               <tr><th>주소</th><td><input type="text" id="emp_cm_addr" name="emp_cm_addr" readonly="readonly" value="${myInfo.emp_cm_addr}"></td>
               <tr><th>상세주소</th><td><input type="text" id="emp_dt_addr" name="emp_dt_addr" value="${myInfo.emp_dt_addr }"></td></tr>
               <tr><th>사진</th><td><input type="file" id="myImg" name="myImg" value="${myInfo.ph_path }">
               <tr><th>사진view</th><td><img id="preImage" src="${pageContext.request.contextPath}/saveFile/${noticeVO.filename}" alt="image_title" onerror='this.src="../images/LUCY.jpg"'/><p>
-			  <input type="submit" value="수정"></td>
 			  </table>
 			  </c:forEach>
+			  <input type="submit" value="수정">
 			  </form>
 
             </div>
