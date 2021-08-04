@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>  
 <!DOCTYPE html>
 <html>
 <title>JOBIS</title>
@@ -152,7 +153,11 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 	</div>
         	  	 	<div><span><b style="font-size: 20px;">결재분류 : </b>${sndDetail.apv_type }</span></div>
         	  	 	<div><b style="font-size: 20px;">제목 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b>${sndDetail.apv_title }</div>
-        	  	 	<div><b style="font-size: 20px;">첨부파일 : </b> 첨부파일예시</div>
+        	  	 	<div>
+        	  	 		<b style="font-size: 20px;">첨부파일 : </b>
+        	  	 		<c:if test="${empty sndDetail.apv_pl_nm }">없음</c:if>
+        	  	 		<c:if test="${not empty sndDetail.apv_pl_nm }">${fn:substringAfter(sndDetail.apv_pl_nm, '_') }</c:if>
+        	  	 	</div>
         	  	 	<div><b style="font-size: 20px;">내용 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :  </b> ${sndDetail.apv_content }</div>
 					
 					<div>
@@ -180,7 +185,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 							<c:set value="${i + 1 }" var="i"/>	
 						</c:forEach>
 					</div>
-					
+					<div style="text-align: center;" id="pdf"></div>
 					<div>
 						<c:if test="${sndDetail.apv_ok == 4 }">
 							<span><b style="font-size: 20px;">반려사유 : </b>${sndDetail.apv_no }</span>
@@ -254,7 +259,11 @@ function openNav() {
   }
 }
 
-
+var pdfName = '${sndDetail.apv_pl_nm}';
+if(pdfName){
+	var pdfPath = '<iframe width="80%" height="550" src="../upload/${sndDetail.apv_pl_nm}" />';
+	$('#pdf').append(pdfPath);	
+}
 
 
 

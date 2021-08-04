@@ -242,7 +242,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 		<span class="fileBox">
 							<input type="text" class="fileName" readonly="readonly">
 							<label for="uploadBtn" class="btn_file">파일 업로드</label>
-							<input type="file" id="uploadBtn" class="uploadBtn" name="file1" onchange="setThumbnail(event);">
+							<input type="file" id="uploadBtn" class="uploadBtn" name="file1" accept=".pdf" onchange="setThumbnail(event);">
 							<input type="button" class="btn2" value="제거" onclick="fdel()">
 						</span>
         	  	 	</div>
@@ -425,6 +425,7 @@ function fdel(){
 }
 
 function setThumbnail(event) { 
+	$('#pdf *').remove();
 	var reader = new FileReader(); 
 	reader.onload = function(event) { 
 		var iframe = document.createElement("iframe");

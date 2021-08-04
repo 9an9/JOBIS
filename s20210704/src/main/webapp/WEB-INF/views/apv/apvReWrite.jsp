@@ -244,10 +244,11 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 		<span class="fileBox">
 							<input type="text" class="fileName" readonly="readonly" value="${fn:substringAfter(sndDetail.apv_pl_nm, '_') }">
 							<label for="uploadBtn" class="btn_file">업로드 수정</label>
-							<input type="file" id="uploadBtn" class="uploadBtn" name="file1">
+							<input type="file" id="uploadBtn" class="uploadBtn" name="file1" accept=".pdf" onchange="setThumbnail(event);">
 							<input type="button" class="btn2" value="제거" onclick="fdel()">
 						</span>
         	  	 	</div>
+        	  	 	<div style="text-align: center;" id="pdf"></div>
         	  	 	<b style="font-size: 20px;">내용 </b><p style="margin: 0px;">
         	  	 	<div><pre><textarea name="apv_content" maxlength="4000"  style="height:150px; width: 80%; margin-left: 55px;" required="required">${sndDetail.apv_content }</textarea></pre></div>
         	  	 	<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="재결재신청" class="btn2"></div>
@@ -412,10 +413,30 @@ uploadFile.on('change', function(){
 });
 
 function fdel(){
+	$('#pdf *').remove();
     $('.fileName').val('');
 	$('#apv_pl_nm').val('');
 	$.get('fileDelete?fileName=${sndDetail.apv_pl_nm }');
 	/* location.href='fileDelete?fileName=${sndDetail.apv_pl_nm }'; */
+}
+
+var pdfName = '${sndDetail.apv_pl_nm}';
+if(pdfName){
+	var pdfPath = '<iframe width="80%" height="550" src="../upload/${sndDetail.apv_pl_nm}" />';
+	$('#pdf').append(pdfPath);	
+}
+
+function setThumbnail(event) { 
+	$('#pdf *').remove();
+	var reader = new FileReader(); 
+	reader.onload = function(event) { 
+		var iframe = document.createElement("iframe");
+		iframe.setAttribute("width", "80%");
+		iframe.setAttribute("height", "550");
+		iframe.setAttribute("src", event.target.result); 
+		document.querySelector('#pdf').appendChild(iframe); 
+	}; 
+	reader.readAsDataURL(event.target.files[0]); 
 }
 
 </script>

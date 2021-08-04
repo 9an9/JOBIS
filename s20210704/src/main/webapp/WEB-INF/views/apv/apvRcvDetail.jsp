@@ -230,7 +230,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
        	  	 		<c:if test="${not empty rcvDetail.apv_mid_ok }">
         	  	 		<c:if test="${rcvDetail.apv_mid_ok == 0 && rcvDetail.apv_ok < 3}">
         	  	 			<c:set var="okChk" value="${okChk + 1 }"/>
-        	  	 			<div><b style="font-size: 20px;">반려사유 : </b><input type="text" name="apv_no" placeholder="반려를 하신다면 이류를 작성해주세요"  style="width: 75%;"></div>
+        	  	 			<div><b style="font-size: 20px;">반려사유 : </b><input type="text" name="apv_no" placeholder="반려를 하신다면 사유를 작성해주세요"  style="width: 75%;"></div>
         	  	 			<div style="margin: 20px 0px; margin-left: 77%; ">
         	  	 				<input type="submit" value="승인" class="btn1">
         	  	 				<button type="button" class="btn2" onclick="apvno()">반려</button>
