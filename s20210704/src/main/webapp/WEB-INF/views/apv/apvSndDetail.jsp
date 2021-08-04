@@ -15,6 +15,13 @@
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
+.btn2{
+   color: #fff;
+   background-color: #384f76;
+   
+   border-color: #384f76;
+   border-radius: 6px;
+ }
 </style>
 
 
@@ -149,19 +156,19 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
               <div style="border: 1px solid black; width: 90%; margin: 50px auto;">
           	  	 <div style="margin-left: 30px; margin-top: 30px;">
         	  	 	<div style="font-size: 20px;">
-        	  	 		<span><b>사원번호</b> : ${emp_num }&nbsp; <b>이름</b> : ${svo.emp_name }&nbsp; <b>부서</b> : ${svo.dcontent }&nbsp; <b>직급</b> : ${svo.rcontent }&nbsp;</span>
+        	  	 		<span><b>사원번호</b>  ${emp_num }&nbsp; <b style="margin-left: 5%;">이름</b>  ${svo.emp_name }&nbsp; <b style="margin-left: 5%;">부서</b>  ${svo.dcontent }&nbsp; <b style="margin-left: 5%;">직급</b>  ${svo.rcontent }&nbsp;</span>
         	  	 	</div>
-        	  	 	<div><span><b style="font-size: 20px;">결재분류 : </b>${sndDetail.apv_type }</span></div>
-        	  	 	<div><b style="font-size: 20px;">제목 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b>${sndDetail.apv_title }</div>
+        	  	 	<div><span><b style="font-size: 20px;">결재분류  </b>${sndDetail.apv_type }</span></div>
+        	  	 	<div><b style="font-size: 20px;">제목 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  </b>${sndDetail.apv_title }</div>
         	  	 	<div>
-        	  	 		<b style="font-size: 20px;">첨부파일 : </b>
+        	  	 		<b style="font-size: 20px;">첨부파일  </b>
         	  	 		<c:if test="${empty sndDetail.apv_pl_nm }">없음</c:if>
         	  	 		<c:if test="${not empty sndDetail.apv_pl_nm }">${fn:substringAfter(sndDetail.apv_pl_nm, '_') }</c:if>
         	  	 	</div>
-        	  	 	<div><b style="font-size: 20px;">내용 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :  </b> ${sndDetail.apv_content }</div>
+        	  	 	<div><b style="font-size: 20px;">내용 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </b> ${sndDetail.apv_content }</div>
 					
 					<div>
-						<b style="font-size: 20px;">진행과정 : </b>
+						<b style="font-size: 20px;">진행과정  </b>
 						<c:set value="0" var="i"/>
 						<c:set value="0" var="ing_no"/>
 						<c:forEach var="apv_ing" items="${apv_ing }">
@@ -188,12 +195,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 					<div style="text-align: center; margin-top: 10px;" id="pdf"></div>
 					<div>
 						<c:if test="${sndDetail.apv_ok == 4 }">
-							<span><b style="font-size: 20px;">반려사유 : </b>${sndDetail.apv_no }</span>
+							<span><b style="font-size: 20px;">반려사유  </b>${sndDetail.apv_no }</span>
 						</c:if>
 					</div>
 					
 					<c:if test="${sndDetail.apv_ok == 4 }">
-						<div style="margin-left: 77%; margin-bottom: 20px;"><a href="apvReWrite?sq=${sndDetail.apv_sq }"><button type="button">재결재</button></a></div>
+						<div style="margin-left: 82%; margin-bottom: 20px;"><a href="apvReWrite?sq=${sndDetail.apv_sq }"><button type="button" class="btn2">재결재</button></a></div>
 					</c:if>
 					
 					

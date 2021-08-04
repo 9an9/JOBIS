@@ -206,11 +206,11 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 	<input type="hidden" name="apv_sq" value="${sndDetail.apv_sq }">
         	  	 	<input type="hidden" name="apv_pl_nm" id="apv_pl_nm" value="${sndDetail.apv_pl_nm }">
         	  	 	<div style="font-size: 20px;">
-        	  	 		<span><b>사원번호</b> : ${emp_num }&nbsp; <b>이름</b> : ${svo.emp_name }&nbsp; <b>부서</b> : ${svo.dcontent }&nbsp; <b>직급</b> : ${svo.rcontent }&nbsp;</span>
+        	  	 		<span><b>사원번호</b>  ${emp_num }&nbsp; <b style="margin-left: 5%;">이름</b>  ${svo.emp_name }&nbsp; <b style="margin-left: 5%;">부서</b>  ${svo.dcontent }&nbsp; <b style="margin-left: 5%;">직급</b>  ${svo.rcontent }&nbsp;</span>
         	  	 	</div>
         	  	 	<div>
         	  	 		<span>
-        	  	 			<b style="font-size: 20px;">결재분류 : </b>
+        	  	 			<b style="font-size: 20px;">결재분류  </b>
         	  	 			<select name="apv_type" id="apv_type" onchange="getRcvList()" required="required">
         	  	 				<option value="${sndDetail.apv_type }" selected="selected">${sndDetail.apv_type }</option>
         	  	 				<c:if test="${svo.dcontent == '임원'}"><option value="최종보고">최종보고</option></c:if>
@@ -241,20 +241,20 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 				</c:if>
         	  	 			</select>
         	  	 		</span>
-        	  	 		<span id="Rcv_List" style="margin-left: 132px;">
+        	  	 		<span id="Rcv_List" style="margin-left: 5%;">
         	  	 			<c:if test="${svo.dcontent == '임원'}">
         	  	 				<script type="text/javascript">
         	  	 					var fnlChk   = document.getElementById('fnlChk');
         	  	 					fnlChk.value = 1;
         	  	 				</script>
-        	  	 				<b style="font-size: 20px;">결재자 : </b> <span style="margin: 0px; font-size: 20px;">서팔광</span>
+        	  	 				<b style="font-size: 20px;">결재자  </b> <span style="margin: 0px; font-size: 20px;">서팔광</span>
         	  	 				<input type="hidden" name="apv_fnl" value="1701001">
         	  	 			</c:if>
         	  	 		</span>
         	  	 	</div>
-        	  	 	<div><b style="font-size: 20px;">제목 : </b><input type="text" name="apv_title" placeholder="결재 제목을 작성해주세요" required="required" style="width: 80%;" value="${sndDetail.apv_title }"></div>
+        	  	 	<div><b style="font-size: 20px;">제목  </b><input type="text" name="apv_title" placeholder="결재 제목을 작성해주세요" required="required" style="width: 80%;" value="${sndDetail.apv_title }"></div>
         	  	 	<div>
-        	  	 		<b style="font-size: 20px;">첨부파일 : </b> 
+        	  	 		<b style="font-size: 20px;">첨부파일  </b> 
         	  	 		<span class="fileBox">
 							<input type="text" class="fileName" readonly="readonly" value="${fn:substringAfter(sndDetail.apv_pl_nm, '_') }">
 							<label for="uploadBtn" class="btn_file">업로드 수정</label>
@@ -262,7 +262,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 							<label class="btn3" onclick="fdel()">제거</label>
 						</span>
         	  	 	</div>
-        	  	 	<div style="text-align: center; margin-top: 10px;" id="pdf"></div>
+        	  	 	<div style="margin-left: 55px; margin-top: 10px;" id="pdf"></div>
         	  	 	<b style="font-size: 20px;">내용 </b><p style="margin: 0px;">
         	  	 	<div><pre><textarea name="apv_content" maxlength="4000"  style="height:150px; width: 80%; margin-left: 55px;" required="required">${sndDetail.apv_content }</textarea></pre></div>
         	  	 	<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="재결재신청" class="btn2"></div>
@@ -376,9 +376,9 @@ function getRcvList(){
 		success:function(data){
 			$('#Rcv_List *').remove();
 			if(fnlChk2 == 1){
-				str += "<b style='font-size: 20px;'>결재자 : </b><select name = 'apv_fnl' required='required' id='slt2' ><option value='${nextEmp.rcv_num}' selected='selected'>${nextEmp.rcv_name}</option>";
+				str += "<b style='font-size: 20px;'>결재자  </b><select name = 'apv_fnl' required='required' id='slt2' ><option value='${nextEmp.rcv_num}' selected='selected'>${nextEmp.rcv_name}</option>";
 			}else{			
-				str += "<b style='font-size: 20px;'>결재자 : </b><select name = 'apv_mid_emp' required='required' id='slt' ><option value='${nextEmp.rcv_num}' selected='selected'>${nextEmp.rcv_name}</option>";
+				str += "<b style='font-size: 20px;'>결재자  </b><select name = 'apv_mid_emp' required='required' id='slt' ><option value='${nextEmp.rcv_num}' selected='selected'>${nextEmp.rcv_name}</option>";
 			}
 			$(data).each(
 					function(){

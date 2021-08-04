@@ -167,11 +167,11 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 	<input type="hidden" name="apv_sq" value="${rcvDetail.apv_sq }">
         	  	 	<input type="hidden" name="apv_mid_emp" value="${emp_num }">
         	  	 	<div style="font-size: 20px;">
-        	  	 		<span><b>사원번호</b> : ${rcvDetail.apv_snd }&nbsp; <b>이름</b> : ${rcvDetail.srt_name }&nbsp; <b>부서</b> : ${rcvDetail.srt_dep }&nbsp; <b>직급</b> : ${rcvDetail.srt_rnk }&nbsp;</span>
+        	  	 		<span><b>사원번호</b>  ${rcvDetail.apv_snd }&nbsp; <b style="margin-left: 5%;">이름</b>  ${rcvDetail.srt_name }&nbsp; <b style="margin-left: 5%;">부서</b>  ${rcvDetail.srt_dep }&nbsp; <b style="margin-left: 5%;">직급</b>  ${rcvDetail.srt_rnk }&nbsp;</span>
         	  	 	</div>
         	  	 	<div>
         	  	 		<span>
-        	  	 			<b style="font-size: 20px;">결재분류 : </b>
+        	  	 			<b style="font-size: 20px;">결재분류  </b>
         	  	 			${rcvDetail.apv_type }
         	  	 		</span>
        	  	 			<c:if test="${not empty rcvDetail.apv_fnl }">
@@ -179,22 +179,22 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 				<span style="margin-left: 132px; "><b style="font-size: 20px;">최종 결재자 : </b>${rcvDetail.rcv_name }</span>
         	  	 			</c:if>
         	  	 		</c:if>
-        	  	 		<span id="Rcv_List" style="margin-left: 132px;">
+        	  	 		<span id="Rcv_List" style="margin-left: 8%;">
         	  	 		</span>
         	  	 	</div>
-        	  	 	<div><b style="font-size: 20px;">제목 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b>${rcvDetail.apv_title }</div>
+        	  	 	<div><b style="font-size: 20px;">제목 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  </b>${rcvDetail.apv_title }</div>
         	  	 	<div>
-        	  	 		<b style="font-size: 20px;">첨부파일 : </b> 
+        	  	 		<b style="font-size: 20px;">첨부파일  </b> 
         	  	 		<c:if test="${empty rcvDetail.apv_pl_nm }">없음</c:if>
         	  	 		<c:if test="${not empty rcvDetail.apv_pl_nm }">
 	        	  	 		<a href="ysdownload?fileName=${rcvDetail.apv_pl_nm }" style="text-decoration: none; color: black;">📁${fn:substringAfter(rcvDetail.apv_pl_nm, '_') }</a>
         	  	 		</c:if>
         	  	 	</div>
-        	  	 	<div><b style="font-size: 20px;">내용 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :  </b> ${rcvDetail.apv_content }</div>
+        	  	 	<div><b style="font-size: 20px;">내용 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </b> ${rcvDetail.apv_content }</div>
         	  	 	
 					
 					<div>
-						<b style="font-size: 20px;">진행과정 : </b>
+						<b style="font-size: 20px;">진행과정  </b>
 						<c:set value="0" var="i"/>
 						<c:set value="0" var="ing_no"/>
 						<c:forEach var="apv_ing" items="${apv_ing }">
@@ -230,7 +230,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
        	  	 		<c:if test="${not empty rcvDetail.apv_mid_ok }">
         	  	 		<c:if test="${rcvDetail.apv_mid_ok == 0 && rcvDetail.apv_ok < 3}">
         	  	 			<c:set var="okChk" value="${okChk + 1 }"/>
-        	  	 			<div><b style="font-size: 20px;">반려사유 : </b><input type="text" name="apv_no" placeholder="반려를 하신다면 사유를 작성해주세요"  style="width: 75%;"></div>
+        	  	 			<div><b style="font-size: 20px;">반려사유  </b><input type="text" name="apv_no" placeholder="반려를 하신다면 사유를 작성해주세요"  style="width: 79%;"></div>
         	  	 			<div style="margin: 20px 0px; margin-left: 77%; ">
         	  	 				<input type="submit" value="승인" class="btn1">
         	  	 				<button type="button" class="btn2" onclick="apvno()">반려</button>
@@ -353,7 +353,7 @@ function getRcvList(){
 		dataType:'json',
 		success:function(data){
 			$('#Rcv_List *').remove();
-			str += "<b style='font-size: 20px;'>다음 결재자 : </b><select name = 'apv_fnl' required='required' id='slt' onchange='sltrm()'><option value='-결재자-' selected='selected'>-결재자-</option>";
+			str += "<b style='font-size: 20px;'>다음 결재자  </b><select name = 'apv_fnl' required='required' id='slt' onchange='sltrm()'><option value='-결재자-' selected='selected'>-결재자-</option>";
 			$(data).each(
 					function(){
 						str2 = "<option value = '"+this.emp_num + "'>"+this.emp_name + "</option>";
