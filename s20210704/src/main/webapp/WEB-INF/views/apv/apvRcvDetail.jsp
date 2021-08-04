@@ -219,7 +219,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 						</c:forEach>
 					</div>
 					
-					<div style="text-align: center;" id="pdf"></div>
+					<div style="text-align: center; margin-top: 10px;" id="pdf"></div>
 					
 					<div>
 						<c:if test="${rcvDetail.apv_ok == 4 }">

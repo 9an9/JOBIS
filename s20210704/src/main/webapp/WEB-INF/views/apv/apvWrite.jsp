@@ -36,7 +36,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	line-height:30px;
 	text-align:center;
 	vertical-align:middle;
-	background-color: #AAABD3;
+	background-color: #384f76;
 	color:white;
 	border-radius: 6px;
 }
@@ -52,10 +52,24 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 }
 .btn2{
    color: #fff;
-   background-color: #AAABD3;
+   background-color: #384f76;
    
-   border-color: #AAABD3;
+   border-color: #384f76;
    border-radius: 6px;
+ }
+ .btn3{
+   display:inline-block;
+	border:2px solid #66677f;
+	border-top-width: 0px;
+	border-left-width: 0px;
+	width:50px;
+	height:30px;
+	line-height:30px;
+	text-align:center;
+	vertical-align:middle;
+	background-color: #384f76;
+	color:white;
+	border-radius: 6px;
  }
 
 </style>
@@ -243,10 +257,10 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 							<input type="text" class="fileName" readonly="readonly">
 							<label for="uploadBtn" class="btn_file">파일 업로드</label>
 							<input type="file" id="uploadBtn" class="uploadBtn" name="file1" accept=".pdf" onchange="setThumbnail(event);">
-							<input type="button" class="btn2" value="제거" onclick="fdel()">
+							<label class="btn3" onclick="fdel()">제거</label>
 						</span>
         	  	 	</div>
-        	  	 	<div style="text-align: center;" id="pdf"></div>
+        	  	 	<div style="text-align: center; margin-top: 10px;" id="pdf"></div>
         	  	 	<b style="font-size: 20px;">내용 </b><p style="margin: 0px;">
         	  	 	<div><textarea placeholder="결재 내용을 작성해주세요" name="apv_content" maxlength="4000"  style="height:150px; width: 80%; margin-left: 55px;" required="required"></textarea></div>
         	  	 	<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="결재신청" class="btn2"></div>
