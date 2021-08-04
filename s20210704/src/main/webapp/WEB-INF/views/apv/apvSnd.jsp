@@ -15,7 +15,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
 </style>
 <body class="w3-theme-l5">
-
+<c:if test="${rcvTotal == 0 }">
+<script type="text/javascript">
+	alert('받은 결재가 존재하지않습니다.');
+	history.back();
+</script>
+</c:if>
 <!-- Navbar -->
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">

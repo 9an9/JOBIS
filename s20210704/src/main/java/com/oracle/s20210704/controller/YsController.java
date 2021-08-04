@@ -248,6 +248,7 @@ public class YsController {
 		
 		int rcv_num = emp_num;
 		int rcvTotal = yas.rcvTotal(rcv_num);
+		model.addAttribute("rcvTotal", rcvTotal);
 		
 		YsPaging yp = new YsPaging(rcvTotal, currentPage);
 		ysApv.setStart(yp.getStart());
@@ -277,6 +278,7 @@ public class YsController {
 		
 		int snd_num = emp_num;
 		int sndTotal = yas.sndTotal(snd_num);
+		model.addAttribute("sndTotal", sndTotal);
 		
 		YsPaging yp = new YsPaging(sndTotal, currentPage);
 		ysApv.setStart(yp.getStart());
