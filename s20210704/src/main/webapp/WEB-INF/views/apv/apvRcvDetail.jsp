@@ -395,7 +395,7 @@ function apvno(){
 }
 var pdfName = '${rcvDetail.apv_pl_nm}';
 if(pdfName){
-	var pdfPath = '<iframe name="pdf"  width="80%" height="600" src="../upload/${rcvDetail.apv_pl_nm}" />';
+	var pdfPath = '<iframe width="80%" height="550" src="../upload/${rcvDetail.apv_pl_nm}" />';
 	$('#pdf').append(pdfPath);	
 }
 
