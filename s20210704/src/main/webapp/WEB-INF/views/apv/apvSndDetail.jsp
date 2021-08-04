@@ -153,7 +153,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">          
               <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>보낸 결재</b></h1><hr>
-              <div style="border: 1px solid black; width: 90%; margin: 50px auto;">
+              <div style="border: 3px solid #384f76; width: 90%; margin: 50px auto;">
           	  	 <div style="margin-left: 30px; margin-top: 30px;">
         	  	 	<div style="font-size: 20px;">
         	  	 		<span><b>사원번호</b>  ${emp_num }&nbsp; <b style="margin-left: 5%;">이름</b>  ${svo.emp_name }&nbsp; <b style="margin-left: 5%;">부서</b>  ${svo.dcontent }&nbsp; <b style="margin-left: 5%;">직급</b>  ${svo.rcontent }&nbsp;</span>

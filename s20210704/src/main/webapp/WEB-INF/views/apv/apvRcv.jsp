@@ -145,8 +145,8 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">          
               <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>보낸 결재함</b></h1><hr>
-              <table border="1">
-              	<tr><th>결제구분</th><th>제목</th><th>제출자</th><th>제출일</th><th>진행상황</th></tr>
+              <table border="1" style="width: 100%; text-align: center;">
+              	<tr style="background-color:#384f76; color: white; "><th style="width: 10%;">결제구분</th><th style="width: 55%;">제목</th><th style="width: 10%;">제출자</th><th style="width: 13%;">제출일</th><th style="width: 10%;">진행상황</th></tr>
               	<c:forEach var="sndList" items="${sndList }">
               		<tr>
               			<td>${sndList.apv_type }</td>

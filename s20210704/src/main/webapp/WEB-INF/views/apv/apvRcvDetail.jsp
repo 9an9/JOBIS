@@ -160,7 +160,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">          
               <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>받은 결재</b></h1><hr>
-              <div style="border: 1px solid black; width: 90%; margin: 50px auto;">
+              <div style="border: 3px solid #384f76; width: 90%; margin: 50px auto;">
           	  	 <form action="apvok" method="post" style="margin-left: 30px; margin-top: 30px;" name="frm" target="_self" onsubmit="return chk()">
         	  	 	<c:set var="okChk" value="0"/>
         	  	 	<input type="hidden" name="apv_ok" id="apv_ok">

@@ -199,7 +199,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">          
               <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>결재 작성</b></h1><hr>
-          	  <div style="border: 1px solid black; width: 90%; margin: 50px auto;">
+          	  <div style="border: 2px solid #384f76; width: 90%; margin: 50px auto;">
           	  	 <form action="apvWrite" method="post"  enctype="multipart/form-data" style="margin-left: 30px; margin-top: 30px;" name="frm" onsubmit="return chk()">
         	  	 	<input type="hidden" name="apv_snd" value="${emp_num }">
         	  	 	<input type="hidden" name="fnlChk" id="fnlChk" value="0">
