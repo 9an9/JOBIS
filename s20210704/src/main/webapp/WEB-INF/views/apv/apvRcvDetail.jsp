@@ -15,6 +15,20 @@
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
+.btn1{
+   color: #fff;
+   background-color: #607084;
+   
+   border-color: #607084;
+   border-radius: 6px;
+ }
+.btn2{
+  color: #fff;
+  background-color: #d20404;
+  
+  border-color: #d20404;
+  border-radius: 6px;
+}
 </style>
 
 
@@ -169,7 +183,13 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 		</span>
         	  	 	</div>
         	  	 	<div><b style="font-size: 20px;">제목 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b>${rcvDetail.apv_title }</div>
-        	  	 	<div><b style="font-size: 20px;">첨부파일 : </b> <a href="ysdownload?fileName=${rcvDetail.apv_pl_nm }" style="text-decoration: none; color: black;">📁${fn:substringAfter(rcvDetail.apv_pl_nm, '_') }</a></div>
+        	  	 	<div>
+        	  	 		<b style="font-size: 20px;">첨부파일 : </b> 
+        	  	 		<c:if test="${empty rcvDetail.apv_pl_nm }">없음</c:if>
+        	  	 		<c:if test="${not empty rcvDetail.apv_pl_nm }">
+	        	  	 		<a href="ysdownload?fileName=${rcvDetail.apv_pl_nm }" style="text-decoration: none; color: black;">📁${fn:substringAfter(rcvDetail.apv_pl_nm, '_') }</a>
+        	  	 		</c:if>
+        	  	 	</div>
         	  	 	<div><b style="font-size: 20px;">내용 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :  </b> ${rcvDetail.apv_content }</div>
         	  	 	
 					
@@ -211,9 +231,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 		<c:if test="${rcvDetail.apv_mid_ok == 0 && rcvDetail.apv_ok < 3}">
         	  	 			<c:set var="okChk" value="${okChk + 1 }"/>
         	  	 			<div><b style="font-size: 20px;">반려사유 : </b><input type="text" name="apv_no" placeholder="반려를 하신다면 이류를 작성해주세요"  style="width: 75%;"></div>
-        	  	 			<div style="margin-left: 77%; margin-bottom: 20px;">
-        	  	 				<input type="submit" value="승인">
-        	  	 				<button type="button" onclick="apvno()">반려</button>
+        	  	 			<div style="margin: 20px 0px; margin-left: 77%; ">
+        	  	 				<input type="submit" value="승인" class="btn1">
+        	  	 				<button type="button" class="btn2" onclick="apvno()">반려</button>
         	  	 			</div>
         	  	 		</c:if>
        	  	 		</c:if>
@@ -340,7 +360,7 @@ function getRcvList(){
 						str += str2;
 					}		
 				);
-				str += "</select><p>";
+				str += "</select>";
 				$('#Rcv_List').append(str);
 		}
 	});
@@ -373,9 +393,11 @@ function apvno(){
 		location.href='apvno?sq=${rcvDetail.apv_sq }&nono='+nono;
 	}
 }
-
-var pdfPath = '<iframe name="pdf"  width="80%" height="600" src="../upload/${rcvDetail.apv_pl_nm}" />';
-$('#pdf').append(pdfPath);
+var pdfName = '${rcvDetail.apv_pl_nm}';
+if(pdfName){
+	var pdfPath = '<iframe name="pdf"  width="80%" height="600" src="../upload/${rcvDetail.apv_pl_nm}" />';
+	$('#pdf').append(pdfPath);	
+}
 
 </script>
 

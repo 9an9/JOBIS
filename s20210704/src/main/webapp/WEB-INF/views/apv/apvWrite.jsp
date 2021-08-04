@@ -370,7 +370,7 @@ function getRcvList(){
 						str += str2;
 					}		
 				);
-				str += "</select><p>";
+				str += "</select>";
 				$('#Rcv_List').append(str);
 		}
 	});

@@ -154,7 +154,6 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 	<div><b style="font-size: 20px;">제목 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : </b>${sndDetail.apv_title }</div>
         	  	 	<div><b style="font-size: 20px;">첨부파일 : </b> 첨부파일예시</div>
         	  	 	<div><b style="font-size: 20px;">내용 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :  </b> ${sndDetail.apv_content }</div>
-        	  	 	<p>
 					
 					<div>
 						<b style="font-size: 20px;">진행과정 : </b>

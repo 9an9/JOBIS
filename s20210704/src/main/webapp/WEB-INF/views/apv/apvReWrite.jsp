@@ -373,7 +373,7 @@ function getRcvList(){
 						}
 					}		
 				);
-				str += "</select><p>";
+				str += "</select>";
 				$('#Rcv_List').append(str);
 		}
 	});
