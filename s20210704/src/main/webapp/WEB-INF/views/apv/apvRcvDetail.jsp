@@ -176,7 +176,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 		</span>
        	  	 			<c:if test="${not empty rcvDetail.apv_fnl }">
         	  	 			<c:if test="${rcvDetail.apv_fnl == emp_num }">
-        	  	 				<span style="margin-left: 132px; "><b style="font-size: 20px;">최종 결재자 : </b>${rcvDetail.rcv_name }</span>
+        	  	 				<span style="margin-left: 8%;"><b style="font-size: 20px;">최종 결재자  </b>${rcvDetail.rcv_name }</span>
         	  	 			</c:if>
         	  	 		</c:if>
         	  	 		<span id="Rcv_List" style="margin-left: 8%;">
