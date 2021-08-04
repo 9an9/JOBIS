@@ -213,10 +213,11 @@
 		                and e.emp_num = m.apv_mid_emp
 		                and m.apv_mid = #{apv_sq}
 		                union
-		                select e.emp_name as rcv_name, e.emp_num as rcv_num,(select max(apv_mid_num)+1 from apv_mid where apv_mid = 5) as apv_mid_num
+		                select e.emp_name as rcv_name, e.emp_num as rcv_num,(select max(apv_mid_num)+1 from apv_mid where apv_mid = #{apv_sq}) as apv_mid_num
 		                from apv a ,emp e
 		                where a.apv_fnl = e.emp_num
 		                and apv_sq = #{apv_sq}
+		                order by apv_mid_num
 		               ) b
 		           )
 		where rn between 1 and 1
