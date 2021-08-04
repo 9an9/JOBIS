@@ -428,6 +428,25 @@ if(pdfName){
 
 function setThumbnail(event) { 
 	$('#pdf *').remove();
+	var agent = navigator.userAgent.toLowerCase();
+    // 파일 업로드 확장자 체크
+    if( $("#uploadBtn").val() != "" ){
+      	var ext = $('#uploadBtn').val().split('.').pop().toLowerCase();
+ 	    if($.inArray(ext, ['pdf']) == -1) {
+ 	     	alert('pdf파일만 업로드 해주세요.');
+ 			//파일초기화
+ 			$('#apv_pl_nm').val('');
+ 			$('.fileName').val('');
+ 			$.get('fileDelete?fileName=${sndDetail.apv_pl_nm }');
+ 			if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
+ 				$("#uploadBtn").replaceWith($("#uploadBtn").clone(true));
+ 			}else{
+ 		    	$("#uploadBtn").val("");
+ 			}
+ 	     	return;
+	  	}
+     }
+	
 	var reader = new FileReader(); 
 	reader.onload = function(event) { 
 		var iframe = document.createElement("iframe");
