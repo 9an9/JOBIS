@@ -29,6 +29,19 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   border-color: #d20404;
   border-radius: 6px;
 }
+td{
+	width: 12.5%;
+}
+th{
+	width: 12.5%;
+	background-color:#E0E3DA; 
+}
+select {
+  text-align-last: center;
+  text-align: center;
+  -ms-text-align-last: center;
+  -moz-text-align-last: center;
+}
 </style>
 
 
@@ -160,86 +173,95 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">          
               <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>받은 결재</b></h1><hr>
-              <div style="border: 3px solid #384f76; width: 90%; margin: 50px auto;">
-          	  	 <form action="apvok" method="post" style="margin-left: 30px; margin-top: 30px;" name="frm" target="_self" onsubmit="return chk()">
+              
+          	  	 <form action="apvok" method="post" style="margin-top: 30px;" name="frm" target="_self" onsubmit="return chk()">
         	  	 	<c:set var="okChk" value="0"/>
         	  	 	<input type="hidden" name="apv_ok" id="apv_ok">
         	  	 	<input type="hidden" name="apv_sq" value="${rcvDetail.apv_sq }">
         	  	 	<input type="hidden" name="apv_mid_emp" value="${emp_num }">
-        	  	 	<div style="font-size: 20px;">
-        	  	 		<span><b>사원번호</b>  ${rcvDetail.apv_snd }&nbsp; <b style="margin-left: 5%;">이름</b>  ${rcvDetail.srt_name }&nbsp; <b style="margin-left: 5%;">부서</b>  ${rcvDetail.srt_dep }&nbsp; <b style="margin-left: 5%;">직급</b>  ${rcvDetail.srt_rnk }&nbsp;</span>
-        	  	 	</div>
-        	  	 	<div>
-        	  	 		<span>
-        	  	 			<b style="font-size: 20px;">결재분류  </b>
-        	  	 			${rcvDetail.apv_type }
-        	  	 		</span>
-       	  	 			<c:if test="${not empty rcvDetail.apv_fnl }">
-        	  	 			<c:if test="${rcvDetail.apv_fnl == emp_num }">
-        	  	 				<span style="margin-left: 8%;"><b style="font-size: 20px;">최종 결재자  </b>${rcvDetail.rcv_name }</span>
-        	  	 			</c:if>
-        	  	 		</c:if>
-        	  	 		<span id="Rcv_List" style="margin-left: 8%;">
-        	  	 		</span>
-        	  	 	</div>
-        	  	 	<div><b style="font-size: 20px;">제목 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  </b>${rcvDetail.apv_title }</div>
-        	  	 	<div>
-        	  	 		<b style="font-size: 20px;">첨부파일  </b> 
-        	  	 		<c:if test="${empty rcvDetail.apv_pl_nm }">없음</c:if>
-        	  	 		<c:if test="${not empty rcvDetail.apv_pl_nm }">
-	        	  	 		<a href="ysdownload?fileName=${rcvDetail.apv_pl_nm }" style="text-decoration: none; color: black;">📁${fn:substringAfter(rcvDetail.apv_pl_nm, '_') }</a>
-        	  	 		</c:if>
-        	  	 	</div>
-        	  	 	<div><b style="font-size: 20px;">내용 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </b> ${rcvDetail.apv_content }</div>
-        	  	 	
-					
-					<div>
-						<b style="font-size: 20px;">진행과정  </b>
-						<c:set value="0" var="i"/>
-						<c:set value="0" var="ing_no"/>
-						<c:forEach var="apv_ing" items="${apv_ing }">
-							<c:if test="${apv_ing.apv_ok == 4}"><c:set value="${ing_no + 1 }" var="ing_no"/></c:if>
-							<c:if test="${i == 0 }">
-								<span>${apv_ing.rcv_name }</span>						
+        	  	 	<table style="width: 100%; text-align: center; border: none;" border="1">
+	        	  	 	<tr><th>사원번호</th><td>${rcvDetail.apv_snd }</td><th>부서</th><td>${rcvDetail.srt_dep }</td><th>직급</th><td>${rcvDetail.srt_rnk }</td><th>이름</th>><td>${rcvDetail.srt_name }</td></tr>
+	        	  	 	<tr>
+	        	  	 		<th>결재분류</th><td>${rcvDetail.apv_type }</td><td colspan="4"></td>
+	       	  	 			<c:if test="${not empty rcvDetail.apv_fnl }">
+	        	  	 			<c:if test="${rcvDetail.apv_fnl == emp_num }">
+	        	  	 				<th>최종 결재자</th><td>${rcvDetail.rcv_name }</td>
+	        	  	 			</c:if>
+	        	  	 		</c:if>
+	        	  	 		<c:if test="${not empty rcvDetail.apv_fnl }">
+		       	  	 			<c:if test="${rcvDetail.apv_fnl != emp_num }">
+		        	  	 			<th id="nxt"></th>
+		        	  	 			<td id="Rcv_List"></td>
+		        	  	 		</c:if>
+	        	  	 		</c:if>
+	        	  	 	</tr>
+	        	  	 	<tr><th>제목</th><td colspan="7" style="text-align: initial;">${rcvDetail.apv_title }</td></tr>
+	        	  	 	<tr>
+	        	  	 		<th>첨부파일  </th> 
+	        	  	 		<td class="fileBox" colspan="7" style="text-align: initial;">
+		        	  	 		<c:if test="${empty rcvDetail.apv_pl_nm }">없음</c:if>
+		        	  	 		<c:if test="${not empty rcvDetail.apv_pl_nm }">
+			        	  	 		<a href="ysdownload?fileName=${rcvDetail.apv_pl_nm }" style="text-decoration: none; color: black;">📁${fn:substringAfter(rcvDetail.apv_pl_nm, '_') }</a>
+		        	  	 		</c:if>
+	        	  	 		</td>
+	        	  	 	</tr>
+	        	  	 	
+						<tr>
+							<th>진행과정  </th>
+							<td colspan="7" style="text-align: initial;">
+								<c:set value="0" var="i"/>
+								<c:set value="0" var="ing_no"/>
+								<c:forEach var="apv_ing" items="${apv_ing }">
+									<c:if test="${apv_ing.apv_ok == 4}"><c:set value="${ing_no + 1 }" var="ing_no"/></c:if>
+									<c:if test="${i == 0 }">
+										<span>${apv_ing.rcv_name }</span>						
+									</c:if>
+									<c:if test="${i > 0 }">
+										<c:choose>
+											<c:when test="${(apv_ing.apv_ok == 0 || apv_ing.apv_ok == 4) && ing_no > 0}">
+												<span> &nbsp; ->  &nbsp; ${apv_ing.rcv_name } (반려)</span>						
+											</c:when>
+											<c:when test="${apv_ing.apv_ok == 1 || apv_ing.apv_ok == 3 }">
+												<span> &nbsp; ->  &nbsp; ${apv_ing.rcv_name } (승인)</span>						
+											</c:when>
+											<c:otherwise>
+												<span> &nbsp; ->  &nbsp; ${apv_ing.rcv_name } (진행중)</span>
+											</c:otherwise>
+										</c:choose>
+									</c:if>
+									<c:set value="${i + 1 }" var="i"/>	
+								</c:forEach>
+							</td>
+						</tr>
+						
+						<tr><td id="pdf" colspan="8" style="text-align: center;"></td></tr>
+						
+						<tr><th>내용</th><td colspan="7" style="height: 150px;">${rcvDetail.apv_content }</td></tr>
+						
+						<tr style="border-bottom: 1px solid #c1c0c0;">
+							<c:if test="${rcvDetail.apv_ok == 4 }">
+								<th>반려사유 </th><td colspan="7">${rcvDetail.apv_no }</td>
 							</c:if>
-							<c:if test="${i > 0 }">
-								<c:choose>
-									<c:when test="${(apv_ing.apv_ok == 0 || apv_ing.apv_ok == 4) && ing_no > 0}">
-										<span> &nbsp; ->  &nbsp; ${apv_ing.rcv_name } (반려)</span>						
-									</c:when>
-									<c:when test="${apv_ing.apv_ok == 1 || apv_ing.apv_ok == 3 }">
-										<span> &nbsp; ->  &nbsp; ${apv_ing.rcv_name } (승인)</span>						
-									</c:when>
-									<c:otherwise>
-										<span> &nbsp; ->  &nbsp; ${apv_ing.rcv_name } (진행중)</span>
-									</c:otherwise>
-								</c:choose>
-							</c:if>
-							<c:set value="${i + 1 }" var="i"/>	
-						</c:forEach>
-					</div>
 					
-					<div style="text-align: center; margin-top: 10px;" id="pdf"></div>
-					
-					<div>
-						<c:if test="${rcvDetail.apv_ok == 4 }">
-							<span><b style="font-size: 20px;">반려사유 : </b>${rcvDetail.apv_no }</span>
-						</c:if>
-					</div>
-					
+							
+		       	  	 		<c:if test="${not empty rcvDetail.apv_mid_ok }">
+		        	  	 		<c:if test="${rcvDetail.apv_mid_ok == 0 && rcvDetail.apv_ok < 3}">
+		        	  	 			<c:set var="okChk" value="${okChk + 1 }"/>
+		        	  	 			<th>반려사유</th><td colspan="7"><input type="text" name="apv_no" placeholder="반려를 하신다면 사유를 작성해주세요"  style="width: 100%; border: none;"></td>
+		        	  	 		</c:if>
+		       	  	 		</c:if>
+	       	  	 		</tr>
+       	  	 		</table>
        	  	 		<c:if test="${not empty rcvDetail.apv_mid_ok }">
         	  	 		<c:if test="${rcvDetail.apv_mid_ok == 0 && rcvDetail.apv_ok < 3}">
-        	  	 			<c:set var="okChk" value="${okChk + 1 }"/>
-        	  	 			<div><b style="font-size: 20px;">반려사유  </b><input type="text" name="apv_no" placeholder="반려를 하신다면 사유를 작성해주세요"  style="width: 79%;"></div>
-        	  	 			<div style="margin: 20px 0px; margin-left: 77%; ">
-        	  	 				<input type="submit" value="승인" class="btn1">
-        	  	 				<button type="button" class="btn2" onclick="apvno()">반려</button>
+        	  	 			<div style="margin-top: 3px; margin-bottom: 45px;">
+        	  	 				<button type="button" class="btn2" style="float: right; margin-left: 3px;" onclick="apvno()">반려</button>
+        	  	 				<input type="submit" value="승인" class="btn1" style="float: right;">
         	  	 			</div>
         	  	 		</c:if>
        	  	 		</c:if>
-        	  	 	
           	  	 </form>
-          	  </div>
+          	  
            
 
             </div>
@@ -308,6 +330,9 @@ function openNav() {
 
 
 function getRcvList(){
+	var tdName = '다음 결재자';
+	$('#nxt').empty();
+	$('#nxt').append(tdName);
 	var apv_ok   = document.getElementById('apv_ok');
 	var emp_rnk  = '${svo.rcontent }';
 	var emp_num  = '${emp_num }';
@@ -353,7 +378,7 @@ function getRcvList(){
 		dataType:'json',
 		success:function(data){
 			$('#Rcv_List *').remove();
-			str += "<b style='font-size: 20px;'>다음 결재자  </b><select name = 'apv_fnl' required='required' id='slt' onchange='sltrm()'><option value='-결재자-' selected='selected'>-결재자-</option>";
+			str += "<select name = 'apv_fnl' required='required' id='slt' onchange='sltrm()' style='width: 100%;'><option value='-결재자-' selected='selected'>-결재자-</option>";
 			$(data).each(
 					function(){
 						str2 = "<option value = '"+this.emp_num + "'>"+this.emp_name + "</option>";
