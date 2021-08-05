@@ -180,7 +180,7 @@ select {
         	  	 	<input type="hidden" name="apv_sq" value="${rcvDetail.apv_sq }">
         	  	 	<input type="hidden" name="apv_mid_emp" value="${emp_num }">
         	  	 	<table style="width: 100%; text-align: center; border: none;" border="1">
-	        	  	 	<tr><th>사원번호</th><td>${rcvDetail.apv_snd }</td><th>부서</th><td>${rcvDetail.srt_dep }</td><th>직급</th><td>${rcvDetail.srt_rnk }</td><th>이름</th>><td>${rcvDetail.srt_name }</td></tr>
+	        	  	 	<tr><th>사원번호</th><td>${rcvDetail.apv_snd }</td><th>부서</th><td>${rcvDetail.srt_dep }</td><th>직급</th><td>${rcvDetail.srt_rnk }</td><th>이름</th><td>${rcvDetail.srt_name }</td></tr>
 	        	  	 	<tr>
 	        	  	 		<th>결재분류</th><td>${rcvDetail.apv_type }</td><td colspan="4"></td>
 	       	  	 			<c:if test="${not empty rcvDetail.apv_fnl }">
@@ -420,7 +420,7 @@ function apvno(){
 }
 var pdfName = '${rcvDetail.apv_pl_nm}';
 if(pdfName){
-	var pdfPath = '<iframe width="80%" height="550" src="../upload/${rcvDetail.apv_pl_nm}" />';
+	var pdfPath = '<iframe width="80%" height="550" src="../upload/${rcvDetail.apv_pl_nm}" style="margin-top: 10px;" />';
 	$('#pdf').append(pdfPath);	
 }
 

@@ -36,7 +36,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	line-height:30px;
 	text-align:center;
 	vertical-align:middle;
-	background-color: #384f76;
+	background-color: #3C3530;
 	color:white;
 	border-radius: 6px;
 }
@@ -52,9 +52,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 }
 .btn2{
    color: #fff;
-   background-color: #384f76;
+   background-color: #3C3530;
    
-   border-color: #384f76;
+   border-color: #3C3530;
    border-radius: 6px;
  }
  .btn3{
@@ -67,7 +67,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	line-height:30px;
 	text-align:center;
 	vertical-align:middle;
-	background-color: #384f76;
+	background-color: #3C3530;
 	color:white;
 	border-radius: 6px;
  }
@@ -83,6 +83,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
    text-align: center;
    -ms-text-align-last: center;
    -moz-text-align-last: center;
+}
+iframe{
+	margin-top: 10px;
 }
 
 </style>
@@ -276,7 +279,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 							</td>
 	        	  	 	</tr>
 	        	  	 	<tr><td id="pdf" colspan="8" style="text-align: center;"></td></tr>
-	        	  	 	<tr>
+	        	  	 	<tr style="border-bottom: 1px solid #c1c0c0;">
 	        	  	 		<th>내용</th>
 	        	  	 		<td colspan="7"><textarea placeholder="결재 내용을 작성해주세요" name="apv_content" maxlength="4000"  style="height:150px; width: 100%; resize: none; border: none;" required="required"></textarea></td>
 	        	  	 	</tr>
