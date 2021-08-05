@@ -2,6 +2,8 @@ package com.oracle.s20210704.service;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ public class JhRrServiceImpl implements JhRrService {
 	
 	@Autowired
 	private JhRrDao jrd;
+	
 	
 	@Override
 	public List<JhRr> rrList() {
@@ -64,7 +67,7 @@ public class JhRrServiceImpl implements JhRrService {
 		svo = jrd.show(vo);
 		return svo;
 	}
-
+	//글쓰기
 	@Override
 	public int insert(JhRr jhRr) {
 		int result = 0;
@@ -106,13 +109,21 @@ public class JhRrServiceImpl implements JhRrService {
 		System.out.println("JhRrServiceImpl total3 totcnt->" + totCnt3);
 		return totCnt3;
 	}
-
+	//수정
 	@Override
 	public int update(JhRr jhRr) {
 		System.out.println("JhRrServiceImpl update...");
 		int cu = 0;
 		cu = jrd.update(jhRr);
 		return cu;
+	}
+
+	@Override
+	public int delete(int rr_num) {
+		int result = 0;
+		System.out.println("JhRrServiceImpl delete...");
+		result = jrd.delete(rr_num);
+		return result;
 	}
 
 

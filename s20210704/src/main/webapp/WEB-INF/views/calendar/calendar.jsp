@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ page import="java.util.Calendar"%>
 <!DOCTYPE html>
 <html>
 <title>JOBIS</title>
@@ -140,17 +141,136 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
               <h1><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i><b>일정</b></h1><hr>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기 다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
-              <p>여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.여기다 내용넣어주세요.</p>
+             <FORM name="theForm">
+             <h1>일정</h1>
+<!-- <TABLE cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" width="800" height="650"> -->
+<!--     <TR> -->
+<!--           <TD align="center" width="365" style="font-size: 15pt"> -->
+<%--               <A href="calendar?type=MONTH&curYear=<c:out value="${curYear}"/>&curMonth=<c:out value="${curMonth-1}"/>&curDay=<c:out value="${curDay}"/>">◀</a> --%>
+<%--                   <c:out value="${curYear}"/> 년 &nbsp;&nbsp;  <c:out value="${curMonth}"/> 월  --%>
+<%--               <A href="calendar?type=MONTH&curYear=<c:out value="${curYear}"/>&curMonth=<c:out value="${curMonth+1}"/>&curDay=<c:out value="${curDay}"/>">▶</a> --%>
+<!--           </TD> -->
+<!--     </TR> -->
+<!--     <TR height="3"> -->
+<!--         <TD colspan="2"></TD> -->
+<!--     </TR> -->
+<!--     <TR> -->
+<!--           <TD align="center" colspan="3" valign="top"> -->
+<%--           body table --%>
+<!--           <TABLE border="0" cellspacing="0" cellpadding="0"> -->
+<!--               <TR> -->
+<!--                   <TD valign="top" style="border:#666666 1px solid; padding:5px" align="center"> -->
+<%--                   month outline table --%>
+<!--                     <TABLE border="0" cellspacing="0" cellpadding="0"> -->
+<!--                     <TR height="30"> -->
+<!--                         <TD align=center> -->
+<!--                             <FONT color=red>일요일</FONT> -->
+<!--                         </TD> -->
+<!--                         <TD align=center width="110">월요일</TD> -->
+<!--                         <TD align=center width="110">화요일</TD> -->
+<!--                         <TD align=center width="110">수요일</TD> -->
+<!--                         <TD align=center width="110">목요일</TD> -->
+<!--                         <TD align=center width="110">금요일</TD> -->
+<!--                         <TD align=center width="110">토요일</TD> -->
+<!--                     </TR> -->
+<!--                     <TR><TD colspan=7 bgcolor=#888888 height=1></TD></TR> -->
+<!--                     <TR><TD colspan=7 bgcolor=#ffffff height=5></TD></TR> -->
+<!--                     <TR> -->
+<!--                           <TD colspan=7> -->
+<%--                           month content table --%>
+<!--                           <TABLE border='0' cellspacing='1' cellpadding='0' bgcolor=#dddddd> -->
+<!--                               <TR> -->
+<%--                                 <c:if test="${firstDayOfWeek != '1'}"> --%>
+<%--                                   해당 월의 가장 첫째줄에 있는 공백부분을 셈해서 처리한다. --%>
+<%--                                   <c:forEach var="i" begin="1" end="${firstDayOfWeek-1}"> --%>
+<!--                                     <TD width="110" height="120" class="uline" valign="top" align="right" style="padding:5"> -->
+<!--                                     </TD> -->
+<%--                                 </c:forEach> --%>
+<%--                                 </c:if> --%>
+                                
+<%--                                 이 달의 끝날까지 메모의 제목과 날짜(숫자)를 출력한다 --%>
+<%--                                 <c:set var="dbIndex" value="0"/> --%>
+<%--                                   <c:forEach var="currentDay" begin="1" end="${lastDayOfMonth}">                                     --%>
+<%--                                     <TD bgcolor="#ffffff" style="padding:5; cursor: pointer;" onclick='dWrite("${curYear}","${curMonth}","${currentDay}")'> --%>
+<!--                                         <TABLE cellpadding="0" cellsping="0" border="0" width="110"> -->
+<!--                                         <TR> -->
+<!--                                             <TD height="10" width="110" class="uline" valign="top" align="right"> -->
+<%--                                             <A href='javascript:dWrite("${curYear}","${curMonth}","${currentDay}")'> --%>
+<!--                                                 일요일 -->
+<%--                                                 <c:if test="${((currentDay-(8-firstDayOfWeek)) % 7) == 1}">
+<%--                                                     <FONT color="red">                                                     --%>
+<%--                                                         <c:out value="${currentDay}"/> --%>
+<%--                                                     </FONT> --%>
+<%--                                                 </c:if> --%>
+<%--                                                 <c:if test="${((currentDay-(8-firstDayOfWeek)) % 7) != 1}"> --%>
+<%--                                                     <c:out value="${currentDay}"/> --%>
+<%--                                                 </c:if> --%> --%>
+                                                
+<%--                                                 <c:choose> --%>
+                                                
+<%--                                                     <c:when test="${((currentDay-(8-firstDayOfWeek)) % 7) == 1}"> --%>
+<!--                                                         일요일 -->
+<!--                                                         <FONT color="red">                                                     -->
+<%--                                                             <c:out value="${currentDay}"/>   --%>
+<!--                                                         </FONT> -->
+<%--                                                     </c:when> --%>
+<%--                                                     <c:otherwise> --%>
+<%--                                                         <c:out value="${currentDay}"/> --%>
+<%--                                                     </c:otherwise> --%>
+<%--                                                 </c:choose> --%>
+<!--                                             </A>                                             -->
+<!--                                             </TD> -->
+<!--                                         </TR>  -->
+<!--                                         <TR> -->
+<!--                                             <TD height="110" width="110" valign="top">  -->
+<!--                                             <TABLE> -->
+<%--                                                 <c:forEach var="dayIndex" items="${list}"> --%>
+<%--                                                     <c:if test="${currentDay == dayIndex.cal_date}"> --%>
+<!--                                                         <TR><TD>                                                         -->
+<%--                                                             <i class="fa fa-circle" style="color: ${dayIndex.cal_bgcolor};"></i>  ${dayIndex.cal_title}                                         --%>
+<%--                                                         <c:set var="dbIndex" value='${dbIndex + 1}'/>  --%>
+<!--                                                         </TD></TR> -->
+<%--                                                     </c:if> --%>
+<%--                                                 </c:forEach> --%>
+<!--                                             </TABLE> -->
+<!--                                             </TD> -->
+<!--                                         </TR> -->
+<!--                                         </TABLE>         -->
+<!--                                     </TD> -->
+<%--                                     만약 한주의 마지막날(토요일)이고 이 달의 마지막 날이 아니라면 다음 줄로 넘어간다. --%>
+<%--                                     <c:if test="${((currentDay-(8-firstDayOfWeek)) % 7) == 0}"> --%>
+<!--                                         </TR> -->
+<!--                                         <TR> -->
+<%--                                     </c:if> --%>
+<%--                                 </c:forEach> --%>
+
+<%--                                 해당 월의 가장 마지막 줄에 있는 공백부분을 셈해서 처리한다. --%>
+<%--                                 <c:if test="${lastDayOfLastWeek != '7'}"> --%>
+<%--                                 <c:forEach var="i" begin="1" end="${7-lastDayOfLastWeek}"> --%>
+<!--                                     <TD width=110 height=120 class=uline valign=top align=right style='padding:5'> -->
+<!--                                     </TD> -->
+<%--                                 </c:forEach> --%>
+<%--                                 </c:if>                             --%>
+<!--                             </TR> -->
+<!--                         </TABLE> -->
+<%--                         end month content table --%>
+<!--                         </TD> -->
+<!--                     </TR> -->
+<!--                   </TABLE> -->
+<%--                   end month outline table --%>
+<!--                   </TD> -->
+<!--             </TR> -->
+<!--         </TABLE> -->
+<%--         end body table --%>
+<!--         </TD> -->
+<!--     </TR> -->
+<!--       <TR height=10><TD></TD></TR> -->
+<!--     <TR> -->
+<!--         <TD align=right></TD> -->
+<!--     </TR> -->
+<!-- </table> -->
+<%-- end base table --%>
+</FORM>
 
             </div>
           </div>

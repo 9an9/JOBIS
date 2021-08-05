@@ -13,6 +13,23 @@
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
+.btn2{
+   color: #fff;
+   background-color: #AAABD3;
+   
+   border-color: #AAABD3;
+   border-radius: 6px;
+ }
+ .cmtTB{
+	text-align: center;
+	width: 80%;
+	margin: 0 auto;
+	
+    margin-top: 5px;
+    border: 1px solid #7d97a5;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
 </style>
 <body class="w3-theme-l5">
 
@@ -30,7 +47,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     </div>
   </div>
   <a href="../calendar/calendar" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i>일정</a>
-  <a href="rr" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-list-alt fa-fw w3-margin-right"></i>자료실</a>
+  <a href="../rr/rr" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-list-alt fa-fw w3-margin-right"></i>자료실</a>
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-commenting-o fa-fw w3-margin-right fa-flip-horizontal"></i>게시판</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
@@ -139,7 +156,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
-              <h1><i class="fa fa-clock-o fa-fw w3-margin-right" style="font-size: 42px"></i><b>동호회 글쓰기</b></h1><hr>
+              <h1><i class="fa fa-clock-o fa-fw w3-margin-right" style="font-size: 42px"></i><b>동호회 수정하기</b></h1><hr>
               
 	          <form action="clubupdate" method="post">
 	          			<input type="hidden" name="emp_num" value="${emp_num }">
@@ -151,13 +168,8 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 		         
 	          		
 	          		<pre><textarea maxlength="4000" style="height: 350px;" name="rr_content">${jhRr.rr_content }</textarea></pre><p>
-	          		<div><input type="submit" value="글쓰기"></div>
+	          		<div><input class="btn2" type="submit" value="글쓰기"></div>
 	      	</form>
-	      	<!-- 파일첨부 -->
-	      	<form action="/common/upload" method="post" enctype="multipart/form-data">
-	      		<div><input type="file" name="uploadFile"><button type="submit">Upload</button></div>
-	      	</form>
-	      	<!-- 파일첨부 -->
           </div>
         </div>
       </div>

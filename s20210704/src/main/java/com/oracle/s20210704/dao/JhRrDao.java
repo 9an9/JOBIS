@@ -32,6 +32,8 @@ public interface JhRrDao {
 	int total2();
 	//삭제가능
 	int total3();
-
+	//수정기능
 	int update(JhRr jhRr);
+	//삭제기능
+	int delete(int rr_num);
 }

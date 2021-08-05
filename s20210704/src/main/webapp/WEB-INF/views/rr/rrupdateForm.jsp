@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
-<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions" %>     
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
 <!DOCTYPE html>
 <html>
 <title>JOBIS</title>
@@ -31,6 +31,42 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     border-collapse: collapse;
     border-spacing: 0;
 }
+.fileBox .fileName {
+		display:inline-block;
+		width:170px;
+		height:30px;
+		padding-left:10px;
+		margin-right:5px;
+		line-height:30px;
+		border:1px solid #aaa;
+		background-color:#fff;
+		vertical-align:middle;
+		border-radius: 10px;
+	}
+.fileBox .btn_file {
+	display:inline-block;
+	border:2px solid #66677f;
+	border-top-width: 0px;
+	border-left-width: 0px;
+	width:100px;
+	height:30px;
+	line-height:30px;
+	text-align:center;
+	vertical-align:middle;
+	background-color: #384f76;
+	color:white;
+	border-radius: 6px;
+}
+.fileBox input[type="file"] {
+	position:absolute;
+	width:1px;
+	height:1px;
+	padding:0;
+	margin:-1px;
+	overflow:hidden;
+	clip:rect(0,0,0,0);
+	border:0
+}
 </style>
 <body class="w3-theme-l5">
 
@@ -48,13 +84,13 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     </div>
   </div>
   <a href="../calendar/calendar" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i>일정</a>
-  <a href="../rr/rr" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-list-alt fa-fw w3-margin-right"></i>자료실</a>
+  <a href="rr" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-list-alt fa-fw w3-margin-right"></i>자료실</a>
   <div class="w3-dropdown-hover w3-hide-small">
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-commenting-o fa-fw w3-margin-right fa-flip-horizontal"></i>게시판</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
       <a href="../board/noticeList" class="w3-bar-item w3-button">공지사항</a>
       <a href="../board/surveyList" class="w3-bar-item w3-button">설문</a>
-      <a href="clubList" class="w3-bar-item w3-button">동호회</a>
+      <a href="../board/clubList" class="w3-bar-item w3-button">동호회</a>
     </div>
   </div>
   <c:if test="${svo.dcontent == '인사부' || svo.dcontent == '임원'  }">
@@ -157,51 +193,36 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
-              <h1><i class="fa fa-clock-o fa-fw w3-margin-right" style="font-size: 42px"></i><b>동호회</b></h1><hr>
-	          <table border="1" class="cmtTB" style="align-content: center;">
-					<tr style="background-color:#384f76; color: white; "><th>자료종류</th><th>작성자</th><th>제목</th><th>작성일</th></tr>
-						<c:forEach var="rrList" items="${listJhRr1}">
-							<tr>
-								<c:if test="${rrList.rr_type == 2}">
-									
-										<td>
-											<c:if test="${rrList.rr_type == 0 }">문서양식</c:if>
-											<c:if test="${rrList.rr_type == 1 }">기타양식</c:if>
-											<c:if test="${rrList.rr_type == 2 }">동호회</c:if>
-											<c:if test="${rrList.rr_type == 3 }">공지사항</c:if>
-										</td>
-									
-									<td>${rrList.emp_name }</td>
-									<%-- <td><a href="detail?rr_num=${rrList.rr_num }">${rrList.rr_content}</a></td>  --%>
-									<td><a href="clubListdetail?rr_num=${rrList.rr_num }&detail_num=${rrList.emp_num}">${rrList.rr_subject}</a></td>
-									<td>${rrList.rr_date}</td>
-								</c:if>
-							</tr> 
-						</c:forEach>
-				</table>
-				<div style="text-align: center;"><a class="btn2" href="clubwriteForm" style="text-decoration: none;">글쓰기</a></div>
-				<div class="w3-center">
-						<div class="w3-bar w3-border" style=" margin: 10px 0px;border: 1px solid #7d97a5;">
-							<c:if test="${jhpg2.startPage > jhpg2.pageBlock }">
-								<a href="clubList?currentPage2=${jhpg2.startPage-jhpg2.pageBlock}" class="w3-bar-item w3-button">[이전]</a>
-							</c:if>
-							<c:forEach var="i" begin="${jhpg2.startPage}" end="${jhpg2.endPage}">
-								<c:if test="${jhpg2.currentPage == i }">
-									<a href="clubList?currentPage2=${i}" class="w3-bar-item w3-button" style="background-color: #384f76; color: white;">${i}</a>
-								</c:if>
-								<c:if test="${jhpg2.currentPage != i }">
-									<a href="clubList?currentPage2=${i}" class="w3-bar-item w3-button">${i}</a>
-								</c:if>
-							</c:forEach>
-							<c:if test="${jhpg2.endPage < jhpg2.totalPage }">
-								<a href="clubList?currentPage2=${jhpg2.startPage+jhpg2.pageBlock}" class="w3-bar-item w3-button">[다음]</a>
-							</c:if>
-						</div>
-				</div>
-            </div>
+              <h1><i class="fa fa-clock-o fa-fw w3-margin-right" style="font-size: 42px"></i><b>자료실 수정하기</b></h1><hr>
+              
+	          <form action="rrupdate" method="post" enctype="multipart/form-data">
+	          			<input type="hidden" name="emp_num" value="${emp_num }">
+	          			<input type="hidden" name="rr_num" value="${rr_num }">
+	          			<select name="rr_type" style="height: 40px; width: 10%;">
+		          			<option value="0">문서양식</option>
+		          			<option value="1">기타양식</option>
+	          			</select>	          
+		          		<input type="text" placeholder="글 제목" name="rr_subject" value="${jhRr.rr_subject }"><p>
+		         
+	          		
+	          			<pre><textarea maxlength="4000" style="height: 350px;" name="rr_content">${jhRr.rr_content }</textarea></pre><p>
+	          	
+	          	<div>
+	      			<span class="fileBox">
+	      					<c:set var="a" value="${jhRr.rr_filename }"/>
+							<input type="text" class="fileName" readonly="readonly" value="${fn:substring(a,37,100)}">
+							<label for="uploadBtn" class="btn_file">파일 업로드</label>
+							<input type="file" id="uploadBtn" class="uploadBtn" name="file1">
+					</span>
+	      		</div>
+	      			<div><input class="btn2" type="submit" value="글쓰기"></div>
+	      	</form>
+	      	
+	      	<!-- 파일첨부 -->
           </div>
         </div>
       </div>
+      
 
       
     <!-- End Middle Column -->
@@ -255,6 +276,15 @@ function openNav() {
     x.className = x.className.replace(" w3-show", "");
   }
 }
+var uploadFile = $('.fileBox .uploadBtn');
+uploadFile.on('change', function(){
+	if(window.FileReader){
+		var filename = $(this)[0].files[0].name;
+	} else {
+		var filename = $(this).val().split('/').pop().split('\\').pop();
+	}
+	$(this).siblings('.fileName').val(filename);
+});
 </script>
 
 </body>

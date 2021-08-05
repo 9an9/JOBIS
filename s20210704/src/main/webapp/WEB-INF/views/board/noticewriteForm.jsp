@@ -13,6 +13,23 @@
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
+.btn2{
+   color: #fff;
+   background-color: #AAABD3;
+   
+   border-color: #AAABD3;
+   border-radius: 6px;
+ }
+ .cmtTB{
+	text-align: center;
+	width: 80%;
+	margin: 0 auto;
+	
+    margin-top: 5px;
+    border: 1px solid #7d97a5;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
 </style>
 <body class="w3-theme-l5">
 
@@ -150,13 +167,8 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 		         
 	          		
 	          		<textarea maxlength="4000" style="height: 350px;" name="rr_content"></textarea><p>
-	          		<div><input type="submit" value="글쓰기"></div>
+	          		<div><input class="btn2" type="submit" value="글쓰기"></div>
 	      	</form>
-	      	<!-- 파일첨부 -->
-	      	<form action="/common/upload" method="post" enctype="multipart/form-data">
-	      		<div><input type="file" name="uploadFile"><button type="submit">Upload</button></div>
-	      	</form>
-	      	<!-- 파일첨부 -->
           </div>
         </div>
       </div>

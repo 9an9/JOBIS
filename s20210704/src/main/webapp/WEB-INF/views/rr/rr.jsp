@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions" %>   
 <!DOCTYPE html>
 <html>
 <title>JOBIS</title>
@@ -13,6 +14,23 @@
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
+.btn2{
+   color: #fff;
+   background-color: #AAABD3;
+   
+   border-color: #AAABD3;
+   border-radius: 6px;
+ }
+ .cmtTB{
+	text-align: center;
+	width: 80%;
+	margin: 0 auto;
+	
+    margin-top: 5px;
+    border: 1px solid #7d97a5;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
 </style>
 <body class="w3-theme-l5">
 
@@ -141,7 +159,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <div class="w3-container w3-padding">
               <h1><i class="fa fa-clock-o fa-fw w3-margin-right" style="font-size: 42px"></i><b>자료실</b></h1><hr>
 	          <table border="1" class="cmtTB" style="align-content: center;">
-					<tr><th>자료종류</th><th>작성자</th><th>제목</th><th>작성일</th></tr>
+					<tr style="background-color:#384f76; color: white; "><th>자료종류</th><th>작성자</th><th>제목</th><th>작성일</th></tr>
 						<c:forEach var="rrList" items="${listJhRr}">
 							<tr>
 								<c:if test="${rrList.rr_type == 0 || rrList.rr_type == 1}">
@@ -161,24 +179,31 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 							</tr> 
 						</c:forEach>
 				</table>
-				<div style="text-align: center;"><a href="rrwriteForm">글쓰기</a></div>
-				<div style="text-align: center;">
-					<c:if test="${jhpg.startPage > jhpg.pageBlock }">
-						<a href="rr?currentPage=${jhpg.startPage-jhpg.pageBlock}">[이전]</a>
-					</c:if>
-					<c:forEach var="i" begin="${jhpg.startPage}" end="${jhpg.endPage}">
-						<a href="rr?currentPage=${i}">[${i}]</a>
-					</c:forEach>
-					<c:if test="${jhpg.endPage < jhpg.totalPage }">
-						<a href="rr?currentPage=${jhpg.startPage+jhpg.pageBlock}">[다음]</a>
-					</c:if>
-
+				<div style="text-align: center;"><a class="btn2" href="rrwriteForm" style="text-decoration: none;">글쓰기</a></div>
+				<div class="w3-center">
+						<div class="w3-bar w3-border" style=" margin: 10px 0px;border: 1px solid #7d97a5;">
+							<c:if test="${jhpg.startPage > jhpg.pageBlock }">
+								<a href="rr?currentPage=${jhpg.startPage-jhpg.pageBlock}" class="w3-bar-item w3-button">[이전]</a>
+							</c:if>
+							<c:forEach var="i" begin="${jhpg.startPage}" end="${jhpg.endPage}">
+								<c:if test="${jhpg.currentPage == i }">
+									<a href="rr?currentPage=${i}" class="w3-bar-item w3-button" style="background-color: #384f76; color: white;">${i}</a>
+								</c:if>
+								<c:if test="${jhpg.currentPage != i }">
+									<a href="rr?currentPage=${i}" class="w3-bar-item w3-button">${i}</a>
+								</c:if>
+							</c:forEach>
+							<c:if test="${jhpg.endPage < jhpg.totalPage }">
+								<a href="rr?currentPage=${jhpg.startPage+jhpg.pageBlock}" class="w3-bar-item w3-button">[다음]</a>
+							</c:if>
+						</div>
+				</div>
+				</div>
             </div>
           </div>
         </div>
       </div>
       
-
       
     <!-- End Middle Column -->
     </div>

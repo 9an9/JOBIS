@@ -91,6 +91,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-container">
          <h4 class="w3-center">My Profile</h4>
          <p class="w3-center"><img src="images/LUCY.jpg" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+<!--          <p><button onclick="">출근</button><button onclick="">퇴근</button></p> -->
          <hr>
          <p><i class="fa fa-id-badge fa-fw w3-margin-right w3-text-theme"></i> ${svo.emp_name }</p>
          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${svo.dcontent } / ${svo.rcontent }</p>

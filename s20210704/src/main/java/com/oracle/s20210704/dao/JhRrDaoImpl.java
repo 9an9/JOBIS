@@ -151,7 +151,7 @@ public class JhRrDaoImpl implements JhRrDao {
 		}
 		return tot3;
 	}
-
+	//수정
 	@Override
 	public int update(JhRr jhRr) {
 		System.out.println("JhRrDaoImpl update Start...");
@@ -162,6 +162,19 @@ public class JhRrDaoImpl implements JhRrDao {
 			System.out.println("jhRrDaoImpl update Exception -> " +e.getMessage());
 		}
 		return cu;
+	}
+	//삭제
+	@Override
+	public int delete(int rr_num) {
+		int result = 0;
+		System.out.println("JhRrDaoImpl delete Start...");
+		try {
+			result = session.delete("jhDelete",rr_num);
+			System.out.println("JhRrDaoImpl delete result-> " +result);
+		} catch(Exception e) {
+			System.out.println("JhRrDaoImpl delete Exception -> " +e.getMessage());
+		}
+		return result;
 	}
 
 }

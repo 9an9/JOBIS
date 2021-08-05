@@ -9,10 +9,64 @@
 <link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
+.btn2{
+   color: #fff;
+   background-color: #AAABD3;
+   
+   border-color: #AAABD3;
+   border-radius: 6px;
+ }
+ .cmtTB{
+	text-align: center;
+	width: 80%;
+	margin: 0 auto;
+	
+    margin-top: 5px;
+    border: 1px solid #7d97a5;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.fileBox .fileName {
+		display:inline-block;
+		width:170px;
+		height:30px;
+		padding-left:10px;
+		margin-right:5px;
+		line-height:30px;
+		border:1px solid #aaa;
+		background-color:#fff;
+		vertical-align:middle;
+		border-radius: 10px;
+	}
+.fileBox .btn_file {
+	display:inline-block;
+	border:2px solid #66677f;
+	border-top-width: 0px;
+	border-left-width: 0px;
+	width:100px;
+	height:30px;
+	line-height:30px;
+	text-align:center;
+	vertical-align:middle;
+	background-color: #384f76;
+	color:white;
+	border-radius: 6px;
+}
+.fileBox input[type="file"] {
+	position:absolute;
+	width:1px;
+	height:1px;
+	padding:0;
+	margin:-1px;
+	overflow:hidden;
+	clip:rect(0,0,0,0);
+	border:0
+}
 </style>
 <body class="w3-theme-l5">
 
@@ -141,7 +195,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <div class="w3-container w3-padding">
               <h1><i class="fa fa-clock-o fa-fw w3-margin-right" style="font-size: 42px"></i><b>자료실 글쓰기</b></h1><hr>
               
-	          <form action="rrwrite" method="post">
+	          <form action="rrwrite" method="post" enctype="multipart/form-data">
 	          			<input type="hidden" name="emp_num" value="${emp_num }">
 	          			<select name="rr_type" style="height: 40px; width: 10%;">
 		          			<option value="0">문서양식</option>
@@ -151,17 +205,20 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 		         
 	          		
 	          		<textarea maxlength="4000" style="height: 350px;" name="rr_content"></textarea><p>
-	          		<div><input type="submit" value="글쓰기"></div>
+	       			<!-- 파일첨부 -->
+	     			<div>
+	     				<span class="fileBox">
+							<input type="text" class="fileName" readonly="readonly">
+							<label for="uploadBtn" class="btn_file">파일 업로드</label>
+							<input type="file" id="uploadBtn" class="uploadBtn" name="file1">
+						</span>
+	     			</div>
+	     		 	<!-- 파일첨부 -->
+	     		 	<div><input class="btn2" type="submit" value="글쓰기"></div>
 	      	</form>
-	      	<!-- 파일첨부 -->
-	      	<form action="/common/upload" method="post" enctype="multipart/form-data">
-	      		<div><input type="file" name="uploadFile"><button type="submit">Upload</button></div>
-	      	</form>
-	      	<!-- 파일첨부 -->
           </div>
         </div>
       </div>
-      
 
       
     <!-- End Middle Column -->
@@ -215,6 +272,15 @@ function openNav() {
     x.className = x.className.replace(" w3-show", "");
   }
 }
+var uploadFile = $('.fileBox .uploadBtn');
+uploadFile.on('change', function(){
+	if(window.FileReader){
+		var filename = $(this)[0].files[0].name;
+	} else {
+		var filename = $(this).val().split('/').pop().split('\\').pop();
+	}
+	$(this).siblings('.fileName').val(filename);
+});
 </script>
 
 </body>

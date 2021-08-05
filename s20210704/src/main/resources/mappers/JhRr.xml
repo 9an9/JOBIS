@@ -49,10 +49,18 @@
 	</select>
 	<!-- 글 작성 -->
 	<insert id="jhInsertJhRr" parameterType="JhRr">
-		insert into rr(emp_num, rr_num, rr_type, rr_subject, rr_content, rr_date) values (#{emp_num}, rr_seq.nextval, #{rr_type}, #{rr_subject}, #{rr_content}, sysdate)
+		insert into rr(emp_num, rr_num, rr_type, rr_subject, rr_content, rr_filename ,rr_date) values (#{emp_num}, rr_seq.nextval, #{rr_type}, #{rr_subject}, #{rr_content}, #{rr_filename}, sysdate)
 	</insert>
 	<!-- 글 수정 -->
 	<update id="jhClubUpdate" parameterType="JhRr">
-		update rr set rr_subject=#{rr_subject}, rr_content=#{rr_content}, rr_date=sysdate where rr_num = #{rr_num}
+		update rr set rr_type=#{rr_type}, rr_subject=#{rr_subject}, rr_content=#{rr_content}, rr_filename=#{rr_filename} ,rr_date=sysdate where rr_num = #{rr_num}
+	</update>
+	<!-- 글 삭제 -->
+	<delete id="jhDelete" parameterType="int">
+		delete from rr where rr_num = #{rr_num}
+	</delete>
+	<!-- 조회수 증가 -->
+	<update id="jhhitsupdate" parameterType="int">
+		update rr set rr_hits = rr_hits + 1 where rr_num = #{rr_num}
 	</update>
 </mapper>
