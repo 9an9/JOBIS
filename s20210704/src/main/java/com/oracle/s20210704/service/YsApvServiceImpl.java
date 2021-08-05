@@ -91,5 +91,69 @@ public class YsApvServiceImpl implements YsApvService {
 		return rcvDetail;
 	}
 
+	@Override
+	public void midOk(YsApv ysApv) {
+		yad.midOk(ysApv);
+		
+	}
+
+	@Override
+	public void midToFnlOk(YsApv ysApv) {
+		yad.midToFnlOk(ysApv);
+		
+	}
+
+	@Override
+	public void fnlOk(YsApv ysApv) {
+		yad.fnlOk(ysApv);
+		
+	}
+
+	@Override
+	public void apv_no(YsApv ysApv) {
+		yad.apv_no(ysApv);
+		
+	}
+
+	@Override
+	public List<YsApv> apv_ing(int apv_sq) {
+		List<YsApv> apv_ing = yad.apv_ing(apv_sq);
+		return apv_ing;
+	}
+
+	@Override
+	public int unreadTotal(int emp_num) {
+		int unreadTotal = yad.unreadTotal(emp_num);
+		return unreadTotal;
+	}
+
+	@Override
+	public YsApv sndDetail(int apv_sq) {
+		YsApv sndDetail = yad.sndDetail(apv_sq);
+		return sndDetail;
+	}
+
+	@Override
+	public int apvNoTotal(int emp_num) {
+		int apvNoTotal = yad.apvNoTotal(emp_num);
+		return apvNoTotal;
+	}
+
+	@Override
+	public YsApv nextEmp(int apv_sq) {
+		YsApv nextEmp = yad.nextEmp(apv_sq);
+		return nextEmp;
+	}
+
+	@Override
+	public void midSndDelete(int apv_sq) {
+		yad.midSndDelete(apv_sq);	
+	}
+
+	@Override
+	public void fnlSndDelete(int apv_sq) {
+		yad.fnlSndDelete(apv_sq);		
+	}
+
 
 }

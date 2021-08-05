@@ -19,4 +19,15 @@ public interface YsApvDao {
 	void           midRcvInsert(YsApv ysApv);
 	void           fnlRcvInsert(YsApv ysApv);
 	YsApv          rcvDetail(YsApv ysApv);
+	void           midOk(YsApv ysApv);
+	void           midToFnlOk(YsApv ysApv);
+	void           fnlOk(YsApv ysApv);
+	void		   apv_no(YsApv ysApv);
+	List<YsApv>    apv_ing(int apv_sq);
+	int            unreadTotal(int emp_num);
+	YsApv          sndDetail(int apv_sq);
+	int            apvNoTotal(int emp_num);
+	YsApv          nextEmp(int apv_sq);
+	void           midSndDelete(int apv_sq);
+	void           fnlSndDelete(int apv_sq);
 }

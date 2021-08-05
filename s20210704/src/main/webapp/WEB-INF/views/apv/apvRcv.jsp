@@ -15,7 +15,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
 </style>
 <body class="w3-theme-l5">
-
+<c:if test="${sndTotal == 0 }">
+<script type="text/javascript">
+	alert('보낸 결재가 존재하지않습니다.');
+	history.back();
+</script>
+</c:if>
 <!-- Navbar -->
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
@@ -110,7 +115,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <a href="../note/sentNote" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 쪽지함</a>
             <a href="../note/receiveNote" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 쪽지함</a>
           </div>
-          <a href="apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">3</span> 결재</a>
+          <a href="apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><c:if test="${unreadTotal > 0 }"><span class="w3-badge w3-right w3-small w3-green">${unreadTotal }</span></c:if><c:if test="${apvNoTotal > 0 }"><span class="w3-badge w3-right w3-small w3-red">${apvNoTotal }</span></c:if> 결재</a>
           <a href="../board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
         </div>      
       </div>
@@ -140,12 +145,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">          
               <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>보낸 결재함</b></h1><hr>
-              <table border="1">
-              	<tr><th>결제구분</th><th>제목</th><th>제출자</th><th>제출일</th><th>진행상황</th></tr>
+              <table border="1" style="width: 100%; text-align: center;">
+              	<tr style="background-color:#384f76; color: white; "><th style="width: 10%;">결제구분</th><th style="width: 55%;">제목</th><th style="width: 10%;">제출자</th><th style="width: 13%;">제출일</th><th style="width: 10%;">진행상황</th></tr>
               	<c:forEach var="sndList" items="${sndList }">
               		<tr>
               			<td>${sndList.apv_type }</td>
-              			<td>${sndList.apv_title }</td>
+              			<td><a href="apvSndDetail?sq=${sndList.apv_sq }" style="text-decoration: none; color: black;">${sndList.apv_title }</a></td>
               			<td>${sndList.srt_name }</td>
               			<td>${sndList.apv_date }</td>
               			<td>
@@ -153,7 +158,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
               				<c:if test="${sndList.apv_ok == 1 }">승인(중간)</c:if>
               				<c:if test="${sndList.apv_ok == 2 }">승인(중간)</c:if>
               				<c:if test="${sndList.apv_ok == 3 }">승인(최종)</c:if>
-              				<c:if test="${sndList.apv_ok == 4 }">반려</c:if>
+              				<c:if test="${sndList.apv_ok == 4 }"><span style="margin: 0px; color: red;">반려</span></c:if>
               			</td>
               		</tr>
               	</c:forEach>

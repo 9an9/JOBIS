@@ -13,19 +13,27 @@
 	</select>
 	<select id="ysApvRcvList" parameterType="com.oracle.s20210704.model.YsApv" resultType="com.oracle.s20210704.model.YsApv">
 		select * 
-		     from (select rownum rn,  b.*
-		           from (select a1.*,e1.emp_name as srt_name
-		                 from apv a1,apv_mid m,emp e1
-		                 where a1.apv_mid = m.apv_mid
-		                 and a1.apv_snd = e1.emp_num and m.apv_mid_emp = #{apv_mid_emp}
-		                 union
-		                 select a2.*,e2.emp_name as srt_name
-		                 from apv a2,emp e2
-		                 where a2.apv_snd = e2.emp_num and a2.apv_fnl = #{apv_mid_emp}
-		                 ) b 
+		     from (select rownum rn,  q.*
+		     	   from (select b.*
+			             from (select a1.*,e1.emp_name as srt_name
+			                   from apv a1,apv_mid m,emp e1
+			                   where a1.apv_mid = m.apv_mid
+			                   and a1.apv_snd = e1.emp_num and m.apv_mid_emp = #{apv_mid_emp}
+			                   union
+			                   select a2.*,e2.emp_name as srt_name
+			                   from apv a2,emp e2
+			                   where a2.apv_snd = e2.emp_num and a2.apv_fnl = #{apv_mid_emp}
+			                  ) b 
+			             order by 
+                         DECODE(b.apv_ok, 0, 1),
+                         DECODE(b.apv_ok, 1, 2),
+                         DECODE(b.apv_ok, 2, 3),
+                         DECODE(b.apv_ok, 4, 4),
+                         DECODE(b.apv_ok, 3, 5),
+                         b.apv_date desc
+                        ) q
 		          )
 		where rn between #{start} and #{end}
-		order by apv_ok,apv_date desc
 	</select>
 	<select id="ysSndTotal" parameterType="int" resultType="int">
 		select count(*)
@@ -41,7 +49,13 @@
 		                from apv a,emp e
 		                where a.apv_snd = e.emp_num
 		                and a.apv_snd = #{apv_snd}
-		                order by a.apv_date desc,a.apv_ok
+		                order by 
+                        DECODE(a.apv_ok, 4, 1),
+		                DECODE(a.apv_ok, 1, 2),
+		                DECODE(a.apv_ok, 2, 3),
+		                DECODE(a.apv_ok, 0, 4),
+		                DECODE(a.apv_ok, 3, 5),
+		                a.apv_date desc
 		               ) b
 		           )
 		where rn between #{start} and #{end}
@@ -96,16 +110,16 @@
 	   {call
 	        declare
 	        begin
-	            insert into apv values ((select nvl(max(apv_sq),0)+1 from apv),#{apv_type},#{apv_snd},(select nvl(max(apv_sq),0)+1 from apv),'',#{apv_title},#{apv_content},'','',sysdate,'',0);
+	            insert into apv values ((select nvl(max(apv_sq),0)+1 from apv),#{apv_type},#{apv_snd},(select nvl(max(apv_sq),0)+1 from apv),'',#{apv_title},#{apv_content},'',#{apv_pl_nm},sysdate,'',0);
 	            insert into apv_mid values ((select nvl(max(apv_mid_num),0)+1 from apv_mid),(select nvl(max(apv_sq),0) from apv),#{apv_mid_emp},0);
 	        end
 	    }
 	</insert>
 	<insert id="ysFnlRcvInsert" parameterType="com.oracle.s20210704.model.YsApv">
-		insert into apv values ((select nvl(max(apv_sq),0)+1 from apv),#{apv_type},#{apv_snd},'',#{apv_fnl},#{apv_title},#{apv_content},'','',sysdate,'',0)
+		insert into apv values ((select nvl(max(apv_sq),0)+1 from apv),#{apv_type},#{apv_snd},'',#{apv_fnl},#{apv_title},#{apv_content},'',#{apv_pl_nm},sysdate,'',0)
 	</insert>
-	<select id="ysRcvChk" parameterType="com.oracle.s20210704.model.YsApv" resultType="java.lang.String">
-		select * from apv_mid where apv_mid = #{apv_sq} and apv_mid_emp = #{rcv_num}
+	<select id="ysRcvChk" parameterType="com.oracle.s20210704.model.YsApv" resultType="int">
+		select nvl(max(apv_mid_num),0) from apv_mid where apv_mid = #{apv_sq} and apv_mid_emp = #{rcv_num}
 	</select>
 	<select id="ysMidRcv" parameterType="com.oracle.s20210704.model.YsApv" resultType="com.oracle.s20210704.model.YsApv">
 		select a.*,m.*,e1.emp_name as srt_name ,e2.emp_name as rcv_name ,c1.content as srt_dep, c2.content as srt_rnk  
@@ -122,4 +136,102 @@
 		and e1.dep_num = c1.code and e1.rnk_num = c2.code
 		and a.apv_sq = #{apv_sq} and a.apv_fnl = #{rcv_num}
 	</select>
+
+	<update id="ysMidOk" parameterType="com.oracle.s20210704.model.YsApv">
+	   {call
+	        declare
+	        begin
+	        	update apv set  apv_ok = #{apv_ok}  where apv_sq = #{apv_sq};
+				update apv_mid set apv_mid_ok = 1 where apv_mid = #{apv_sq} and apv_mid_emp = #{apv_mid_emp};
+				insert into apv_mid values ((select nvl(max(apv_mid_num),0)+1 from apv_mid),#{apv_sq},#{apv_fnl},0);
+	            
+	        end
+	    }
+	</update>
+	<update id="ysMTFok" parameterType="com.oracle.s20210704.model.YsApv">
+	   {call
+	        declare
+	        begin
+	            update apv set apv_fnl = #{apv_fnl} , apv_ok = #{apv_ok}   where apv_sq = #{apv_sq};
+				update apv_mid set apv_mid_ok = 1 where apv_mid = #{apv_sq} and apv_mid_emp = #{apv_mid_emp};
+	            
+	        end
+	    }
+	</update>
+	<update id="ysFnlOk" parameterType="com.oracle.s20210704.model.YsApv">
+		update apv set apv_ok = 3   where apv_sq = #{apv_sq}
+	</update>
+	<update id="ysApvNo" parameterType="com.oracle.s20210704.model.YsApv">
+		update apv set apv_no = #{apv_no} , apv_ok = 4  where apv_sq = #{apv_sq}
+	</update>
+	<select id="ysApvIng" parameterType="int" resultType="com.oracle.s20210704.model.YsApv">
+		select b.*
+		from (select e.emp_name as rcv_name, a.apv_ok,(select 0 from dual) as apv_mid_num
+		      from apv a ,emp e
+		      where a.apv_snd = e.emp_num
+		      and apv_sq = #{apv_sq}
+		      union
+		      select e.emp_name as rcv_name, m.apv_mid_ok as apv_ok,m.apv_mid_num
+		      from apv a,apv_mid m,emp e
+		      where a.apv_mid = m.apv_mid
+		      and e.emp_num = m.apv_mid_emp
+		      and m.apv_mid = #{apv_sq}
+		      union
+		      select e.emp_name as rcv_name, a.apv_ok,(select max(apv_mid_num)+1 from apv_mid where apv_mid = #{apv_sq}) as apv_mid_num
+		      from apv a ,emp e
+		      where a.apv_fnl = e.emp_num
+		      and apv_sq = #{apv_sq}
+		    ) b
+		order by b.apv_mid_num
+	</select>
+	<select id="ysUnreadTotal" parameterType="int" resultType="int">
+		select count(*)
+		from (select a1.*,e1.emp_name as srt_name1
+		     from apv a1,apv_mid m,emp e1
+		     where a1.apv_mid = m.apv_mid
+		     and a1.apv_snd = e1.emp_num and m.apv_mid_emp = #{emp_num}
+		     and m.apv_mid_ok = 0 and apv_ok != 4
+		     union
+		     select a2.*,e2.emp_name as srt_name2
+		     from apv a2,emp e2
+		     where a2.apv_snd = e2.emp_num and a2.apv_fnl = #{emp_num}
+		     and ( a2.apv_ok = 2 or a2.apv_ok = 0 )
+		     ) 
+	</select>
+	<select id="ysSndDetail" parameterType="int" resultType="com.oracle.s20210704.model.YsApv">
+		select * from apv where apv_sq = #{apv_sq}
+	</select>
+	<select id="ysApvNoTotal" parameterType="int" resultType="int">
+		select count(*) from apv where apv_ok = 4 and apv_snd = #{emp_num}
+	</select>
+	<select id="ysNextEmp" parameterType="int" resultType="com.oracle.s20210704.model.YsApv">
+		select * 
+		     from (select rownum rn, b.* 
+		          from (select e.emp_name as rcv_name, e.emp_num as rcv_num,m.apv_mid_num
+		                from apv a,apv_mid m,emp e
+		                where a.apv_mid = m.apv_mid
+		                and e.emp_num = m.apv_mid_emp
+		                and m.apv_mid = #{apv_sq}
+		                union
+		                select e.emp_name as rcv_name, e.emp_num as rcv_num,(select max(apv_mid_num)+1 from apv_mid where apv_mid = #{apv_sq}) as apv_mid_num
+		                from apv a ,emp e
+		                where a.apv_fnl = e.emp_num
+		                and apv_sq = #{apv_sq}
+		                order by apv_mid_num
+		               ) b
+		           )
+		where rn between 1 and 1
+	</select>
+	<delete id="ysMidSndDelete" parameterType="int">
+	   {call
+	        declare
+	        begin
+	            delete from apv     where apv_sq  = #{apv_sq} ;
+	            delete from apv_mid where apv_mid = #{apv_sq} ;
+	        end
+	    }
+	</delete>
+	<delete id="ysFnlSndDelete" parameterType="int">
+		delete from apv  where apv_sq  = #{apv_sq}
+	</delete>
 </mapper>

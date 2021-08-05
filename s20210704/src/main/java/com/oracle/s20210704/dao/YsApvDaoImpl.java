@@ -88,8 +88,8 @@ public class YsApvDaoImpl implements YsApvDao {
 	@Override
 	public YsApv rcvDetail(YsApv ysApv) {
 		YsApv rcvDetail = new YsApv();
-		String chk = session.selectOne("ysRcvChk", ysApv);
-		if(chk != null) {      //중간결재
+		int chk = session.selectOne("ysRcvChk", ysApv);
+		if(chk > 0) {      //중간결재
 			System.out.println("중간결재입니다");
 			rcvDetail = session.selectOne("ysMidRcv", ysApv);
 		}else {            //최종결재
@@ -97,6 +97,69 @@ public class YsApvDaoImpl implements YsApvDao {
 			rcvDetail = session.selectOne("ysFnlRcv", ysApv);
 		}	
 		return rcvDetail;
+	}
+
+	@Override
+	public void midOk(YsApv ysApv) {
+		session.update("ysMidOk", ysApv);
+		
+	}
+
+	@Override
+	public void midToFnlOk(YsApv ysApv) {
+		session.update("ysMTFok", ysApv);
+		
+	}
+
+	@Override
+	public void fnlOk(YsApv ysApv) {
+		session.update("ysFnlOk", ysApv);
+		
+	}
+
+	@Override
+	public void apv_no(YsApv ysApv) {
+		session.update("ysApvNo", ysApv);
+	}
+
+	@Override
+	public List<YsApv> apv_ing(int apv_sq) {
+		List<YsApv> apv_ing = session.selectList("ysApvIng", apv_sq);
+		return apv_ing;
+	}
+
+	@Override
+	public int unreadTotal(int emp_num) {
+		int unreadTotal = session.selectOne("ysUnreadTotal", emp_num);
+		return unreadTotal;
+	}
+
+	@Override
+	public YsApv sndDetail(int apv_sq) {
+		YsApv sndDetail = session.selectOne("ysSndDetail", apv_sq);
+		return sndDetail;
+	}
+
+	@Override
+	public int apvNoTotal(int emp_num) {
+		int apvNoTotal = session.selectOne("ysApvNoTotal", emp_num);
+		return apvNoTotal;
+	}
+
+	@Override
+	public YsApv nextEmp(int apv_sq) {
+		YsApv nextEmp = session.selectOne("ysNextEmp", apv_sq);
+		return nextEmp;
+	}
+
+	@Override
+	public void midSndDelete(int apv_sq) {
+		session.delete("ysMidSndDelete", apv_sq);
+	}
+
+	@Override
+	public void fnlSndDelete(int apv_sq) {
+		session.delete("ysFnlSndDelete", apv_sq);
 	}
 
 

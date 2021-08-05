@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>  
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>  
 <!DOCTYPE html>
 <html>
 <title>JOBIS</title>
@@ -14,42 +15,6 @@
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
-.fileBox .fileName {
-		display:inline-block;
-		width:170px;
-		height:30px;
-		padding-left:10px;
-		margin-right:5px;
-		line-height:30px;
-		border:1px solid #aaa;
-		background-color:#fff;
-		vertical-align:middle;
-		border-radius: 10px;
-	}
-.fileBox .btn_file {
-	display:inline-block;
-	border:2px solid #66677f;
-	border-top-width: 0px;
-	border-left-width: 0px;
-	width:100px;
-	height:30px;
-	line-height:30px;
-	text-align:center;
-	vertical-align:middle;
-	background-color: #384f76;
-	color:white;
-	border-radius: 6px;
-}
-.fileBox input[type="file"] {
-	position:absolute;
-	width:1px;
-	height:1px;
-	padding:0;
-	margin:-1px;
-	overflow:hidden;
-	clip:rect(0,0,0,0);
-	border:0
-}
 .btn2{
    color: #fff;
    background-color: #384f76;
@@ -57,22 +22,11 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
    border-color: #384f76;
    border-radius: 6px;
  }
- .btn3{
-   display:inline-block;
-	border:2px solid #66677f;
-	border-top-width: 0px;
-	border-left-width: 0px;
-	width:50px;
-	height:30px;
-	line-height:30px;
-	text-align:center;
-	vertical-align:middle;
-	background-color: #384f76;
-	color:white;
-	border-radius: 6px;
- }
-
 </style>
+
+
+
+
 <body class="w3-theme-l5">
 
 <!-- Navbar -->
@@ -198,74 +152,61 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">          
-              <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>결재 작성</b></h1><hr>
-          	  <div style="border: 2px solid #384f76; width: 90%; margin: 50px auto;">
-          	  	 <form action="apvWrite" method="post"  enctype="multipart/form-data" style="margin-left: 30px; margin-top: 30px;" name="frm" onsubmit="return chk()">
-        	  	 	<input type="hidden" name="apv_snd" value="${emp_num }">
-        	  	 	<input type="hidden" name="fnlChk" id="fnlChk" value="0">
+              <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>보낸 결재</b></h1><hr>
+              <div style="border: 3px solid #384f76; width: 90%; margin: 50px auto;">
+          	  	 <div style="margin-left: 30px; margin-top: 30px;">
         	  	 	<div style="font-size: 20px;">
         	  	 		<span><b>사원번호</b>  ${emp_num }&nbsp; <b style="margin-left: 5%;">이름</b>  ${svo.emp_name }&nbsp; <b style="margin-left: 5%;">부서</b>  ${svo.dcontent }&nbsp; <b style="margin-left: 5%;">직급</b>  ${svo.rcontent }&nbsp;</span>
         	  	 	</div>
+        	  	 	<div><span><b style="font-size: 20px;">결재분류  </b>${sndDetail.apv_type }</span></div>
+        	  	 	<div><b style="font-size: 20px;">제목 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  </b>${sndDetail.apv_title }</div>
         	  	 	<div>
-        	  	 		<span>
-        	  	 			<b style="font-size: 20px;">결재분류  </b>
-        	  	 			<select name="apv_type" id="apv_type" onchange="getRcvList()" required="required">
-        	  	 				<option value="-결재-" selected="selected">-결재-</option>
-        	  	 				<c:if test="${svo.dcontent == '임원'}"><option value="최종보고">최종보고</option></c:if>
-        	  	 				<c:if test="${svo.dcontent != '임원'}">
-        	  	 					<c:if test="${svo.rcontent == '사원'}">
-        	  	 						<option value="일일보고">일일보고</option>
-        	  	 						<option value="근태보고">근태보고</option>
-        	  	 						<c:if test="${svo.dcontent == '인사부'}"><option value="인사보고">인사보고</option></c:if>
-        	  	 					</c:if>
-        	  	 					<c:if test="${svo.rcontent == '대리'}">
-        	  	 						<option value="일일보고">일일보고</option>
-        	  	 						<option value="근태보고">근태보고</option>
-        	  	 						<option value="사업보고">사업보고</option>
-        	  	 						<c:if test="${svo.dcontent == '인사부'}"><option value="인사보고">인사보고</option></c:if>
-        	  	 					</c:if>
-        	  	 					<c:if test="${svo.rcontent == '팀장'}">
-        	  	 						<option value="주간보고">주간보고</option>
-        	  	 						<option value="사업보고">사업보고</option>
-        	  	 						<c:if test="${svo.dcontent == '인사부'}"><option value="인사보고">인사보고</option></c:if>
-        	  	 					</c:if>
-        	  	 					<c:if test="${svo.rcontent == '부장'}">
-        	  	 						<option value="주간보고">주간보고</option>
-        	  	 						<option value="비용신청">비용신청</option>
-        	  	 						<option value="사업보고">사업보고</option>
-        	  	 						<option value="행사보고">행사보고</option>
-        	  	 						<option value="월간보고">월간보고</option>
-        	  	 					</c:if>
-        	  	 				</c:if>
-        	  	 			</select>
-        	  	 		</span>
-        	  	 		<span id="Rcv_List" style="margin-left: 5%;">
-        	  	 			<c:if test="${svo.dcontent == '임원'}">
-        	  	 				<script type="text/javascript">
-        	  	 					var fnlChk   = document.getElementById('fnlChk');
-        	  	 					fnlChk.value = 1;
-        	  	 				</script>
-        	  	 				<b style="font-size: 20px;">결재자 : </b> <span style="margin: 0px; font-size: 20px;">서팔광</span>
-        	  	 				<input type="hidden" name="apv_fnl" value="1701001">
-        	  	 			</c:if>
-        	  	 		</span>
+        	  	 		<b style="font-size: 20px;">첨부파일  </b>
+        	  	 		<c:if test="${empty sndDetail.apv_pl_nm }">없음</c:if>
+        	  	 		<c:if test="${not empty sndDetail.apv_pl_nm }">${fn:substringAfter(sndDetail.apv_pl_nm, '_') }</c:if>
         	  	 	</div>
-        	  	 	<div><b style="font-size: 20px;">제목  </b><input type="text" name="apv_title" placeholder="결재 제목을 작성해주세요" required="required" style="width: 80%;"></div>
-        	  	 	<div>
-        	  	 		<b style="font-size: 20px;">첨부파일  </b> 
-        	  	 		<span class="fileBox">
-							<input type="text" class="fileName" readonly="readonly">
-							<label for="uploadBtn" class="btn_file">파일 업로드</label>
-							<input type="file" id="uploadBtn" class="uploadBtn" name="file1" accept=".pdf" onchange="setThumbnail(event);">
-							<label class="btn3" onclick="fdel()">제거</label>
-						</span>
-        	  	 	</div>
-        	  	 	<div style="margin-left: 55px; margin-top: 10px;" id="pdf"></div>
-        	  	 	<b style="font-size: 20px;">내용 </b><p style="margin: 0px;">
-        	  	 	<div><textarea placeholder="결재 내용을 작성해주세요" name="apv_content" maxlength="4000"  style="height:150px; width: 80%; margin-left: 55px;" required="required"></textarea></div>
-        	  	 	<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="결재신청" class="btn2"></div>
-          	  	 </form>
-          	  </div>
+        	  	 	<div><b style="font-size: 20px;">내용 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </b> ${sndDetail.apv_content }</div>
+					
+					<div>
+						<b style="font-size: 20px;">진행과정  </b>
+						<c:set value="0" var="i"/>
+						<c:set value="0" var="ing_no"/>
+						<c:forEach var="apv_ing" items="${apv_ing }">
+							<c:if test="${apv_ing.apv_ok == 4}"><c:set value="${ing_no + 1 }" var="ing_no"/></c:if>
+							<c:if test="${i == 0 }">
+								<span>${apv_ing.rcv_name }</span>						
+							</c:if>
+							<c:if test="${i > 0 }">
+								<c:choose>
+									<c:when test="${(apv_ing.apv_ok == 0 || apv_ing.apv_ok == 4) && ing_no > 0}">
+										<span> &nbsp; ->  &nbsp; ${apv_ing.rcv_name } (반려)</span>						
+									</c:when>
+									<c:when test="${apv_ing.apv_ok == 1 || apv_ing.apv_ok == 3 }">
+										<span> &nbsp; ->  &nbsp; ${apv_ing.rcv_name } (승인)</span>						
+									</c:when>
+									<c:otherwise>
+										<span> &nbsp; ->  &nbsp; ${apv_ing.rcv_name } (진행중)</span>
+									</c:otherwise>
+								</c:choose>
+							</c:if>
+							<c:set value="${i + 1 }" var="i"/>	
+						</c:forEach>
+					</div>
+					<div style="text-align: center; margin-top: 10px;" id="pdf"></div>
+					<div>
+						<c:if test="${sndDetail.apv_ok == 4 }">
+							<span><b style="font-size: 20px;">반려사유  </b>${sndDetail.apv_no }</span>
+						</c:if>
+					</div>
+					
+					<c:if test="${sndDetail.apv_ok == 4 }">
+						<div style="margin-left: 82%; margin-bottom: 20px;"><a href="apvReWrite?sq=${sndDetail.apv_sq }"><button type="button" class="btn2">재결재</button></a></div>
+					</c:if>
+					
+					
+          	    </div>
+           	  </div>
+
             </div>
           </div>
         </div>
@@ -325,148 +266,13 @@ function openNav() {
   }
 }
 
-
-
-
-/////////////////////////////////////////////////////////
-
-
-
-function getRcvList(){
-	$("#apv_type option[value='-결재-']").remove();
-	var emp_rnk  = '${svo.rcontent }';
-	var emp_num  = '${emp_num }';
-	var apv_type = document.getElementById('apv_type').value;
-	var fnlChk   = document.getElementById('fnlChk');
-	var url = "";
-	var fnlChk2 = 0;
-	if(apv_type == '일일보고'){
-		if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
-		else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; fnlChk2 = 1; fnlChk.value = 1; }
-	}else if(apv_type == '주간보고'){
-		if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; }
-		else if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1; fnlChk.value = 1; }
-	}else if(apv_type == '근태보고'){
-		if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
-		else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; fnlChk2 = 1; fnlChk.value = 1; }
-	}else if(apv_type == '비용신청'){
-		if(emp_rnk == '부장'){ url = "../rcvList5"; }
-	}else if(apv_type == '사업보고'){
-		if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; }
-		else if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; }
-		else if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1; fnlChk.value = 1; }
-	}else if(apv_type == '인사보고'){
-		if(emp_rnk == '사원'){ url = "../rcvList1?emp_num="+emp_num; }
-		else if(emp_rnk == '대리'){ url = "../rcvList2?emp_num="+emp_num; }
-		else if(emp_rnk == '팀장'){ url = "../rcvList3?emp_num="+emp_num; fnlChk2 = 1; fnlChk.value = 1; }
-	}else if(apv_type == '행사보고'){
-		if(emp_rnk == '부장'){ url = "../rcvList6"; }
-	}else if(apv_type == '월간보고'){
-		if(emp_rnk == '부장'){ url = "../rcvList4"; fnlChk2 = 1; fnlChk.value = 1; }
-	}else if(apv_type == '최종보고'){
-		fnlChk.value = 1;
-	}
-	
-	var str  = "";
-	var str2 = "";
-	$.ajax({
-		url:url,
-		dataType:'json',
-		success:function(data){
-			$('#Rcv_List *').remove();
-			if(fnlChk2 == 1){
-				str += "<b style='font-size: 20px;'>결재자  </b><select name = 'apv_fnl' required='required' id='slt2' onchange='sltrm2()'><option value='' selected='selected'>-결재자-</option>";
-			}else{			
-				str += "<b style='font-size: 20px;'>결재자  </b><select name = 'apv_mid_emp' required='required' id='slt' onchange='sltrm()'><option value='-결재자-' selected='selected'>-결재자-</option>";
-			}
-			$(data).each(
-					function(){
-						str2 = "<option value = '"+this.emp_num + "'>"+this.emp_name + "</option>";
-						str += str2;
-					}		
-				);
-				str += "</select>";
-				$('#Rcv_List').append(str);
-		}
-	});
-}
-
-function chk(){
-	if(frm.apv_type.value == '-결재-'){
-		alert("결재분류를 선택해주세요");
-		return false;
-	}
-	if(frm.apv_mid_emp.value == '-결재자-'){
-		alert("결재자를 선택해주세요");
-		return false;
-	}
-	if(frm.apv_fnl.value == ''){
-		alert("결재자를 선택해주세요");
-		return false;
-	}
-	
-	return true;
+var pdfName = '${sndDetail.apv_pl_nm}';
+if(pdfName){
+	var pdfPath = '<iframe width="80%" height="550" src="../upload/${sndDetail.apv_pl_nm}" />';
+	$('#pdf').append(pdfPath);	
 }
 
 
-function sltrm(){
-	$("#slt option[value='-결재자-']").remove();
-}
-function sltrm2(){
-	$("#slt2 option[value='']").remove();
-}
-
-var uploadFile = $('.fileBox .uploadBtn');
-uploadFile.on('change', function(){
-	if(window.FileReader){
-		var filename = $(this)[0].files[0].name;
-	} else {
-		var filename = $(this).val().split('/').pop().split('\\').pop();
-	}
-	$(this).siblings('.fileName').val(filename);
-});
-
-function fdel(){
-    $('.fileName').val('');
-    $('#pdf *').remove();
-	var agent = navigator.userAgent.toLowerCase();
-	//파일초기화
-	if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
-		$("#uploadBtn").replaceWith($("#uploadBtn").clone(true));
-	}else{
-	    $("#uploadBtn").val("");
-	}	
-}
-
-function setThumbnail(event) { 
-	$('#pdf *').remove();
-	var agent = navigator.userAgent.toLowerCase();
-    // 파일 업로드 확장자 체크
-    if( $("#uploadBtn").val() != "" ){
-      	var ext = $('#uploadBtn').val().split('.').pop().toLowerCase();
- 	    if($.inArray(ext, ['pdf']) == -1) {
- 	     	alert('pdf파일만 업로드 해주세요.');
- 			//파일초기화
- 			$('.fileName').val('');
- 			if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
- 				$("#uploadBtn").replaceWith($("#uploadBtn").clone(true));
- 			}else{
- 		    	$("#uploadBtn").val("");
- 			}
- 	     	return;
-	  	}
-     }
-	
-	var reader = new FileReader(); 
-	reader.onload = function(event) { 
-		var iframe = document.createElement("iframe");
-		iframe.setAttribute("width", "80%");
-		iframe.setAttribute("height", "550");
-		iframe.setAttribute("src", event.target.result); 
-		document.querySelector('#pdf').appendChild(iframe); 
-	}; 
-	reader.readAsDataURL(event.target.files[0]); 
-}
 
 </script>
 

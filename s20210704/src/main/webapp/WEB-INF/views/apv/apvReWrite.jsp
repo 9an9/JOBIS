@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>    
 <!DOCTYPE html>
 <html>
 <title>JOBIS</title>
@@ -71,7 +72,6 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	color:white;
 	border-radius: 6px;
  }
-
 </style>
 <body class="w3-theme-l5">
 
@@ -200,9 +200,11 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <div class="w3-container w3-padding">          
               <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>결재 작성</b></h1><hr>
           	  <div style="border: 2px solid #384f76; width: 90%; margin: 50px auto;">
-          	  	 <form action="apvWrite" method="post"  enctype="multipart/form-data" style="margin-left: 30px; margin-top: 30px;" name="frm" onsubmit="return chk()">
+          	  	 <form action="apvReWrite" method="post" enctype="multipart/form-data" style="margin-left: 30px; margin-top: 30px;" name="frm" >
         	  	 	<input type="hidden" name="apv_snd" value="${emp_num }">
         	  	 	<input type="hidden" name="fnlChk" id="fnlChk" value="0">
+        	  	 	<input type="hidden" name="apv_sq" value="${sndDetail.apv_sq }">
+        	  	 	<input type="hidden" name="apv_pl_nm" id="apv_pl_nm" value="${sndDetail.apv_pl_nm }">
         	  	 	<div style="font-size: 20px;">
         	  	 		<span><b>사원번호</b>  ${emp_num }&nbsp; <b style="margin-left: 5%;">이름</b>  ${svo.emp_name }&nbsp; <b style="margin-left: 5%;">부서</b>  ${svo.dcontent }&nbsp; <b style="margin-left: 5%;">직급</b>  ${svo.rcontent }&nbsp;</span>
         	  	 	</div>
@@ -210,7 +212,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 		<span>
         	  	 			<b style="font-size: 20px;">결재분류  </b>
         	  	 			<select name="apv_type" id="apv_type" onchange="getRcvList()" required="required">
-        	  	 				<option value="-결재-" selected="selected">-결재-</option>
+        	  	 				<option value="${sndDetail.apv_type }" selected="selected">${sndDetail.apv_type }</option>
         	  	 				<c:if test="${svo.dcontent == '임원'}"><option value="최종보고">최종보고</option></c:if>
         	  	 				<c:if test="${svo.dcontent != '임원'}">
         	  	 					<c:if test="${svo.rcontent == '사원'}">
@@ -245,25 +247,25 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         	  	 					var fnlChk   = document.getElementById('fnlChk');
         	  	 					fnlChk.value = 1;
         	  	 				</script>
-        	  	 				<b style="font-size: 20px;">결재자 : </b> <span style="margin: 0px; font-size: 20px;">서팔광</span>
+        	  	 				<b style="font-size: 20px;">결재자  </b> <span style="margin: 0px; font-size: 20px;">서팔광</span>
         	  	 				<input type="hidden" name="apv_fnl" value="1701001">
         	  	 			</c:if>
         	  	 		</span>
         	  	 	</div>
-        	  	 	<div><b style="font-size: 20px;">제목  </b><input type="text" name="apv_title" placeholder="결재 제목을 작성해주세요" required="required" style="width: 80%;"></div>
+        	  	 	<div><b style="font-size: 20px;">제목  </b><input type="text" name="apv_title" placeholder="결재 제목을 작성해주세요" required="required" style="width: 80%;" value="${sndDetail.apv_title }"></div>
         	  	 	<div>
         	  	 		<b style="font-size: 20px;">첨부파일  </b> 
         	  	 		<span class="fileBox">
-							<input type="text" class="fileName" readonly="readonly">
-							<label for="uploadBtn" class="btn_file">파일 업로드</label>
+							<input type="text" class="fileName" readonly="readonly" value="${fn:substringAfter(sndDetail.apv_pl_nm, '_') }">
+							<label for="uploadBtn" class="btn_file">업로드 수정</label>
 							<input type="file" id="uploadBtn" class="uploadBtn" name="file1" accept=".pdf" onchange="setThumbnail(event);">
 							<label class="btn3" onclick="fdel()">제거</label>
 						</span>
         	  	 	</div>
         	  	 	<div style="margin-left: 55px; margin-top: 10px;" id="pdf"></div>
         	  	 	<b style="font-size: 20px;">내용 </b><p style="margin: 0px;">
-        	  	 	<div><textarea placeholder="결재 내용을 작성해주세요" name="apv_content" maxlength="4000"  style="height:150px; width: 80%; margin-left: 55px;" required="required"></textarea></div>
-        	  	 	<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="결재신청" class="btn2"></div>
+        	  	 	<div><pre><textarea name="apv_content" maxlength="4000"  style="height:150px; width: 80%; margin-left: 55px;" required="required">${sndDetail.apv_content }</textarea></pre></div>
+        	  	 	<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="재결재신청" class="btn2"></div>
           	  	 </form>
           	  </div>
             </div>
@@ -331,9 +333,7 @@ function openNav() {
 /////////////////////////////////////////////////////////
 
 
-
 function getRcvList(){
-	$("#apv_type option[value='-결재-']").remove();
 	var emp_rnk  = '${svo.rcontent }';
 	var emp_num  = '${emp_num }';
 	var apv_type = document.getElementById('apv_type').value;
@@ -369,20 +369,23 @@ function getRcvList(){
 	
 	var str  = "";
 	var str2 = "";
+	var nextNum = '${nextEmp.rcv_num}';
 	$.ajax({
 		url:url,
 		dataType:'json',
 		success:function(data){
 			$('#Rcv_List *').remove();
 			if(fnlChk2 == 1){
-				str += "<b style='font-size: 20px;'>결재자  </b><select name = 'apv_fnl' required='required' id='slt2' onchange='sltrm2()'><option value='' selected='selected'>-결재자-</option>";
+				str += "<b style='font-size: 20px;'>결재자  </b><select name = 'apv_fnl' required='required' id='slt2' ><option value='${nextEmp.rcv_num}' selected='selected'>${nextEmp.rcv_name}</option>";
 			}else{			
-				str += "<b style='font-size: 20px;'>결재자  </b><select name = 'apv_mid_emp' required='required' id='slt' onchange='sltrm()'><option value='-결재자-' selected='selected'>-결재자-</option>";
+				str += "<b style='font-size: 20px;'>결재자  </b><select name = 'apv_mid_emp' required='required' id='slt' ><option value='${nextEmp.rcv_num}' selected='selected'>${nextEmp.rcv_name}</option>";
 			}
 			$(data).each(
 					function(){
-						str2 = "<option value = '"+this.emp_num + "'>"+this.emp_name + "</option>";
-						str += str2;
+						if(this.emp_num != nextNum){							
+							str2 = "<option value = '"+this.emp_num + "'>"+this.emp_name + "</option>";
+							str += str2;
+						}
 					}		
 				);
 				str += "</select>";
@@ -391,30 +394,25 @@ function getRcvList(){
 	});
 }
 
-function chk(){
-	if(frm.apv_type.value == '-결재-'){
-		alert("결재분류를 선택해주세요");
-		return false;
-	}
-	if(frm.apv_mid_emp.value == '-결재자-'){
-		alert("결재자를 선택해주세요");
-		return false;
-	}
-	if(frm.apv_fnl.value == ''){
-		alert("결재자를 선택해주세요");
-		return false;
-	}
-	
-	return true;
-}
+getRcvList();
 
 
-function sltrm(){
-	$("#slt option[value='-결재자-']").remove();
-}
-function sltrm2(){
-	$("#slt2 option[value='']").remove();
-}
+
+var obj = {};
+$("select").children("option").each(function(){
+ let val = $(this).attr("value");
+ if(obj[val]){
+   if($(this).is(":selected")){
+    obj[val].remove();
+    obj[val] = $(this);
+   }else if(obj[val].is(":selected")){
+    $(this).remove()
+   }else{
+    $(this).remove();
+   }
+ }
+ obj[val] = $(this);
+});
 
 var uploadFile = $('.fileBox .uploadBtn');
 uploadFile.on('change', function(){
@@ -424,18 +422,22 @@ uploadFile.on('change', function(){
 		var filename = $(this).val().split('/').pop().split('\\').pop();
 	}
 	$(this).siblings('.fileName').val(filename);
+	$('#apv_pl_nm').val('change');
+	$.get('fileDelete?fileName=${sndDetail.apv_pl_nm }');
 });
 
 function fdel(){
+	$('#pdf *').remove();
     $('.fileName').val('');
-    $('#pdf *').remove();
-	var agent = navigator.userAgent.toLowerCase();
-	//파일초기화
-	if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
-		$("#uploadBtn").replaceWith($("#uploadBtn").clone(true));
-	}else{
-	    $("#uploadBtn").val("");
-	}	
+	$('#apv_pl_nm').val('');
+	$.get('fileDelete?fileName=${sndDetail.apv_pl_nm }');
+	/* location.href='fileDelete?fileName=${sndDetail.apv_pl_nm }'; */
+}
+
+var pdfName = '${sndDetail.apv_pl_nm}';
+if(pdfName){
+	var pdfPath = '<iframe width="80%" height="550" src="../upload/${sndDetail.apv_pl_nm}" />';
+	$('#pdf').append(pdfPath);	
 }
 
 function setThumbnail(event) { 
@@ -447,7 +449,9 @@ function setThumbnail(event) {
  	    if($.inArray(ext, ['pdf']) == -1) {
  	     	alert('pdf파일만 업로드 해주세요.');
  			//파일초기화
+ 			$('#apv_pl_nm').val('');
  			$('.fileName').val('');
+ 			$.get('fileDelete?fileName=${sndDetail.apv_pl_nm }');
  			if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
  				$("#uploadBtn").replaceWith($("#uploadBtn").clone(true));
  			}else{
