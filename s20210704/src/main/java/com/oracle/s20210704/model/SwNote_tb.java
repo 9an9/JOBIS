@@ -11,12 +11,15 @@ public class SwNote_tb {
                                   
 	private int    note_sq;		private int    emp_num;
 	private String note_nm; 	private String note_cnt;
-	private String note_fl_nm;  private String note_fl_link;
+	private String note_fl_nm;  private String note_fl_path;
 	private Date   snd_dt;
 
-	private int    emp_num2;
-	
 	// 조회용
+	private int    emp_num2;
 	private String emp_name;
-	private Date   rcv_dt;
+	private Date   read_dt;
+	
+	//페이징
+	private int start;			private int end;
+
 }

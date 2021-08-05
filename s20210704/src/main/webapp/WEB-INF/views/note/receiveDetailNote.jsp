@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <title>JOBIS</title>
@@ -13,6 +14,28 @@
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
+
+.btn2{
+   color: #FFFFFF;
+   background-color: #263659;
+   border-radius: 6px;
+ }
+ th{
+ 	background-color:#384f76; 
+ 	color: white;
+ }
+ 
+  
+.TB{
+	text-align: center;
+	width: 100%;
+	margin: 0 auto;
+    margin-top: 5px;
+    border: 1px solid #7d97a5;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
 </style>
 <body class="w3-theme-l5">
 
@@ -139,20 +162,22 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
-              <h1><i class="fa fa-envelope fa-fw w3-margin-right"></i><b>받은 쪽지함</b></h1><hr>
-            	<table border="1" width="800">
-					<tr><th colspan="5">받은 쪽지함</th></tr>
-					<tr><th>발신자</th><th>내용</th><th>수신시간</th><th>답장</th><th>삭제</th></tr>
-					<tr><td>[개발1팀]정길동</td><td>안녕하십니까 신입사원 정길동입니다.</td><td>2017년10월4일오전5시</td><td><input type="submit" value="답장"></td><td><input type="submit" value="삭제"></td></tr>
-					<tr><td>[개발1팀]정길동</td><td>안녕하십니까 신입사원 정길동입니다.</td><td>2017년10월4일오전5시</td><td><input type="submit" value="답장"></td><td><input type="submit" value="삭제"></td></tr>
-					<tr><td>[개발1팀]정길동</td><td>안녕하십니까 신입사원 정길동입니다.</td><td>2017년10월4일오전5시</td><td><input type="submit" value="답장"></td><td><input type="submit" value="삭제"></td></tr>
-					<tr><td>[개발1팀]정길동</td><td>안녕하십니까 신입사원 정길동입니다.</td><td>2017년10월4일오전5시</td><td><input type="submit" value="답장"></td><td><input type="submit" value="삭제"></td></tr>
-					<tr><td>[개발1팀]정길동</td><td>안녕하십니까 신입사원 정길동입니다.</td><td>2017년10월4일오전5시</td><td><input type="submit" value="답장"></td><td><input type="submit" value="삭제"></td></tr>
-					<tr><td>[개발1팀]정길동</td><td>안녕하십니까 신입사원 정길동입니다.</td><td>2017년10월4일오전5시</td><td><input type="submit" value="답장"></td><td><input type="submit" value="삭제"></td></tr>
-					<tr><td>[개발1팀]정길동</td><td>안녕하십니까 신입사원 정길동입니다.</td><td>2017년10월4일오전5시</td><td><input type="submit" value="답장"></td><td><input type="submit" value="삭제"></td></tr>
-					<tr><td>[개발1팀]정길동</td><td>안녕하십니까 신입사원 정길동입니다.</td><td>2017년10월4일오전5시</td><td><input type="submit" value="답장"></td><td><input type="submit" value="삭제"></td></tr>
-					<tr><td>[개발1팀]정길동</td><td>안녕하십니까 신입사원 정길동입니다.</td><td>2017년10월4일오전5시</td><td><input type="submit" value="답장"></td><td><input type="submit" value="삭제"></td></tr>
-					<tr><td>[개발1팀]정길동</td><td>안녕하십니까 신입사원 정길동입니다.</td><td>2017년10월4일오전5시</td><td><input type="submit" value="답장"></td><td><input type="submit" value="삭제"></td></tr>	
+              <h1><i class="fa fa-envelope fa-fw w3-margin-right"></i><b>받은 쪽지함 상세보기</b></h1><hr>
+				<table border="1" class="TB">
+					<c:forEach var="list" items="${receiveDetailNote }">
+						<tr><th>보낸사람</th><td>${list.emp_name }</td>
+						<tr><th>제목</th><td>${list.note_nm }</td></tr>	
+						<tr><th>내용</th><td>${list.note_cnt }</td></tr>
+						<tr><th>첨부파일</th><td><a href="${pageContext.request.contextPath}/upload/${list.note_fl_path }">${list.note_fl_nm }</a></td>
+						<tr><th>발신시간</th><td><fmt:formatDate value="${list.snd_dt }" type="date" pattern="yyyy-MM-dd HH:mm"/></td></tr>
+
+ 
+					</c:forEach>
+					<tr>
+			        	<td colspan="4">
+			   			<input type="button" value="뒤로가기" onclick="history.back(-1)" style="float: right;" class="btn2">
+			   		</td>
+					</tr>
 				</table>
             </div>
           </div>
@@ -209,6 +234,8 @@ function openNav() {
     x.className = x.className.replace(" w3-show", "");
   }
 }
+
+
 </script>
 
 </body>

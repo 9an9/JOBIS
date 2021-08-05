@@ -6,7 +6,7 @@
 <html>
 <title>JOBIS</title>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -14,6 +14,23 @@
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
+
+.btn2{
+   color: #FFFFFF;
+   background-color: #263659;
+   border-radius: 6px;
+ }
+ 
+.TB{
+	text-align: center;
+	width: 100%;
+	margin: 0 auto;
+	
+    margin-top: 5px;
+    border: 1px solid #7d97a5;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
 </style>
 
 <script type="text/javascript">
@@ -71,6 +88,14 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 		 </c:forEach>
 
 		}
+	function fn_check() {
+		if (confirm("정말 삭제하시겠습니까?") == true){    //확인
+		    alert("삭제되었습니다.")
+			document.frm.submit();
+		}else{   //취소
+		    return false;
+		}
+}
 	
 	/* Ajax 결과값 */
 </script>
@@ -201,32 +226,55 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
               <h1><i class="fa fa-envelope fa-fw w3-margin-right"></i><b>받은 쪽지함</b></h1><hr>
- 	          <form  name="frm"   action="deleteNote">
-	            	<table border="1" width="800">
-						<tr>
-							<td><input type="checkbox" onclick='fn_selectAll(this)' ></td>
-							<th>보낸사람</th>
-							<th width="500">내용</th>
-							<th>수신시간</th>
+            
+		      <form  name="frm" action="deleteNote" onsubmit="return fn_check()" >
+	            	<table border="1" class="TB">
+						<tr style="background-color:#384f76; color: white;">
+							<th><input type="checkbox" onclick='fn_selectAll(this)'></th>
+							<th width="80">보낸사람</th>
+							<th width="200">제목</th>
+							<th width="400">내용</th>
+							<th>발신시간</th>
 						</tr>
 						<c:forEach var="list" items="${listSwNote_tb }" varStatus="status">	
 						<tr>
 							<input type="hidden" name="note_sq" value="${list.note_sq }">
 							<td><input type="checkbox" name="check1" value="0" onclick="fn_chkClick(${status.index})"></td>
 							<td>${list.emp_name }</td>
-							<td width="500">${list.note_cnt }</td>
-						    <td><fmt:formatDate value="${list.snd_dt }" type="date" pattern="yyyy-MM-dd HH-mm"/></td>
-						</tr>
+							<td>${list.note_nm }</td>
+							<td><div class="content"><a href="receiveDetailNote?note_sq=${list.note_sq}">${list.note_cnt }</a></div></td>
+						    <td><fmt:formatDate value="${list.snd_dt }" type="date" pattern="yyyy-MM-dd HH:mm"/></td>
+						</tr>  
 						</c:forEach>
 						<tr> 
-					       <td>
-					   		  <input type="submit" value="삭제">
+					       <td colspan="5">
+					   		 <input type="submit" class="btn2" value="삭제" style="float: right;">
 					   		</td>
 						</tr>
 					</table>
- 	           </form>
+					
+					
+					<div class="w3-center">
+						<div class="w3-bar w3-border" style=" margin: 10px 0px;border: 1px solid #7d97a5;">
+							<c:if test="${sp.startPage > sp.pageBlock }">
+								<a href="receiveNote?currentPage=${sp.startPage-sp.pageBlock}" class="w3-bar-item w3-button">&laquo;</a>
+							</c:if>
+							<c:forEach var="i" begin="${sp.startPage }" end="${sp.endPage }">
+								<c:if test="${sp.currentPage == i }">
+									<a href="receiveNote?currentPage=${i}" class="w3-bar-item w3-button" style="background-color: #384f76; color: white;">${i}</a>
+								</c:if>
+								<c:if test="${sp.currentPage != i }">
+									<a href="receiveNote?currentPage=${i}" class="w3-bar-item w3-button">${i}</a>
+								</c:if>
+							</c:forEach>
+							<c:if test="${sp.endPage < sp.totalPage }">
+								<a href="receiveNote?currentPage=${sp.startPage+sp.pageBlock}" class="w3-bar-item w3-button">&raquo;</a>
+							</c:if>
+						</div>
+					</div>
+				 </form>
  	           </div>
-          </div>
+ 	           </div>
         </div>
       </div>
     <!-- End Middle Column -->

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <title>JOBIS</title>
@@ -21,17 +21,6 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
    border-radius: 6px;
  }
 
-.TB{
-	text-align: center;
-	width: 100%;
-	margin: 0 auto;
-	
-    margin-top: 5px;
-    border: 1px solid #7d97a5;
-    border-collapse: collapse;
-    border-spacing: 0;
-}
-	
 </style>
 <body class="w3-theme-l5">
 
@@ -154,62 +143,33 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     <!-- Middle Column -->
    <div class="w3-col m7" >
     
-       <div class="w3-row-padding">
+     <div class="w3-row-padding">
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
-              <h1><i class="fa fa-envelope fa-fw w3-margin-right"></i><b>보낸 쪽지함</b></h1><hr>
-            	<table border="1" class="TB">
-            		<tr style="background-color:#384f76; color: white;">
-						<th width="80">받는사람</th>
-						<th width="150">제목</th>
-						<th width="300">내용</th>
-						<th>발신시간</th>
-						<th>읽은시간</th>
-						<th>읽음여부</th>
-					</tr>
-				<c:forEach var="list" items="${listSwNote_rcv_tb }">	
+              <h1><i class="fa fa-envelope fa-fw w3-margin-right"></i><b>보낸 쪽지함 상세보기</b></h1><hr>
+				<table border="1" width="900">
+					<c:forEach var="list" items="${receiveDetailNote }">
+						<tr><th>받는사람</th><td>${list.emp_name }</td>
+						<tr><th>제목</th><td>${list.note_nm }</td></tr>	
+						<tr><th>내용</th><td>${list.note_cnt }</td></tr>
+						<tr><th>발신시간</th><td><fmt:formatDate value="${list.snd_dt }" type="date" pattern="yyyy-MM-dd HH:mm"/></td></tr>
+						<tr><th>첨부파일</th><td><a href="${pageContext.request.contextPath}/upload/${list.note_fl_path }">${list.note_fl_nm }</a></td></tr>
+						<tr><th>읽은시간</th><td><fmt:formatDate value="${list.read_dt }" type="date" pattern="yyyy-MM-dd HH:mm"/></td></tr>
+						<tr><th>읽음여부</th>
+							<c:if test="${list.read_count eq '0' }"><td>안읽음</td></c:if>
+					    	<c:if test="${list.read_count eq '1' }"><td>읽음</td></c:if></tr>
+					</c:forEach>
 					<tr>
-						<td>${list.recv_emp_name }</td>
-						<td>${list.note_nm }</td>
-						<td><div id="note_cnt"><a href="sentDetailNote?note_sq=${list.note_sq}">${list.note_cnt }</a></div></td>
-					    <td width="140px"><fmt:formatDate value="${list.snd_dt }" type="date" pattern="yyyy-MM-dd HH:mm"/></td>
-					    <td width="140px"><fmt:formatDate value="${list.read_dt }" type="date" pattern="yyyy-MM-dd HH:mm"/></td>
-					    <c:if test="${list.read_count eq '0' }"><td><div id="read_count">읽지않음</div></td></c:if>
-					    <c:if test="${list.read_count eq '1' }"><td><div id="read_count">읽음</div></td></c:if>
-					</tr>
-				</c:forEach>
-					<tr>
-			        	<td colspan="6">
-			   			<input type="button" value="뒤로가기" onclick="history.back(-1)" class="btn2" style="float: right;">
+			        	<td colspan="4">
+			   			<input type="button" value="뒤로가기" onclick="history.back(-1)" style="float: right;" class="btn2">
 			   		</td>
 					</tr>
 				</table>
-				<div class="w3-center">
-						<div class="w3-bar w3-border" style=" margin: 10px 0px;border: 1px solid #7d97a5;">
-							<c:if test="${sp.startPage > sp.pageBlock }">
-								<a href="sentNote?currentPage=${sp.startPage-sp.pageBlock}" class="w3-bar-item w3-button">&laquo;</a>
-							</c:if>
-							<c:forEach var="i" begin="${sp.startPage }" end="${sp.endPage }">
-								<c:if test="${sp.currentPage == i }">
-									<a href="sentNote?currentPage=${i}" class="w3-bar-item w3-button" style="background-color: #384f76; color: white;">${i}</a>
-								</c:if>
-								<c:if test="${sp.currentPage != i }">
-									<a href="sentNote?currentPage=${i}" class="w3-bar-item w3-button">${i}</a>
-								</c:if>
-							</c:forEach>
-							<c:if test="${sp.endPage < sp.totalPage }">
-								<a href="sentNote?currentPage=${sp.startPage+sp.pageBlock}" class="w3-bar-item w3-button">&raquo;</a>
-							</c:if>
-						</div>
-					</div>
             </div>
           </div>
         </div>
       </div>
-      
-
-      
     <!-- End Middle Column -->
     </div>
     

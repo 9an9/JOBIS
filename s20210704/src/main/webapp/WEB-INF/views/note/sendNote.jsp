@@ -13,9 +13,53 @@
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
+
+.btn2{
+   color: #FFFFFF;
+   background-color: #263659;
+   border-radius: 6px;
+ }
+
+iframe {
+	width: 0px;
+	height: 0px;
+	border: 0px
+}
+
+.TB{
+	text-align: center;
+	width: 100%;
+	margin: 0 auto;
+	
+    margin-top: 5px;
+    border: 1px solid #7d97a5;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
 </style>
 <body class="w3-theme-l5">
+<script type="text/javascript">
+function fn_check() {
+	if (confirm("정말 전송하시겠습니까?") == true){    //확인
+	    alert("전송되었습니다.")
+		document.frm.submit();
+	}else{   //취소
+	    return false;
+	}
+}
 
+function addFilePath(msg) {
+	alert(msg);
+	document.getElementById("form1").reset();
+}
+
+
+</script>
+<c:set var="path" value="${pageContext.request.contextPath}"/>
+	<script src="${path}/resources/swJs/main.js">
+	<link href="${path}/resources/swCss/style.css" rel="stylesheet"/> 	
+</script>
 <!-- Navbar -->
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
@@ -141,26 +185,36 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <div class="w3-container w3-padding">
 <h1><i class="fa fa-envelope fa-fw w3-margin-right"></i><b>쪽지 보내기</b></h1><hr>
 
-			 <!-- 파일 첨부만 구현하면 끝 -->
-			 <form action="writeNoteTB">
-				 <table border="1" width="800">
-				 	<input type="hidden" name="emp_num" required="required" value="${emp_num}">
+		     <c:if test="${result1!=null}">
+			     <c:if test="${result1==1}">쪽지가 보내졌습니다</c:if>
+			     <c:if test="${result1==0}">쪽지가 안보내졌습니다</c:if>
+		     </c:if>
+		     
+			 <form action="writeNoteTB" method="post" enctype="multipart/form-data">
+				 <input type="hidden" name="emp_num" required="required" value="${emp_num}">
+				 <table border="1" class="TB">
 					<tr><th>받는사람</th>
-						<td><select name="emp_num2">
+						<td><select name="emp_num2" style="float:left">
 							<c:forEach var="emp" items="${listEmp}">
 								<option value="${emp.emp_num}">${emp.emp_name}</option>
 							</c:forEach>
 							</select>
 						</td>
+							
 					<tr><th>제목</th>
 						<td><input type="text" name="note_nm" style= "width:840px;" required="required"></td></tr>
 					<tr><th>내용</th>
-						<td height="400"><input type="text" name="note_cnt" style="height:400px; width:840px;" required="required"></td></tr>
-					<tr><td><input type="button" value="파일첨부"></td>
-					    <td><input type="reset"  value="취소" style="float: right;">
-					   		<input type="submit" value="전송" style="float: right;"></td></tr>
-				 </table>
-			 </form>
+						<td><textarea rows="20" name="note_cnt" required="required" style="resize: none; width:840px;"></textarea></td></tr>
+					<tr><td colspan="2">
+						<input type="file" name="file1" style="float: left;">
+					    <input type="hidden" name="note_fl_path" value="${pageContext.request.contextPath}/resources/image/">
+						<input type="button" value="취소" onclick="history.back(-1)" class="btn2" style="float: right;">
+						<input type="submit" value="전송" style="float: right;" class="btn2">
+					</td>
+					</tr>
+					</table>
+				</form>
+				
             </div>
           </div>
         </div>
