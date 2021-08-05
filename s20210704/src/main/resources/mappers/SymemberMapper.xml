@@ -13,4 +13,6 @@
 		 WHERE emp_num =  #{emp_num} 
 		   AND emp_pw = #{emp_pw}
 	</select>
+	
+	
 </mapper>

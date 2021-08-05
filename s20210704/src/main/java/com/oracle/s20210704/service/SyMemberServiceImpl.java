@@ -14,11 +14,7 @@ public class SyMemberServiceImpl implements SyMemberService {
 	@Autowired 
 	private SyMemberDao dao;
 	
-	@Override
-	public void register(SyMemberVO vo) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
 	public SyMemberVO login(SyMemberVO vo){
