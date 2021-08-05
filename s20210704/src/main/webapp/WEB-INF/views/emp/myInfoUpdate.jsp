@@ -151,9 +151,10 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
               <tr><th>우편번호</th><td><input type="text" id="emp_zc_addr" name="emp_zc_addr" readonly="readonly" value="${myInfo.emp_zc_addr}"> <input type="button" value="수정" onclick="findAddr()"></td>
               <tr><th>주소</th><td><input type="text" id="emp_cm_addr" name="emp_cm_addr" readonly="readonly" value="${myInfo.emp_cm_addr}"></td>
               <tr><th>상세주소</th><td><input type="text" id="emp_dt_addr" name="emp_dt_addr" value="${myInfo.emp_dt_addr }"></td></tr>
-              <tr><th>사진</th><td><input type="file" id="myImg" name="myImg" value="${myInfo.ph_path }">
-              <tr><th>사진view</th><td><img id="preImage" src="${pageContext.request.contextPath}/saveFile/${noticeVO.filename}" alt="image_title" onerror='this.src="../images/LUCY.jpg"'/><p>
-			  </table>
+              <tr><th>사진</th><td><input type="file" id="myImg" name="myImg" value="${myInfo.ph_path }">${myInfo.ph_path }</td></tr>
+              <tr><th>이미지</th><td><img alt="프로필 이미지" src="${myInfo.ph_path }">
+              <%-- <tr><th>사진view</th><td><img id="preImage" src="${pageContext.request.contextPath}/saveFile/${noticeVO.filename}" alt="image_title" onerror='this.src="../images/LUCY.jpg"'/></td></tr>
+ --%>			  </table>
 			  </c:forEach>
 			  <input type="submit" value="수정">
 			  </form>
