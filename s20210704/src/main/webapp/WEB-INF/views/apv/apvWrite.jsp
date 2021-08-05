@@ -350,8 +350,9 @@ function openNav() {
 
 
 function getRcvList(){
-	$('#nxt *').remove();
-	$('#nxt').append("결재자");
+	var tdName = '결재자';
+	$('#nxt').empty();
+	$('#nxt').append(tdName);
 	$("#apv_type option[value='-결재-']").remove();
 	var emp_rnk  = '${svo.rcontent }';
 	var emp_num  = '${emp_num }';
