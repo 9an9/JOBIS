@@ -171,7 +171,10 @@ select {
 	        	  	 	<tr><th>사원번호</th><td>${emp_num }</td><th>부서</th><td>${svo.dcontent }</td><th>직급</th><td>${svo.rcontent }</td><th>이름</th><td>${svo.emp_name }</td></tr>
 	        	  	 	<tr>
 	        	  	 		<th>결재분류 </th><td>${sndDetail.apv_type }</td><td colspan="4"></td>
-	        	  	 		<th></th><td></td>
+	        	  	 		<c:if test="${sndDetail.apv_ok < 3 }"><th>현재 결재자</th></c:if>
+	        	  	 		<c:if test="${sndDetail.apv_ok == 3 }"><th>최종 결재자</th></c:if>
+	        	  	 		<c:if test="${sndDetail.apv_ok == 4 }"><th>결재 반려자</th></c:if>
+	        	  	 		<td>${ingEmp.rcv_name }</td>
 	        	  	 	</tr>
 	        	  	 	<tr><th>제목</th><td colspan="7" style="text-align: initial;">${sndDetail.apv_title }</td></tr>
 	        	  	 	<tr>
