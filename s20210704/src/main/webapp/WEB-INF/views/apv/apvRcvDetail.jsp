@@ -236,7 +236,7 @@ select {
 						
 						<tr><td id="pdf" colspan="8" style="text-align: center;"></td></tr>
 						
-						<tr><th>내용</th><td colspan="7" style="height: 150px;">${rcvDetail.apv_content }</td></tr>
+						<tr style="border-bottom: 1px solid #c1c0c0;"><th>내용</th><td colspan="7" style="height: 150px;">${rcvDetail.apv_content }</td></tr>
 						
 						<tr style="border-bottom: 1px solid #c1c0c0;">
 							<c:if test="${rcvDetail.apv_ok == 4 }">

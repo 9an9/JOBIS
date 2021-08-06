@@ -37,7 +37,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	line-height:30px;
 	text-align:center;
 	vertical-align:middle;
-	background-color: #384f76;
+	background-color: #3C3530;
 	color:white;
 	border-radius: 6px;
 }
@@ -53,9 +53,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 }
 .btn2{
    color: #fff;
-   background-color: #384f76;
+   background-color: #3C3530;
    
-   border-color: #384f76;
+   border-color: #3C3530;
    border-radius: 6px;
  }
  .btn3{
@@ -68,10 +68,26 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	line-height:30px;
 	text-align:center;
 	vertical-align:middle;
-	background-color: #384f76;
+	background-color: #3C3530;
 	color:white;
 	border-radius: 6px;
  }
+ td{
+ 	width: 12.5%;
+ }
+ th{
+ 	width: 12.5%;
+ 	background-color:#E0E3DA; 
+ }
+ select {
+   text-align-last: center;
+   text-align: center;
+   -ms-text-align-last: center;
+   -moz-text-align-last: center;
+}
+iframe{
+	margin-top: 10px;
+}
 </style>
 <body class="w3-theme-l5">
 
@@ -198,76 +214,80 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">          
-              <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>결재 작성</b></h1><hr>
-          	  <div style="border: 2px solid #384f76; width: 90%; margin: 50px auto;">
-          	  	 <form action="apvReWrite" method="post" enctype="multipart/form-data" style="margin-left: 30px; margin-top: 30px;" name="frm" >
+              <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>결재 작성</b></h1><hr>  
+          	  	 <form action="apvReWrite" method="post" enctype="multipart/form-data" style="margin-top: 30px;" name="frm" >
         	  	 	<input type="hidden" name="apv_snd" value="${emp_num }">
         	  	 	<input type="hidden" name="fnlChk" id="fnlChk" value="0">
         	  	 	<input type="hidden" name="apv_sq" value="${sndDetail.apv_sq }">
         	  	 	<input type="hidden" name="apv_pl_nm" id="apv_pl_nm" value="${sndDetail.apv_pl_nm }">
-        	  	 	<div style="font-size: 20px;">
-        	  	 		<span><b>사원번호</b>  ${emp_num }&nbsp; <b style="margin-left: 5%;">이름</b>  ${svo.emp_name }&nbsp; <b style="margin-left: 5%;">부서</b>  ${svo.dcontent }&nbsp; <b style="margin-left: 5%;">직급</b>  ${svo.rcontent }&nbsp;</span>
-        	  	 	</div>
-        	  	 	<div>
-        	  	 		<span>
-        	  	 			<b style="font-size: 20px;">결재분류  </b>
-        	  	 			<select name="apv_type" id="apv_type" onchange="getRcvList()" required="required">
-        	  	 				<option value="${sndDetail.apv_type }" selected="selected">${sndDetail.apv_type }</option>
-        	  	 				<c:if test="${svo.dcontent == '임원'}"><option value="최종보고">최종보고</option></c:if>
-        	  	 				<c:if test="${svo.dcontent != '임원'}">
-        	  	 					<c:if test="${svo.rcontent == '사원'}">
-        	  	 						<option value="일일보고">일일보고</option>
-        	  	 						<option value="근태보고">근태보고</option>
-        	  	 						<c:if test="${svo.dcontent == '인사부'}"><option value="인사보고">인사보고</option></c:if>
-        	  	 					</c:if>
-        	  	 					<c:if test="${svo.rcontent == '대리'}">
-        	  	 						<option value="일일보고">일일보고</option>
-        	  	 						<option value="근태보고">근태보고</option>
-        	  	 						<option value="사업보고">사업보고</option>
-        	  	 						<c:if test="${svo.dcontent == '인사부'}"><option value="인사보고">인사보고</option></c:if>
-        	  	 					</c:if>
-        	  	 					<c:if test="${svo.rcontent == '팀장'}">
-        	  	 						<option value="주간보고">주간보고</option>
-        	  	 						<option value="사업보고">사업보고</option>
-        	  	 						<c:if test="${svo.dcontent == '인사부'}"><option value="인사보고">인사보고</option></c:if>
-        	  	 					</c:if>
-        	  	 					<c:if test="${svo.rcontent == '부장'}">
-        	  	 						<option value="주간보고">주간보고</option>
-        	  	 						<option value="비용신청">비용신청</option>
-        	  	 						<option value="사업보고">사업보고</option>
-        	  	 						<option value="행사보고">행사보고</option>
-        	  	 						<option value="월간보고">월간보고</option>
-        	  	 					</c:if>
-        	  	 				</c:if>
-        	  	 			</select>
-        	  	 		</span>
-        	  	 		<span id="Rcv_List" style="margin-left: 5%;">
-        	  	 			<c:if test="${svo.dcontent == '임원'}">
-        	  	 				<script type="text/javascript">
-        	  	 					var fnlChk   = document.getElementById('fnlChk');
-        	  	 					fnlChk.value = 1;
-        	  	 				</script>
-        	  	 				<b style="font-size: 20px;">결재자  </b> <span style="margin: 0px; font-size: 20px;">서팔광</span>
-        	  	 				<input type="hidden" name="apv_fnl" value="1701001">
-        	  	 			</c:if>
-        	  	 		</span>
-        	  	 	</div>
-        	  	 	<div><b style="font-size: 20px;">제목  </b><input type="text" name="apv_title" placeholder="결재 제목을 작성해주세요" required="required" style="width: 80%;" value="${sndDetail.apv_title }"></div>
-        	  	 	<div>
-        	  	 		<b style="font-size: 20px;">첨부파일  </b> 
-        	  	 		<span class="fileBox">
+        	  	 	<table style="width: 100%; text-align: center; border: none;" border="1">
+        	  	 	<tr><th>사원번호</th><td>${emp_num }</td><th>부서</th><td>${svo.dcontent }</td><th>직급</th><td>${svo.rcontent }</td><th>이름</th><td>${svo.emp_name }</td></tr>
+        	  	 	<tr>
+       	  	 			<th>결재분류  </th>
+       	  	 			<td>
+	       	  	 			<select name="apv_type" id="apv_type" onchange="getRcvList()" required="required">
+	       	  	 				<option value="${sndDetail.apv_type }" selected="selected">${sndDetail.apv_type }</option>
+	       	  	 				<c:if test="${svo.dcontent == '임원'}"><option value="최종보고">최종보고</option></c:if>
+	       	  	 				<c:if test="${svo.dcontent != '임원'}">
+	       	  	 					<c:if test="${svo.rcontent == '사원'}">
+	       	  	 						<option value="일일보고">일일보고</option>
+	       	  	 						<option value="근태보고">근태보고</option>
+	       	  	 						<c:if test="${svo.dcontent == '인사부'}"><option value="인사보고">인사보고</option></c:if>
+	       	  	 					</c:if>
+	       	  	 					<c:if test="${svo.rcontent == '대리'}">
+	       	  	 						<option value="일일보고">일일보고</option>
+	       	  	 						<option value="근태보고">근태보고</option>
+	       	  	 						<option value="사업보고">사업보고</option>
+	       	  	 						<c:if test="${svo.dcontent == '인사부'}"><option value="인사보고">인사보고</option></c:if>
+	       	  	 					</c:if>
+	       	  	 					<c:if test="${svo.rcontent == '팀장'}">
+	       	  	 						<option value="주간보고">주간보고</option>
+	       	  	 						<option value="사업보고">사업보고</option>
+	       	  	 						<c:if test="${svo.dcontent == '인사부'}"><option value="인사보고">인사보고</option></c:if>
+	       	  	 					</c:if>
+	       	  	 					<c:if test="${svo.rcontent == '부장'}">
+	       	  	 						<option value="주간보고">주간보고</option>
+	       	  	 						<option value="비용신청">비용신청</option>
+	       	  	 						<option value="사업보고">사업보고</option>
+	       	  	 						<option value="행사보고">행사보고</option>
+	       	  	 						<option value="월간보고">월간보고</option>
+	       	  	 					</c:if>
+	       	  	 				</c:if>
+	       	  	 			</select>
+       	  	 			</td>
+       	  	 			<td colspan="4"></td>
+       	  	 			<c:if test="${svo.dcontent == '임원'}">
+       	  	 				<script type="text/javascript">
+       	  	 					var fnlChk   = document.getElementById('fnlChk');
+       	  	 					fnlChk.value = 1;
+       	  	 				</script>
+       	  	 				<th>결재자 </th><td>서팔광</td>
+       	  	 				<input type="hidden" name="apv_fnl" value="1701001">
+       	  	 			</c:if>
+       	  	 				<c:if test="${svo.dcontent != '임원'}">
+        	  	 			<th id="nxt"></th>
+        	  	 			<td id="Rcv_List"></td>
+        	  	 		</c:if>
+        	  	 	</tr>
+        	  	 	<tr><th>제목</th><td colspan="7"><input type="text" name="apv_title" placeholder="결재 제목을 작성해주세요" required="required" style="width: 100%; border: none;" value="${sndDetail.apv_title }"></td></tr>
+        	  	 	<tr>
+        	  	 		<th>첨부파일</th> 
+        	  	 		<td class="fileBox" colspan="7" style="text-align: initial;">
 							<input type="text" class="fileName" readonly="readonly" value="${fn:substringAfter(sndDetail.apv_pl_nm, '_') }">
 							<label for="uploadBtn" class="btn_file">업로드 수정</label>
 							<input type="file" id="uploadBtn" class="uploadBtn" name="file1" accept=".pdf" onchange="setThumbnail(event);">
 							<label class="btn3" onclick="fdel()">제거</label>
-						</span>
-        	  	 	</div>
-        	  	 	<div style="margin-left: 55px; margin-top: 10px;" id="pdf"></div>
-        	  	 	<b style="font-size: 20px;">내용 </b><p style="margin: 0px;">
-        	  	 	<div><pre><textarea name="apv_content" maxlength="4000"  style="height:150px; width: 80%; margin-left: 55px;" required="required">${sndDetail.apv_content }</textarea></pre></div>
-        	  	 	<div style="margin-left: 77%; margin-bottom: 20px;"><input type="submit" value="재결재신청" class="btn2"></div>
+						</td>
+        	  	 	</tr>
+        	  	 	<tr><td id="pdf" colspan="8" style="text-align: center;"></td></tr>
+        	  	 	<tr style="border-bottom: 1px solid #c1c0c0;">
+        	  	 		<th>내용</th> 
+        	  	 		<td colspan="7"><pre><textarea name="apv_content" maxlength="4000"  style="height:150px; width: 100%; resize: none; border: none;" required="required">${sndDetail.apv_content }</textarea></pre></td>
+        	  	 	</tr>
+        	  	 	</table>
+        	  	 	<div><input type="submit" value="재결재신청" class="btn2" style="float: right;"></div>
           	  	 </form>
-          	  </div>
+          	  
             </div>
           </div>
         </div>
@@ -334,6 +354,9 @@ function openNav() {
 
 
 function getRcvList(){
+	var tdName = '결재자';
+	$('#nxt').empty();
+	$('#nxt').append(tdName);
 	var emp_rnk  = '${svo.rcontent }';
 	var emp_num  = '${emp_num }';
 	var apv_type = document.getElementById('apv_type').value;
@@ -376,9 +399,9 @@ function getRcvList(){
 		success:function(data){
 			$('#Rcv_List *').remove();
 			if(fnlChk2 == 1){
-				str += "<b style='font-size: 20px;'>결재자  </b><select name = 'apv_fnl' required='required' id='slt2' ><option value='${nextEmp.rcv_num}' selected='selected'>${nextEmp.rcv_name}</option>";
+				str += "<select name = 'apv_fnl' required='required' id='slt2' style='width: 100%;'><option value='${nextEmp.rcv_num}' selected='selected'>${nextEmp.rcv_name}</option>";
 			}else{			
-				str += "<b style='font-size: 20px;'>결재자  </b><select name = 'apv_mid_emp' required='required' id='slt' ><option value='${nextEmp.rcv_num}' selected='selected'>${nextEmp.rcv_name}</option>";
+				str += "<select name = 'apv_mid_emp' required='required' id='slt' style='width: 100%;'><option value='${nextEmp.rcv_num}' selected='selected'>${nextEmp.rcv_name}</option>";
 			}
 			$(data).each(
 					function(){
