@@ -552,19 +552,13 @@ public class YsController {
   	    Sheet sheet = wb.createSheet("근태 목록");
   	    Row row = null;
   	    Cell cell = null;
-  	    int rowNo = 0;
+  	    int rowNo = 2;
   	    
 	  	// 셀 너비 설정
-	  	  for (int i=0; i<=9; i++){
+	  	  for (int i=2; i<=11; i++){
 	  	     sheet.autoSizeColumn(i);
 	  	     sheet.setColumnWidth(i, (sheet.getColumnWidth(i))+(short)1024);
 	  	  }
-
-
-
-  
-  	
-
 
   	    // 테이블 헤더용 스타일
   	    CellStyle headStyle = wb.createCellStyle();
@@ -579,7 +573,6 @@ public class YsController {
   	    headStyle.setFillForegroundColor(HSSFColorPredefined.INDIGO.getIndex());
   	    //headStyle.setFillForegroundColor(HSSFColorPredefined.YELLOW.getIndex());
   	    headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-
 
   	    // 데이터는 가운데 정렬합니다.
   	    headStyle.setAlignment(HorizontalAlignment.CENTER);
@@ -600,42 +593,37 @@ public class YsController {
   	    headerFont.setBold(true);
   	    headStyle.setFont(headerFont); // 헤더 폰트적용
   	    
-  	  
-  	    
   	    // 헤더 생성
-  	  
-
-  	
   	    row = sheet.createRow(rowNo++);
   	    row.setHeight((short)470);
-  	    cell = row.createCell(0);
-  	    cell.setCellStyle(headStyle);
-  	    cell.setCellValue("사원번호");
-  	    cell = row.createCell(1);
-  	    cell.setCellStyle(headStyle);
-  	    cell.setCellValue("이름");
   	    cell = row.createCell(2);
   	    cell.setCellStyle(headStyle);
-  	    cell.setCellValue("부서");
+  	    cell.setCellValue("사원번호");
   	    cell = row.createCell(3);
-	    cell.setCellStyle(headStyle);
-	    cell.setCellValue("소속");
-	    cell = row.createCell(4);
   	    cell.setCellStyle(headStyle);
-  	    cell.setCellValue("직급");
+  	    cell.setCellValue("이름");
+  	    cell = row.createCell(4);
+  	    cell.setCellStyle(headStyle);
+  	    cell.setCellValue("부서");
   	    cell = row.createCell(5);
 	    cell.setCellStyle(headStyle);
-	    cell.setCellValue("출근시간");
+	    cell.setCellValue("소속");
 	    cell = row.createCell(6);
   	    cell.setCellStyle(headStyle);
-  	    cell.setCellValue("퇴근시간");
+  	    cell.setCellValue("직급");
   	    cell = row.createCell(7);
 	    cell.setCellStyle(headStyle);
-	    cell.setCellValue("날짜");
+	    cell.setCellValue("출근시간");
 	    cell = row.createCell(8);
   	    cell.setCellStyle(headStyle);
-  	    cell.setCellValue("상태");
+  	    cell.setCellValue("퇴근시간");
   	    cell = row.createCell(9);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("날짜");
+	    cell = row.createCell(10);
+  	    cell.setCellStyle(headStyle);
+  	    cell.setCellValue("상태");
+  	    cell = row.createCell(11);
 	    cell.setCellStyle(headStyle);
 	    cell.setCellValue("수정일");
 
@@ -643,34 +631,34 @@ public class YsController {
   	    for(YsEmpCmt cmt : cmtList) {
   	        row = sheet.createRow(rowNo++);
   	        row.setHeight((short)320);
-  	        cell = row.createCell(0);
-  	        cell.setCellStyle(bodyStyle);
-  	        cell.setCellValue(cmt.getEmp_num());
-  	        cell = row.createCell(1);
-  	        cell.setCellStyle(bodyStyle);
-  	        cell.setCellValue(cmt.getEmp_name());
   	        cell = row.createCell(2);
   	        cell.setCellStyle(bodyStyle);
-  	        cell.setCellValue(cmt.getDcontent());
+  	        cell.setCellValue(cmt.getEmp_num());
   	        cell = row.createCell(3);
-	        cell.setCellStyle(bodyStyle);
-	        cell.setCellValue(cmt.getTcontent());
-	        cell = row.createCell(4);
   	        cell.setCellStyle(bodyStyle);
-  	        cell.setCellValue(cmt.getRcontent());
+  	        cell.setCellValue(cmt.getEmp_name());
+  	        cell = row.createCell(4);
+  	        cell.setCellStyle(bodyStyle);
+  	        cell.setCellValue(cmt.getDcontent());
   	        cell = row.createCell(5);
 	        cell.setCellStyle(bodyStyle);
-	        cell.setCellValue(cmt.getSrttime());
+	        cell.setCellValue(cmt.getTcontent());
 	        cell = row.createCell(6);
   	        cell.setCellStyle(bodyStyle);
-  	        cell.setCellValue(cmt.getEndtime());
+  	        cell.setCellValue(cmt.getRcontent());
   	        cell = row.createCell(7);
 	        cell.setCellStyle(bodyStyle);
-	        cell.setCellValue(cmt.getCmt_date());
+	        cell.setCellValue(cmt.getSrttime());
 	        cell = row.createCell(8);
   	        cell.setCellStyle(bodyStyle);
-  	        cell.setCellValue("상태");
+  	        cell.setCellValue(cmt.getEndtime());
   	        cell = row.createCell(9);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(cmt.getCmt_date());
+	        cell = row.createCell(10);
+  	        cell.setCellStyle(bodyStyle);
+  	        cell.setCellValue("상태");
+  	        cell = row.createCell(11);
 	        cell.setCellStyle(bodyStyle);
 	        cell.setCellValue(cmt.getCmt_md());
 
