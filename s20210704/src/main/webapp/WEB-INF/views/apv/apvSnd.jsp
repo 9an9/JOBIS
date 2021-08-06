@@ -13,6 +13,13 @@
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
+.btn2{
+   color: #fff;
+   background-color: #3C3530;
+   
+   border-color: #3C3530;
+   border-radius: 6px;
+ }
 </style>
 <body class="w3-theme-l5">
 <c:if test="${rcvTotal == 0 }">
@@ -145,6 +152,14 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">          
               <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>받은 결재함</b></h1><hr>
+              <div>
+              	  <span>
+	              	  <a href="apvRcv" style="text-decoration: none; color: black; margin-left: 5px;">
+		              	  <b>보낸 결재함 바로가기</b>
+	              	  	  <c:if test="${apvNoTotal > 0 }"><span class="w3-badge w3-small w3-red">${apvNoTotal }</span></c:if>
+	              	  </a>
+              	  </span>
+			   </div>
                <table border="1" style="width: 100%; text-align: center;">
               	<tr style="background-color:#384f76; color: white; "><th style="width: 10%;">결제구분</th><th style="width: 55%;">제목</th><th style="width: 10%;">제출자</th><th style="width: 13%;">제출일</th><th style="width: 10%;">진행상황</th></tr>
               	<c:forEach var="rcvList" items="${rcvList }">
@@ -171,7 +186,13 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
               	</c:forEach>
               </table>
               
-              <div class="w3-center">
+              <div style="margin-top: 3px;">              	  
+              	  <div>
+              	  	  <a href="apvWrite" style="text-decoration: none; color: black; float: right;"><button type="button" class="btn2">결재작성</button></a>
+              	  </div>
+              </div>
+              
+              <div class="w3-center" style="margin-left: 76px;">
 					<div class="w3-bar w3-border" style=" margin: 10px 0px;border: 1px solid #7d97a5;">
 						<c:if test="${yp.startPage > yp.pageBlock }">
 							<a href="apvSnd?currentPage=${yp.startPage-yp.pageBlock}" class="w3-bar-item w3-button">&laquo;</a>
