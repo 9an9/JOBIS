@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -93,8 +96,6 @@ public class YsController {
 		SyMemberVO svo = jrs.show(vo);
 		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
 		model.addAttribute("svo",svo);
-		
-		
 		
 		int cmtTotal = 0;
 		//상황별로 total 가져오기
@@ -657,7 +658,7 @@ public class YsController {
 	        cell.setCellValue(cmt.getCmt_date());
 	        cell = row.createCell(10);
   	        cell.setCellStyle(bodyStyle);
-  	        cell.setCellValue("상태");
+  	        cell.setCellValue(state(cmt.getSrttime(), cmt.getEndtime()));
   	        cell = row.createCell(11);
 	        cell.setCellStyle(bodyStyle);
 	        cell.setCellValue(cmt.getCmt_md());
@@ -673,6 +674,30 @@ public class YsController {
   	    wb.close();
 
   	}
+	private String state(String start,String end) throws ParseException {
+		String state = "";
+		String state1 = "";
+		String state2 = "";
+		SimpleDateFormat f = new SimpleDateFormat("HH:mm", Locale.KOREA);
+		java.util.Date srtTime    = f.parse(start);
+		java.util.Date endTime    = f.parse(end);
+		java.util.Date lateTime   = f.parse("09:00");
+		java.util.Date earlyTime  = f.parse("16:00");
+		java.util.Date extendTime = f.parse("19:00");
+		java.util.Date normalTime = f.parse("18:00");
+		long late   = srtTime.getTime()    - lateTime.getTime();
+		long early  = earlyTime.getTime() - endTime.getTime();
+		long extend = endTime.getTime()   - extendTime.getTime();
+		if(late > 0 || early >= 0 || extend >= 0) {
+			if(late > 0) { state1 = "지각"; }
+			if(early >= 0) { state2 = "조퇴"; }
+			if(extend >= 0) { state2 = "연장"; }
+		}else { state1 = "정상"; }
+		if(!state1.equals("") && !state2.equals("")) {
+			state = state1+","+state2;
+		}else { state = state1+state2; }
+		return state;
+	}
 
 	
 }
