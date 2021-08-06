@@ -15,9 +15,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
 .btn2{
    color: #fff;
-   background-color: #3C3530;
+   background-color: #384f76;
    
-   border-color: #3C3530;
+   border-color: #384f76;
    border-radius: 6px;
  }
 </style>
