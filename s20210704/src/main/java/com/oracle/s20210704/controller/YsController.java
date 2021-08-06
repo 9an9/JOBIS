@@ -661,7 +661,7 @@ public class YsController {
   	        cell.setCellValue(state(cmt.getSrttime(), cmt.getEndtime()));
   	        cell = row.createCell(11);
 	        cell.setCellStyle(bodyStyle);
-	        cell.setCellValue(cmt.getCmt_md());
+	        cell.setCellValue(mdDate(cmt.getCmt_md()));
 
   	    }
 
@@ -697,6 +697,13 @@ public class YsController {
 			state = state1+","+state2;
 		}else { state = state1+state2; }
 		return state;
+	}
+	private String mdDate(Date cmt_md) {
+		String mdDate = "";
+		SimpleDateFormat fmt=new SimpleDateFormat("yyyy-MM-dd"); 
+		if(cmt_md != null) { mdDate =fmt.format(cmt_md); }
+		else { mdDate = "-";}
+		return mdDate;
 	}
 
 	
