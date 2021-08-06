@@ -42,6 +42,12 @@ select {
    -ms-text-align-last: center;
    -moz-text-align-last: center;
 }
+.btn3{
+   color: #fff;
+   background-color: #384f76;
+   border-color: #384f76;
+   border-radius: 6px;
+ }
 </style>
 <body class="w3-theme-l5">
 
@@ -229,7 +235,7 @@ select {
 										<input type="hidden" name="currentPage" value="${yp.currentPage}">
 										<c:choose>
 											<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&((ehh == 1 && eh == 9) || ehh == 2)}">
-												<select name="state" style="color: rgb(225, 1, 255);" onchange="cmtMD(${cmtList.cmt_num})">
+												<select name="state" style="color: rgb(225, 1, 255); border: none;" onchange="cmtMD(${cmtList.cmt_num})">
 													<option selected="selected" style="color: rgb(225, 1, 255);" value="1">지각,연장</option>
 													<option style="color: #0072ff;"value="2">지각,조퇴</option>
 													<option style="color: red;"value="3">지각</option>
@@ -239,7 +245,7 @@ select {
 												</select>
 											</c:when>
 											<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&(ehh < 2 && eh < 7)}">
-												<select name="state" style="color: #0072ff;" onchange="cmtMD(${cmtList.cmt_num})">
+												<select name="state" style="color: #0072ff; border: none;" onchange="cmtMD(${cmtList.cmt_num})">
 													<option style="color: rgb(225, 1, 255);" value="1">지각,연장</option>
 													<option selected="selected" style="color: #0072ff;"value="2">지각,조퇴</option>
 													<option style="color: red;"value="3">지각</option>
@@ -250,7 +256,7 @@ select {
 											</c:when>
 	
 											<c:when test="${sh >= 9 && (smm > 0 || sm > 0)}">
-												<select name="state" style="color: red;" onchange="cmtMD(${cmtList.cmt_num})">
+												<select name="state" style="color: red; border: none;" onchange="cmtMD(${cmtList.cmt_num})">
 													<option style="color: rgb(225, 1, 255);" value="1">지각,연장</option>
 													<option style="color: #0072ff;"value="2">지각,조퇴</option>
 													<option selected="selected" style="color: red;"value="3">지각</option>
@@ -260,7 +266,7 @@ select {
 												</select>
 											</c:when>										
 											<c:when test="${(ehh == 1 && eh == 9) || ehh == 2}">
-												<select name="state" style="color: rgb(225, 1, 255);" onchange="cmtMD(${cmtList.cmt_num})">
+												<select name="state" style="color: rgb(225, 1, 255); border: none;" onchange="cmtMD(${cmtList.cmt_num})">
 													<option style="color: rgb(225, 1, 255);" value="1">지각,연장</option>
 													<option style="color: #0072ff;"value="2">지각,조퇴</option>
 													<option style="color: red;"value="3">지각</option>
@@ -270,7 +276,7 @@ select {
 												</select>
 											</c:when>
 											<c:when test="${ehh < 2 && eh < 7}">
-												<select name="state" style="color: #0072ff;" onchange="cmtMD(${cmtList.cmt_num})">
+												<select name="state" style="color: #0072ff; border: none;" onchange="cmtMD(${cmtList.cmt_num})">
 													<option style="color: rgb(225, 1, 255);"value="1">지각,연장</option>
 													<option style="color: #0072ff;"value="2">지각,조퇴</option>
 													<option style="color: red;"value="3">지각</option>
@@ -281,7 +287,7 @@ select {
 											</c:when>
 											
 											<c:otherwise>
-												<select name="state" onchange="cmtMD(${cmtList.cmt_num})">
+												<select name="state" style="border: none;" onchange="cmtMD(${cmtList.cmt_num})">
 													<option style="color: rgb(225, 1, 255);"value="1">지각,연장</option>
 													<option style="color: #0072ff;"value="2">지각,조퇴</option>
 													<option style="color: red;"value="3">지각</option>
@@ -304,8 +310,9 @@ select {
 						</c:forEach>	
 				</table>
 				
-				<div style="margin-top: 5px; margin-left: 65%">
-		          	<form action="absent" method="post">
+				<div>
+		          	<a href="#" style="text-decoration: none; color: black; float: left; margin-left: 10%;"><button type="button" class="btn3">Excel출력</button></a>
+		          	<form action="absent" method="post" style="margin-top: 5px; margin-left: 65%">
 		          		<input type="date" style="width: 38%; font-size: 13px;" name="absent" id="absent" required="required">
 				    	<button class="btn2" type="submit">결근사원조회</button>
 		          	</form>
