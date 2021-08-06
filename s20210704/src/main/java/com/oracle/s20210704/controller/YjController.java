@@ -40,6 +40,7 @@ import com.oracle.s20210704.model.YjEmp;
 import com.oracle.s20210704.service.JhRrService;
 import com.oracle.s20210704.service.YjEmpService;
 import com.oracle.s20210704.service.YjPaging;
+import com.oracle.s20210704.service.YsApvService;
 
 
 
@@ -52,6 +53,8 @@ public class YjController {
 	private JhRrService jrs;
 	@Autowired
 	private JavaMailSender  mailSender;
+	@Autowired
+	private YsApvService    yas;
 
 	
 	//사원정보관리 출력
@@ -62,6 +65,12 @@ public class YjController {
 		SyMemberVO svo = jrs.show(vo);
 		model.addAttribute("emp_num",emp_num);
 		model.addAttribute("svo",svo);
+		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+
 
 		System.out.println("YjController empList Start...");
 		int total = es.total();
@@ -99,6 +108,12 @@ public class YjController {
 		model.addAttribute("emp_num",emp_num);
 		model.addAttribute("svo",svo);
 		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+
+		
 		emp.setEmpno(empno);
 		emp.setRef(ref);
 		System.out.println("YjEmpController updateRef Start...");
@@ -120,6 +135,12 @@ public class YjController {
 		SyMemberVO svo = jrs.show(vo);
 		model.addAttribute("emp_num",emp_num);
 		model.addAttribute("svo",svo);
+		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+
 
 		String dept = es.deptSelect(emp_num);
 		System.out.println("YjEmpController empList dept--> " + dept);
@@ -150,6 +171,12 @@ public class YjController {
 		model.addAttribute("emp_num",emp_num);
 		model.addAttribute("svo",svo);
 
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+
+		
 		System.out.println("YjController myInfoUpdate Start...");
 		List<YjEmp> myInfo = es.myInfo(emp_num);
 		System.out.println("YjEmpController list myInfo.size()=>" + myInfo.size());	
@@ -229,6 +256,12 @@ public class YjController {
 		model.addAttribute("emp_num",emp_num);
 		model.addAttribute("svo",svo);
 		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+
+		
 		//사진파일
 		System.out.println("YjController writeEmp fileupload Start...");
 		String uploadPath = request.getSession().getServletContext().getRealPath("/upload/");
@@ -254,6 +287,12 @@ public class YjController {
 		SyMemberVO svo = jrs.show(vo);
 		model.addAttribute("emp_num",emp_num);
 		model.addAttribute("svo",svo);
+		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+
 		
 		List<YjEmp> deptList = es.deptList();
 		model.addAttribute("deptList", deptList);
@@ -290,6 +329,12 @@ public class YjController {
 		SyMemberVO svo = jrs.show(vo);
 		model.addAttribute("emp_num",emp_num);
 		model.addAttribute("svo",svo);	
+		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+
 		 
 		//사원번호부여/비밀번호
 	    System.out.println("YjController writeEmp empnum/pw Start...");
@@ -334,7 +379,7 @@ public class YjController {
 		}		
 		
 		
-		return "forward:emp/empList";
+		return "forward:empList";
 	}
 	
 	//인사이동페이지
@@ -345,6 +390,7 @@ public class YjController {
 		SyMemberVO svo = jrs.show(vo);
 		model.addAttribute("emp_num",emp_num);
 		model.addAttribute("svo",svo);	
+		
 		
 		model.addAttribute("empno", empno);
 		List<YjEmp> empMng = es.empMng(empno);
