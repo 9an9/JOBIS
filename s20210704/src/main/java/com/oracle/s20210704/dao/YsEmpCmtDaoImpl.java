@@ -106,4 +106,10 @@ public class YsEmpCmtDaoImpl implements YsEmpCmtDao{
 		
 	}
 
+	@Override
+	public List<YsEmpCmt> excelList() {
+		List<YsEmpCmt> excelList = session.selectList("ysExcelList");
+		return excelList;
+	}
+
 }

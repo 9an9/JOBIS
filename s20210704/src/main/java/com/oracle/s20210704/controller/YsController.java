@@ -81,11 +81,6 @@ public class YsController {
 		model.addAttribute("unreadTotal", unreadTotal);
 		model.addAttribute("apvNoTotal", apvNoTotal);
 		
-		if(currentPage == null) {
-			currentPage = "1";
-		}
-		model.addAttribute("cp", currentPage);
-		
 		return "cmt/cmt";
 	}
 	
@@ -539,13 +534,9 @@ public class YsController {
 	}
   	@GetMapping(value = "cmt/excelDown")
 
-  	public void excelDown(HttpServletResponse response, YsEmpCmt ysEmpCmt,String currentPage) throws Exception {
+  	public void excelDown(HttpServletResponse response, YsEmpCmt ysEmpCmt) throws Exception {
   	    // 목록조회
-  		int cmtTotal = yecs.cmtTotal();
-  		YsPaging yp = new YsPaging(cmtTotal, currentPage);
-		ysEmpCmt.setStart(yp.getStart());
-		ysEmpCmt.setEnd(yp.getEnd());
-  		List<YsEmpCmt> cmtList = yecs.cmtList(ysEmpCmt);
+  		List<YsEmpCmt> cmtList = yecs.excelList();
 
   	    // 워크북 생성
 
@@ -667,7 +658,7 @@ public class YsController {
 
   	    // 컨텐츠 타입과 파일명 지정
   	    response.setContentType("ms-vnd/excel");
-  	    response.setHeader("Content-Disposition", "attachment;filename=CmtList("+currentPage+").xls");
+  	    response.setHeader("Content-Disposition", "attachment;filename=CmtList.xls");
 
   	    // 엑셀 출력
   	    wb.write(response.getOutputStream());

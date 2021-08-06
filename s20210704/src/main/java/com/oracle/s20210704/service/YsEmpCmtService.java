@@ -25,5 +25,6 @@ public interface YsEmpCmtService {
 	int            mycmtTotal(int emp_num);
 	List<YsEmpCmt> mycmtList(YsEmpCmt ysEmpCmt);
 	void           cmtChange(YsEmpCmt ysEmpCmt);
+	List<YsEmpCmt> excelList();
 	
 }

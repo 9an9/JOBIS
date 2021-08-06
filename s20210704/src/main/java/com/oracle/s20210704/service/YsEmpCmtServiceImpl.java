@@ -107,4 +107,10 @@ public class YsEmpCmtServiceImpl implements YsEmpCmtService {
 		
 	}
 
+	@Override
+	public List<YsEmpCmt> excelList() {
+		List<YsEmpCmt> excelList = ydcd.excelList();
+		return excelList;
+	}
+
 }

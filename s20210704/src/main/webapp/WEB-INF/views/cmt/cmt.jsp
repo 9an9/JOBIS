@@ -311,7 +311,7 @@ select {
 				</table>
 				
 				<div>
-		          	<a href="excelDown?currentPage=${cp }" style="text-decoration: none; color: black; float: left; margin-left: 10%;"><button type="button" class="btn3">Excel출력</button></a>
+		          	<a href="excelDown" style="text-decoration: none; color: black; float: left; margin-left: 10%;"><button type="button" class="btn3">Excel출력</button></a>
 		          	<form action="absent" method="post" style="margin-top: 5px; margin-left: 65%">
 		          		<input type="date" style="width: 38%; font-size: 13px;" name="absent" id="absent" required="required">
 				    	<button class="btn2" type="submit">결근사원조회</button>
