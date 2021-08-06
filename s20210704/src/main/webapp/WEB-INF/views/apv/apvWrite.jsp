@@ -284,7 +284,7 @@ iframe{
 	        	  	 		<td colspan="7"><textarea placeholder="결재 내용을 작성해주세요" name="apv_content" maxlength="4000"  style="height:150px; width: 100%; resize: none; border: none;" required="required"></textarea></td>
 	        	  	 	</tr>
         	  	 	</table>
-	        	  	<div><input type="submit" value="결재신청" class="btn2" style="float: right;"></div>
+	        	  	<div style="margin-top: 3px; margin-bottom: 45px;"><input type="submit" value="결재신청" class="btn2" style="float: right;"></div>
           		</form>
             </div>
           </div>

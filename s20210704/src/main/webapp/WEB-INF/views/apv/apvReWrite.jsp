@@ -225,7 +225,7 @@ iframe{
         	  	 	<tr>
        	  	 			<th>결재분류  </th>
        	  	 			<td>
-	       	  	 			<select name="apv_type" id="apv_type" onchange="getRcvList()" required="required">
+	       	  	 			<select name="apv_type" id="apv_type" onchange="getRcvList()" required="required" style="width: 100%;">
 	       	  	 				<option value="${sndDetail.apv_type }" selected="selected">${sndDetail.apv_type }</option>
 	       	  	 				<c:if test="${svo.dcontent == '임원'}"><option value="최종보고">최종보고</option></c:if>
 	       	  	 				<c:if test="${svo.dcontent != '임원'}">
@@ -285,7 +285,7 @@ iframe{
         	  	 		<td colspan="7"><pre><textarea name="apv_content" maxlength="4000"  style="height:150px; width: 100%; resize: none; border: none;" required="required">${sndDetail.apv_content }</textarea></pre></td>
         	  	 	</tr>
         	  	 	</table>
-        	  	 	<div><input type="submit" value="재결재신청" class="btn2" style="float: right;"></div>
+        	  	 	<div style="margin-top: 3px; margin-bottom: 45px;"><input type="submit" value="재결재신청" class="btn2" style="float: right;"></div>
           	  	 </form>
           	  
             </div>
