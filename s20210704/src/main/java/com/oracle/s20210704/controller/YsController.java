@@ -19,9 +19,12 @@ import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -74,6 +77,11 @@ public class YsController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);
 		model.addAttribute("unreadTotal", unreadTotal);
 		model.addAttribute("apvNoTotal", apvNoTotal);
+		
+		if(currentPage == null) {
+			currentPage = "1";
+		}
+		model.addAttribute("cp", currentPage);
 		
 		return "cmt/cmt";
 	}
@@ -545,6 +553,17 @@ public class YsController {
   	    Row row = null;
   	    Cell cell = null;
   	    int rowNo = 0;
+  	    
+	  	// 셀 너비 설정
+	  	  for (int i=0; i<=9; i++){
+	  	     sheet.autoSizeColumn(i);
+	  	     sheet.setColumnWidth(i, (sheet.getColumnWidth(i))+(short)1024);
+	  	  }
+
+
+
+  
+  	
 
 
   	    // 테이블 헤더용 스타일
@@ -557,12 +576,14 @@ public class YsController {
   	    headStyle.setBorderRight(BorderStyle.THIN);
 
   	    // 배경색은 노란색입니다.
-  	    headStyle.setFillForegroundColor(HSSFColorPredefined.YELLOW.getIndex());
+  	    headStyle.setFillForegroundColor(HSSFColorPredefined.INDIGO.getIndex());
+  	    //headStyle.setFillForegroundColor(HSSFColorPredefined.YELLOW.getIndex());
   	    headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
 
   	    // 데이터는 가운데 정렬합니다.
   	    headStyle.setAlignment(HorizontalAlignment.CENTER);
+  	    headStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 
   	    // 데이터용 경계 스타일 테두리만 지정
   	    CellStyle bodyStyle = wb.createCellStyle();
@@ -570,9 +591,23 @@ public class YsController {
   	    bodyStyle.setBorderBottom(BorderStyle.THIN);
   	    bodyStyle.setBorderLeft(BorderStyle.THIN);
   	    bodyStyle.setBorderRight(BorderStyle.THIN);
+  	    bodyStyle.setAlignment(HorizontalAlignment.CENTER);
+  	    bodyStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 
+  	    //폰트 생성
+  	    Font headerFont = wb.createFont();
+  	    headerFont.setColor(IndexedColors.WHITE.getIndex());
+  	    headerFont.setBold(true);
+  	    headStyle.setFont(headerFont); // 헤더 폰트적용
+  	    
+  	  
+  	    
   	    // 헤더 생성
+  	  
+
+  	
   	    row = sheet.createRow(rowNo++);
+  	    row.setHeight((short)470);
   	    cell = row.createCell(0);
   	    cell.setCellStyle(headStyle);
   	    cell.setCellValue("사원번호");
@@ -607,6 +642,7 @@ public class YsController {
   	    // 데이터 부분 생성
   	    for(YsEmpCmt cmt : cmtList) {
   	        row = sheet.createRow(rowNo++);
+  	        row.setHeight((short)320);
   	        cell = row.createCell(0);
   	        cell.setCellStyle(bodyStyle);
   	        cell.setCellValue(cmt.getEmp_num());
@@ -642,7 +678,7 @@ public class YsController {
 
   	    // 컨텐츠 타입과 파일명 지정
   	    response.setContentType("ms-vnd/excel");
-  	    response.setHeader("Content-Disposition", "attachment;filename=사원근태목록.xls");
+  	    response.setHeader("Content-Disposition", "attachment;filename=CmtList("+currentPage+").xls");
 
   	    // 엑셀 출력
   	    wb.write(response.getOutputStream());
