@@ -28,5 +28,6 @@ public interface YsEmpCmtService {
 	List<YsEmpCmt> excelList();
 	int            workIn(int emp_num);
 	int            workOut(int emp_num);
+	int            cmtCheck(int emp_num);
 	
 }

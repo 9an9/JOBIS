@@ -124,4 +124,10 @@ public class YsEmpCmtDaoImpl implements YsEmpCmtDao{
 		return workOut;
 	}
 
+	@Override
+	public int cmtCheck(int emp_num) {
+		int cmtCheck = session.selectOne("ysCmtCheck", emp_num);
+		return cmtCheck;
+	}
+
 }

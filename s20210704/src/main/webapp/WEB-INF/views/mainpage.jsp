@@ -16,6 +16,8 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 <body class="w3-theme-l5">
 <c:if test="${workIn > 0 }"><script type="text/javascript">alert("출근하셨습니다");</script></c:if>
 <c:if test="${workOut > 0 }"><script type="text/javascript">alert("퇴근하셨습니다");</script></c:if>
+<c:if test="${cmt_chk == 1 }"><script type="text/javascript">alert("이전 출근 기록이 존재하지 않습니다\n문제가 있으시면 인사팀에 연락하시기 바랍니다");</script></c:if>
+<c:if test="${cmt_chk == 2 }"><script type="text/javascript">alert("이전 퇴근 기록이 존재하지 않습니다\n문제가 있으시면 인사팀에 연락하시기 바랍니다");</script></c:if>
 <!-- Navbar -->
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">

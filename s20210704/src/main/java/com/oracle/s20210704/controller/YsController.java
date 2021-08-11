@@ -705,13 +705,20 @@ public class YsController {
 		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
 		model.addAttribute("svo",svo);	             		//모든 코딩에 추가
 		
-		if(inOut == 1) {
+		int cmt_check = yecs.cmtCheck(emp_num);
+		
+		if(inOut == 1 && cmt_check == 1) {          //출근
 			int workIn = yecs.workIn(emp_num);
 			model.addAttribute("workIn", workIn);
-		}else if(inOut == 2){
+		}else if(inOut == 2 && cmt_check == 2){     //퇴근
 			int workOut = yecs.workOut(emp_num);
 			model.addAttribute("workOut", workOut);
+		}else if(inOut == 1 && cmt_check == 2) {    //출근실패
+			model.addAttribute("cmt_chk", 2);
+		}else if(inOut == 2 && cmt_check == 1){		//퇴근실패
+			model.addAttribute("cmt_chk", 1);
 		}
+		
 		
 		return "mainpage";
 	}

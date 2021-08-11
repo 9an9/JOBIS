@@ -210,4 +210,8 @@
 		set cmt_end = sysdate 
 		where cmt_num = (select max(cmt_num) from cmt where emp_num = #{emp_num})
 	</update>
+	<select id="ysCmtCheck" parameterType="int" resultType="int">
+		select nvl2(cmt_end,1,2) as cmt_check from cmt 
+		where cmt_num = (select max(cmt_num) from cmt where emp_num = #{emp_num})
+	</select>
 </mapper>

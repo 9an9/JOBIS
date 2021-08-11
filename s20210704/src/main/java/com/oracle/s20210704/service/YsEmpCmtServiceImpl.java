@@ -125,4 +125,10 @@ public class YsEmpCmtServiceImpl implements YsEmpCmtService {
 		return workOut;
 	}
 
+	@Override
+	public int cmtCheck(int emp_num) {
+		int cmtCheck = ydcd.cmtCheck(emp_num);
+		return cmtCheck;
+	}
+
 }
