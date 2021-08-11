@@ -696,6 +696,23 @@ public class YsController {
 		else { mdDate = "-";}
 		return mdDate;
 	}
+	
+	@GetMapping(value = "workInOut")
+	public String workInOut(Model model, HttpSession session, SyMemberVO  vo, int inOut) {
+		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
+		vo.setEmp_num(emp_num);								//모든 코딩에 추가
+		SyMemberVO svo = jrs.show(vo);						//모든 코딩에 추가	
+		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
+		model.addAttribute("svo",svo);	             		//모든 코딩에 추가
+		
+		if(inOut == 1) {
+			System.out.println(emp_num+"은 출근");
+		}else if(inOut == 2){
+			System.out.println(emp_num+"은 퇴근");
+		}
+		
+		return "mainpage";
+	}
 
 	
 }

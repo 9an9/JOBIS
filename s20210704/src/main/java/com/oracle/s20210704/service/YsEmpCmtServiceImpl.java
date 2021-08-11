@@ -113,4 +113,14 @@ public class YsEmpCmtServiceImpl implements YsEmpCmtService {
 		return excelList;
 	}
 
+	@Override
+	public void workIn(int emp_num) {
+		ydcd.workIn(emp_num);
+	}
+
+	@Override
+	public void workOut(int emp_num) {
+		ydcd.workOut(emp_num);
+	}
+
 }

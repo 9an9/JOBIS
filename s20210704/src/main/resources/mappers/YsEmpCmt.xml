@@ -202,4 +202,12 @@
 	    where e.dep_num = d.code and e.team_num = t.code and e.rnk_num = r.code
 	    and e.emp_num = c.emp_num order by to_char(c.cmt_srt,'YYYY-MM-DD') desc, e.dep_num,e.rnk_num
 	</select>
+	<insert id="ysWorkIn" parameterType="int">
+		insert into cmt values (cmt_seq.nextval,#{emp_num},sysdate,'','')
+	</insert>
+	<update id="ysWorkOut" parameterType="int">
+		update cmt 
+		set cmt_end = sysdate 
+		where cmt_num = (select max(cmt_num) from cmt where emp_num = #{emp_num})
+	</update>
 </mapper>

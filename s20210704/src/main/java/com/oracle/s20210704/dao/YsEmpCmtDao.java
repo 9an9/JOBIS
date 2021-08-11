@@ -25,4 +25,6 @@ public interface YsEmpCmtDao {
 	List<YsEmpCmt> mycmtList(YsEmpCmt ysEmpCmt);
 	void           cmtChange(YsEmpCmt ysEmpCmt);
 	List<YsEmpCmt> excelList();
+	void           workIn(int emp_num);
+	void           workOut(int emp_num);
 }

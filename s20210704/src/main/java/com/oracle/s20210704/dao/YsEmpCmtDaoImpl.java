@@ -112,4 +112,14 @@ public class YsEmpCmtDaoImpl implements YsEmpCmtDao{
 		return excelList;
 	}
 
+	@Override
+	public void workIn(int emp_num) {
+		session.insert("ysWorkIn", emp_num);	
+	}
+
+	@Override
+	public void workOut(int emp_num) {
+		session.update("ysWorkOut", emp_num);	
+	}
+
 }

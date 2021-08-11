@@ -168,15 +168,23 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <div class="w3-card w3-round w3-white w3-center w3-center">
         <div class="w3-container">
           <a href="#"></a>
-          
-          
           <p><button class="w3-button w3-block w3-theme-l4" style=" border-radius:10px;box-shadow:#d6d6d6 1px 3px 2px;text-align: left;"><i class="fa fa-chevron-circle-right fa-fw w3-margin-right"></i>사용방법 바로가기</button></p>
           <p><button class="w3-button w3-block w3-theme-l4" style=" border-radius:10px;box-shadow:#d6d6d6 1px 3px 2px;text-align: left;" onclick="location.href='rr/rr?rr_type=0'"><i class="fa fa-chevron-circle-right fa-fw w3-margin-right"></i>문서양식 바로가기</button></p>
           <p><button class="w3-button w3-block w3-theme-l4" style=" border-radius:10px;box-shadow:#d6d6d6 1px 3px 2px;text-align: left;" onclick="location.href='board/noticeList'"><i class="fa fa-chevron-circle-right fa-fw w3-margin-right"></i>공지사항 바로가기</button></p>
           <p><button class="w3-button w3-block w3-theme-l4" style=" border-radius:10px;box-shadow:#d6d6d6 1px 3px 2px;text-align: left;" onclick="location.href='board/clubList'"><i class="fa fa-chevron-circle-right fa-fw w3-margin-right"></i>동호회 바로가기</button></p>
         </div>
+        
       </div>
       <br>
+      <div class="w3-card w3-round w3-white w3-center w3-center">
+        <div class="w3-container">
+          <p>
+          	<button class="w3-button w3-block" style=" border-radius:10px;box-shadow:#d6d6d6 1px 3px 2px;text-align: center; width: 40%; display: inline; background-color:#607084; color:white; margin-right: 6%;" onclick="location.href='workInOut?inOut=1'" >출근</button>
+         	<button class="w3-button w3-block" style=" border-radius:10px;box-shadow:#d6d6d6 1px 3px 2px;text-align: center; width: 40%; display: inline; background-color:#d20404; color:white;" onclick="location.href='workInOut?inOut=2'">퇴근</button>
+         </p>
+        </div>
+        
+      </div>
 
     <!-- End Right Column -->
     </div>
