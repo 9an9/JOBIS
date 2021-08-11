@@ -178,6 +178,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 								<td>${mycmtList.endtime}</td>
 								<td>${mycmtList.cmt_date}</td>
 								
+								<c:set var="shh" value="${fn:substring(mycmtList.srttime,0,1)}"/>
 								<c:set var="sh" value="${fn:substring(mycmtList.srttime,1,2)}"/>
 								<c:set var="smm" value="${fn:substring(mycmtList.srttime,3,4)}"/>
 								<c:set var="sm" value="${fn:substring(mycmtList.srttime,4,5)}"/>
@@ -187,10 +188,10 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 
 								<td>
 									<c:choose>
-										<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&((ehh == 1 && eh == 9) || ehh == 2)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0;color: rgb(225, 1, 255);">연장</span></c:when>
-										<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&(ehh < 2 && eh < 7)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0; color: #0072ff;">조퇴</span></c:when>
+										<c:when test="${((sh >= 9 && (smm > 0 || sm > 0))||shh>0)&&((ehh == 1 && eh == 9) || ehh == 2)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0;color: rgb(225, 1, 255);">연장</span></c:when>
+										<c:when test="${((sh >= 9 && (smm > 0 || sm > 0))||shh>0)&&(ehh < 2 && eh < 7)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0; color: #0072ff;">조퇴</span></c:when>
 
-										<c:when test="${sh >= 9 && (smm > 0 || sm > 0)}"><p style="margin: 0; color: red;">지각</p></c:when>										
+										<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))||shh>0}"><p style="margin: 0; color: red;">지각</p></c:when>										
 										<c:when test="${(ehh == 1 && eh == 9) || ehh == 2}"><p style="margin: 0; color: rgb(225, 1, 255);">연장</p></c:when>
 										<c:when test="${ehh < 2 && eh < 7}"><p style="margin: 0; color: #0072ff;">조퇴</p></c:when>
 										

@@ -707,8 +707,10 @@ public class YsController {
 		
 		if(inOut == 1) {
 			System.out.println(emp_num+"은 출근");
+			yecs.workIn(emp_num);
 		}else if(inOut == 2){
 			System.out.println(emp_num+"은 퇴근");
+			yecs.workOut(emp_num);
 		}
 		
 		return "mainpage";

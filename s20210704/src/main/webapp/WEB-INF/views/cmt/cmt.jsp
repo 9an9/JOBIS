@@ -205,6 +205,7 @@ select {
 								<td>${cmtList.endtime}</td>
 								<td>${cmtList.cmt_date}</td>
 								
+								<c:set var="shh" value="${fn:substring(cmtList.srttime,0,1)}"/>
 								<c:set var="sh" value="${fn:substring(cmtList.srttime,1,2)}"/>
 								<c:set var="smm" value="${fn:substring(cmtList.srttime,3,4)}"/>
 								<c:set var="sm" value="${fn:substring(cmtList.srttime,4,5)}"/>
@@ -215,10 +216,10 @@ select {
 								<td>
 									<c:if test="${svo.dcontent == '임원' || (svo.dcontent == '인사부' && svo.rcontent == '사원')  }">
 										<c:choose>
-											<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&((ehh == 1 && eh == 9) || ehh == 2)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0;color: rgb(225, 1, 255);">연장</span></c:when>
-											<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&(ehh < 2 && eh < 7)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0; color: #0072ff;">조퇴</span></c:when>
+											<c:when test="${((sh >= 9 && (smm > 0 || sm > 0))||shh>0)&&((ehh == 1 && eh == 9) || ehh == 2)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0;color: rgb(225, 1, 255);">연장</span></c:when>
+											<c:when test="${((sh >= 9 && (smm > 0 || sm > 0))||shh>0)&&(ehh < 2 && eh < 7)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0; color: #0072ff;">조퇴</span></c:when>
 	
-											<c:when test="${sh >= 9 && (smm > 0 || sm > 0)}"><p style="margin: 0; color: red;">지각</p></c:when>										
+											<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))||shh>0}"><p style="margin: 0; color: red;">지각</p></c:when>										
 											<c:when test="${(ehh == 1 && eh == 9) || ehh == 2}"><p style="margin: 0; color: rgb(225, 1, 255);">연장</p></c:when>
 											<c:when test="${ehh < 2 && eh < 7}"><p style="margin: 0; color: #0072ff;">조퇴</p></c:when>
 											
@@ -234,7 +235,7 @@ select {
 										<input type="hidden" name="cmt_num" value="${cmtList.cmt_num}">
 										<input type="hidden" name="currentPage" value="${yp.currentPage}">
 										<c:choose>
-											<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&((ehh == 1 && eh == 9) || ehh == 2)}">
+											<c:when test="${((sh >= 9 && (smm > 0 || sm > 0))||shh>0)&&((ehh == 1 && eh == 9) || ehh == 2)}">
 												<select name="state" style="color: rgb(225, 1, 255); border: none;" onchange="cmtMD(${cmtList.cmt_num})">
 													<option selected="selected" style="color: rgb(225, 1, 255);" value="1">지각,연장</option>
 													<option style="color: #0072ff;"value="2">지각,조퇴</option>
@@ -244,7 +245,7 @@ select {
 													<option value="6">정상</option>	
 												</select>
 											</c:when>
-											<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&(ehh < 2 && eh < 7)}">
+											<c:when test="${((sh >= 9 && (smm > 0 || sm > 0))||shh>0)&&(ehh < 2 && eh < 7)}">
 												<select name="state" style="color: #0072ff; border: none;" onchange="cmtMD(${cmtList.cmt_num})">
 													<option style="color: rgb(225, 1, 255);" value="1">지각,연장</option>
 													<option selected="selected" style="color: #0072ff;"value="2">지각,조퇴</option>
@@ -255,7 +256,7 @@ select {
 												</select>
 											</c:when>
 	
-											<c:when test="${sh >= 9 && (smm > 0 || sm > 0)}">
+											<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))||shh>0}">
 												<select name="state" style="color: red; border: none;" onchange="cmtMD(${cmtList.cmt_num})">
 													<option style="color: rgb(225, 1, 255);" value="1">지각,연장</option>
 													<option style="color: #0072ff;"value="2">지각,조퇴</option>
