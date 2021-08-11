@@ -706,11 +706,11 @@ public class YsController {
 		model.addAttribute("svo",svo);	             		//모든 코딩에 추가
 		
 		if(inOut == 1) {
-			System.out.println(emp_num+"은 출근");
-			yecs.workIn(emp_num);
+			int workIn = yecs.workIn(emp_num);
+			model.addAttribute("workIn", workIn);
 		}else if(inOut == 2){
-			System.out.println(emp_num+"은 퇴근");
-			yecs.workOut(emp_num);
+			int workOut = yecs.workOut(emp_num);
+			model.addAttribute("workOut", workOut);
 		}
 		
 		return "mainpage";

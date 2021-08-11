@@ -448,7 +448,7 @@ function selectEnd(){
 
 function chk() {
 	if(!frm.searchStart.value || !frm.searchEnd.value){
-		alert("조회하기위한 날짜를 모두 입력해주세요.\n하루를 선택하시려면 조회 시작날짜와 종료날짜를 똑같이 해주세요")
+		alert("조회하기위한 날짜를 모두 입력해주세요.\n하루를 선택하시려면 조회 시작날짜와 종료날짜를 똑같이 해주세요");
 		return false;
 	}
 	return true;

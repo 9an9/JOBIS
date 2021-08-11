@@ -113,13 +113,15 @@ public class YsEmpCmtDaoImpl implements YsEmpCmtDao{
 	}
 
 	@Override
-	public void workIn(int emp_num) {
-		session.insert("ysWorkIn", emp_num);	
+	public int workIn(int emp_num) {
+		int workIn = session.insert("ysWorkIn", emp_num);
+		return workIn;
 	}
 
 	@Override
-	public void workOut(int emp_num) {
-		session.update("ysWorkOut", emp_num);	
+	public int workOut(int emp_num) {
+		int workOut = session.update("ysWorkOut", emp_num);
+		return workOut;
 	}
 
 }

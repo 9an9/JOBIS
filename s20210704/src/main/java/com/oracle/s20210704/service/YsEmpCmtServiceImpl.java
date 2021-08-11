@@ -114,13 +114,15 @@ public class YsEmpCmtServiceImpl implements YsEmpCmtService {
 	}
 
 	@Override
-	public void workIn(int emp_num) {
-		ydcd.workIn(emp_num);
+	public int workIn(int emp_num) {
+		int workIn = ydcd.workIn(emp_num);
+		return workIn;
 	}
 
 	@Override
-	public void workOut(int emp_num) {
-		ydcd.workOut(emp_num);
+	public int workOut(int emp_num) {
+		int workOut = ydcd.workOut(emp_num);
+		return workOut;
 	}
 
 }

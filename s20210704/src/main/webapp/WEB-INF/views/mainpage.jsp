@@ -14,7 +14,8 @@
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 </style>
 <body class="w3-theme-l5">
-
+<c:if test="${workIn > 0 }"><script type="text/javascript">alert("출근하셨습니다");</script></c:if>
+<c:if test="${workOut > 0 }"><script type="text/javascript">alert("퇴근하셨습니다");</script></c:if>
 <!-- Navbar -->
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
