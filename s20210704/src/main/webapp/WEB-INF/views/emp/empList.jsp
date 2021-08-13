@@ -237,7 +237,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 			</div>			  
 			  
 			  <div class="w3-center">
-			  	<div class="w3-bar w3-border" style=" margin: 10px 0px;border: 1px solid #7d97a5;">
+			  	<div class="w3-bar w3-border" onclick="location.href='excelDownload'" style=" margin: 10px 0px;border: 1px solid #7d97a5;">
 			  
 					  <c:if test="${pg.startPage > pg.pageBlock }">
 					  	<a href="empList?currentPage=${pg.startPage-pg.pageBlock}" class="w3-bar-item w3-button">&laquo;</a>
