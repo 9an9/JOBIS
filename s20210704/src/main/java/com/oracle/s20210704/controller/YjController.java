@@ -16,6 +16,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +54,7 @@ import com.oracle.s20210704.model.YjEmp;
 import com.oracle.s20210704.service.JhRrService;
 import com.oracle.s20210704.service.YjEmpService;
 import com.oracle.s20210704.service.YjPaging;
+import com.oracle.s20210704.service.YsApvService;
 
 
 
@@ -52,6 +67,8 @@ public class YjController {
 	private JhRrService jrs;
 	@Autowired
 	private JavaMailSender  mailSender;
+	@Autowired
+	private YsApvService    yas;
 
 	
 	//사원정보관리 출력
@@ -62,6 +79,12 @@ public class YjController {
 		SyMemberVO svo = jrs.show(vo);
 		model.addAttribute("emp_num",emp_num);
 		model.addAttribute("svo",svo);
+		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+
 
 		System.out.println("YjController empList Start...");
 		int total = es.total();
@@ -99,6 +122,12 @@ public class YjController {
 		model.addAttribute("emp_num",emp_num);
 		model.addAttribute("svo",svo);
 		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+
+		
 		emp.setEmpno(empno);
 		emp.setRef(ref);
 		System.out.println("YjEmpController updateRef Start...");
@@ -120,6 +149,12 @@ public class YjController {
 		SyMemberVO svo = jrs.show(vo);
 		model.addAttribute("emp_num",emp_num);
 		model.addAttribute("svo",svo);
+		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+
 
 		String dept = es.deptSelect(emp_num);
 		System.out.println("YjEmpController empList dept--> " + dept);
@@ -150,6 +185,12 @@ public class YjController {
 		model.addAttribute("emp_num",emp_num);
 		model.addAttribute("svo",svo);
 
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+
+		
 		System.out.println("YjController myInfoUpdate Start...");
 		List<YjEmp> myInfo = es.myInfo(emp_num);
 		System.out.println("YjEmpController list myInfo.size()=>" + myInfo.size());	
@@ -229,6 +270,12 @@ public class YjController {
 		model.addAttribute("emp_num",emp_num);
 		model.addAttribute("svo",svo);
 		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+
+		
 		//사진파일
 		System.out.println("YjController writeEmp fileupload Start...");
 		String uploadPath = request.getSession().getServletContext().getRealPath("/upload/");
@@ -255,11 +302,14 @@ public class YjController {
 		model.addAttribute("emp_num",emp_num);
 		model.addAttribute("svo",svo);
 		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+
+		
 		List<YjEmp> deptList = es.deptList();
 		model.addAttribute("deptList", deptList);
-		
-		List<YjEmp> rankList = es.rankList();
-		model.addAttribute("rankList", rankList);
 		
 		return "emp/empWrite";
 	}
@@ -274,6 +324,16 @@ public class YjController {
 	        return teamList;
 	}
 	
+	//동적 selectbox로 직급 list구하기
+	@RequestMapping(value = "selectRnk", method= RequestMethod.GET)
+	@ResponseBody
+	public List<YjEmp> getRnk(String dcode) {
+			System.out.println("YjController get_team Start...");
+	        List<YjEmp> rankList = es.rankList(dcode);
+	        
+	        return rankList;
+	}
+	
 	//사원등록
 	@RequestMapping(value = "emp/writeEmp", method = RequestMethod.POST)
 	public String writeEmp(HttpServletRequest request, MultipartFile myImg, YjEmp emp, HttpSession session, SyMemberVO  vo, Model model) 
@@ -283,13 +343,20 @@ public class YjController {
 		String uploadPath = request.getSession().getServletContext().getRealPath("/upload/");
 	    String savedName = uploadFile(myImg.getOriginalFilename(), myImg.getBytes(), uploadPath);
 	    System.out.println("YjController writeEmp fileupload savedName-->" + savedName);
-	    emp.setPh_path(uploadPath + savedName);
+	    emp.setPh_path(uploadPath);   
+	    emp.setPh_name(myImg.getOriginalFilename());
 		
 		int emp_num = (int)session.getAttribute("member");
 		vo.setEmp_num(emp_num);
 		SyMemberVO svo = jrs.show(vo);
 		model.addAttribute("emp_num",emp_num);
 		model.addAttribute("svo",svo);	
+		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+
 		 
 		//사원번호부여/비밀번호
 	    System.out.println("YjController writeEmp empnum/pw Start...");
@@ -334,7 +401,7 @@ public class YjController {
 		}		
 		
 		
-		return "forward:emp/empList";
+		return "forward:empList";
 	}
 	
 	//인사이동페이지
@@ -346,6 +413,7 @@ public class YjController {
 		model.addAttribute("emp_num",emp_num);
 		model.addAttribute("svo",svo);	
 		
+		
 		model.addAttribute("empno", empno);
 		List<YjEmp> empMng = es.empMng(empno);
 		model.addAttribute("empMng", empMng);
@@ -353,8 +421,6 @@ public class YjController {
 		List<YjEmp> deptList = es.deptList();
 		model.addAttribute("deptList", deptList);
 		
-		List<YjEmp> rankList = es.rankList();
-		model.addAttribute("rankList", rankList);
 		
 		return "emp/empMng";
 	}
@@ -474,6 +540,114 @@ public class YjController {
 		
 		return "forward:deptUpdate";
 	}
+	
+	/*
+	 * //사원관리 Excel출력
+	 * 
+	 * @GetMapping(value = "excelDownload") public void
+	 * excelDown(HttpServletResponse response, YjEmp emp) {
+	 * 
+	 * System.out.println("YjController excelDown Start..."); List<YjEmp> empListE =
+	 * es.empListE();
+	 * 
+	 * Workbook wb = new HSSFWorkbook(); Sheet sheet = wb.createSheet("사원목록"); Row
+	 * row = null; Cell cell = null; int rowNo = 2;
+	 * 
+	 * // 셀 너비 설정 for (int i=2; i<=11; i++){ sheet.autoSizeColumn(i);
+	 * sheet.setColumnWidth(i, (sheet.getColumnWidth(i))+(short)1024); }
+	 * 
+	 * // 테이블 헤더용 스타일 CellStyle headStyle = wb.createCellStyle();
+	 * 
+	 * // 가는 경계선을 가집니다. headStyle.setBorderTop(BorderStyle.THIN);
+	 * headStyle.setBorderBottom(BorderStyle.THIN);
+	 * headStyle.setBorderLeft(BorderStyle.THIN);
+	 * headStyle.setBorderRight(BorderStyle.THIN);
+	 * 
+	 * // 배경색은 노란색입니다.
+	 * headStyle.setFillForegroundColor(HSSFColorPredefined.INDIGO.getIndex());
+	 * //headStyle.setFillForegroundColor(HSSFColorPredefined.YELLOW.getIndex());
+	 * headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+	 * 
+	 * // 데이터는 가운데 정렬합니다. headStyle.setAlignment(HorizontalAlignment.CENTER);
+	 * headStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+	 * 
+	 * // 데이터용 경계 스타일 테두리만 지정 CellStyle bodyStyle = wb.createCellStyle();
+	 * bodyStyle.setBorderTop(BorderStyle.THIN);
+	 * bodyStyle.setBorderBottom(BorderStyle.THIN);
+	 * bodyStyle.setBorderLeft(BorderStyle.THIN);
+	 * bodyStyle.setBorderRight(BorderStyle.THIN);
+	 * bodyStyle.setAlignment(HorizontalAlignment.CENTER);
+	 * bodyStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+	 * 
+	 * //폰트 생성 Font headerFont = wb.createFont();
+	 * headerFont.setColor(IndexedColors.WHITE.getIndex());
+	 * headerFont.setBold(true); headStyle.setFont(headerFont); // 헤더 폰트적용
+	 */        
+/*        // 헤더 생성
+        row = sheet.createRow(rowNo++);
+        row.setHeight((short)470);
+        cell = row.createCell(2);
+        cell.setCellStyle(headStyle);
+        cell.setCellValue("사원번호");
+        cell = row.createCell(3);
+        cell.setCellStyle(headStyle);
+        cell.setCellValue("이름");
+        cell = row.createCell(4);
+        cell.setCellStyle(headStyle);
+        cell.setCellValue("부서");
+        cell = row.createCell(5);
+        cell.setCellStyle(headStyle);
+        cell.setCellValue("소속");
+        cell = row.createCell(6);
+        cell.setCellStyle(headStyle);
+        cell.setCellValue("직급");
+        cell = row.createCell(7);
+        cell.setCellStyle(headStyle);
+        cell.setCellValue("출근시간");
+        cell = row.createCell(8);
+        cell.setCellStyle(headStyle);
+        cell.setCellValue("퇴근시간");
+        cell = row.createCell(9);
+        cell.setCellStyle(headStyle);
+        cell.setCellValue("날짜");
+        cell = row.createCell(10);
+        cell.setCellStyle(headStyle);
+        cell.setCellValue("상태");
+        cell = row.createCell(11);
+        cell.setCellStyle(headStyle);
+        cell.setCellValue("수정일");
+
+   */     // 데이터 부분 생성
+		/*
+		 * for(YjEmp emp : empListE) { row = sheet.createRow(rowNo++);
+		 * row.setHeight((short)320); cell = row.createCell(2);
+		 * cell.setCellStyle(bodyStyle); cell.setCellValue(cmt.getEmp_num()); cell =
+		 * row.createCell(3); cell.setCellStyle(bodyStyle);
+		 * cell.setCellValue(cmt.getEmp_name()); cell = row.createCell(4);
+		 * cell.setCellStyle(bodyStyle); cell.setCellValue(cmt.getDcontent()); cell =
+		 * row.createCell(5); cell.setCellStyle(bodyStyle);
+		 * cell.setCellValue(cmt.getTcontent()); cell = row.createCell(6);
+		 * cell.setCellStyle(bodyStyle); cell.setCellValue(cmt.getRcontent()); cell =
+		 * row.createCell(7); cell.setCellStyle(bodyStyle);
+		 * cell.setCellValue(cmt.getSrttime()); cell = row.createCell(8);
+		 * cell.setCellStyle(bodyStyle); cell.setCellValue(cmt.getEndtime()); cell =
+		 * row.createCell(9); cell.setCellStyle(bodyStyle);
+		 * cell.setCellValue(cmt.getCmt_date()); cell = row.createCell(10);
+		 * cell.setCellStyle(bodyStyle); cell.setCellValue(state(cmt.getSrttime(),
+		 * cmt.getEndtime())); cell = row.createCell(11); cell.setCellStyle(bodyStyle);
+		 * cell.setCellValue(mdDate(cmt.getCmt_md()));
+		 */
+/*        }
+
+        // 컨텐츠 타입과 파일명 지정
+        response.setContentType("ms-vnd/excel");
+        response.setHeader("Content-Disposition", "attachment;filename=CmtList.xls");
+
+        // 엑셀 출력
+        wb.write(response.getOutputStream());
+        wb.close();
+*/		
+//	}
 	
 	  //사진파일 업로드
 	  private String uploadFile(String originalName, byte[] fileData , String uploadPath) 

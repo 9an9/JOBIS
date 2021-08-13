@@ -9,10 +9,50 @@
 <link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/jquery/jquery.table2excel.js" type="text/javascript"></script>
 
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
+.empTB{
+	text-align: center;
+	width: 100%;
+	margin: 0 auto;	
+    margin-top: 15px;
+    border: 1px solid #7d97a5;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.btn2{
+   color: #fff;
+   background-color: #AAABD3;
+   
+   border-color: #AAABD3;
+   border-radius: 6px;
+ }
+.btn3{
+   color: #fff;
+   background-color: #384f76;
+   
+   border-color: #AAABD3;
+   border-radius: 6px;
+}
+.empTB select {
+	border : none;
+   text-align-last: center;
+   text-align: center;
+   -ms-text-align-last: center;
+   -moz-text-align-last: center;
+}
+.searchSelect {
+	height: 28.4px;
+}
+.searchList {
+	width: 350px;
+	display: inline-block;
+}
 </style>
 <body class="w3-theme-l5">
 
@@ -110,7 +150,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <a href="../note/sentNote" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 쪽지함</a>
             <a href="../note/receiveNote" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 쪽지함</a>
           </div>
-          <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">3</span> 결재</a>
+          <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><c:if test="${unreadTotal > 0 }"><span class="w3-badge w3-right w3-small w3-green">${unreadTotal }</span></c:if><c:if test="${apvNoTotal > 0 }"><span class="w3-badge w3-right w3-small w3-red">${apvNoTotal }</span></c:if> 결재</a>
           <a href="../board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
         </div>      
       </div>
@@ -140,17 +180,18 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
               <h1><i class="fa fa-id-card-o fa-fw w3-margin-right"></i><b>사원 관리</b></h1><hr>
-              <form action="searchList" method="post">
-              	<select name="search">
+              <div style="margin-top: 40px;">
+              <form action="searchList" method="post" class="searchList">
+              	<select name="search" class="searchSelect">
               		<option value="0">사원명</option>
               		<option value="1">부서명</option>
               	</select>
-               <input type="text" id="keyword" name="keyword">  <input type="submit" value="검색"></form><p>
-               <c:if test="${dept ne '110' }"><input type="button" value="사원등록" onclick="location.href='empWrite'"></c:if>
-               <c:if test="${dept eq '120' && rank eq '240' }"><input type="button" value="부서관리" onclick="javascript:openDept()"></c:if>
+               <input type="text" id="keyword" name="keyword">  <input type="submit" value="검색" class="btn2"></form>
+               <span style="float: right; display: inline-block; margin-left: 10px; "><c:if test="${dept ne '110' }"><input type="button" value="사원등록" onclick="location.href='empWrite'" class="btn2"></c:if></span>&nbsp;&nbsp;
+               <span style="float: right; display: inline-block;"><c:if test="${dept eq '120' && rank eq '240' }"><input type="button" value="부서관리" onclick="javascript:openDept()" class="btn2"></c:if></span></div>
               <c:set var="num" value="${(pg.currentPage*pg.rowPage)-pg.rowPage+1}"></c:set>
-              <table>
-			  	<tr><th>No.</th><th>사원번호</th><th>사원명</th><th>부서명</th><th>소속</th><th>직책</th><th>이메일</th><th>전화번호</th><th>주소</th><th>입사일</th><th>비고</th></tr>
+              <table class="empTB" id="empTB">
+			  	<tr style="background-color:#384f76; color: white; "><th>No.</th><th>사원번호</th><th>사원명</th><th>부서명</th><th>소속</th><th>직책</th><th>이메일</th><th>전화번호</th><th>주소</th><th>입사일</th><th>비고</th></tr>
 				<c:forEach var="empList" items="${empList}">
 					<tr><td>${num }</td>
 						<td><a href="javascript:openEmpMng(${empList.emp_num })">${empList.emp_num }</a></td>
@@ -191,15 +232,29 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 					<c:set var="num" value="${num + 1 }"></c:set>
 				</c:forEach>
 			  </table>
-			  <c:if test="${pg.startPage > pg.pageBlock }">
-			  	<a href="empList?currentPage=${pg.startPage-pg.pageBlock}">[이전]</a>
-			  </c:if>
-			  <c:forEach var="i" begin="${pg.startPage}" end="${pg.endPage}">
-			  	<a href="empList?currentPage=${i}">[${i}]</a>
-		  	  </c:forEach>
-			  <c:if test="${pg.endPage < pg.totalPage }">
-	  		  	<a href="empList?currentPage=${pg.startPage+pg.pageBlock}">[다음]</a>
-			  </c:if>
+			<div style=" margin-top: 10px; float: left; margin-bottom: 20px">
+				<input type="button" value="Excel출력" class="w3-center btn3" id="excel">
+			</div>			  
+			  
+			  <div class="w3-center">
+			  	<div class="w3-bar w3-border" onclick="location.href='excelDownload'" style=" margin: 10px 0px;border: 1px solid #7d97a5;">
+			  
+					  <c:if test="${pg.startPage > pg.pageBlock }">
+					  	<a href="empList?currentPage=${pg.startPage-pg.pageBlock}" class="w3-bar-item w3-button">&laquo;</a>
+					  </c:if>
+					  <c:forEach var="i" begin="${pg.startPage}" end="${pg.endPage}">
+					  	<c:if test="${pg.currentPage == i }">
+							<a href="empList?currentPage=${i}" class="w3-bar-item w3-button" style="background-color: #384f76; color: white;">${i}</a>
+						</c:if>
+					  	<c:if test="${pg.currentPage != i }">
+							<a href="empList?currentPage=${i}" class="w3-bar-item w3-button">${i}</a>
+						</c:if>
+				  	  </c:forEach>
+					  <c:if test="${pg.endPage < pg.totalPage }">
+			  		  	<a href="empList?currentPage=${pg.startPage+pg.pageBlock}" class="w3-bar-item w3-button">&raquo;</a>
+					  </c:if>
+			   	</div>
+			   </div>				  
 
             </div>
           </div>
@@ -273,14 +328,22 @@ function openEmpMng(empno) {
 	var w = (window.screen.width/2) - 200;
 	var h = (window.screen.height/2) - 200;
 	var url = "empMng?empno="+empno;
-	window.open(url,"","width=400,height=400,left="+w+",top="+h);
+	window.open(url,"","width=450,height=480,left="+w+",top="+h);
 }
 function openDept() {	
 	var w = (window.screen.width/2) - 200;
 	var h = (window.screen.height/2) - 200;
 	var url = "deptUpdate";
-	window.open(url,"","width=400,height=400,left="+w+",top="+h);
+	window.open(url,"","width=440,height=530,left="+w+",top="+h);
 }
+//엑셀 버튼 클릭 
+$("#excel").click(function () {
+        $("#empTB").table2excel({
+            name: "사원 목록",
+            filename: "사원목록",
+            fileext: ".xls"
+        });
+    });
 </script>
 
 </body>

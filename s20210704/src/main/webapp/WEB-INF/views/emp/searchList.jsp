@@ -13,6 +13,36 @@
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
+.empTB{
+	text-align: center;
+	width: 100%;
+	margin: 0 auto;	
+    margin-top: 15px;
+    border: 1px solid #7d97a5;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.btn2{
+   color: #fff;
+   background-color: #AAABD3;
+   
+   border-color: #AAABD3;
+   border-radius: 6px;
+ }
+.empTB select {
+    border : none;
+   text-align-last: center;
+   text-align: center;
+   -ms-text-align-last: center;
+   -moz-text-align-last: center;
+}
+.searchSelect {
+	height: 28.4px;
+}
+.searchList {
+	width: 350px;
+	display: inline-block;
+}
 </style>
 <body class="w3-theme-l5">
 
@@ -110,7 +140,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <a href="../note/sentNote" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 쪽지함</a>
             <a href="../note/receiveNote" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 쪽지함</a>
           </div>
-          <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">3</span> 결재</a>
+          <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><c:if test="${unreadTotal > 0 }"><span class="w3-badge w3-right w3-small w3-green">${unreadTotal }</span></c:if><c:if test="${apvNoTotal > 0 }"><span class="w3-badge w3-right w3-small w3-red">${apvNoTotal }</span></c:if> 결재</a>
           <a href="../board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
         </div>      
       </div>
@@ -140,14 +170,15 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
               <h1><i class="fa fa-id-card-o fa-fw w3-margin-right"></i><b>사원 관리</b></h1><hr>
-              <form action="searchList" method="post">
-              	<select name="search">
+              <div style="margin-top: 40px;">
+              <form action="searchList" method="post" class="searchList">
+              	<select name="search" class="searchSelect">
               		<option value="0">사원명</option>
               		<option value="1">부서명</option>
               	</select>
-               <input type="text" id="keyword" name="keyword" value="${keyword}"> <input type="submit" value="검색"></form><p>
-              <table>
-			  	<tr><th>사원번호</th><th>사원명</th><th>부서명</th><th>소속</th><th>직책</th><th>이메일</th><th>전화번호</th><th>주소</th><th>입사일</th><th>비고</th></tr>
+               <input type="text" id="keyword" name="keyword" value="${keyword}"> <input type="submit" value="검색" class="btn2"></form></div>
+              <table class="empTB">
+			  	<tr style="background-color:#384f76; color: white; "><th>사원번호</th><th>사원명</th><th>부서명</th><th>소속</th><th>직책</th><th>이메일</th><th>전화번호</th><th>주소</th><th>입사일</th><th>비고</th></tr>
 				<c:forEach var="empList" items="${empList}">
 					<tr>
 						<td>${empList.emp_num }</td>
@@ -187,7 +218,11 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 					</tr>
 				</c:forEach>
 			  </table>
-			<input type="button" value="사원전체목록" onclick="location.href='empList'">
+		
+			  	<div style=" margin-top: 10px; float: right;">
+					<input type="button" value="사원전체목록" onclick="location.href='empList'" class="w3-center btn2">
+				</div>
+			
             </div>
           </div>
         </div>

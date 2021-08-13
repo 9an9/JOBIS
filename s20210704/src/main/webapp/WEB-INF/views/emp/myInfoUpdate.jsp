@@ -9,10 +9,42 @@
 <link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
+.btn2{
+   color: #fff;
+   background-color: #3C3530;
+   border-color: #AAABD3;
+   border-radius: 6px;
+ }
+th {
+	background-color: #E0E3DA;
+	width: 30%;
+	height: 60px;
+}
+.tableC {
+	margin-top: 50px;
+	margin-left: 40px;
+}
+table {
+	width: 100%;
+	word-break:normal; 
+	table-layout: fixed;
+	border: 1px solid #E0E3DA ;
+}
+table input {
+	border: none;
+	margin-left: 20px;
+}
+.preview {
+    width: auto; height: auto;
+    max-width: 150px;
+    max-height: 180px;
+}
 </style>
 <body class="w3-theme-l5">
 
@@ -110,7 +142,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
             <a href="../note/sentNote" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 쪽지함</a>
             <a href="../note/receiveNote" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 쪽지함</a>
           </div>
-          <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">3</span> 결재</a>
+          <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><c:if test="${unreadTotal > 0 }"><span class="w3-badge w3-right w3-small w3-green">${unreadTotal }</span></c:if><c:if test="${apvNoTotal > 0 }"><span class="w3-badge w3-right w3-small w3-red">${apvNoTotal }</span></c:if> 결재</a>
           <a href="../board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
         </div>      
       </div>
@@ -140,24 +172,28 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
               <h1><i class="fa fa-pencil fa-fw w3-margin-right"></i><b>개인정보수정</b></h1><hr>
-              <form action="updateInfo" method="post" enctype="multipart/form-data">
-			  <c:forEach var="myInfo" items="${myInfo}">              
-              <table>
-              <tr><th>사번</th><td>${myInfo.emp_num }
-              <tr><th>이름</th><td><input type="text" id="emp_name" name="emp_name" required="required" value="${myInfo.emp_name}"></td>
-              <tr><th>현재비밀번호</th><td><input type="password" id="emp_pw" name="emp_pw" readonly="readonly" value="${myInfo.emp_pw }"><button type="button" onclick="updatePw()">비밀번호 변경</button></td></tr>
-              <tr><th>이메일</th><td><input type="email" id="emp_email" name="emp_email" required="required" value="${myInfo.emp_email}"></td>
-              <tr><th>전화번호</th><td><input type="text" id="emp_phnum" name="emp_phnum" required="required" value="${myInfo.emp_phnum}"></td>
-              <tr><th>우편번호</th><td><input type="text" id="emp_zc_addr" name="emp_zc_addr" readonly="readonly" value="${myInfo.emp_zc_addr}"> <input type="button" value="수정" onclick="findAddr()"></td>
-              <tr><th>주소</th><td><input type="text" id="emp_cm_addr" name="emp_cm_addr" readonly="readonly" value="${myInfo.emp_cm_addr}"></td>
-              <tr><th>상세주소</th><td><input type="text" id="emp_dt_addr" name="emp_dt_addr" value="${myInfo.emp_dt_addr }"></td></tr>
-              <tr><th>사진</th><td><input type="file" id="myImg" name="myImg" value="${myInfo.ph_path }">${myInfo.ph_path }</td></tr>
-              <tr><th>이미지</th><td><img alt="프로필 이미지" src="${myInfo.ph_path }">
-              <%-- <tr><th>사진view</th><td><img id="preImage" src="${pageContext.request.contextPath}/saveFile/${noticeVO.filename}" alt="image_title" onerror='this.src="../images/LUCY.jpg"'/></td></tr>
- --%>			  </table>
-			  </c:forEach>
-			  <input type="submit" value="수정">
-			  </form>
+              <div class="tableC">
+	              <form action="updateInfo" method="post" enctype="multipart/form-data">
+				  <c:forEach var="myInfo" items="${myInfo}">              
+	              <table border="1">
+	              <tr><th>사번</th><td style="padding-left: 20px;">${myInfo.emp_num }</td><td rowspan="3" width="150px"><img class="preview" src="${myInfo.ph_path }" alt="image_title"  onerror='this.src="../images/LUCY.jpg"'/></td></tr>
+	              <tr><th>이름</th><td><input type="text" id="emp_name" name="emp_name" required="required" value="${myInfo.emp_name}"></td></tr>
+	              <tr><th>현재비밀번호</th><td><input type="password" id="emp_pw" name="emp_pw" readonly="readonly" value="${myInfo.emp_pw }"><button type="button" onclick="updatePw()" class="btn2" style="margin-right: 40px; float: right;">비밀번호 변경</button></td></tr>
+	              <tr><th>이메일</th><td colspan="2"><input type="email" id="emp_email" name="emp_email" required="required" value="${myInfo.emp_email}"></td></tr>
+	              <tr><th>전화번호</th><td colspan="2"><input type="text" id="emp_phnum" name="emp_phnum" required="required" value="${myInfo.emp_phnum}"></td></tr>
+	              <tr><th>우편번호</th><td colspan="2"><input type="text" id="emp_zc_addr" name="emp_zc_addr" readonly="readonly" value="${myInfo.emp_zc_addr}"> <input type="button" value="수정" onclick="findAddr()" class="btn2" style="margin-right: 40px; float: right;"></td></tr>
+	              <tr><th>주소</th><td colspan="2"><input type="text" id="emp_cm_addr" name="emp_cm_addr" readonly="readonly" value="${myInfo.emp_cm_addr}"></td></tr>
+	              <tr><th>상세주소</th><td colspan="2"><input type="text" id="emp_dt_addr" name="emp_dt_addr" value="${myInfo.emp_dt_addr }"></td></tr>
+	              <tr><th>사진</th><td colspan="2" style="padding-left: 20px;" id="tdid">${myInfo.ph_name }<input type="file" id="myImg" name="myImg" style="display:none;" onchange="updateFile(this.value)"><button onclick="onclick=document.all.file.click()" class="btn2">수정</button></td></tr>          
+	 		  	  </table>
+				  </c:forEach>
+			  	<div style=" margin-top: 10px; float: left; margin-bottom: 20px">
+					<input type="submit" value="저장" class="w3-center btn2">
+				</div>
+				  </form>		  			  
+			  </div>
+
+			  
 
             </div>
           </div>
@@ -244,7 +280,7 @@ function updatePw() {
 	var w = (window.screen.width/2) - 200;
 	var h = (window.screen.height/2) - 200;
 	var url = "updatePw";
-	window.open(url,"","width=400,height=400,left="+w+",top="+h);
+	window.open(url,"","width=450,height=400,left="+w+",top="+h);
 }
 $(function() {
     $("#myImg").on('change', function(){
@@ -255,10 +291,13 @@ function readURL(input) {
     if (input.files && input.files[0]) {
        var reader = new FileReader();
        reader.onload = function (e) {
-          $('#preImage').attr('src', e.target.result);
+    	   $('#product-img').attr('src', e.target.result);
        }
        reader.readAsDataURL(input.files[0]);
     }
+}
+function updateFile(value) {
+	document.getElementById ( "tdid" ).textContent = value;
 }
 
 </script>

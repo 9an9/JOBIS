@@ -7,37 +7,72 @@
 <title>Insert title here</title>
 <script type="text/javascript"
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<style type="text/css">
+.MngEmp {
+	width: 90%;
+	position: absolute;
+  	left: 50%;
+ 	transform: translateX(-50%);
+}
+table {
+	width: 100%;
+	margin: 0 auto;	
+    margin-top: 15px;
+	border: 1px solid #E0E3DA ;
+    align-self: center;
+}
+td {
+	height: 50px;
+}
+.btn2{
+   color: #fff;
+   background-color: #3C3530;
+   border-color: #AAABD3;
+   border-radius: 6px;
+}
+table select {
+	margin-left: 20px;
+	width: 150px;
+	height: 40px;
+	border: none;
+}
+</style>
 </head>
 <body>
 <c:forEach var="empM" items="${empMng }">
-<h1>${empM.emp_name }</h1>
-	기존<p>
-	부서 : ${empM.dept } <br>
-         팀  : ${empM.team } <br>
-         직급 : ${empM.rank } <p>
-</c:forEach>         
-         변경 후<p>
-    <form action="mngEmp" method="post"> 
-    <input type="hidden" id="empno" name="empno" value="${empno }">    
-         부서 : <select id="dep_num" name="dep_num" onchange="getTeam()">
-              <option selected='selected' disabled='disabled'></option>             
-         <c:forEach var="deptList" items="${deptList }" >                                 
-              <option value="${deptList.dcode }">${deptList.dept }</option>
-         </c:forEach>
-         </select><br> 
-         팀 : <select id="team_num" name="team_num">
- 			<option selected='selected' disabled='disabled'></option>              
-		</select><br>            
-         직급 : <select name="rnk_num">
-              <option selected='selected' disabled='disabled'></option>             
-         <c:forEach var="rankList" items="${rankList }">                                 
-         	   <option value="${rankList.rcode }">${rankList.rank }</option>
-         </c:forEach>
-         </select><br>  
-    <input type="submit" value="변경하기">  <button type="button" onclick="deleteEmp()">삭제하기</button>
-    </form>         
-    
-         
+<h1 style="text-align: center">${empM.emp_name }</h1>
+	<div class="MngEmp">
+		
+		<table border="1">
+		<tr><td rowspan="3" style="background-color:#E0E3DA; color: #000; text-align: center; width: 65px">변경 전</td><td style="background-color:#E0E3DA; color: #000; text-align: center; width: 75px">부서</td><td>  ${empM.dept }</td></tr>
+		<tr><td style="background-color:#E0E3DA; color: #000; text-align: center; width: 75px">팀</td><td>  ${empM.team }</td></tr>
+		<tr><td style="background-color:#E0E3DA; color: #000; text-align: center; width: 75px">직급</td><td>  ${empM.rank }</td></tr>
+		</table>
+		</c:forEach>
+		<form action="mngEmp" method="post">
+		<input type="hidden" name="empno" value="${empno }">
+		<table border="1">
+		<tr><td rowspan="3" style="background-color:#E0E3DA; color: #000; text-align: center; width: 65px">변경 후</td><td style="background-color:#E0E3DA; color: #000; text-align: center; width: 75px">부서</td><td><select id="dep_num" name="dep_num" onchange="getTeam();getRnk();">
+	              										<option selected='selected' disabled='disabled'></option>             
+											         <c:forEach var="deptList" items="${deptList }" >                                 
+											              <option value="${deptList.dcode }">${deptList.dept }</option>
+											         </c:forEach>
+											         </select></td></tr>
+		<tr><td style="background-color:#E0E3DA; color: #000; text-align: center; width: 75px">팀</td><td><select id="team_num" name="team_num">
+					 			<option selected='selected' disabled='disabled'></option>              
+							</select></td></tr>
+		<tr><td style="background-color:#E0E3DA; color: #000; text-align: center; width: 75px">직급</td><td><select id="rnk_num" name="rnk_num">
+					              <option selected='selected' disabled='disabled'></option>             
+					         </select></td></tr>
+		</table>
+		 
+		<div style=" margin-top: 10px;" align="center">
+			<input type="submit" value="변경" class="btn2">  <button type="button" onclick="deleteEmp()" class="btn2">삭제</button>
+		</div> 
+		</form>
+		
+	</div>
+            
     
     
 
@@ -99,6 +134,30 @@ function getTeam() {
         		);
 			
 			$('#team_num').append(str);
+        }
+    });
+}
+function getRnk() {
+	console.log("Rnk 시작")
+    var dcode = document.getElementById('dep_num').value;
+	console.log(dcode);
+	var url = '../selectRnk?dcode='+dcode;
+	var str = "";
+	var str2 = "";
+	$.ajax({
+        url: url,
+        dataType: 'json',
+        success: function (data) {
+        	$('#rnk_num *').remove();
+        	$('#rnk_num').append('<option value="100">-</option>');
+        	$(data).each(
+        			function(){
+        				str2 = "<option value='" +this.rcode + "'>" + this.rank + "</option>";
+        				str += str2;
+        			}
+        		);
+			
+			$('#rnk_num').append(str);
         }
     });
 }

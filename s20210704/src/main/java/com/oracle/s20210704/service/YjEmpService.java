@@ -21,7 +21,7 @@ public interface YjEmpService {
 	int 		    writeEmp(YjEmp emp);
 	List<YjEmp> 	deptList();
 	List<YjEmp> 	teamList(String dept);
-	List<YjEmp> 	rankList();
+	List<YjEmp> 	rankList(String dcode);
 	List<YjEmp> 	empMng(int empno);
 	int 		    updateEmp(YjEmp emp);
 	int			 	deleteEmp(int empno);

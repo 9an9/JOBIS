@@ -202,12 +202,16 @@ public class YjEmpDaoImpl implements YjEmpDao {
 	}
 
 	@Override
-	public List<YjEmp> rankList() {
+	public List<YjEmp> rankList(String dcode) {
 		List<YjEmp> rankList = null;
 		System.out.println("YjEmpDaoImpl rankList Start ..." );
 		try {
-			// Naming Rule 
-			rankList = session.selectList("rankList");
+			if(dcode == "110") {
+				rankList = session.selectList("rankList1");
+			}else {
+				rankList = session.selectList("rankList2");
+			}
+			
 		} catch (Exception e) {
 			System.out.println("YjEmpDaoImpl rankList Exception->"+e.getMessage());
 		}

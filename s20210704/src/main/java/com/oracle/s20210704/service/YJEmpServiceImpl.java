@@ -166,10 +166,10 @@ public class YJEmpServiceImpl implements YjEmpService {
 
 
 	@Override
-	public List<YjEmp> rankList() {
+	public List<YjEmp> rankList(String dcode) {
 		List<YjEmp> rankList = null;
 		System.out.println("YjEmpServiceImpl rankList Start..." );
-		rankList = ed.rankList();
+		rankList = ed.rankList(dcode);
 		System.out.println("YjEmpServiceImpl rankList rankList.size()->" +rankList.size());
 		return rankList;
 	}
