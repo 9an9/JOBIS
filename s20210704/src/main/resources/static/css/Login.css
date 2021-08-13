@@ -17,7 +17,7 @@ body{
 	top: -20px;
 	left: -20px;
 	right: -40px;
-	bottom: -40px;
+	bottom: -40px;x		
 	width: auto;
 	height: auto;
 	background-image: url(http://ginva.com/wp-content/uploads/2013/04/free-wallpaper-reflection-05.jpg);
@@ -71,10 +71,10 @@ body{
 .login input[type=text]{
 	width: 250px;
 	height: 30px;
-	background: transparent;
+	background: #e8f0fe;
 	border: 1px solid rgba(255,255,255,0.6);
 	border-radius: 2px;
-	color: #fff;
+	color: #000000;
 	font-family: 'Exo', sans-serif;
 	font-size: 16px;
 	font-weight: 400;
@@ -84,10 +84,10 @@ body{
 .login input[type=password]{
 	width: 250px;
 	height: 30px;
-	background: transparent;
+	background: #e8f0fe;
 	border: 1px solid rgba(255,255,255,0.6);
 	border-radius: 2px;
-	color: #fff;
+	color: #000000;
 	font-family: 'Exo', sans-serif;
 	font-size: 16px;
 	font-weight: 400;

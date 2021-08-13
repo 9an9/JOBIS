@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oracle.s20210704.model.SySurvey">
+
+<select id="sySurveyTotal" resultType="int">
+select * from survey_main </select>
+
+<select id="sySurveyList" parameterType="SySurvey" resultType="SySurvey">
+		SELECT * 
+
+			FROM (
+
+				SELECT ROWNUM RN, A.* 
+
+					FROM (
+
+							SELECT * 
+
+							FROM survey_main
+
+							ORDER BY survey_num desc
+
+							) A
+
+				)
+
+		WHERE RN BETWEEN #{start} AND #{end}
+	</select>
+	
+<select id="sySurveySelOne" parameterType="int" resultType="SySurvey">
+		select * from survey_main where survey_num=#{survey_num}
+	</select>
+	
+	<!-- 설문조사 글쓰기 -->
+	<insert id="syInsertsySurvey" parameterType="SySurvey">
+	insert into survey_main(emp_num,survey_num,survey_title,survey_ques_content,survey_ques_id,survey_stdate,survey_fndate) values(#{emp_num},survey_seq.nextval,#{survey_title},#{survey_ques_content},#{survey_ques_id},#{survey_stdate},#{survey_fndate})
+	</insert>
+	<!-- 답변 저장 -->
+	<insert id="syInsertSurveyAnsw" parameterType="SySurvey">
+	insert into survey_answer(emp_num,survey_num,survey_ques_id,survey_ans_content) values(#{emp_num},#{survey_num},#{survey_ques_id},#{survey_ans_content} ) where survey_num = #{survey_num} and emp_num=#{emp_num}
+	</insert>
+</mapper>
