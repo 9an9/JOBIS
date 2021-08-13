@@ -9,6 +9,9 @@
 <link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="/jquery/jquery.table2excel.js" type="text/javascript"></script>
 
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
@@ -29,6 +32,13 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
    border-color: #AAABD3;
    border-radius: 6px;
  }
+.btn3{
+   color: #fff;
+   background-color: #384f76;
+   
+   border-color: #AAABD3;
+   border-radius: 6px;
+}
 .empTB select {
 	border : none;
    text-align-last: center;
@@ -180,7 +190,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                <span style="float: right; display: inline-block; margin-left: 10px; "><c:if test="${dept ne '110' }"><input type="button" value="사원등록" onclick="location.href='empWrite'" class="btn2"></c:if></span>&nbsp;&nbsp;
                <span style="float: right; display: inline-block;"><c:if test="${dept eq '120' && rank eq '240' }"><input type="button" value="부서관리" onclick="javascript:openDept()" class="btn2"></c:if></span></div>
               <c:set var="num" value="${(pg.currentPage*pg.rowPage)-pg.rowPage+1}"></c:set>
-              <table class="empTB">
+              <table class="empTB" id="empTB">
 			  	<tr style="background-color:#384f76; color: white; "><th>No.</th><th>사원번호</th><th>사원명</th><th>부서명</th><th>소속</th><th>직책</th><th>이메일</th><th>전화번호</th><th>주소</th><th>입사일</th><th>비고</th></tr>
 				<c:forEach var="empList" items="${empList}">
 					<tr><td>${num }</td>
@@ -222,6 +232,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 					<c:set var="num" value="${num + 1 }"></c:set>
 				</c:forEach>
 			  </table>
+			<div style=" margin-top: 10px; float: left; margin-bottom: 20px">
+				<input type="button" value="Excel출력" class="w3-center btn3" id="excel">
+			</div>			  
 			  
 			  <div class="w3-center">
 			  	<div class="w3-bar w3-border" style=" margin: 10px 0px;border: 1px solid #7d97a5;">
@@ -315,14 +328,22 @@ function openEmpMng(empno) {
 	var w = (window.screen.width/2) - 200;
 	var h = (window.screen.height/2) - 200;
 	var url = "empMng?empno="+empno;
-	window.open(url,"","width=400,height=400,left="+w+",top="+h);
+	window.open(url,"","width=450,height=480,left="+w+",top="+h);
 }
 function openDept() {	
 	var w = (window.screen.width/2) - 200;
 	var h = (window.screen.height/2) - 200;
 	var url = "deptUpdate";
-	window.open(url,"","width=400,height=400,left="+w+",top="+h);
+	window.open(url,"","width=440,height=530,left="+w+",top="+h);
 }
+//엑셀 버튼 클릭 
+$("#excel").click(function () {
+        $("#empTB").table2excel({
+            name: "사원 목록",
+            filename: "사원목록",
+            fileext: ".xls"
+        });
+    });
 </script>
 
 </body>

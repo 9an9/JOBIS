@@ -5,16 +5,52 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="../css/SpringMain.css">
+<style type="text/css">
+.PwD {
+	width: 90%;
+	position: absolute;
+  	left: 50%;
+ 	transform: translateX(-50%);
+}
+table {
+	width: 100%;
+	margin: 0 auto;	
+    margin-top: 15px;
+	border: 1px solid #E0E3DA ;
+    align-self: center;
+}
+td {
+	height: 50px;
+}
+.btn2{
+   color: #fff;
+   background-color: #3C3530;
+   border-color: #AAABD3;
+   border-radius: 6px;
+ }
+input {
+	border: none;
+	margin-left: 20px;
+}
+input:focus {outline:1px solid #d50000;}
+</style>
 </head>
 <body>
-<h1>비밀번호 변경</h1>
-	<table>
-		<form action="chkPw"><tr><td>현재비밀번호</td><td><input type="password" name="pw" id="pw"  value="${pw1 }" required="required"><input type="submit" value="확인" required="required" onchange="chkerrmsg()"></td></tr></form>
-		<tr><td>변경 후 비밀번호</td><td><input type="password" name="newPw" id="newPw" required="required"></td></tr>
-		<tr><td>비밀번호 확인</td><td><input type="password" name="newPw1" id="newPw1" required="required" onchange="comparePw()"></td></tr>
-		<tr><td></td><td><span class="error_next_box"></span></td>
-	</table>
-	<input type="button" value="확인" onclick="changePw()">
+<h1 align="center">비밀번호 변경</h1>
+	<div class="PwD">
+		<table border="1">
+			<tr><td style="background-color:#E0E3DA; color: #000; text-align: center; width: 140px;">현재비밀번호</td><td><form action="chkPw" style="vertical-align: middle;margin: 0px;"><input type="password" name="pw" id="pw"  value="${pw1 }" required="required" style="width:150px;height: 30px; ">  <input type="submit" value="확인" required="required" onchange="chkerrmsg()" class="btn2"></form></td></tr>
+			<tr><td style="background-color:#E0E3DA; color: #000; text-align: center; width: 140px;">변경 후 비밀번호</td><td><input type="password" name="newPw" id="newPw" required="required" style="width:150px;height: 30px; "></td></tr>
+			<tr><td style="background-color:#E0E3DA; color: #000; text-align: center; width: 140px;">비밀번호 확인</td><td><input type="password" name="newPw1" id="newPw1" required="required" onchange="comparePw()" style="width:150px;height: 30px; "><br>
+																					<span class="error_next_box"></span></td></tr>
+		</table>
+		<div style=" margin-top: 10px;" align="center">
+			<input type="button" value="변경" onclick="changePw()" class="btn2">
+		</div>
+
+	</div>
+
 	
 <c:if test="${result == 1 }">
 	<script type="text/javascript">

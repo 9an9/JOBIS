@@ -23,7 +23,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
  }
 th {
 	background-color: #E0E3DA;
-	width: 40%;
+	width: 30%;
 	height: 60px;
 }
 .tableC {
@@ -31,11 +31,19 @@ th {
 	margin-left: 40px;
 }
 table {
+	width: 100%;
 	word-break:normal; 
+	table-layout: fixed;
+	border: 1px solid #E0E3DA ;
 }
 table input {
 	border: none;
 	margin-left: 20px;
+}
+.preview {
+    width: auto; height: auto;
+    max-width: 150px;
+    max-height: 180px;
 }
 </style>
 <body class="w3-theme-l5">
@@ -167,16 +175,16 @@ table input {
               <div class="tableC">
 	              <form action="updateInfo" method="post" enctype="multipart/form-data">
 				  <c:forEach var="myInfo" items="${myInfo}">              
-	              <table style="border:none," border="1">
-	              <tr><th>사번</th><td style="padding-left: 20px;">${myInfo.emp_num }</td><td rowspan="2" ><div style="height: 100%"><img id="preview" src="${pageContext.request.contextPath}/saveFile/${noticeVO.filename}" alt="image_title" onerror='this.src="../images/LUCY.jpg"'/></td></div></tr>
+	              <table border="1">
+	              <tr><th>사번</th><td style="padding-left: 20px;">${myInfo.emp_num }</td><td rowspan="3" width="150px"><img class="preview" src="${myInfo.ph_path }" alt="image_title"  onerror='this.src="../images/LUCY.jpg"'/></td></tr>
 	              <tr><th>이름</th><td><input type="text" id="emp_name" name="emp_name" required="required" value="${myInfo.emp_name}"></td></tr>
-	              <tr><th>현재비밀번호</th><td colspan="2"><input type="password" id="emp_pw" name="emp_pw" readonly="readonly" value="${myInfo.emp_pw }"><button type="button" onclick="updatePw()" class="btn2" style="margin-right: 40px; float: right;">비밀번호 변경</button></td></tr>
+	              <tr><th>현재비밀번호</th><td><input type="password" id="emp_pw" name="emp_pw" readonly="readonly" value="${myInfo.emp_pw }"><button type="button" onclick="updatePw()" class="btn2" style="margin-right: 40px; float: right;">비밀번호 변경</button></td></tr>
 	              <tr><th>이메일</th><td colspan="2"><input type="email" id="emp_email" name="emp_email" required="required" value="${myInfo.emp_email}"></td></tr>
 	              <tr><th>전화번호</th><td colspan="2"><input type="text" id="emp_phnum" name="emp_phnum" required="required" value="${myInfo.emp_phnum}"></td></tr>
 	              <tr><th>우편번호</th><td colspan="2"><input type="text" id="emp_zc_addr" name="emp_zc_addr" readonly="readonly" value="${myInfo.emp_zc_addr}"> <input type="button" value="수정" onclick="findAddr()" class="btn2" style="margin-right: 40px; float: right;"></td></tr>
 	              <tr><th>주소</th><td colspan="2"><input type="text" id="emp_cm_addr" name="emp_cm_addr" readonly="readonly" value="${myInfo.emp_cm_addr}"></td></tr>
 	              <tr><th>상세주소</th><td colspan="2"><input type="text" id="emp_dt_addr" name="emp_dt_addr" value="${myInfo.emp_dt_addr }"></td></tr>
-	              <tr><th>사진</th><td colspan="2"><input type="file" id="myImg" name="myImg" value="${myInfo.ph_path }">${myInfo.ph_path }</td></tr>          
+	              <tr><th>사진</th><td colspan="2" style="padding-left: 20px;" id="tdid">${myInfo.ph_name }<input type="file" id="myImg" name="myImg" style="display:none;" onchange="updateFile(this.value)"><button onclick="onclick=document.all.file.click()" class="btn2">수정</button></td></tr>          
 	 		  	  </table>
 				  </c:forEach>
 			  	<div style=" margin-top: 10px; float: left; margin-bottom: 20px">
@@ -272,7 +280,7 @@ function updatePw() {
 	var w = (window.screen.width/2) - 200;
 	var h = (window.screen.height/2) - 200;
 	var url = "updatePw";
-	window.open(url,"","width=400,height=400,left="+w+",top="+h);
+	window.open(url,"","width=450,height=400,left="+w+",top="+h);
 }
 $(function() {
     $("#myImg").on('change', function(){
@@ -287,6 +295,9 @@ function readURL(input) {
        }
        reader.readAsDataURL(input.files[0]);
     }
+}
+function updateFile(value) {
+	document.getElementById ( "tdid" ).textContent = value;
 }
 
 </script>

@@ -297,9 +297,6 @@ public class YjController {
 		List<YjEmp> deptList = es.deptList();
 		model.addAttribute("deptList", deptList);
 		
-		List<YjEmp> rankList = es.rankList();
-		model.addAttribute("rankList", rankList);
-		
 		return "emp/empWrite";
 	}
 	
@@ -313,6 +310,16 @@ public class YjController {
 	        return teamList;
 	}
 	
+	//동적 selectbox로 직급 list구하기
+	@RequestMapping(value = "selectRnk", method= RequestMethod.GET)
+	@ResponseBody
+	public List<YjEmp> getRnk(String dcode) {
+			System.out.println("YjController get_team Start...");
+	        List<YjEmp> rankList = es.rankList(dcode);
+	        
+	        return rankList;
+	}
+	
 	//사원등록
 	@RequestMapping(value = "emp/writeEmp", method = RequestMethod.POST)
 	public String writeEmp(HttpServletRequest request, MultipartFile myImg, YjEmp emp, HttpSession session, SyMemberVO  vo, Model model) 
@@ -322,7 +329,8 @@ public class YjController {
 		String uploadPath = request.getSession().getServletContext().getRealPath("/upload/");
 	    String savedName = uploadFile(myImg.getOriginalFilename(), myImg.getBytes(), uploadPath);
 	    System.out.println("YjController writeEmp fileupload savedName-->" + savedName);
-	    emp.setPh_path(uploadPath + savedName);
+	    emp.setPh_path(uploadPath);   
+	    emp.setPh_name(myImg.getOriginalFilename());
 		
 		int emp_num = (int)session.getAttribute("member");
 		vo.setEmp_num(emp_num);
@@ -399,8 +407,6 @@ public class YjController {
 		List<YjEmp> deptList = es.deptList();
 		model.addAttribute("deptList", deptList);
 		
-		List<YjEmp> rankList = es.rankList();
-		model.addAttribute("rankList", rankList);
 		
 		return "emp/empMng";
 	}

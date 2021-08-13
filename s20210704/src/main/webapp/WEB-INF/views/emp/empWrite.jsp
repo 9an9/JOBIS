@@ -14,6 +14,51 @@
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
+.btn2{
+   color: #fff;
+   background-color: #3C3530;
+   border-color: #AAABD3;
+   border-radius: 6px;
+ }
+th {
+	background-color: #E0E3DA;
+	width: 30%;
+	height: 60px;
+}
+.tableC {
+	margin-top: 50px;
+	margin-left: 40px;
+}
+table {
+	width: 100%;
+	word-break:normal; 
+	table-layout: fixed;
+	border: none;
+}
+table input {
+	border: none;
+	margin-left: 20px;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+	 transition: background-color 5000s ease-in-out 0s;
+	 -webkit-transition: background-color 9999s ease-out;
+     -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+     -webkit-text-fill-color: #000 !important;
+}
+table select {
+	margin-left: 20px;
+	width: 150px;
+	height: 40px;
+	border: 1px solid #E0E3DA ;
+}
+.preview {
+    width: auto; height: auto;
+    max-width: 150px;
+    max-height: 180px;
+}
 </style>
 <body class="w3-theme-l5">
 
@@ -141,33 +186,35 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
               <h1><i class="fa fa-pencil-square-o fa-fw w3-margin-right"></i><b>사원 등록</b></h1><hr>
-              <form action="writeEmp" method="post" enctype="multipart/form-data">                
-                                입사날짜 : <input type="date" id="emp_hiredate" name="emp_hiredate" required="required"><p>                   
-                                이름 : <input type="text" id="emp_name" name="emp_name" required="required"><p> 
-                                부서 : <select id="dep_num" name="dep_num" onchange="getTeam()">
-                   <option selected='selected' disabled='disabled'></option>             
-              <c:forEach var="deptList" items="${deptList }" >                                 
-                   <option value="${deptList.dcode }">${deptList.dept }</option>
-              </c:forEach>
-              </select><p> 
-                                팀 : <select id="team_num" name="team_num">
-                  <option selected='selected' disabled='disabled'></option>              
-              </select><p>            
-                                직급 : <select name="rnk_num">
-                   <option selected='selected' disabled='disabled'></option>             
-              <c:forEach var="rankList" items="${rankList }">                                 
-              	   <option value="${rankList.rcode }">${rankList.rank }</option>
-              </c:forEach>
-              </select><p>
-                                이메일 : <input type="text" id="emp_email" name="emp_email" required="required"><p>
-                                전화번호 : <input type="text" id="emp_phnum" name="emp_phnum" required="required"><p>
-                                우편번호 : <input type="text" id="emp_zc_addr" name="emp_zc_addr" readonly="readonly" onclick="findAddr()"><p>                 
-                                주소 : <input type="text" id="emp_cm_addr" name="emp_cm_addr" readonly="readonly" ><p>
-                                상세주소 : <input type="text" id="emp_dt_addr" name="emp_dt_addr" ><p>
-                                사진 : <input type="file" id="myImg" name="myImg"><p> 
-                                <img id="preImage" src="${pageContext.request.contextPath}/saveFile/${noticeVO.filename}" alt="image_title" onerror='this.src="../images/LUCY.jpg"'/><p>
-			  <input type="submit" value="등록">
-			  </form> 
+              <div class="tableC">
+	              <form action="writeEmp" method="post" enctype="multipart/form-data">  
+		          	<table border="1">
+		              <tr><th>입사날짜</th><td><input type="date" id="emp_hiredate" name="emp_hiredate" required="required"></td><td rowspan="3" width="150px"><img class="preview" src="${pageContext.request.contextPath}/saveFile/${noticeVO.filename}" alt="image_title"  onerror='this.src="../images/LUCY.jpg"'/></td></tr>
+		              <tr><th>이름</th><td><input type="text" id="emp_name" name="emp_name" required="required"></td></tr>
+		              <tr><th>부서</th><td><select id="dep_num" name="dep_num" onchange="getTeam();getRnk();">
+	                   									<option selected='selected' disabled='disabled'></option>             
+	              										<c:forEach var="deptList" items="${deptList }" >                                 
+	                   										<option value="${deptList.dcode }">${deptList.dept }</option>
+	              										</c:forEach>
+	              									  </select></td></tr>
+	              	  <tr><th>팀</th><td colspan="2"><select id="team_num" name="team_num">
+	                  									<option selected='selected' disabled='disabled'></option>              
+	              									  </select></td></tr>
+	            	  <tr><th>직급</th><td colspan="2"><select id="rnk_num" name="rnk_num">
+	                   									<option selected='selected' disabled='disabled'></option>             
+	              									  </select>
+		              <tr><th>이메일</th><td colspan="2"><input type="text" id="emp_email" name="emp_email" required="required"></td></tr>
+		              <tr><th>전화번호</th><td colspan="2"><input type="text" id="emp_phnum" name="emp_phnum" required="required"></td></tr>
+		              <tr><th>우편번호</th><td colspan="2"><input type="text" id="emp_zc_addr" name="emp_zc_addr" readonly="readonly" onclick="findAddr()"></td></tr>
+		              <tr><th>주소</th><td colspan="2"><input type="text" id="emp_cm_addr" name="emp_cm_addr" readonly="readonly" ></td></tr>
+		              <tr><th>상세주소</th><td colspan="2"><input type="text" id="emp_dt_addr" name="emp_dt_addr" ></td></tr>
+		              <tr><th>사진</th><td colspan="2"><input type="file" id="myImg" name="myImg" style="display:none;"><button onclick="onclick=document.all.file.click()" class="btn2">등록</button></td></tr>          
+		 		  	</table>              
+					<div style=" margin-top: 10px; float: left; margin-bottom: 20px">
+						<input type="submit" value="등록" class="w3-center btn2">
+					</div>
+				  </form> 
+			  </div>
             </div>
           </div>
         </div>
@@ -270,6 +317,30 @@ function getTeam() {
         		);
 			
 			$('#team_num').append(str);
+        }
+    });
+}
+function getRnk() {
+	console.log("Rnk 시작")
+    var dcode = document.getElementById('dep_num').value;
+	console.log(dcode);
+	var url = '../selectRnk?dcode='+dcode;
+	var str = "";
+	var str2 = "";
+	$.ajax({
+        url: url,
+        dataType: 'json',
+        success: function (data) {
+        	$('#rnk_num *').remove();
+        	$('#rnk_num').append('<option value="100">-</option>');
+        	$(data).each(
+        			function(){
+        				str2 = "<option value='" +this.rcode + "'>" + this.rank + "</option>";
+        				str += str2;
+        			}
+        		);
+			
+			$('#rnk_num').append(str);
         }
     });
 }

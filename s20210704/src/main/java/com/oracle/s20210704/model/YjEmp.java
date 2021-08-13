@@ -13,6 +13,7 @@ public class YjEmp {
 	private String emp_zc_addr;		private String emp_cm_addr;
 	private String emp_dt_addr;		private String dep_num;
 	private String team_num;		private String rnk_num;
+	private String ph_name;
 
 	//조회용
 	private String dept;			private String team;
