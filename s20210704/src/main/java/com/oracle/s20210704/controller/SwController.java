@@ -20,89 +20,107 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.oracle.s20210704.model.Emp;
-import com.oracle.s20210704.model.SwNote_rcv_tb;
-import com.oracle.s20210704.model.SwNote_tb;
+import com.oracle.s20210704.model.YjEmp;
+import com.oracle.s20210704.model.SwMsg;
+import com.oracle.s20210704.model.SwMsg_rcv;
 import com.oracle.s20210704.model.SyMemberVO;
 import com.oracle.s20210704.service.JhRrService;
-import com.oracle.s20210704.service.SwNoteService;
+import com.oracle.s20210704.service.SwMsgService;
 import com.oracle.s20210704.service.SwPaging;
+import com.oracle.s20210704.service.YsApvService;
 
 
 @Controller
 public class SwController {
 	
 	@Autowired
-	private SwNoteService sns;
+	private SwMsgService sms;
 	
 	@Autowired
 	private JhRrService jrs;
 	
-	private static final Logger logger = LoggerFactory.getLogger(SwController.class);
-
-	// 받은 쪽지함
-	@GetMapping("note/receiveNote") 
-	public String receiveNote(Model model, HttpSession session, SyMemberVO vo, SwNote_tb swnote_tb, String currentPage) {
-		System.out.println("SwController receiveNote start...");
-    	int emp_num = (int)session.getAttribute("member");
-		vo.setEmp_num(emp_num);
-		SyMemberVO svo = jrs.show(vo);
-		model.addAttribute("emp_num",emp_num);
-		model.addAttribute("svo",svo);
-		int total = sns.total3(emp_num);
-		SwPaging sp = new SwPaging(total, currentPage);
-		System.out.println("SwController receiveNote total->"+total);
-		swnote_tb.setStart(sp.getStart());   // 시작시 1
-		swnote_tb.setEnd(sp.getEnd());       // 시작시 15
-		swnote_tb.setEmp_num(emp_num);      
-		List<SwNote_tb> listSwNote_tb = sns.listSwNote_tb(swnote_tb);
-		model.addAttribute("total", total);
-		model.addAttribute("listSwNote_tb", listSwNote_tb);
-		model.addAttribute("sp",sp);
-	return "note/receiveNote";
-	}
+	@Autowired
+	private YsApvService yas;
 	
-	// 보낸 쪽지함
-	@GetMapping("note/sentNote") 
- 	public String sentNote(Model model, HttpSession session, SyMemberVO vo, SwNote_rcv_tb swnote_rcv_tb, String currentPage) {
-		System.out.println("SwController sentNote Start...");
+	private static final Logger logger = LoggerFactory.getLogger(SwController.class);
+	
+	// 보낸 메시지
+	@GetMapping("message/sentMsg") 
+ 	public String sentMsg(Model model, HttpSession session, SyMemberVO vo, SwMsg_rcv swmsg_rcv, String currentPage) {
+		System.out.println("SwController sentMsg Start...");
 		int emp_num = (int)session.getAttribute("member"); 
 		vo.setEmp_num(emp_num);
 		SyMemberVO svo = jrs.show(vo); 
 		model.addAttribute("emp_num",emp_num);
 		model.addAttribute("svo",svo); 
-		int total = sns.total2(emp_num);
+		int total = sms.total(emp_num);
 		SwPaging sp = new SwPaging(total, currentPage);
-		System.out.println("SwController receiveNote total->"+total);
-		swnote_rcv_tb.setStart(sp.getStart());   // 시작시 1
-		swnote_rcv_tb.setEnd(sp.getEnd());       // 시작시 10 
-		swnote_rcv_tb.setEmp_num(emp_num);
-		List<SwNote_rcv_tb> listSwNote_rcv_tb = sns.listSwNote_rcv_tb(swnote_rcv_tb); 
+		swmsg_rcv.setStart(sp.getStart());   // 시작시 1
+		swmsg_rcv.setEnd(sp.getEnd());       // 시작시 10 
+		swmsg_rcv.setEmp_num(emp_num);
+		List<SwMsg_rcv> msg_rcvList = sms.msg_rcvList(swmsg_rcv); 
 		model.addAttribute("total", total);
-		model.addAttribute("listSwNote_rcv_tb", listSwNote_rcv_tb); 
+		model.addAttribute("msg_rcvList", msg_rcvList); 
 		model.addAttribute("sp",sp);
-	return "note/sentNote"; 
+		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+	return "message/sentMsg"; 
+	}
+		
+	// 받은 메시지
+	@GetMapping("message/rcvMsg")
+	public String rcvMsg(Model model, HttpSession session, SyMemberVO vo, SwMsg swmsg, String currentPage) {
+		System.out.println("SwController rcvMsg start...");
+    	int emp_num = (int)session.getAttribute("member");
+		vo.setEmp_num(emp_num);
+		SyMemberVO svo = jrs.show(vo);
+		model.addAttribute("emp_num",emp_num);
+		model.addAttribute("svo",svo);
+		
+		int total = sms.total2(emp_num);
+		SwPaging sp = new SwPaging(total, currentPage);
+		swmsg.setStart(sp.getStart());   // 시작시 1
+		swmsg.setEnd(sp.getEnd());       // 시작시 15
+		swmsg.setEmp_num(emp_num);      
+		List<SwMsg> msgList = sms.msgList(swmsg);
+		model.addAttribute("total", total);
+		model.addAttribute("msgList", msgList);
+		model.addAttribute("sp",sp);
+
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+	return "message/rcvMsg";
 	}
 
-	// 쪽지 보내기
-	@GetMapping("note/sendNote")
-	public String sendNote(Model model, HttpSession session, SyMemberVO vo, SwNote_tb swnote_tb, SwNote_rcv_tb swnote_rcv_tb) {
-		System.out.println("SwController sendNote Start..."); 
+	// 메시지 보내기 페이지
+	@GetMapping("message/sendMsg")
+	public String sendMsg(Model model, HttpSession session, SyMemberVO vo, SwMsg swmsg, SwMsg_rcv swmsg_rcv) {
+		System.out.println("SwController sendMsg Start..."); 
 		int emp_num = (int)session.getAttribute("member"); 
 		vo.setEmp_num(emp_num);
 		SyMemberVO svo = jrs.show(vo); 
 		model.addAttribute("emp_num",emp_num);
 		model.addAttribute("svo",svo);
-		List<Emp> listEmp = sns.listEmp();
+		List<YjEmp> listEmp = sms.listEmp();
 		model.addAttribute("listEmp", listEmp); 
-	 return "note/sendNote"; 
-	 }
+		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+	return "message/sendMsg"; 
+	}
   
-	// 쪽지 보내기 전송 & 파일 첨부
-	@RequestMapping(value = "note/writeNoteTB", method = RequestMethod.POST) 
-	public String writeNoteTB(Model model, HttpSession session, SyMemberVO vo, SwNote_tb swnote_tb, 
-			SwNote_rcv_tb swnote_rcv_tb, HttpServletRequest request, MultipartFile file1, String currentPage) throws Exception{ 
-		System.out.println("SwController writeNoteTB Start..."); 
+	// 메시지 보내기 전송 & 파일 첨부
+	@RequestMapping(value = "message/writeMsg", method = RequestMethod.POST) 
+	public String writeMsg(Model model, HttpSession session, SyMemberVO vo, SwMsg swmsg, 
+		SwMsg_rcv swmsg_rcv, HttpServletRequest request, MultipartFile file1, String currentPage) throws Exception{ 
+		System.out.println("SwController writeMsg Start...");
 		int emp_num = (int)session.getAttribute("member"); 
 		vo.setEmp_num(emp_num);
 		SyMemberVO svo = jrs.show(vo);  
@@ -112,26 +130,16 @@ public class SwController {
 		String savedName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), uploadPath);
 	    int result1 = 0; 
 		int result2 = 0; 
-		int total = sns.total3(emp_num);
-		SwPaging sp = new SwPaging(total, currentPage);
-		swnote_tb.setStart(sp.getStart());   // 시작시 1
-		swnote_tb.setEnd(sp.getEnd());       // 시작시 15
-		swnote_tb.setEmp_num(emp_num);   
-		SwNote_tb st = new SwNote_tb();
-		swnote_tb.setNote_fl_nm(file1.getOriginalFilename());
-		swnote_tb.setNote_fl_path(savedName);
-		model.addAttribute("st", st);
-		result1 = sns.insertNote_tb(swnote_tb); //여기서 파일이름, 파일경로를 넣음.
-		result2 = sns.insertNote_rcv_tb(swnote_rcv_tb);
-		List<Emp> listEmp = sns.listEmp(); 
+		swmsg.setEmp_num(emp_num); 
+		swmsg.setMsg_fl_nm(file1.getOriginalFilename());
+		swmsg.setMsg_fl_path(savedName);
+		result1 = sms.insertMsg(swmsg); 
+		result2 = sms.insertMsg_rcv(swmsg_rcv);
+		List<YjEmp> listEmp = sms.listEmp(); 
 		model.addAttribute("listEmp", listEmp);
 		model.addAttribute("result1", result1);
 		model.addAttribute("result2", result2);
-		model.addAttribute("total", total);
-		model.addAttribute("sp",sp);
-		System.out.println("result1의 결과값은 -->" + result1);
-		System.out.println("result2의 결과값은 -->" + result2); 
-	return "note/sendNote"; 
+	return "message/sendMsg"; 
 	}
 
 	private String uploadFile(String originalName, byte[] fileData , String uploadPath) 
@@ -147,10 +155,10 @@ public class SwController {
 	return savedName;
 	}	 
 	
-	// 받은 쪽지함 삭제
-	@RequestMapping("note/deleteNote") 
- 	public String deleteNote(HttpServletRequest request, Model model, HttpSession session, SyMemberVO vo, SwNote_tb swnote_tb, SwNote_rcv_tb swnote_rcv_tb, String currentPage) { 
-		System.out.println("SwController deleteNote Start ..." ); 
+	// 받은 메시지 삭제
+	@RequestMapping("message/deleteMsg")
+ 	public String deleteMsg(HttpServletRequest request, Model model, HttpSession session, SyMemberVO vo, SwMsg swmsg, SwMsg_rcv swmsg_rcv, String currentPage) { 
+		System.out.println("SwController deleteMsg Start ..." ); 
 		int emp_num = (int)session.getAttribute("member"); 
 		vo.setEmp_num(emp_num);
 		SyMemberVO svo = jrs.show(vo); 
@@ -161,63 +169,71 @@ public class SwController {
 				request.setCharacterEncoding("utf-8"); 
 				String zero = "0"; 
 				String[] checks = request.getParameterValues("check1"); 
-		for (int i=0;i<checks.length;i++){
-			if(checks[i].equals(zero)) { 
-				System.out.println("Zero i -> "+ i ); 
-	  	} else {
-			  System.out.println("i -> "+ i ); 
-			  System.out.println("checks[i]->"+ checks[i]); 
-			  int result1 = sns.delete1(checks[i]); 
-			  int result2 = sns.delete2(checks[i]); 
-			  System.out.println("result1의 결과값은 -->" + result1);
-			  System.out.println("result2의 결과값은 -->" + result2); 
-			  int total = sns.total();
-			  SwPaging sp = new SwPaging(total, currentPage);
-			  swnote_tb.setStart(sp.getStart());   // 시작시 1
-			  swnote_tb.setEnd(sp.getEnd());       // 시작시 10 
-			  swnote_tb.setEmp_num(emp_num); 
-			  List<SwNote_tb> listSwNote_tb = sns.listSwNote_tb(swnote_tb);
-			  model.addAttribute("total", total);
-			  model.addAttribute("listSwNote_tb", listSwNote_tb);
-			  model.addAttribute("sp",sp);
-	  		} 
-	  	} 
-		} catch (UnsupportedEncodingException e) { 
-		  	e.printStackTrace(); 
+				for (int i=0;i<checks.length;i++){
+					if(checks[i].equals(zero)) { 
+						System.out.println("Zero i -> "+ i ); 
+				  	} else {
+						  System.out.println("i -> "+ i ); 
+						  System.out.println("checks[i]->"+ checks[i]); 
+						  int result = sms.delete(checks[i]);  
+						  int total = sms.total2(emp_num);
+						  SwPaging sp = new SwPaging(total, currentPage);
+						  swmsg.setStart(sp.getStart());   // 시작시 1
+						  swmsg.setEnd(sp.getEnd());       // 시작시 15
+						  swmsg.setEmp_num(emp_num);      
+						  List<SwMsg> msgList = sms.msgList(swmsg);
+						  model.addAttribute("total", total);
+						  model.addAttribute("msgList", msgList);
+						  model.addAttribute("sp",sp);
+						  model.addAttribute("result", result);
+						  System.out.println("result의 결과는 --> " + result);
+				  } 
+			  	} 
+		}catch (UnsupportedEncodingException e) { 
+				e.printStackTrace(); 
 		} 
-	return "note/receiveNote"; 
+	return "message/rcvMsg"; 
 	}
 
-	// 받은 쪽지함 상세보기 
- 	@GetMapping("note/receiveDetailNote") 
- 	public String receiveDetailNote(HttpServletRequest request, Model model, HttpSession session, SyMemberVO vo, SwNote_tb swnote_tb) { 
- 		System.out.println("SwController receiveDetailNote Start ..." );
+	// 받은 메시지 상세보기 
+ 	@GetMapping("message/rcvDetailMsg") 
+ 	public String rcvDetailMsg(HttpServletRequest request, Model model, HttpSession session, SyMemberVO vo, SwMsg swmsg) { 
+ 		System.out.println("SwController rcvDetailMsg Start ..." );
  		int result = 0;
  		int emp_num = (int)session.getAttribute("member"); 
  		vo.setEmp_num(emp_num); 
  		SyMemberVO svo = jrs.show(vo); 
  		model.addAttribute("emp_num",emp_num);
 		model.addAttribute("svo",svo);
-		List<SwNote_tb> receiveDetailNote = sns.receiveDetailNote(swnote_tb.getNote_sq());
-		result = sns.update(swnote_tb.getNote_sq());
-		System.out.println("SwController receiveDetailNote update의 결과는-->" + result);
-		model.addAttribute("receiveDetailNote", receiveDetailNote); 
+		List<SwMsg> rcvDetailMsg = sms.rcvDetailMsg(swmsg.getMsg_sq());
+		result = sms.update(swmsg.getMsg_sq());
+		model.addAttribute("rcvDetailMsg", rcvDetailMsg);
 		model.addAttribute("result", result);
-	return "note/receiveDetailNote"; 
+		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+	return "message/rcvDetailMsg"; 
 	}
   
-	// 보낸 쪽지함 상세보기
- 	@GetMapping("note/sentDetailNote") 
- 	public String sentDetailNote(HttpServletRequest request, Model model, HttpSession session, SyMemberVO vo, SwNote_rcv_tb swnote_rcv_tb) { 
- 		System.out.println("SwController sentDetailNote Start ..." );
+	// 보낸 메시지 상세보기
+ 	@GetMapping("message/sentDetailMsg") 
+ 	public String sentDetailMsg(HttpServletRequest request, Model model, HttpSession session, SyMemberVO vo, SwMsg_rcv swmsg_rcv) { 
+ 		System.out.println("SwController sentDetailMsg Start ..." );
 		int emp_num = (int)session.getAttribute("member"); 
 		vo.setEmp_num(emp_num); 
 		SyMemberVO svo = jrs.show(vo); 
 		model.addAttribute("emp_num",emp_num);
 		model.addAttribute("svo",svo);			  
-		List<SwNote_rcv_tb> sentDetailNote = sns.sentDetailNote(swnote_rcv_tb.getNote_sq());
-		model.addAttribute("receiveDetailNote", sentDetailNote); 
-	return "note/sentDetailNote"; 
+		List<SwMsg_rcv> sentDetailMsg = sms.sentDetailMsg(swmsg_rcv.getMsg_sq());
+		model.addAttribute("sentDetailMsg", sentDetailMsg); 
+		
+		int unreadTotal = yas.unreadTotal(emp_num);
+		int apvNoTotal  = yas.apvNoTotal(emp_num);
+		model.addAttribute("unreadTotal", unreadTotal);
+		model.addAttribute("apvNoTotal", apvNoTotal);
+	return "message/sentDetailMsg"; 
  	}
  	
 }

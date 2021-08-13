@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oracle.s20210704.dao.SwMsgDao">
+
+	<!-- 받은 메시지 -->
+	<select id="msgList" parameterType="SwMsg" resultType="SwMsg">
+	 <![CDATA[
+		SELECT msg2.msg_sq msg_sq, msg2.read_dt read_dt, msg2.snd_dt snd_dt, msg2.send_emp_name emp_name, msg2.msg_title msg_title, 
+        msg2.msg_content msg_content, msg2.read_count read_count, msg2.msg_fl_nm msg_fl_nm, msg2.msg_fl_path msg_fl_path, msg2.msg_type msg_type
+        FROM
+        	( 
+             SELECT ROWNUM rn , msg.*
+             FROM 
+                    (
+                     SELECT  mr.msg_sq, mr.read_dt, mg.snd_dt, e1.emp_name send_emp_name, e2.emp_name recv_emp_name, mg.msg_type,
+                             mg.msg_title, mg.msg_content, mr.read_count, mg.msg_fl_nm, mg.msg_fl_path
+                     FROM    msg_rcv mr,
+                             msg mg,
+                             emp e1,
+                             emp e2
+                     WHERE   mr.emp_num  = #{emp_num}
+                     AND     mg.msg_sq  = mr.msg_sq 
+                     AND     mg.emp_num  = e1.emp_num
+                     AND     mr.emp_num = e2.emp_num
+                     ORDER BY msg_sq desc
+                    ) msg
+       		 )  msg2
+	    WHERE msg2.rn >= #{start}
+	    AND   msg2.rn <= #{end}
+      ]]>
+	</select>
+	
+	<!-- 보낸 메시지 -->
+	<select id="msg_rcvList" parameterType="SwMsg_rcv" resultType="SwMsg_rcv">
+	<![CDATA[
+			SELECT msg2.msg_sq msg_sq, msg2.read_dt read_dt, msg2.snd_dt snd_dt, msg2.recv_emp_name recv_emp_name,
+        	msg2.msg_title msg_title, msg2.msg_content msg_content, msg2.read_count read_count, msg2.msg_fl_nm msg_fl_nm, msg2.msg_fl_path msg_fl_path
+			FROM
+            (
+             SELECT ROWNUM rn , msg.* 
+             FROM 
+                      (
+                       SELECT  mr.msg_sq, mr.read_dt, mg.snd_dt, e1.emp_name send_emp_name,
+					   e2.emp_name recv_emp_name, mg.msg_title, mg.msg_content, mr.read_count, mg.msg_fl_nm, mg.msg_fl_path
+					   FROM    msg_rcv mr,
+							   msg mg,
+							   emp e1,
+						       emp e2
+			 where   mg.emp_num  = #{emp_num}
+			 and     mg.msg_sq  = mr.msg_sq 
+			 and     mg.emp_num  = e1.emp_num
+			 and     mr.emp_num = e2.emp_num
+		  	 ORDER BY msg_sq desc
+                        ) msg
+             )  msg2
+   	 	     WHERE msg2.rn >= #{start}
+      	     AND   msg2.rn <= #{end}
+     ]]>
+	</select>
+	
+	<!-- 받은 쪽지함 상세보기 -->
+	<select id="rcvDetailMsg" parameterType="int" resultType="SwMsg">
+	    select mg.msg_sq, mr.read_dt, mg.snd_dt, e.emp_name emp_name, mg.msg_title, 
+	    	   mg.msg_content, mg.msg_fl_nm, mg.msg_fl_path
+	    from msg_rcv mr, 
+	         msg mg,
+	         emp e
+	    where mg.msg_sq  = #{msg_sq}
+	    and   mg.msg_sq  = mr.msg_sq 
+	    and   mg.emp_num = e.emp_num
+	</select>
+	
+	<!-- 보낸 쪽지함 상세보기 -->
+	<select id="sentDetailMsg" parameterType="int" resultType="SwMsg_rcv">
+	    select mg.msg_sq, mr.read_dt, mg.snd_dt, e.emp_name emp_name, mg.msg_title, mg.msg_content, read_count, mg.msg_fl_nm,
+	    	 mg.msg_fl_path
+	    from msg_rcv mr, 
+	         msg mg,
+	         emp e
+	    where mg.msg_sq = #{msg_sq}
+	    and   mg.msg_sq = mr.msg_sq 
+	    and   mr.emp_num = e.emp_num
+	</select>
+	
+	<!-- 보낸 메시지 페이징 -->
+	<select id ="total" parameterType="int" resultType="int">
+		select count(*) from msg where emp_num = #{emp_num}
+	</select>
+	
+	<!-- 받은 메시지 페이징 -->
+	<select id ="total2" parameterType="int" resultType="int">
+		select count(*) 
+		from     msg mg,
+		         msg_rcv mr
+		where mr.emp_num  = #{emp_num}
+		and   mg.msg_type = 0
+		and   mr.msg_sq = mg.msg_sq
+	</select>
+	
+	<!-- 사원정보 -->
+	<select id="listEmp" resultType="YjEmp">
+		select * from emp
+	</select>
+	
+	<insert id="insertMsg" parameterType="SwMsg">
+	 	insert into msg(msg_SQ, EMP_NUM, msg_title, msg_content, SND_DT, msg_FL_NM, msg_FL_PATH, msg_type) values 
+	 	(msg_SQ.NEXTVAL, #{emp_num}, #{msg_title}, #{msg_content}, sysdate, #{msg_fl_nm}, #{msg_fl_path}, 0)
+	</insert>
+	
+	<insert id="insertMsg_rcv" parameterType="SwMsg_rcv">
+		insert into msg_rcv(msg_SQ, EMP_NUM, READ_COUNT) values (MSG_SQ.CURRVAL, #{emp_num2}, 0)
+	</insert>
+    
+    <update id ="delete" parameterType="string">
+  		update msg set msg_type = '1' where msg_sq = #{checks[i]}
+    </update>
+    
+    <update id="update" parameterType="int">
+    	update msg_rcv set read_count = 1, read_dt = sysdate 
+    	where msg_sq = 
+    	(select mg.msg_sq
+	    from msg_rcv mr, 
+	         msg mg,
+	         emp e
+	    where mg.msg_sq = #{msg_sq}
+	    and   mg.msg_sq = mr.msg_sq 
+	    and   mg.emp_num = e.emp_num)
+    </update> 
+</mapper>

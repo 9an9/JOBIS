@@ -17,9 +17,29 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 
 .btn2{
    color: #FFFFFF;
-   background-color: #263659;
+   background-color: #3C3530;
    border-radius: 6px;
  }
+ th{
+ 	background-color:#E0E3DA; 
+ }
+ 
+ td {
+    word-break:break-all
+}
+.cnt{
+	width : 100%;
+	height : 400px;
+}
+.TB{
+	width: 100%;
+	margin: 0 auto;
+    margin-top: 5px;
+    border: none;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout:fixed
+}
 
 </style>
 <body class="w3-theme-l5">
@@ -57,7 +77,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	  </div>
   </c:if>
   
-  <a href="logout" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+  <a href="../logout" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
     <i class="fa fa-sign-out w3-margin-right"></i>Logout
   </a>
  </div>
@@ -112,13 +132,13 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <!-- Accordion -->
       <div class="w3-card w3-round">
         <div class="w3-white">
-          <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-envelope fa-fw w3-margin-right" ></i><span class="w3-badge w3-right w3-small w3-green">1</span> 쪽지</button>
+          <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-envelope fa-fw w3-margin-right" ></i><span class="w3-badge w3-right w3-small w3-green">1</span> 메시지</button>
           <div id="Demo3" class="w3-hide w3-bar-block">
-          	<a href="sendNote" class="w3-button w3-block w3-theme-l5 w3-left-align">쪽지 보내기</a>
-            <a href="sentNote" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 쪽지함</a>
-            <a href="receiveNote" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 쪽지함</a>
+          	<a href="sendMsg" class="w3-button w3-block w3-theme-l5 w3-left-align">메시지 보내기</a>
+            <a href="sentMsg" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 메시지</a>
+            <a href="rcvMsg" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 메시지</a>
           </div>
-          <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">3</span> 결재</a>
+          <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><c:if test="${unreadTotal > 0 }"><span class="w3-badge w3-right w3-small w3-green">${unreadTotal }</span></c:if><c:if test="${apvNoTotal > 0 }"><span class="w3-badge w3-right w3-small w3-red">${apvNoTotal }</span></c:if> 결재</a>
           <a href="../board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
         </div>      
       </div>
@@ -147,25 +167,23 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
-              <h1><i class="fa fa-envelope fa-fw w3-margin-right"></i><b>보낸 쪽지함 상세보기</b></h1><hr>
-				<table border="1" width="900">
-					<c:forEach var="list" items="${receiveDetailNote }">
-						<tr><th>받는사람</th><td>${list.emp_name }</td>
-						<tr><th>제목</th><td>${list.note_nm }</td></tr>	
-						<tr><th>내용</th><td>${list.note_cnt }</td></tr>
-						<tr><th>발신시간</th><td><fmt:formatDate value="${list.snd_dt }" type="date" pattern="yyyy-MM-dd HH:mm"/></td></tr>
-						<tr><th>첨부파일</th><td><a href="${pageContext.request.contextPath}/upload/${list.note_fl_path }">${list.note_fl_nm }</a></td></tr>
-						<tr><th>읽은시간</th><td><fmt:formatDate value="${list.read_dt }" type="date" pattern="yyyy-MM-dd HH:mm"/></td></tr>
-						<tr><th>읽음여부</th>
-							<c:if test="${list.read_count eq '0' }"><td>안읽음</td></c:if>
-					    	<c:if test="${list.read_count eq '1' }"><td>읽음</td></c:if></tr>
+              <h1><i class="fa fa-envelope fa-fw w3-margin-right"></i><b>받은 메시지 상세보기</b></h1><hr>
+				<table border="1" class="TB">
+					<c:forEach var="rdm" items="${rcvDetailMsg }">
+						<tr><th width="10%">보낸사람</th><td>${rdm.emp_name }</td>
+						<tr><th>제목</th><td>${rdm.msg_title }</td></tr>	
+						<tr><th>내용</th><td valign="top" class="cnt" >${rdm.msg_content }</td></tr>
+						<tr><th>첨부파일</th>
+							<c:if test="${rdm.msg_fl_nm eq null }"><td>없음</td></c:if>
+					    	<c:if test="${rdm.msg_fl_nm ne null }"><td><a href="${pageContext.request.contextPath}/upload/${rdm.msg_fl_path }">${rdm.msg_fl_nm }</a></td></c:if>
+					    </tr>
+						
+						<tr><th>발신시간</th><td><fmt:formatDate value="${rdm.snd_dt }" type="date" pattern="yyyy-MM-dd HH:mm"/></td></tr>
+
+ 
 					</c:forEach>
-					<tr>
-			        	<td colspan="4">
-			   			<input type="button" value="뒤로가기" onclick="history.back(-1)" style="float: right;" class="btn2">
-			   		</td>
-					</tr>
 				</table>
+			   	<input type="button" value="뒤로가기" onclick="history.back(-1)" style="float: right; margin: 5px 0px;" class="btn2">
             </div>
           </div>
         </div>
@@ -221,6 +239,8 @@ function openNav() {
     x.className = x.className.replace(" w3-show", "");
   }
 }
+
+
 </script>
 
 </body>

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
+<%@ taglib prefix="fn"  uri="http://java.sun.com/jsp/jstl/functions" %>  
 <!DOCTYPE html>
 <html>
 <title>JOBIS</title>
@@ -10,6 +11,7 @@
 <link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
@@ -21,85 +23,64 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
    border-radius: 6px;
  }
  
+td {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+ 
 .TB{
 	text-align: center;
 	width: 100%;
 	margin: 0 auto;
-	
+	border: 1 ;
+    border:none;
     margin-top: 5px;
-    border: 1px solid #7d97a5;
     border-collapse: collapse;
     border-spacing: 0;
+    table-layout:fixed;
 }
 </style>
-
 <script type="text/javascript">
-	function chk() {
-		var list = new Array();
-		var note_sq;
-		var check1;
-		var listCnt  = 0;
-	 	<c:forEach items="${listSwNote_tb }" var="list" >	
-	 	    note_sq = document.frm.note_sq[listCnt++].value;
-	        list.push(note_sq);
-		</c:forEach>
-		
-       alert("list.length->"+list.length);
-       
-       
-		for (var i=0; i<list.length;){
-			alert("list->"+ i + " :  "+ list[i++]);
-		}
-		// return false;
-	}	
-	
-	function fn_eaChange(index) {
-		var i = index;
-		var test;
-		var check;
 
+function fn_eaChange(index) {
+	var i = index;
+	var test;
+	var check;
+	
 	test = document.frm.bookname[i].value;
 	check = document.frm.check1[i].value;
 	alert("test->"+test);
 	alert("check->"+check);
-
-	}
-	function fn_chkClick(index) {
-		var i = index;
-		var test;
-		var check;
-		if(document.frm.check1[i].checked) {
-		   document.frm.check1[i].value = document.frm.note_sq[i].value;
-		}else {
-		   document.frm.check1[i].value = '0';
-		}
-
-	}
-	
-	function fn_selectAll(selectAll){
-		var  listCnt  = 0;
-		 const checkboxes  = document.getElementsByName('check1');
-		 checkboxes.forEach((checkbox) => {
-		 	checkbox.checked = selectAll.checked;
-		  })
-		 <c:forEach items="${listSwNote_tb }" var="list" >	
-		 	document.frm.check1[listCnt].value = document.frm.note_sq[listCnt].value;
-		 	listCnt = listCnt + 1;
-		 </c:forEach>
-
-		}
-	function fn_check() {
-		if (confirm("정말 삭제하시겠습니까?") == true){    //확인
-		    alert("삭제되었습니다.")
-			document.frm.submit();
-		}else{   //취소
-		    return false;
-		}
 }
-	
-	/* Ajax 결과값 */
+
+function fn_chkClick(index) {
+	var i = index;
+	var test;
+	var check;
+  	var check  = document.getElementById('check1'+index)
+ 	var msg_sq = document.getElementById('msg_sq'+index)
+  	
+ 	${status.index}
+ 	 if (check.checked) {
+	 check.value = msg_sq.value;
+  	 }
+}
+
+function fn_selectAll(selectAll){
+	 var   listCnt     = 0;
+	 const checkboxes  = document.getElementsByName('check1');
+	 checkboxes.forEach((checkbox) => {
+	 	checkbox.checked = selectAll.checked;
+	 })
+	 <c:forEach items="${msgList }" var="list" >	
+	 	document.frm.check1[listCnt].value = document.frm.msg_sq[listCnt].value;
+	 	listCnt = listCnt + 1;
+	 </c:forEach>
+}
+
+/* Ajax 결과값 */
 </script>
-	
 <body class="w3-theme-l5">
 
 <!-- Navbar -->
@@ -135,7 +116,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	  </div>
   </c:if>
   
-  <a href="logout" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+  <a href="../logout" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
     <i class="fa fa-sign-out w3-margin-right"></i>Logout
   </a>
  </div>
@@ -190,13 +171,13 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <!-- Accordion -->
       <div class="w3-card w3-round">
         <div class="w3-white">
-          <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-envelope fa-fw w3-margin-right" ></i><span class="w3-badge w3-right w3-small w3-green">1</span> 쪽지</button>
+          <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-envelope fa-fw w3-margin-right" ></i><span class="w3-badge w3-right w3-small w3-green">1</span> 메시지</button>
           <div id="Demo3" class="w3-hide w3-bar-block">
-          	<a href="sendNote" class="w3-button w3-block w3-theme-l5 w3-left-align">쪽지 보내기</a>
-            <a href="sentNote" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 쪽지함</a>
-            <a href="receiveNote" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 쪽지함</a>
+          <a href="sendMsg" class="w3-button w3-block w3-theme-l5 w3-left-align">메시지 보내기</a>
+          <a href="sentMsg" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 메시지</a>
+          <a href="rcvMsg" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 메시지</a>
           </div>
-          <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">3</span> 결재</a>
+          <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><c:if test="${unreadTotal > 0 }"><span class="w3-badge w3-right w3-small w3-green">${unreadTotal }</span></c:if><c:if test="${apvNoTotal > 0 }"><span class="w3-badge w3-right w3-small w3-red">${apvNoTotal }</span></c:if> 결재</a>
           <a href="../board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
         </div>      
       </div>
@@ -225,54 +206,65 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
-              <h1><i class="fa fa-envelope fa-fw w3-margin-right"></i><b>받은 쪽지함</b></h1><hr>
+              <h1><i class="fa fa-envelope fa-fw w3-margin-right"></i><b>받은 메시지</b></h1><hr>
             
-		      <form  name="frm" action="deleteNote" onsubmit="return fn_check()" >
+            <c:if test="${result == 0}">
+			     <script type="text/javascript">
+					alert('메시지가 삭제되지 않았습니다.');
+				</script>
+		     </c:if>
+		     <c:if test="${result == 1}">
+			     <script type="text/javascript">
+					alert('메시지가 삭제되었습니다.');
+				</script>
+		     </c:if>
+		     
+		      <form action ="deleteMsg" name="frm" onsubmit="return check()">
 	            	<table border="1" class="TB">
 						<tr style="background-color:#384f76; color: white;">
-							<th><input type="checkbox" onclick='fn_selectAll(this)'></th>
-							<th width="80">보낸사람</th>
-							<th width="200">제목</th>
-							<th width="400">내용</th>
-							<th>발신시간</th>
+							<th style="width:3%"><input type="checkbox" onclick='fn_selectAll(this)'></th>
+							<th style="width:10%;">보낸사람</th>
+							<th style="width:25%;">제목</th>
+							<th style="width:45%;">내용</th>
+							<th style="width:20%;">발신시간</th>
 						</tr>
-						<c:forEach var="list" items="${listSwNote_tb }" varStatus="status">	
+						<c:forEach var="msg" items="${msgList }" varStatus="status">
+						<c:if test = "${msg.msg_type == 0 }">
 						<tr>
-							<input type="hidden" name="note_sq" value="${list.note_sq }">
-							<td><input type="checkbox" name="check1" value="0" onclick="fn_chkClick(${status.index})"></td>
-							<td>${list.emp_name }</td>
-							<td>${list.note_nm }</td>
-							<td><div class="content"><a href="receiveDetailNote?note_sq=${list.note_sq}">${list.note_cnt }</a></div></td>
-						    <td><fmt:formatDate value="${list.snd_dt }" type="date" pattern="yyyy-MM-dd HH:mm"/></td>
+							<input type="hidden" name="msg_sq"  id="msg_sq${status.index}"  value="${msg.msg_sq }">
+							<td><input type="checkbox" name="check1"  id="check1${status.index}" value="0" onclick="fn_chkClick(${status.index})"></td>
+							<td>${msg.emp_name }</td>
+							<td>${msg.msg_title }</td>
+							<td><a href="rcvDetailMsg?msg_sq=${msg.msg_sq}">${msg.msg_content }</a></td>
+						    <td><fmt:formatDate value="${msg.snd_dt }" type="date" pattern="yyyy-MM-dd HH:mm"/></td>
 						</tr>  
+						</c:if>
 						</c:forEach>
-						<tr> 
-					       <td colspan="5">
-					   		 <input type="submit" class="btn2" value="삭제" style="float: right;">
-					   		</td>
-						</tr>
-					</table>
+						<tr> 				       
+						</table>
+					   		 <input type="submit" class="btn2" value="삭제" style="float: right; margin: 5px 0px;">
+					   			
+				</form>
 					
 					
 					<div class="w3-center">
-						<div class="w3-bar w3-border" style=" margin: 10px 0px;border: 1px solid #7d97a5;">
+						<div class="w3-bar w3-border" style=" margin: 10px 0px; margin-left:55px; border: 1px solid #7d97a5;">
 							<c:if test="${sp.startPage > sp.pageBlock }">
-								<a href="receiveNote?currentPage=${sp.startPage-sp.pageBlock}" class="w3-bar-item w3-button">&laquo;</a>
+								<a href="rcvMsg?currentPage=${sp.startPage-sp.pageBlock}" class="w3-bar-item w3-button">&laquo;</a>
 							</c:if>
 							<c:forEach var="i" begin="${sp.startPage }" end="${sp.endPage }">
 								<c:if test="${sp.currentPage == i }">
-									<a href="receiveNote?currentPage=${i}" class="w3-bar-item w3-button" style="background-color: #384f76; color: white;">${i}</a>
+									<a href="rcvMsg?currentPage=${i}" class="w3-bar-item w3-button" style="background-color: #384f76; color: white;">${i}</a>
 								</c:if>
 								<c:if test="${sp.currentPage != i }">
-									<a href="receiveNote?currentPage=${i}" class="w3-bar-item w3-button">${i}</a>
+									<a href="rcvMsg?currentPage=${i}" class="w3-bar-item w3-button">${i}</a>
 								</c:if>
 							</c:forEach>
 							<c:if test="${sp.endPage < sp.totalPage }">
-								<a href="receiveNote?currentPage=${sp.startPage+sp.pageBlock}" class="w3-bar-item w3-button">&raquo;</a>
+								<a href="rcvMsg?currentPage=${sp.startPage+sp.pageBlock}" class="w3-bar-item w3-button">&raquo;</a>
 							</c:if>
 						</div>
 					</div>
-				 </form>
  	           </div>
  	           </div>
         </div>

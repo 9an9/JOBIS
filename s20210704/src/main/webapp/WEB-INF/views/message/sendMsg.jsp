@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <title>JOBIS</title>
@@ -10,32 +9,93 @@
 <link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
-
+.fileBox .fileName {
+	display:inline-block;
+	width:170px;
+	height:30px;
+	padding-left:10px;
+	margin-right:5px;
+	line-height:30px;
+	border:1px solid #aaa;
+	background-color:#fff;
+	vertical-align:middle;
+	border-radius: 10px;
+	}
+.fileBox .btn_file {
+	color: #FFFFFF;
+	background-color: #3C3530;
+	display:inline-block;
+	border:2px solid #66677f;
+	border-top-width: 0px;
+	border-left-width: 0px;
+	width:100px;
+	height:30px;
+	line-height:30px;
+	text-align:center;
+	vertical-align:middle;
+	border-radius: 6px;
+	}
+.fileBox input[type="file"] {
+	position:absolute;
+	width:1px;
+	height:1px;
+	padding:0;
+	margin:-1px;
+	overflow:hidden;
+	clip:rect(0,0,0,0);
+	border:0
+	}
+	
 .btn2{
-   color: #FFFFFF;
-   background-color: #263659;
-   border-radius: 6px;
- }
- th{
- 	background-color:#384f76; 
- 	color: white;
- }
+	color: #FFFFFF;
+	background-color: #3C3530;
+	border-radius: 6px;
+	}
+   
+.btn3{
+	display:inline-block;
+	border:2px solid #66677f;
+	border-top-width: 0px;
+	border-left-width: 0px;
+	border-radius: 6px;
+	width:50px;
+	height:30px;
+	line-height:30px;
+	text-align:center;
+	vertical-align:middle;
+	color: #FFFFFF;
+    background-color: #3C3530;
+	}
  
-  
+th{
+ 	background-color:#E0E3DA; 
+	}
+
+iframe {
+	width: 0px;
+	height: 0px;
+	border: 0px
+	}
+
 .TB{
-	text-align: center;
 	width: 100%;
 	margin: 0 auto;
     margin-top: 5px;
-    border: 1px solid #7d97a5;
+	border: none;
     border-collapse: collapse;
     border-spacing: 0;
-}
+	}
 
+textarea{
+	width: 100%;
+	height: 400px;
+	resize: none;
+}
 </style>
 <body class="w3-theme-l5">
 
@@ -72,7 +132,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	  </div>
   </c:if>
   
-  <a href="logout" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+  <a href="../logout" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
     <i class="fa fa-sign-out w3-margin-right"></i>Logout
   </a>
  </div>
@@ -127,13 +187,13 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <!-- Accordion -->
       <div class="w3-card w3-round">
         <div class="w3-white">
-          <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-envelope fa-fw w3-margin-right" ></i><span class="w3-badge w3-right w3-small w3-green">1</span> 쪽지</button>
+          <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-envelope fa-fw w3-margin-right" ></i><span class="w3-badge w3-right w3-small w3-green">1</span> 메시지</button>
           <div id="Demo3" class="w3-hide w3-bar-block">
-          	<a href="sendNote" class="w3-button w3-block w3-theme-l5 w3-left-align">쪽지 보내기</a>
-            <a href="sentNote" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 쪽지함</a>
-            <a href="receiveNote" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 쪽지함</a>
+          	<a href="sendMsg" class="w3-button w3-block w3-theme-l5 w3-left-align">메시지 보내기</a>
+            <a href="sentMsg" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 메시지</a>
+            <a href="rcvMsg" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 메시지</a>
           </div>
-          <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">3</span> 결재</a>
+          <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><c:if test="${unreadTotal > 0 }"><span class="w3-badge w3-right w3-small w3-green">${unreadTotal }</span></c:if><c:if test="${apvNoTotal > 0 }"><span class="w3-badge w3-right w3-small w3-red">${apvNoTotal }</span></c:if> 결재</a>
           <a href="../board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
         </div>      
       </div>
@@ -158,31 +218,66 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     <!-- Middle Column -->
    <div class="w3-col m7" >
     
-     <div class="w3-row-padding">
+      <div class="w3-row-padding">
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
-              <h1><i class="fa fa-envelope fa-fw w3-margin-right"></i><b>받은 쪽지함 상세보기</b></h1><hr>
-				<table border="1" class="TB">
-					<c:forEach var="list" items="${receiveDetailNote }">
-						<tr><th>보낸사람</th><td>${list.emp_name }</td>
-						<tr><th>제목</th><td>${list.note_nm }</td></tr>	
-						<tr><th>내용</th><td>${list.note_cnt }</td></tr>
-						<tr><th>첨부파일</th><td><a href="${pageContext.request.contextPath}/upload/${list.note_fl_path }">${list.note_fl_nm }</a></td>
-						<tr><th>발신시간</th><td><fmt:formatDate value="${list.snd_dt }" type="date" pattern="yyyy-MM-dd HH:mm"/></td></tr>
+<h1><i class="fa fa-envelope fa-fw w3-margin-right"></i><b>메시지 보내기</b></h1><hr>
 
- 
-					</c:forEach>
-					<tr>
-			        	<td colspan="4">
-			   			<input type="button" value="뒤로가기" onclick="history.back(-1)" style="float: right;" class="btn2">
-			   		</td>
+		     <c:if test="${result1!=null}">
+			     <c:if test="${result1 + result2 == 2}">
+				     <script type="text/javascript">
+				     	alert("메시지가 성공적으로 발송되었습니다.");
+				     </script>
+			     </c:if>
+		     </c:if>
+		     
+		     <c:if test="${result1!=null}">
+			     <c:if test="${result1 + result2 == 0}">
+				     <script type="text/javascript">
+				     	alert("메시지가 발송되지 않았습니다.");
+				     </script>
+			     </c:if>
+		     </c:if>
+		     
+		     
+		     
+		     
+			 <form action="writeMsg" method="post" enctype="multipart/form-data" >
+				 <table border="1" class="TB">
+					 <input type="hidden" name="emp_num" required="required" value="${emp_num}">
+					<tr><th>받는사람</th>
+						<td><select name="emp_num2">
+							<c:forEach var="emp" items="${listEmp}">
+								<option value="${emp.emp_num}">${emp.emp_name}</option>
+							</c:forEach>
+							</select>
+						</td></tr>
+							
+					<tr><th style="width:10%;" >제목</th>
+						<td><input type="text" name="msg_title" required="required" style="width:100%; border:0;" maxlength="100"></td></tr>
+					<tr><th>내용</th>
+						<td><textarea name="msg_content" required="required" maxlength="4000" style="border:0;"></textarea></td></tr>
+					<tr><td colspan="2">
+						<span class="fileBox">
+							<input type="text" class="fileName" readonly="readonly">
+							<label for="uploadBtn" class="btn_file">파일 업로드</label>
+							<input type="file" id="uploadBtn" class="uploadBtn" name="file1" onchange="setThumbnail(event);">
+							<label class="btn3" onclick="fdel()">제거</label>
+						</span>
+					    <input type="hidden" name="msg_fl_path" value="${pageContext.request.contextPath}/resources/image/">
+					</table>
+						<input type="button" value="취소" onclick="history.back(-1)" class="btn2" style="float: right; margin: 5px 0px;">
+						<input type="submit" value="전송" style="float: right; margin: 5px 0px;" class="btn2">
+					</td>
 					</tr>
-				</table>
+				</form>
+				
             </div>
           </div>
         </div>
       </div>
+      
     <!-- End Middle Column -->
     </div>
     
@@ -202,6 +297,31 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
  
 <script>
 // Accordion
+
+var uploadFile = $('.fileBox .uploadBtn');
+uploadFile.on('change', function(){
+	if(window.FileReader){
+		var filename = $(this)[0].files[0].name;
+	} else {
+		var filename = $(this).val().split('/').pop().split('\\').pop();
+	}
+	$(this).siblings('.fileName').val(filename);
+});
+
+function fdel(){
+	
+    $('.fileName').val('');
+    $('#pdf *').remove();
+	var agent = navigator.userAgent.toLowerCase();
+	//파일초기화
+	if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ) {
+		$("#uploadBtn").replaceWith($("#uploadBtn").clone(true));
+	}else{
+	    $("#uploadBtn").val("");
+	}	
+}
+
+
 function myFunction(id) {
   var x = document.getElementById(id);
   if (x.className.indexOf("w3-show") == -1) {
@@ -234,8 +354,6 @@ function openNav() {
     x.className = x.className.replace(" w3-show", "");
   }
 }
-
-
 </script>
 
 </body>

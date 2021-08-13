@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>  
 <!DOCTYPE html>
 <html>
 <title>JOBIS</title>
@@ -19,47 +20,28 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
    background-color: #263659;
    border-radius: 6px;
  }
-
-iframe {
-	width: 0px;
-	height: 0px;
-	border: 0px
+ 
+td {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .TB{
 	text-align: center;
 	width: 100%;
 	margin: 0 auto;
-	
+	border: 1 ;
+    border:none;
     margin-top: 5px;
-    border: 1px solid #7d97a5;
     border-collapse: collapse;
     border-spacing: 0;
+    table-layout:fixed
 }
-
+	
 </style>
 <body class="w3-theme-l5">
-<script type="text/javascript">
-function fn_check() {
-	if (confirm("정말 전송하시겠습니까?") == true){    //확인
-	    alert("전송되었습니다.")
-		document.frm.submit();
-	}else{   //취소
-	    return false;
-	}
-}
 
-function addFilePath(msg) {
-	alert(msg);
-	document.getElementById("form1").reset();
-}
-
-
-</script>
-<c:set var="path" value="${pageContext.request.contextPath}"/>
-	<script src="${path}/resources/swJs/main.js">
-	<link href="${path}/resources/swCss/style.css" rel="stylesheet"/> 	
-</script>
 <!-- Navbar -->
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
@@ -93,7 +75,7 @@ function addFilePath(msg) {
 	  </div>
   </c:if>
   
-  <a href="logout" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+  <a href="../logout" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
     <i class="fa fa-sign-out w3-margin-right"></i>Logout
   </a>
  </div>
@@ -148,13 +130,14 @@ function addFilePath(msg) {
       <!-- Accordion -->
       <div class="w3-card w3-round">
         <div class="w3-white">
-          <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-envelope fa-fw w3-margin-right" ></i><span class="w3-badge w3-right w3-small w3-green">1</span> 쪽지</button>
+          <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-envelope fa-fw w3-margin-right" ></i><span class="w3-badge w3-right w3-small w3-green">1</span> 메시지</button>
           <div id="Demo3" class="w3-hide w3-bar-block">
-          	<a href="sendNote" class="w3-button w3-block w3-theme-l5 w3-left-align">쪽지 보내기</a>
-            <a href="sentNote" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 쪽지함</a>
-            <a href="receiveNote" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 쪽지함</a>
+          	<a href="sendMsg" class="w3-button w3-block w3-theme-l5 w3-left-align">메시지 보내기</a>
+            <a href="sentMsg" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 메시지</a>
+            <a href="rcvMsg" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 메시지</a>
           </div>
-          <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">3</span> 결재</a>
+          <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><c:if test="${unreadTotal > 0 }"><span class="w3-badge w3-right w3-small w3-green">${unreadTotal }</span></c:if><c:if test="${apvNoTotal > 0 }"><span class="w3-badge w3-right w3-small w3-red">${apvNoTotal }</span></c:if>
+ 결재</a>
           <a href="../board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
         </div>      
       </div>
@@ -179,46 +162,58 @@ function addFilePath(msg) {
     <!-- Middle Column -->
    <div class="w3-col m7" >
     
-      <div class="w3-row-padding">
+       <div class="w3-row-padding">
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
-<h1><i class="fa fa-envelope fa-fw w3-margin-right"></i><b>쪽지 보내기</b></h1><hr>
-
-		     <c:if test="${result1!=null}">
-			     <c:if test="${result1==1}">쪽지가 보내졌습니다</c:if>
-			     <c:if test="${result1==0}">쪽지가 안보내졌습니다</c:if>
-		     </c:if>
-		     
-			 <form action="writeNoteTB" method="post" enctype="multipart/form-data">
-				 <input type="hidden" name="emp_num" required="required" value="${emp_num}">
-				 <table border="1" class="TB">
-					<tr><th>받는사람</th>
-						<td><select name="emp_num2" style="float:left">
-							<c:forEach var="emp" items="${listEmp}">
-								<option value="${emp.emp_num}">${emp.emp_name}</option>
-							</c:forEach>
-							</select>
-						</td>
-							
-					<tr><th>제목</th>
-						<td><input type="text" name="note_nm" style= "width:840px;" required="required"></td></tr>
-					<tr><th>내용</th>
-						<td><textarea rows="20" name="note_cnt" required="required" style="resize: none; width:840px;"></textarea></td></tr>
-					<tr><td colspan="2">
-						<input type="file" name="file1" style="float: left;">
-					    <input type="hidden" name="note_fl_path" value="${pageContext.request.contextPath}/resources/image/">
-						<input type="button" value="취소" onclick="history.back(-1)" class="btn2" style="float: right;">
-						<input type="submit" value="전송" style="float: right;" class="btn2">
-					</td>
+              <h1><i class="fa fa-envelope fa-fw w3-margin-right"></i><b>보낸 메시지</b></h1><hr>
+            	<table border="1" class="TB">
+            		<tr style="background-color:#384f76; color: white;">
+						<th style="width:10%;">받는사람</th>
+						<th style="width:20%;">제목</th>
+						<th style="width:25%;">내용</th>
+						<th>발신시간</th>
+						<th>읽은시간</th>
+						<th>읽음여부</th>
 					</tr>
+				<c:forEach var="msg" items="${msg_rcvList }">	
+						<tr>
+							<td>${msg.recv_emp_name }</td>
+							<td>${msg.msg_title }</td>
+							<td><a href="sentDetailMsg?msg_sq=${msg.msg_sq}">${msg.msg_content }</a></td>
+						    <td><fmt:formatDate value="${msg.snd_dt }" type="date" pattern="yyyy-MM-dd HH:mm"/></td>
+						    <td><fmt:formatDate value="${msg.read_dt }" type="date" pattern="yyyy-MM-dd HH:mm"/></td>
+						    <c:if test="${msg.read_count eq '0' }"><td><div id="read_count">읽지않음</div></td></c:if>
+					    	<c:if test="${msg.read_count eq '1' }"><td><div id="read_count">읽음</div></td></c:if>
+						</tr>
+				</c:forEach>
 					</table>
-				</form>
-				
+			   			<input type="button" value="뒤로가기" onclick="history.back(-1)" class="btn2" style="float: right; margin: 5px 0px;">
+			   		
+				<div class="w3-center">
+						<div class="w3-bar w3-border" style=" margin: 10px 0px; margin-left:55px; border: 1px solid #7d97a5;">
+							<c:if test="${sp.startPage > sp.pageBlock }">
+								<a href="sentMsg?currentPage=${sp.startPage-sp.pageBlock}" class="w3-bar-item w3-button">&laquo;</a>
+							</c:if>
+							<c:forEach var="i" begin="${sp.startPage }" end="${sp.endPage }">
+								<c:if test="${sp.currentPage == i }">
+									<a href="sentMsg?currentPage=${i}" class="w3-bar-item w3-button" style="background-color: #384f76; color: white;">${i}</a>
+								</c:if>
+								<c:if test="${sp.currentPage != i }">
+									<a href="sentMsg?currentPage=${i}" class="w3-bar-item w3-button">${i}</a>
+								</c:if>
+							</c:forEach>
+							<c:if test="${sp.endPage < sp.totalPage }">
+								<a href="sentMsg?currentPage=${sp.startPage+sp.pageBlock}" class="w3-bar-item w3-button">&raquo;</a>
+							</c:if>
+						</div>
+					</div>
             </div>
           </div>
         </div>
       </div>
+      
+
       
     <!-- End Middle Column -->
     </div>
