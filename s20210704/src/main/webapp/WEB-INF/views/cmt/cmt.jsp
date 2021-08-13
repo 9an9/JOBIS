@@ -9,6 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
@@ -42,6 +43,12 @@ select {
    -ms-text-align-last: center;
    -moz-text-align-last: center;
 }
+.btn3{
+   color: #fff;
+   background-color: #384f76;
+   border-color: #384f76;
+   border-radius: 6px;
+ }
 </style>
 <body class="w3-theme-l5">
 
@@ -141,21 +148,12 @@ select {
           </div>
           <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><c:if test="${unreadTotal > 0 }"><span class="w3-badge w3-right w3-small w3-green">${unreadTotal }</span></c:if><c:if test="${apvNoTotal > 0 }"><span class="w3-badge w3-right w3-small w3-red">${apvNoTotal }</span></c:if> 결재</a>
           <a href="../board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
+       	  <button onclick="nwindow()" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fas fa-comment-dots fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green"></span>채팅</button>
         </div>      
       </div>
       <br>
       
-      <!-- Interests --> 
-      <div class="w3-card w3-round w3-white w3-hide-small">
-        <div class="w3-container">
-          <p>채팅</p>
-          <hr>
-		  <p>인사부<p>
-          <p>관리부<p>
-          <p>개발부<p>
-        </div>
-      </div>
-      <br>
+
 
     
     <!-- End Left Column -->
@@ -199,6 +197,7 @@ select {
 								<td>${cmtList.endtime}</td>
 								<td>${cmtList.cmt_date}</td>
 								
+								<c:set var="shh" value="${fn:substring(cmtList.srttime,0,1)}"/>
 								<c:set var="sh" value="${fn:substring(cmtList.srttime,1,2)}"/>
 								<c:set var="smm" value="${fn:substring(cmtList.srttime,3,4)}"/>
 								<c:set var="sm" value="${fn:substring(cmtList.srttime,4,5)}"/>
@@ -209,10 +208,10 @@ select {
 								<td>
 									<c:if test="${svo.dcontent == '임원' || (svo.dcontent == '인사부' && svo.rcontent == '사원')  }">
 										<c:choose>
-											<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&((ehh == 1 && eh == 9) || ehh == 2)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0;color: rgb(225, 1, 255);">연장</span></c:when>
-											<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&(ehh < 2 && eh < 7)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0; color: #0072ff;">조퇴</span></c:when>
+											<c:when test="${((sh >= 9 && (smm > 0 || sm > 0))||shh>0)&&((ehh == 1 && eh == 9) || ehh == 2)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0;color: rgb(225, 1, 255);">연장</span></c:when>
+											<c:when test="${((sh >= 9 && (smm > 0 || sm > 0))||shh>0)&&(ehh < 2 && eh < 7)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0; color: #0072ff;">조퇴</span></c:when>
 	
-											<c:when test="${sh >= 9 && (smm > 0 || sm > 0)}"><p style="margin: 0; color: red;">지각</p></c:when>										
+											<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))||shh>0}"><p style="margin: 0; color: red;">지각</p></c:when>										
 											<c:when test="${(ehh == 1 && eh == 9) || ehh == 2}"><p style="margin: 0; color: rgb(225, 1, 255);">연장</p></c:when>
 											<c:when test="${ehh < 2 && eh < 7}"><p style="margin: 0; color: #0072ff;">조퇴</p></c:when>
 											
@@ -228,8 +227,8 @@ select {
 										<input type="hidden" name="cmt_num" value="${cmtList.cmt_num}">
 										<input type="hidden" name="currentPage" value="${yp.currentPage}">
 										<c:choose>
-											<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&((ehh == 1 && eh == 9) || ehh == 2)}">
-												<select name="state" style="color: rgb(225, 1, 255);" onchange="cmtMD(${cmtList.cmt_num})">
+											<c:when test="${((sh >= 9 && (smm > 0 || sm > 0))||shh>0)&&((ehh == 1 && eh == 9) || ehh == 2)}">
+												<select name="state" style="color: rgb(225, 1, 255); border: none;" onchange="cmtMD(${cmtList.cmt_num})">
 													<option selected="selected" style="color: rgb(225, 1, 255);" value="1">지각,연장</option>
 													<option style="color: #0072ff;"value="2">지각,조퇴</option>
 													<option style="color: red;"value="3">지각</option>
@@ -238,8 +237,8 @@ select {
 													<option value="6">정상</option>	
 												</select>
 											</c:when>
-											<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&(ehh < 2 && eh < 7)}">
-												<select name="state" style="color: #0072ff;" onchange="cmtMD(${cmtList.cmt_num})">
+											<c:when test="${((sh >= 9 && (smm > 0 || sm > 0))||shh>0)&&(ehh < 2 && eh < 7)}">
+												<select name="state" style="color: #0072ff; border: none;" onchange="cmtMD(${cmtList.cmt_num})">
 													<option style="color: rgb(225, 1, 255);" value="1">지각,연장</option>
 													<option selected="selected" style="color: #0072ff;"value="2">지각,조퇴</option>
 													<option style="color: red;"value="3">지각</option>
@@ -249,8 +248,8 @@ select {
 												</select>
 											</c:when>
 	
-											<c:when test="${sh >= 9 && (smm > 0 || sm > 0)}">
-												<select name="state" style="color: red;" onchange="cmtMD(${cmtList.cmt_num})">
+											<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))||shh>0}">
+												<select name="state" style="color: red; border: none;" onchange="cmtMD(${cmtList.cmt_num})">
 													<option style="color: rgb(225, 1, 255);" value="1">지각,연장</option>
 													<option style="color: #0072ff;"value="2">지각,조퇴</option>
 													<option selected="selected" style="color: red;"value="3">지각</option>
@@ -260,7 +259,7 @@ select {
 												</select>
 											</c:when>										
 											<c:when test="${(ehh == 1 && eh == 9) || ehh == 2}">
-												<select name="state" style="color: rgb(225, 1, 255);" onchange="cmtMD(${cmtList.cmt_num})">
+												<select name="state" style="color: rgb(225, 1, 255); border: none;" onchange="cmtMD(${cmtList.cmt_num})">
 													<option style="color: rgb(225, 1, 255);" value="1">지각,연장</option>
 													<option style="color: #0072ff;"value="2">지각,조퇴</option>
 													<option style="color: red;"value="3">지각</option>
@@ -270,7 +269,7 @@ select {
 												</select>
 											</c:when>
 											<c:when test="${ehh < 2 && eh < 7}">
-												<select name="state" style="color: #0072ff;" onchange="cmtMD(${cmtList.cmt_num})">
+												<select name="state" style="color: #0072ff; border: none;" onchange="cmtMD(${cmtList.cmt_num})">
 													<option style="color: rgb(225, 1, 255);"value="1">지각,연장</option>
 													<option style="color: #0072ff;"value="2">지각,조퇴</option>
 													<option style="color: red;"value="3">지각</option>
@@ -281,7 +280,7 @@ select {
 											</c:when>
 											
 											<c:otherwise>
-												<select name="state" onchange="cmtMD(${cmtList.cmt_num})">
+												<select name="state" style="border: none;" onchange="cmtMD(${cmtList.cmt_num})">
 													<option style="color: rgb(225, 1, 255);"value="1">지각,연장</option>
 													<option style="color: #0072ff;"value="2">지각,조퇴</option>
 													<option style="color: red;"value="3">지각</option>
@@ -304,8 +303,9 @@ select {
 						</c:forEach>	
 				</table>
 				
-				<div style="margin-top: 5px; margin-left: 65%">
-		          	<form action="absent" method="post">
+				<div>
+		          	<a href="excelDown" style="text-decoration: none; color: black; float: left; margin-left: 10%;"><button type="button" class="btn3">Excel출력</button></a>
+		          	<form action="absent" method="post" style="margin-top: 5px; margin-left: 65%">
 		          		<input type="date" style="width: 38%; font-size: 13px;" name="absent" id="absent" required="required">
 				    	<button class="btn2" type="submit">결근사원조회</button>
 		          	</form>
@@ -385,6 +385,10 @@ select {
  
 <script>
 // Accordion
+function nwindow(){
+    var url="../chat/chat";
+    window.open(url,"","width=600,height=805,location=no");
+}
 function myFunction(id) {
   var x = document.getElementById(id);
   if (x.className.indexOf("w3-show") == -1) {
@@ -440,7 +444,7 @@ function selectEnd(){
 
 function chk() {
 	if(!frm.searchStart.value || !frm.searchEnd.value){
-		alert("조회하기위한 날짜를 모두 입력해주세요.\n하루를 선택하시려면 조회 시작날짜와 종료날짜를 똑같이 해주세요")
+		alert("조회하기위한 날짜를 모두 입력해주세요.\n하루를 선택하시려면 조회 시작날짜와 종료날짜를 똑같이 해주세요");
 		return false;
 	}
 	return true;

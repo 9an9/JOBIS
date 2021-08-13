@@ -9,6 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
@@ -135,21 +136,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           </div>
           <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><c:if test="${unreadTotal > 0 }"><span class="w3-badge w3-right w3-small w3-green">${unreadTotal }</span></c:if><c:if test="${apvNoTotal > 0 }"><span class="w3-badge w3-right w3-small w3-red">${apvNoTotal }</span></c:if> 결재</a>
           <a href="../board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
+          <button onclick="nwindow()" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fas fa-comment-dots fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green"></span>채팅</button>
         </div>      
       </div>
       <br>
       
-      <!-- Interests --> 
-      <div class="w3-card w3-round w3-white w3-hide-small">
-        <div class="w3-container">
-          <p>채팅</p>
-          <hr>
-		  <p>인사부<p>
-          <p>관리부<p>
-          <p>개발부<p>
-        </div>
-      </div>
-      <br>
+ 
 
     
     <!-- End Left Column -->
@@ -178,6 +170,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 								<td>${mycmtList.endtime}</td>
 								<td>${mycmtList.cmt_date}</td>
 								
+								<c:set var="shh" value="${fn:substring(mycmtList.srttime,0,1)}"/>
 								<c:set var="sh" value="${fn:substring(mycmtList.srttime,1,2)}"/>
 								<c:set var="smm" value="${fn:substring(mycmtList.srttime,3,4)}"/>
 								<c:set var="sm" value="${fn:substring(mycmtList.srttime,4,5)}"/>
@@ -187,10 +180,10 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 
 								<td>
 									<c:choose>
-										<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&((ehh == 1 && eh == 9) || ehh == 2)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0;color: rgb(225, 1, 255);">연장</span></c:when>
-										<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))&&(ehh < 2 && eh < 7)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0; color: #0072ff;">조퇴</span></c:when>
+										<c:when test="${((sh >= 9 && (smm > 0 || sm > 0))||shh>0)&&((ehh == 1 && eh == 9) || ehh == 2)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0;color: rgb(225, 1, 255);">연장</span></c:when>
+										<c:when test="${((sh >= 9 && (smm > 0 || sm > 0))||shh>0)&&(ehh < 2 && eh < 7)}"><span style="margin: 0;color: red;">지각</span>,<span style="margin: 0; color: #0072ff;">조퇴</span></c:when>
 
-										<c:when test="${sh >= 9 && (smm > 0 || sm > 0)}"><p style="margin: 0; color: red;">지각</p></c:when>										
+										<c:when test="${(sh >= 9 && (smm > 0 || sm > 0))||shh>0}"><p style="margin: 0; color: red;">지각</p></c:when>										
 										<c:when test="${(ehh == 1 && eh == 9) || ehh == 2}"><p style="margin: 0; color: rgb(225, 1, 255);">연장</p></c:when>
 										<c:when test="${ehh < 2 && eh < 7}"><p style="margin: 0; color: #0072ff;">조퇴</p></c:when>
 										
@@ -254,6 +247,10 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
  
 <script>
 // Accordion
+function nwindow(){
+    var url="../chat/chat";
+    window.open(url,"","width=600,height=805,location=no");
+}
 function myFunction(id) {
   var x = document.getElementById(id);
   if (x.className.indexOf("w3-show") == -1) {

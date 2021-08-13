@@ -8,11 +8,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
+.btn2{
+   color: #fff;
+   background-color: #384f76;
+   
+   border-color: #384f76;
+   border-radius: 6px;
+ }
 </style>
 <body class="w3-theme-l5">
 <c:if test="${sndTotal == 0 }">
@@ -117,21 +125,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           </div>
           <a href="apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><c:if test="${unreadTotal > 0 }"><span class="w3-badge w3-right w3-small w3-green">${unreadTotal }</span></c:if><c:if test="${apvNoTotal > 0 }"><span class="w3-badge w3-right w3-small w3-red">${apvNoTotal }</span></c:if> 결재</a>
           <a href="../board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
+          <button onclick="nwindow()" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fas fa-comment-dots fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green"></span>채팅</button>
         </div>      
       </div>
       <br>
       
-      <!-- Interests --> 
-      <div class="w3-card w3-round w3-white w3-hide-small">
-        <div class="w3-container">
-          <p>채팅</p>
-          <hr>
-		  <p>인사부<p>
-          <p>관리부<p>
-          <p>개발부<p>
-        </div>
-      </div>
-      <br>
+
 
     
     <!-- End Left Column -->
@@ -145,6 +144,14 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">          
               <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>보낸 결재함</b></h1><hr>
+              <div>
+              	  <span>
+	              	  <a href="apvSnd" style="text-decoration: none; color: black; margin-left: 5px;">
+		              	  <b>받은 결재함 바로가기</b>
+	              	  	  <c:if test="${unreadTotal > 0 }"><span class="w3-badge w3-small w3-green">${unreadTotal }</span></c:if>
+	              	  </a>
+              	  </span>
+			  </div>
               <table border="1" style="width: 100%; text-align: center;">
               	<tr style="background-color:#384f76; color: white; "><th style="width: 10%;">결제구분</th><th style="width: 55%;">제목</th><th style="width: 10%;">제출자</th><th style="width: 13%;">제출일</th><th style="width: 10%;">진행상황</th></tr>
               	<c:forEach var="sndList" items="${sndList }">
@@ -163,8 +170,14 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
               		</tr>
               	</c:forEach>
               </table>
+          
+			  <div style="margin-top: 3px;">              	  
+              	  <div>
+              	  	  <a href="apvWrite" style="text-decoration: none; color: black; float: right;"><button type="button" class="btn2">결재작성</button></a>
+              	  </div>
+              </div>
               
-              <div class="w3-center">
+              <div class="w3-center" style="margin-left: 76px;">
 					<div class="w3-bar w3-border" style=" margin: 10px 0px;border: 1px solid #7d97a5;">
 						<c:if test="${yp.startPage > yp.pageBlock }">
 							<a href="apvRcv?currentPage=${yp.startPage-yp.pageBlock}" class="w3-bar-item w3-button">&laquo;</a>
@@ -210,6 +223,10 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
  
 <script>
 // Accordion
+function nwindow(){
+    var url="../chat/chat";
+    window.open(url,"","width=600,height=805,location=no");
+}
 function myFunction(id) {
   var x = document.getElementById(id);
   if (x.className.indexOf("w3-show") == -1) {

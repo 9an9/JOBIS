@@ -107,4 +107,28 @@ public class YsEmpCmtServiceImpl implements YsEmpCmtService {
 		
 	}
 
+	@Override
+	public List<YsEmpCmt> excelList() {
+		List<YsEmpCmt> excelList = ydcd.excelList();
+		return excelList;
+	}
+
+	@Override
+	public int workIn(int emp_num) {
+		int workIn = ydcd.workIn(emp_num);
+		return workIn;
+	}
+
+	@Override
+	public int workOut(int emp_num) {
+		int workOut = ydcd.workOut(emp_num);
+		return workOut;
+	}
+
+	@Override
+	public int cmtCheck(int emp_num) {
+		int cmtCheck = ydcd.cmtCheck(emp_num);
+		return cmtCheck;
+	}
+
 }

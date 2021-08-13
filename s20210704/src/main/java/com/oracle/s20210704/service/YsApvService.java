@@ -30,4 +30,5 @@ public interface YsApvService {
 	YsApv          nextEmp(int apv_sq);
 	void           midSndDelete(int apv_sq);
 	void           fnlSndDelete(int apv_sq);
+	YsApv          ingEmp(int apv_sq);
 }

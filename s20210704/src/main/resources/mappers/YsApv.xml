@@ -234,4 +234,22 @@
 	<delete id="ysFnlSndDelete" parameterType="int">
 		delete from apv  where apv_sq  = #{apv_sq}
 	</delete>
+	<select id="ysIngEmp" parameterType="int" resultType="com.oracle.s20210704.model.YsApv">
+		select * 
+		     from (select rownum rn, b.* 
+		          from (select e.emp_name as rcv_name, e.emp_num,m.apv_mid_num
+		                from apv a,apv_mid m,emp e
+		                where a.apv_mid = m.apv_mid
+		                and e.emp_num = m.apv_mid_emp
+		                and m.apv_mid = #{apv_sq}
+		                union
+		                select e.emp_name as rcv_name, e.emp_num,(select max(apv_mid_num)+1 from apv_mid where apv_mid = #{apv_sq}) as apv_mid_num
+		                from apv a ,emp e
+		                where a.apv_fnl = e.emp_num
+		                and apv_sq = #{apv_sq}
+		                order by apv_mid_num desc
+		               ) b
+		           )
+		where rn between 1 and 1
+	</select>
 </mapper>

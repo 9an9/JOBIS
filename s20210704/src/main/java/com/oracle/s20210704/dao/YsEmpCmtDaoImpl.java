@@ -106,4 +106,28 @@ public class YsEmpCmtDaoImpl implements YsEmpCmtDao{
 		
 	}
 
+	@Override
+	public List<YsEmpCmt> excelList() {
+		List<YsEmpCmt> excelList = session.selectList("ysExcelList");
+		return excelList;
+	}
+
+	@Override
+	public int workIn(int emp_num) {
+		int workIn = session.insert("ysWorkIn", emp_num);
+		return workIn;
+	}
+
+	@Override
+	public int workOut(int emp_num) {
+		int workOut = session.update("ysWorkOut", emp_num);
+		return workOut;
+	}
+
+	@Override
+	public int cmtCheck(int emp_num) {
+		int cmtCheck = session.selectOne("ysCmtCheck", emp_num);
+		return cmtCheck;
+	}
+
 }

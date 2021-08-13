@@ -9,6 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script type="text/javascript"
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -17,11 +18,24 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
 .btn2{
    color: #fff;
-   background-color: #384f76;
+   background-color: #3C3530;
    
-   border-color: #384f76;
+   border-color: #3C3530;
    border-radius: 6px;
  }
+td{
+	width: 12.5%;
+}
+th{
+	width: 12.5%;
+	background-color:#E0E3DA; 
+}
+select {
+  text-align-last: center;
+  text-align: center;
+  -ms-text-align-last: center;
+  -moz-text-align-last: center;
+}
 </style>
 
 
@@ -125,21 +139,12 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           </div>
           <a href="apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><c:if test="${unreadTotal > 0 }"><span class="w3-badge w3-right w3-small w3-green">${unreadTotal }</span></c:if><c:if test="${apvNoTotal > 0 }"><span class="w3-badge w3-right w3-small w3-red">${apvNoTotal }</span></c:if> 결재</a>
           <a href="../board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
+          <button onclick="nwindow()" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fas fa-comment-dots fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green"></span>채팅</button>
         </div>      
       </div>
       <br>
       
-      <!-- Interests --> 
-      <div class="w3-card w3-round w3-white w3-hide-small">
-        <div class="w3-container">
-          <p>채팅</p>
-          <hr>
-		  <p>인사부<p>
-          <p>관리부<p>
-          <p>개발부<p>
-        </div>
-      </div>
-      <br>
+
 
     
     <!-- End Left Column -->
@@ -153,59 +158,66 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">          
               <h1><i class="fa fa-file-text fa-fw w3-margin-right"></i><b>보낸 결재</b></h1><hr>
-              <div style="border: 3px solid #384f76; width: 90%; margin: 50px auto;">
-          	  	 <div style="margin-left: 30px; margin-top: 30px;">
-        	  	 	<div style="font-size: 20px;">
-        	  	 		<span><b>사원번호</b>  ${emp_num }&nbsp; <b style="margin-left: 5%;">이름</b>  ${svo.emp_name }&nbsp; <b style="margin-left: 5%;">부서</b>  ${svo.dcontent }&nbsp; <b style="margin-left: 5%;">직급</b>  ${svo.rcontent }&nbsp;</span>
-        	  	 	</div>
-        	  	 	<div><span><b style="font-size: 20px;">결재분류  </b>${sndDetail.apv_type }</span></div>
-        	  	 	<div><b style="font-size: 20px;">제목 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  </b>${sndDetail.apv_title }</div>
-        	  	 	<div>
-        	  	 		<b style="font-size: 20px;">첨부파일  </b>
-        	  	 		<c:if test="${empty sndDetail.apv_pl_nm }">없음</c:if>
-        	  	 		<c:if test="${not empty sndDetail.apv_pl_nm }">${fn:substringAfter(sndDetail.apv_pl_nm, '_') }</c:if>
-        	  	 	</div>
-        	  	 	<div><b style="font-size: 20px;">내용 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </b> ${sndDetail.apv_content }</div>
-					
-					<div>
-						<b style="font-size: 20px;">진행과정  </b>
-						<c:set value="0" var="i"/>
-						<c:set value="0" var="ing_no"/>
-						<c:forEach var="apv_ing" items="${apv_ing }">
-							<c:if test="${apv_ing.apv_ok == 4}"><c:set value="${ing_no + 1 }" var="ing_no"/></c:if>
-							<c:if test="${i == 0 }">
-								<span>${apv_ing.rcv_name }</span>						
+          	  	 <div style="margin-top: 30px;">
+          	  	 	<table style="width: 100%; text-align: center; border: none;" border="1">
+	        	  	 	<tr><th>사원번호</th><td>${emp_num }</td><th>부서</th><td>${svo.dcontent }</td><th>직급</th><td>${svo.rcontent }</td><th>이름</th><td>${svo.emp_name }</td></tr>
+	        	  	 	<tr>
+	        	  	 		<th>결재분류 </th><td>${sndDetail.apv_type }</td><td colspan="4"></td>
+	        	  	 		<c:if test="${sndDetail.apv_ok < 3 }"><th>현재 결재자</th></c:if>
+	        	  	 		<c:if test="${sndDetail.apv_ok == 3 }"><th>최종 결재자</th></c:if>
+	        	  	 		<c:if test="${sndDetail.apv_ok == 4 }"><th>결재 반려자</th></c:if>
+	        	  	 		<td>${ingEmp.rcv_name }</td>
+	        	  	 	</tr>
+	        	  	 	<tr><th>제목</th><td colspan="7" style="text-align: initial;">${sndDetail.apv_title }</td></tr>
+	        	  	 	<tr>
+	        	  	 		<th>첨부파일  </th>
+	        	  	 		<td colspan="7" style="text-align: initial;">
+	        	  	 			<c:if test="${empty sndDetail.apv_pl_nm }">없음</c:if>
+	        	  	 			<c:if test="${not empty sndDetail.apv_pl_nm }">${fn:substringAfter(sndDetail.apv_pl_nm, '_') }</c:if>
+	        	  	 		</td>
+	        	  	 	</tr>
+	        	  	 	
+						<tr>
+							<th>진행과정  </th>
+							<td colspan="7" style="text-align: initial;">
+								<c:set value="0" var="i"/>
+								<c:set value="0" var="ing_no"/>
+								<c:forEach var="apv_ing" items="${apv_ing }">
+									<c:if test="${apv_ing.apv_ok == 4}"><c:set value="${ing_no + 1 }" var="ing_no"/></c:if>
+									<c:if test="${i == 0 }">
+										<span>${apv_ing.rcv_name }</span>						
+									</c:if>
+									<c:if test="${i > 0 }">
+										<c:choose>
+											<c:when test="${(apv_ing.apv_ok == 0 || apv_ing.apv_ok == 4) && ing_no > 0}">
+												<span> &nbsp; ->  &nbsp; ${apv_ing.rcv_name } (반려)</span>						
+											</c:when>
+											<c:when test="${apv_ing.apv_ok == 1 || apv_ing.apv_ok == 3 }">
+												<span> &nbsp; ->  &nbsp; ${apv_ing.rcv_name } (승인)</span>						
+											</c:when>
+											<c:otherwise>
+												<span> &nbsp; ->  &nbsp; ${apv_ing.rcv_name } (진행중)</span>
+											</c:otherwise>
+										</c:choose>
+									</c:if>
+									<c:set value="${i + 1 }" var="i"/>	
+								</c:forEach>
+							</td>
+						</tr>
+						<tr><td id="pdf" colspan="8" style="text-align: center;"></td></tr>
+						<tr style="border-bottom: 1px solid #c1c0c0;"><th>내용</th><td colspan="7" style="height: 150px;">${sndDetail.apv_content }</td></tr>
+						<tr style="border-bottom: 1px solid #c1c0c0;">
+							<c:if test="${sndDetail.apv_ok == 4 }">
+								<th>반려사유</th><td colspan="7">${sndDetail.apv_no }</td>
 							</c:if>
-							<c:if test="${i > 0 }">
-								<c:choose>
-									<c:when test="${(apv_ing.apv_ok == 0 || apv_ing.apv_ok == 4) && ing_no > 0}">
-										<span> &nbsp; ->  &nbsp; ${apv_ing.rcv_name } (반려)</span>						
-									</c:when>
-									<c:when test="${apv_ing.apv_ok == 1 || apv_ing.apv_ok == 3 }">
-										<span> &nbsp; ->  &nbsp; ${apv_ing.rcv_name } (승인)</span>						
-									</c:when>
-									<c:otherwise>
-										<span> &nbsp; ->  &nbsp; ${apv_ing.rcv_name } (진행중)</span>
-									</c:otherwise>
-								</c:choose>
-							</c:if>
-							<c:set value="${i + 1 }" var="i"/>	
-						</c:forEach>
-					</div>
-					<div style="text-align: center; margin-top: 10px;" id="pdf"></div>
-					<div>
-						<c:if test="${sndDetail.apv_ok == 4 }">
-							<span><b style="font-size: 20px;">반려사유  </b>${sndDetail.apv_no }</span>
-						</c:if>
-					</div>
-					
+						</tr>
+					</table>
 					<c:if test="${sndDetail.apv_ok == 4 }">
-						<div style="margin-left: 82%; margin-bottom: 20px;"><a href="apvReWrite?sq=${sndDetail.apv_sq }"><button type="button" class="btn2">재결재</button></a></div>
+						<div style="margin-top: 3px; margin-bottom: 45px;"><a href="apvReWrite?sq=${sndDetail.apv_sq }"><button type="button" class="btn2" style="float: right;">재결재</button></a></div>
 					</c:if>
-					
-					
+
           	    </div>
-           	  </div>
+           	  
 
             </div>
           </div>
@@ -233,6 +245,10 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
  
 <script>
 // Accordion
+function nwindow(){
+    var url="../chat/chat";
+    window.open(url,"","width=600,height=805,location=no");
+}
 function myFunction(id) {
   var x = document.getElementById(id);
   if (x.className.indexOf("w3-show") == -1) {
@@ -268,7 +284,7 @@ function openNav() {
 
 var pdfName = '${sndDetail.apv_pl_nm}';
 if(pdfName){
-	var pdfPath = '<iframe width="80%" height="550" src="../upload/${sndDetail.apv_pl_nm}" />';
+	var pdfPath = '<iframe width="80%" height="550" src="../upload/${sndDetail.apv_pl_nm}" style="margin-top: 10px;" />';
 	$('#pdf').append(pdfPath);	
 }
 

@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -13,6 +16,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -75,8 +91,6 @@ public class YsController {
 		SyMemberVO svo = jrs.show(vo);
 		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
 		model.addAttribute("svo",svo);
-		
-		
 		
 		int cmtTotal = 0;
 		//상황별로 total 가져오기
@@ -397,6 +411,9 @@ public class YsController {
 		model.addAttribute("unreadTotal", unreadTotal);
 		model.addAttribute("apvNoTotal", apvNoTotal);
 		
+		YsApv ingEmp = yas.ingEmp(sq);
+		model.addAttribute("ingEmp", ingEmp);
+		
 		return "apv/apvSndDetail";
 	}
 	
@@ -515,5 +532,196 @@ public class YsController {
 			file.delete();
 		}
 	}
+  	@GetMapping(value = "cmt/excelDown")
+
+  	public void excelDown(HttpServletResponse response, YsEmpCmt ysEmpCmt) throws Exception {
+  	    // 목록조회
+  		List<YsEmpCmt> cmtList = yecs.excelList();
+
+  	    // 워크북 생성
+
+  	    Workbook wb = new HSSFWorkbook();
+  	    Sheet sheet = wb.createSheet("근태 목록");
+  	    Row row = null;
+  	    Cell cell = null;
+  	    int rowNo = 2;
+  	    
+	  	// 셀 너비 설정
+	  	  for (int i=2; i<=11; i++){
+	  	     sheet.autoSizeColumn(i);
+	  	     sheet.setColumnWidth(i, (sheet.getColumnWidth(i))+(short)1024);
+	  	  }
+
+  	    // 테이블 헤더용 스타일
+  	    CellStyle headStyle = wb.createCellStyle();
+
+  	    // 가는 경계선을 가집니다.
+  	    headStyle.setBorderTop(BorderStyle.THIN);
+  	    headStyle.setBorderBottom(BorderStyle.THIN);
+  	    headStyle.setBorderLeft(BorderStyle.THIN);
+  	    headStyle.setBorderRight(BorderStyle.THIN);
+
+  	    // 배경색은 노란색입니다.
+  	    headStyle.setFillForegroundColor(HSSFColorPredefined.INDIGO.getIndex());
+  	    //headStyle.setFillForegroundColor(HSSFColorPredefined.YELLOW.getIndex());
+  	    headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+  	    // 데이터는 가운데 정렬합니다.
+  	    headStyle.setAlignment(HorizontalAlignment.CENTER);
+  	    headStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+
+  	    // 데이터용 경계 스타일 테두리만 지정
+  	    CellStyle bodyStyle = wb.createCellStyle();
+  	    bodyStyle.setBorderTop(BorderStyle.THIN);
+  	    bodyStyle.setBorderBottom(BorderStyle.THIN);
+  	    bodyStyle.setBorderLeft(BorderStyle.THIN);
+  	    bodyStyle.setBorderRight(BorderStyle.THIN);
+  	    bodyStyle.setAlignment(HorizontalAlignment.CENTER);
+  	    bodyStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+
+  	    //폰트 생성
+  	    Font headerFont = wb.createFont();
+  	    headerFont.setColor(IndexedColors.WHITE.getIndex());
+  	    headerFont.setBold(true);
+  	    headStyle.setFont(headerFont); // 헤더 폰트적용
+  	    
+  	    // 헤더 생성
+  	    row = sheet.createRow(rowNo++);
+  	    row.setHeight((short)470);
+  	    cell = row.createCell(2);
+  	    cell.setCellStyle(headStyle);
+  	    cell.setCellValue("사원번호");
+  	    cell = row.createCell(3);
+  	    cell.setCellStyle(headStyle);
+  	    cell.setCellValue("이름");
+  	    cell = row.createCell(4);
+  	    cell.setCellStyle(headStyle);
+  	    cell.setCellValue("부서");
+  	    cell = row.createCell(5);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("소속");
+	    cell = row.createCell(6);
+  	    cell.setCellStyle(headStyle);
+  	    cell.setCellValue("직급");
+  	    cell = row.createCell(7);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("출근시간");
+	    cell = row.createCell(8);
+  	    cell.setCellStyle(headStyle);
+  	    cell.setCellValue("퇴근시간");
+  	    cell = row.createCell(9);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("날짜");
+	    cell = row.createCell(10);
+  	    cell.setCellStyle(headStyle);
+  	    cell.setCellValue("상태");
+  	    cell = row.createCell(11);
+	    cell.setCellStyle(headStyle);
+	    cell.setCellValue("수정일");
+
+  	    // 데이터 부분 생성
+  	    for(YsEmpCmt cmt : cmtList) {
+  	        row = sheet.createRow(rowNo++);
+  	        row.setHeight((short)320);
+  	        cell = row.createCell(2);
+  	        cell.setCellStyle(bodyStyle);
+  	        cell.setCellValue(cmt.getEmp_num());
+  	        cell = row.createCell(3);
+  	        cell.setCellStyle(bodyStyle);
+  	        cell.setCellValue(cmt.getEmp_name());
+  	        cell = row.createCell(4);
+  	        cell.setCellStyle(bodyStyle);
+  	        cell.setCellValue(cmt.getDcontent());
+  	        cell = row.createCell(5);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(cmt.getTcontent());
+	        cell = row.createCell(6);
+  	        cell.setCellStyle(bodyStyle);
+  	        cell.setCellValue(cmt.getRcontent());
+  	        cell = row.createCell(7);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(cmt.getSrttime());
+	        cell = row.createCell(8);
+  	        cell.setCellStyle(bodyStyle);
+  	        cell.setCellValue(cmt.getEndtime());
+  	        cell = row.createCell(9);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(cmt.getCmt_date());
+	        cell = row.createCell(10);
+  	        cell.setCellStyle(bodyStyle);
+  	        cell.setCellValue(state(cmt.getSrttime(), cmt.getEndtime()));
+  	        cell = row.createCell(11);
+	        cell.setCellStyle(bodyStyle);
+	        cell.setCellValue(mdDate(cmt.getCmt_md()));
+
+  	    }
+
+  	    // 컨텐츠 타입과 파일명 지정
+  	    response.setContentType("ms-vnd/excel");
+  	    response.setHeader("Content-Disposition", "attachment;filename=CmtList.xls");
+
+  	    // 엑셀 출력
+  	    wb.write(response.getOutputStream());
+  	    wb.close();
+
+  	}
+	private String state(String start,String end) throws ParseException {
+		String state = "";
+		String state1 = "";
+		String state2 = "";
+		SimpleDateFormat f = new SimpleDateFormat("HH:mm", Locale.KOREA);
+		java.util.Date srtTime    = f.parse(start);
+		java.util.Date endTime    = f.parse(end);
+		java.util.Date lateTime   = f.parse("09:00");
+		java.util.Date earlyTime  = f.parse("16:00");
+		java.util.Date extendTime = f.parse("19:00");
+		java.util.Date normalTime = f.parse("18:00");
+		long late   = srtTime.getTime()    - lateTime.getTime();
+		long early  = earlyTime.getTime() - endTime.getTime();
+		long extend = endTime.getTime()   - extendTime.getTime();
+		if(late > 0 || early >= 0 || extend >= 0) {
+			if(late > 0) { state1 = "지각"; }
+			if(early >= 0) { state2 = "조퇴"; }
+			if(extend >= 0) { state2 = "연장"; }
+		}else { state1 = "정상"; }
+		if(!state1.equals("") && !state2.equals("")) {
+			state = state1+","+state2;
+		}else { state = state1+state2; }
+		return state;
+	}
+	private String mdDate(Date cmt_md) {
+		String mdDate = "";
+		SimpleDateFormat fmt=new SimpleDateFormat("yyyy-MM-dd"); 
+		if(cmt_md != null) { mdDate =fmt.format(cmt_md); }
+		else { mdDate = "-";}
+		return mdDate;
+	}
+	
+	@GetMapping(value = "workInOut")
+	public String workInOut(Model model, HttpSession session, SyMemberVO  vo, int inOut) {
+		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
+		vo.setEmp_num(emp_num);								//모든 코딩에 추가
+		SyMemberVO svo = jrs.show(vo);						//모든 코딩에 추가	
+		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
+		model.addAttribute("svo",svo);	             		//모든 코딩에 추가
+		
+		int cmt_check = yecs.cmtCheck(emp_num);
+		
+		if(inOut == 1 && cmt_check == 1) {          //출근
+			int workIn = yecs.workIn(emp_num);
+			model.addAttribute("workIn", workIn);
+		}else if(inOut == 2 && cmt_check == 2){     //퇴근
+			int workOut = yecs.workOut(emp_num);
+			model.addAttribute("workOut", workOut);
+		}else if(inOut == 1 && cmt_check == 2) {    //출근실패
+			model.addAttribute("cmt_chk", 2);
+		}else if(inOut == 2 && cmt_check == 1){		//퇴근실패
+			model.addAttribute("cmt_chk", 1);
+		}
+		
+		
+		return "mainpage";
+	}
+
 	
 }

@@ -162,5 +162,11 @@ public class YsApvDaoImpl implements YsApvDao {
 		session.delete("ysFnlSndDelete", apv_sq);
 	}
 
+	@Override
+	public YsApv ingEmp(int apv_sq) {
+		YsApv ingEmp = session.selectOne("ysIngEmp", apv_sq);
+		return ingEmp;
+	}
+
 
 }
