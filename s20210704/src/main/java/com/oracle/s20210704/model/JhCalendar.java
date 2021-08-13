@@ -1,6 +1,6 @@
 package com.oracle.s20210704.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +12,12 @@ public class JhCalendar {
 	private int emp_num;
 	private String cal_cate;
 	private String cal_title;
-	private Date cal_date;
+	private String cal_date;
 	private String cal_contents;
-	private String cal_bgcolors;
+	private String cal_bgcolor;
+	private String first;
+	private String last;
+	//날짜에 관련된 달력정보
+	private String dep_num;
+	
 }

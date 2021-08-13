@@ -33,4 +33,6 @@ public interface JhRrService {
 	int update(JhRr jhRr);
 
 	int delete(int rr_num);
+
+	String depNum(int emp_num);
 }

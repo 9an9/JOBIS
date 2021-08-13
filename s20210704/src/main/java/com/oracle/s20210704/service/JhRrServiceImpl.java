@@ -126,5 +126,13 @@ public class JhRrServiceImpl implements JhRrService {
 		return result;
 	}
 
+	@Override
+	public String depNum(int emp_num) {
+		String depnum = null;
+		System.out.println("JhCalendarServiceImpl depNum Start");
+		depnum = jrd.depNum(emp_num);
+		return depnum;
+	}
+
 
 }

@@ -4,9 +4,9 @@
 <mapper namespace="com.oracle.s20210704.dao.JhRrcDao">
 	<!-- 댓글조회 -->
 	<select id="readReply" resultType="com.oracle.s20210704.model.JhReplyVO">
-		select rrc_num, rrc_content, emp_num, rrc_date
-		from rrc
-		where rr_num = #{rr_num}
+		select r.rrc_num, r.rrc_content, r.emp_num, r.rrc_date, e.emp_name
+		from rrc r, emp e
+		where rr_num = #{rr_num} and r.emp_num = e.emp_num
 	</select>
 	<!-- 댓글작성 -->
 	<insert id="writeReply" parameterType="com.oracle.s20210704.model.JhReplyVO">

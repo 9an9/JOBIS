@@ -177,4 +177,16 @@ public class JhRrDaoImpl implements JhRrDao {
 		return result;
 	}
 
+	@Override
+	public String depNum(int emp_num) {
+		String depnum = null;
+		System.out.println("JhCalendarDaoImpl depNum Start..");
+		try {
+			depnum = session.selectOne("deptNum", emp_num);
+		} catch(Exception e) {
+			System.out.println("JhCalendarDaoImpl depNum Exception -> " + e.getMessage());
+		}
+		return depnum;
+	}
+
 }

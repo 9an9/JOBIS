@@ -3,6 +3,7 @@ package com.oracle.s20210704.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,6 +31,7 @@ import com.oracle.s20210704.service.JhCalendarService;
 import com.oracle.s20210704.service.JhPaging;
 import com.oracle.s20210704.service.JhRrService;
 import com.oracle.s20210704.service.JhRrcService;
+import com.oracle.s20210704.service.YsApvService;
 
 import oracle.jdbc.proxy.annotation.Post;
 
@@ -45,6 +47,8 @@ public class JhController {
 	private JhRrService jrs;
 	@Autowired
 	private JhRrcService jrcs;
+	@Autowired
+	private YsApvService yas;
 	
 	@GetMapping("/")
 	public String index(Model model) {
@@ -70,18 +74,6 @@ public class JhController {
 		return "mainpage";
 	}
 	
-	//일정
-	@GetMapping(value = "calendar/calendar")
-	public String calendar(Model model, HttpSession session, SyMemberVO vo) {
-		System.out.println("일정");
-		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
-		vo.setEmp_num(emp_num);								//모든 코딩에 추가
-		SyMemberVO svo = jrs.show(vo);						//모든 코딩에 추가
-		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
-		model.addAttribute("svo",svo);//모든 코딩에 추가
-		System.out.println(emp_num+"rrr");
-		return "calendar/calendar";
-	}
 	
 	//자료실리스트
 	@GetMapping(value = "rr/rr")
@@ -111,6 +103,10 @@ public class JhController {
 			listJhRr = jrs.listJhRr(jhRr);
 		}
 		System.out.println("JhController list listJhRr.size()=>"+listJhRr);
+		int unreadTotal = yas.unreadTotal(emp_num);			//결재 알림
+		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
+		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
+		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
 		model.addAttribute("total0", total);
 		model.addAttribute("total1", total);
 		model.addAttribute("listJhRr", listJhRr);
@@ -137,6 +133,10 @@ public class JhController {
 		model.addAttribute("svo",svo);						//모든 코딩에 추가
 		model.addAttribute("jhRr", jhRr);
 		model.addAttribute("detail_num", detail_num);
+		int unreadTotal = yas.unreadTotal(emp_num);			//결재 알림
+		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
+		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
+		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
 		// 댓글조회부분 삭제가능
 		List<JhReplyVO> replyList = jrcs.readReply(jhRr.getRr_num());	//댓글목록
 		model.addAttribute("replyList", replyList);						//댓글목록
@@ -153,6 +153,10 @@ public class JhController {
 		System.out.println("rrwriteForm");
 		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
 		model.addAttribute("svo",svo);						//모든 코딩에 추가
+		int unreadTotal = yas.unreadTotal(emp_num);			//결재 알림
+		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
+		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
+		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
 		return "rr/rrwriteForm";
 	}
 	
@@ -189,12 +193,19 @@ public class JhController {
 		model.addAttribute("svo",svo);						//모든 코딩에 추가
 		model.addAttribute("jhRr", jhRr);
 		model.addAttribute("rr_num",rr_num);
+		int unreadTotal = yas.unreadTotal(emp_num);			//결재 알림
+		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
+		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
+		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
 		return "rr/rrupdateForm";
 	}
 	
 	// 자료실 업데이트
 	@PostMapping(value = "rr/rrupdate")
-	public String rrupdate(JhRr jhRr, Model model, HttpSession session, SyMemberVO vo) {
+	public String rrupdate(JhRr jhRr, Model model, HttpSession session, SyMemberVO vo, HttpServletRequest request, MultipartFile file1) throws IOException, Exception {
+		String uploadPath = request.getSession().getServletContext().getRealPath("/upload/");	//파일업로드
+		String saveName = uploadFile(file1.getOriginalFilename(), file1.getBytes(), uploadPath);//파일업로드
+		jhRr.setRr_filename(saveName);															//파일업로드
 		int cu = jrs.update(jhRr);
 		System.out.println("jrs.update(jhRr) cu --> " + cu);
 		model.addAttribute("cu", cu);
@@ -249,6 +260,10 @@ public class JhController {
 		model.addAttribute("jhpg2", jhpg2);			//jhpg1 -> jhpg변경
 		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
 		model.addAttribute("svo",svo);						//모든 코딩에 추가
+		int unreadTotal = yas.unreadTotal(emp_num);			//결재 알림
+		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
+		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
+		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
 		return "board/clubList";		
 	}
 	
@@ -268,6 +283,10 @@ public class JhController {
 		model.addAttribute("svo",svo);						//모든 코딩에 추가
 		model.addAttribute("jhRr", jhRr);
 		model.addAttribute("detail_num", detail_num);
+		int unreadTotal = yas.unreadTotal(emp_num);			//결재 알림
+		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
+		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
+		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
 		return "board/clubListdetail";
 	}
 	
@@ -280,6 +299,10 @@ public class JhController {
 		System.out.println("clubwriteForm");
 		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
 		model.addAttribute("svo",svo);						//모든 코딩에 추가
+		int unreadTotal = yas.unreadTotal(emp_num);			//결재 알림
+		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
+		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
+		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
 		return "board/clubwriteForm";
 	}
 	
@@ -312,6 +335,10 @@ public class JhController {
 		model.addAttribute("svo",svo);						//모든 코딩에 추가
 		model.addAttribute("jhRr", jhRr);
 		model.addAttribute("rr_num",rr_num);
+		int unreadTotal = yas.unreadTotal(emp_num);			//결재 알림
+		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
+		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
+		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
 		return "board/clubupdateForm";
 	}
 	
@@ -356,6 +383,10 @@ public class JhController {
 		model.addAttribute("jhpg3", jhpg3);			//jhpg1 -> jhpg변경
 		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
 		model.addAttribute("svo",svo);						//모든 코딩에 추가
+		int unreadTotal = yas.unreadTotal(emp_num);			//결재 알림
+		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
+		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
+		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
 		return "board/noticeList";		
 	}
 	
@@ -375,6 +406,10 @@ public class JhController {
 		model.addAttribute("svo",svo);						//모든 코딩에 추가
 		model.addAttribute("jhRr", jhRr);
 		model.addAttribute("detail_num", detail_num);
+		int unreadTotal = yas.unreadTotal(emp_num);			//결재 알림
+		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
+		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
+		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
 		return "board/noticeListdetail";
 	}
 	
@@ -387,6 +422,10 @@ public class JhController {
 		System.out.println("noticewriteForm");
 		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
 		model.addAttribute("svo",svo);						//모든 코딩에 추가
+		int unreadTotal = yas.unreadTotal(emp_num);			//결재 알림
+		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
+		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
+		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
 		return "board/noticewriteForm";
 	}
 	
@@ -419,7 +458,10 @@ public class JhController {
 		model.addAttribute("svo",svo);						//모든 코딩에 추가
 		model.addAttribute("jhRr", jhRr);
 		model.addAttribute("rr_num",rr_num);
-		
+		int unreadTotal = yas.unreadTotal(emp_num);			//결재 알림
+		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
+		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
+		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
 		return "board/noticeupdateForm";
 	}
 	
@@ -491,7 +533,140 @@ public class JhController {
 		 FileCopyUtils.copy(fileData, target);
 		 return savedName;
 	 }
-	 
-	 
-	
+	//일정
+	@GetMapping(value = "calendar/calendar")
+	public String calendar(JhCalendar jhCalendar ,Model model, HttpSession session, SyMemberVO vo,
+			HttpServletRequest request, HttpServletResponse response) {
+		try {
+		System.out.println("일정");
+		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
+		vo.setEmp_num(emp_num);								//모든 코딩에 추가
+		SyMemberVO svo = jrs.show(vo);						//모든 코딩에 추가
+		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
+		model.addAttribute("svo",svo);						//모든 코딩에 추가
+		
+		String dep_num = jcs.depNum(emp_num);				//dep_num 추가
+		jhCalendar.setDep_num(dep_num);						//dep_num 추가
+		
+		Calendar calendar1 = Calendar.getInstance();
+		jhCalendar.setEmp_num(emp_num);
+		String strType = (String)request.getParameter("type");
+		
+		
+		if(strType != null && !strType.equals("")) {
+		    int intYear     = Integer.parseInt(request.getParameter("curYear"));
+		    int intMonth    = Integer.parseInt(request.getParameter("curMonth"));
+		    int intDay      = Integer.parseInt(request.getParameter("curDay"));
+			    if(intMonth > 12) {
+		        intYear += 1;
+		        intMonth = 1;
+		    }
+		    if(intMonth < 1) {
+		        intYear -= 1;
+		        intMonth = 12;
+		    }
+			    calendar1.set(intYear, intMonth-1, intDay);
+		}
+		model.addAttribute("today",       calendar1.getTime());
+		model.addAttribute("curYear",     calendar1.get(Calendar.YEAR));
+		model.addAttribute("curMonth",    (calendar1.get(Calendar.MONTH) + 1));
+		model.addAttribute("curDay",      calendar1.get(Calendar.DATE));
+		calendar1.set(Calendar.DATE, 1); 
+		model.addAttribute("firstDayOfMonth", calendar1.getTime());
+		String first = String.format("%1$tF %1$tT", calendar1.getTime()).substring(0, 10);
+		jhCalendar.setFirst(first);
+		
+		session.setAttribute("firstDayOfWeek", calendar1.get(Calendar.DAY_OF_WEEK));
+		session.setAttribute("lastDayOfMonth", calendar1.getActualMaximum(Calendar.DAY_OF_MONTH));
+		calendar1.set(Calendar.DATE, calendar1.getActualMaximum(Calendar.DAY_OF_MONTH));
+		session.setAttribute("lastDayOfLastWeek", calendar1.get(Calendar.DAY_OF_WEEK));
+		calendar1.set(Calendar.MONTH, calendar1.get(Calendar.MONTH) + 1);
+		calendar1.set(Calendar.DATE, 1);
+		model.addAttribute("firstDayOfNextMonth", calendar1.getTime());
+		String last =String.format("%1$tF %1$tT", calendar1.getTime()).substring(0, 10);
+		jhCalendar.setLast(last);
+		
+        List<JhCalendar> list = jcs.list(jhCalendar);
+        model.addAttribute("list", list);
+		} catch (Exception e) {
+		System.out.println(e.getMessage());
+		}
+		return "calendar/calendar";
+	}	//cwriteView
+	@GetMapping(value = "calendar/cwriteView")
+	public String cwriteView(JhCalendar jhCalendar ,Model model, HttpSession session, SyMemberVO vo,
+			HttpServletRequest request, HttpServletResponse response) {
+		try {
+        	int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
+    		vo.setEmp_num(emp_num);								//모든 코딩에 추가
+    		SyMemberVO svo = jrs.show(vo);						//모든 코딩에 추가
+    		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
+    		model.addAttribute("svo",svo);	    		//모든 코딩에 추가
+	        request.setAttribute("emp_num", emp_num);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return "calendar/cPlanWrite";
+	}
+	@PostMapping(value = "calendar/cwrite")
+	public String cwrite(HttpServletRequest request, HttpServletResponse response, JhCalendar jhCalendar, Model model, HttpSession session, SyMemberVO vo) {
+		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
+		vo.setEmp_num(emp_num);								//모든 코딩에 추가
+		SyMemberVO svo = jrs.show(vo);	//모든 코딩에 추가
+		String dep_num = jcs.depNum(emp_num);
+		System.out.println("jhCalendar.getCal_bgcolor() : " + jhCalendar.getCal_bgcolor());
+		if(jhCalendar.getCal_bgcolor().equals("#000000")) {   		//개인
+			jhCalendar.setCal_cate("0");
+		}else if(jhCalendar.getCal_bgcolor().equals("#fffb00")) {  	//팀(부서) 일떄
+			jhCalendar.setCal_cate(dep_num);
+		}else if(jhCalendar.getCal_bgcolor().equals("#fa2a00")) { 	// 전체일때(관리부서 일때)
+			jhCalendar.setCal_cate("2");
+		}
+		System.out.println("dep_num ->" + dep_num);
+		int result = jcs.insert(jhCalendar);
+		System.out.println("일정작성");
+		model.addAttribute("dep_num", dep_num);
+		model.addAttribute("emp_num", emp_num);
+		model.addAttribute("svo", svo);
+		model.addAttribute("result", result);
+		return "calendar/cDelete";
+	}
+	@GetMapping(value = "calendar/cpForm")
+	public String cpForm(HttpServletRequest request, HttpServletResponse response, JhCalendar jhCalendar, Model model, HttpSession session, SyMemberVO vo,String curYear,int curMonth, int curDay) {
+		try {
+			int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
+    		vo.setEmp_num(emp_num);								//모든 코딩에 추가
+    		SyMemberVO svo = jrs.show(vo);						//모든 코딩에 추가
+    		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
+    		model.addAttribute("svo",svo);						//모든 코딩에 추가
+    		
+    		//String curYear = request.getParameter("curYear");
+            System.out.println("curYear : " +curYear);
+            //int curMonth = Integer.parseInt(request.getParameter("curMonth"));
+            System.out.println("curMoth : " + curMonth);
+            System.out.println("curDay : " +curDay);
+            String cal_date = curYear +"/"+ String.format("%02d", curMonth) +"/"+ String.format("%02d", curDay);
+            System.out.println(cal_date);
+            jhCalendar.setCal_date(cal_date);
+            jhCalendar.setEmp_num(emp_num);
+            model.addAttribute("emp_num", emp_num);
+            model.addAttribute("curYear", curYear);
+            model.addAttribute("curMonth", curMonth);
+            model.addAttribute("curDay", curDay);
+            model.addAttribute("cal_date", cal_date);
+	        List<JhCalendar> dlist = jcs.dlist(jhCalendar);
+	        
+	        model.addAttribute("dlist", dlist);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return "calendar/cPlanList";
+	}
+	@GetMapping(value = "calendar/cdelete")
+	public String cdelete(int cal_num, Model model, HttpSession session, SyMemberVO vo) {
+		System.out.println("JhController cdelete Start...");
+		int reuslt = jcs.delete(cal_num);
+		model.addAttribute("result", reuslt);
+		return "calendar/cDelete";
+	}
 }

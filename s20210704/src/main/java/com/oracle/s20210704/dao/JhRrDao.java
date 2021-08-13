@@ -36,4 +36,6 @@ public interface JhRrDao {
 	int update(JhRr jhRr);
 	//삭제기능
 	int delete(int rr_num);
+
+	String depNum(int emp_num);
 }

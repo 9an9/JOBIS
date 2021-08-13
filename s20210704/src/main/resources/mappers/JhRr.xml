@@ -53,7 +53,7 @@
 	</insert>
 	<!-- 글 수정 -->
 	<update id="jhClubUpdate" parameterType="JhRr">
-		update rr set rr_type=#{rr_type}, rr_subject=#{rr_subject}, rr_content=#{rr_content}, rr_filename=#{rr_filename} ,rr_date=sysdate where rr_num = #{rr_num}
+		update rr set rr_type=#{rr_type}, rr_subject=#{rr_subject}, rr_content=#{rr_content}, rr_filename=#{rr_filename, jdbcType=VARCHAR} ,rr_date=sysdate where rr_num = #{rr_num}
 	</update>
 	<!-- 글 삭제 -->
 	<delete id="jhDelete" parameterType="int">
@@ -63,4 +63,7 @@
 	<update id="jhhitsupdate" parameterType="int">
 		update rr set rr_hits = rr_hits + 1 where rr_num = #{rr_num}
 	</update>
+	<select id="deptNum" parameterType="int" resultType="string">
+		select dep_num from emp where emp_num = #{emp_num}
+	</select>
 </mapper>

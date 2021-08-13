@@ -14,6 +14,6 @@ public class JhReplyVO {
 	private int emp_num;
 	private Date rrc_date;
 	
-
+	private String emp_name;
 }
 

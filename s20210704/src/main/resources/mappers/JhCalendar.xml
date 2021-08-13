@@ -2,12 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.oracle.test.dao.JhCalendarDao">
-	<select id="jhCalList" resultType="JhCalendar">
-		select * 
-         from (select rownum rn, a.* 
-               from (select * from calendar order by cal_num) a
-              ) 
-    	 where rn between #{start} and #{end}   
+<mapper namespace="com.oracle.s20210704.dao.JhCalendarDao">
+	<select id="jhList" parameterType="com.oracle.s20210704.model.JhCalendar" resultType="com.oracle.s20210704.model.JhCalendar">	
+	<![CDATA[
+		select
+				 case when substr(cal_date,7,8) = 01 then substr(cal_date,8,8)
+				 when substr(cal_date,7,8) = 02 then substr(cal_date,8,8)
+				 when substr(cal_date,7,8) = 03 then substr(cal_date,8,8)
+				 when substr(cal_date,7,8) = 04 then substr(cal_date,8,8)
+				 when substr(cal_date,7,8) = 05 then substr(cal_date,8,8)
+				 when substr(cal_date,7,8) = 06 then substr(cal_date,8,8)
+				 when substr(cal_date,7,8) = 07 then substr(cal_date,8,8)
+				 when substr(cal_date,7,8) = 08 then substr(cal_date,8,8)
+				 when substr(cal_date,7,8) = 09 then substr(cal_date,8,8)
+				 else substr(cal_date,7,8) end as cal_date, cal_title, cal_bgcolor, emp_num 
+		from 	calendar 
+		where 	cal_date >= to_date(#{first},'yyyy-mm-dd') and cal_date < to_date(#{last},'yyyy-mm-dd')
+		and 	(emp_num = #{emp_num} or (cal_cate in (2, #{dep_num})))
+	]]>	
+	</select>
+	<insert id="jhInsertJhCalendar" parameterType="com.oracle.s20210704.model.JhCalendar">
+<!-- 		insert into calendar(cal_num, emp_num, cal_title, cal_date, cal_contents, cal_bgcolor, cal_cate) -->
+<!-- 		values (calendar_seq.nextval, #{emp_num}, #{cal_title}, #{cal_date}, #{cal_contents}, #{cal_bgcolor}, #{cal_cate}) -->
+			insert into calendar(cal_num, emp_num, cal_title, cal_date, cal_contents, cal_bgcolor, cal_cate)
+			values (calendar_seq.nextval, #{emp_num}, #{cal_title}, TO_DATE(#{cal_date},'YYYY/mm/dd'), #{cal_contents}, #{cal_bgcolor}, #{cal_cate, jdbcType=VARCHAR})
+	</insert>
+	<select id="jhDList" parameterType="com.oracle.s20210704.model.JhCalendar" resultType="com.oracle.s20210704.model.JhCalendar">
+		select emp_num,cal_num, cal_title, cal_bgcolor, cal_contents from calendar where cal_date = TO_DATE(#{cal_date}, 'YYYY/MM/DD')
+	</select>
+	<delete id="jhCDelete" parameterType="int">
+		delete from calendar where cal_num = #{cal_num}
+	</delete>
+	<select id="depNum" parameterType="int" resultType="string">
+		select dep_num from emp where emp_num = #{emp_num}
 	</select>
 </mapper>
