@@ -21,14 +21,16 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
    border-color: #384f76;
    border-radius: 6px;
  }
+.warning{
+	border: 2.5px solid #384f76; 
+	width: 610px;
+	padding: 50px;
+	margin: 0 auto;
+	border-radius: 60px;
+	
+}
 </style>
 <body class="w3-theme-l5">
-<c:if test="${rcvTotal == 0 }">
-<script type="text/javascript">
-	alert('받은 결재가 존재하지않습니다.');
-	history.back();
-</script>
-</c:if>
 <!-- Navbar -->
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
@@ -150,37 +152,50 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	              	  </a>
               	  </span>
 			   </div>
-               <table border="1" style="width: 100%; text-align: center;">
-              	<tr style="background-color:#384f76; color: white; "><th style="width: 10%;">결제구분</th><th style="width: 55%;">제목</th><th style="width: 10%;">제출자</th><th style="width: 13%;">제출일</th><th style="width: 10%;">진행상황</th></tr>
-              	<c:forEach var="rcvList" items="${rcvList }">
-              		<tr>
-	              		<c:set var="midChk" value="0"/>
-              			<c:if test="${rcvList.apv_type == '비용신청' && svo.rcontent == '대리'}"><c:set var="midChk" value="${midChk + 1 }"/></c:if>
-              			<c:if test="${rcvList.apv_type == '사업보고' && svo.rcontent == '부장'}"><c:set var="midChk" value="${midChk + 1 }"/></c:if>
-              			<c:if test="${rcvList.apv_type == '인사보고' && svo.rcontent == '팀장'}"><c:set var="midChk" value="${midChk + 1 }"/></c:if>
-              			<c:if test="${rcvList.apv_type == '행사보고' && svo.rcontent == '팀장'}"><c:set var="midChk" value="${midChk + 1 }"/></c:if>
-              			<td>${rcvList.apv_type }</td>
-              			<td><a href="apvRcvDetail?sq=${rcvList.apv_sq }" style="text-decoration: none; color: black;">${rcvList.apv_title }</a></td>
-              			<td>${rcvList.srt_name }</td>
-              			<td>${rcvList.apv_date }</td>
-              			<td>
-              				<c:if test="${rcvList.apv_ok == 0 }"><span style="margin: 0px; color: red;">진행중</span></c:if>
-              				<c:if test="${rcvList.apv_ok == 1 && midChk == 0}">승인(중간)</c:if>
-              				<c:if test="${rcvList.apv_ok == 1 && midChk > 0}"><span style="margin: 0px; color: red;">승인(중간)</span></c:if>
-              				<c:if test="${rcvList.apv_ok == 2 && rcvList.apv_fnl != emp_num}">승인(중간)</c:if>
-              				<c:if test="${rcvList.apv_ok == 2 && rcvList.apv_fnl == emp_num}"><span style="margin: 0px; color: red;">승인(중간)</span></c:if>
-              				<c:if test="${rcvList.apv_ok == 3 }">승인(최종)</c:if>
-              				<c:if test="${rcvList.apv_ok == 4 }">반려</c:if>
-              			</td>
-              		</tr>
-              	</c:forEach>
-              </table>
-              
-              <div style="margin-top: 3px;">              	  
-              	  <div>
-              	  	  <a href="apvWrite" style="text-decoration: none; color: black; float: right;"><button type="button" class="btn2">결재작성</button></a>
-              	  </div>
-              </div>
+			   <c:if test="${rcvTotal > 0 }">
+	               <table border="1" style="width: 100%; text-align: center;">
+	              	<tr style="background-color:#384f76; color: white; "><th style="width: 10%;">결제구분</th><th style="width: 55%;">제목</th><th style="width: 10%;">제출자</th><th style="width: 13%;">제출일</th><th style="width: 10%;">진행상황</th></tr>
+	              	<c:forEach var="rcvList" items="${rcvList }">
+	              		<tr>
+		              		<c:set var="midChk" value="0"/>
+	              			<c:if test="${rcvList.apv_type == '비용신청' && svo.rcontent == '대리'}"><c:set var="midChk" value="${midChk + 1 }"/></c:if>
+	              			<c:if test="${rcvList.apv_type == '사업보고' && svo.rcontent == '부장'}"><c:set var="midChk" value="${midChk + 1 }"/></c:if>
+	              			<c:if test="${rcvList.apv_type == '인사보고' && svo.rcontent == '팀장'}"><c:set var="midChk" value="${midChk + 1 }"/></c:if>
+	              			<c:if test="${rcvList.apv_type == '행사보고' && svo.rcontent == '팀장'}"><c:set var="midChk" value="${midChk + 1 }"/></c:if>
+	              			<td>${rcvList.apv_type }</td>
+	              			<td><a href="apvRcvDetail?sq=${rcvList.apv_sq }" style="text-decoration: none; color: black;">${rcvList.apv_title }</a></td>
+	              			<td>${rcvList.srt_name }</td>
+	              			<td>${rcvList.apv_date }</td>
+	              			<td>
+	              				<c:if test="${rcvList.apv_ok == 0 }"><span style="margin: 0px; color: red;">진행중</span></c:if>
+	              				<c:if test="${rcvList.apv_ok == 1 && midChk == 0}">승인(중간)</c:if>
+	              				<c:if test="${rcvList.apv_ok == 1 && midChk > 0}"><span style="margin: 0px; color: red;">승인(중간)</span></c:if>
+	              				<c:if test="${rcvList.apv_ok == 2 && rcvList.apv_fnl != emp_num}">승인(중간)</c:if>
+	              				<c:if test="${rcvList.apv_ok == 2 && rcvList.apv_fnl == emp_num}"><span style="margin: 0px; color: red;">승인(중간)</span></c:if>
+	              				<c:if test="${rcvList.apv_ok == 3 }">승인(최종)</c:if>
+	              				<c:if test="${rcvList.apv_ok == 4 }">반려</c:if>
+	              			</td>
+	              		</tr>
+	              	</c:forEach>
+	              </table>
+	              <div style="margin-top: 3px;">              	  
+	              	  <div>
+	              	  	  <a href="apvWrite" style="text-decoration: none; color: black; float: right;"><button type="button" class="btn2">결재작성</button></a>
+	              	  </div>
+	              </div>
+              </c:if>
+              <c:if test="${rcvTotal == 0 }">
+                <div style=" margin:35px 0 70px 0; text-align: center; ">  
+					<div class="warning">
+						<b>받은 결재</b>가 <span style="background-color: yellow; color: red; font-weight: bold;">존재하지 않습니다</span><p>
+						결재작성 또는 뒤로가기버튼을 눌러주세요<p>
+						<div style="margin-top: 20px;">
+							<input type="button" value="뒤로가기" class="btn2" onclick="history.go(-1);">
+							<a href="apvWrite" style="text-decoration: none; color: black;"><button type="button" class="btn2">결재작성</button></a>
+						</div>
+					</div>
+			     </div>	
+              </c:if>
               
               <div class="w3-center" style="margin-left: 76px;">
 					<div class="w3-bar w3-border" style=" margin: 10px 0px;border: 1px solid #7d97a5;">

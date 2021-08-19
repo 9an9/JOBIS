@@ -21,14 +21,16 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
    border-color: #384f76;
    border-radius: 6px;
  }
+.warning{
+	border: 2.5px solid #384f76; 
+	width: 610px;
+	padding: 50px;
+	margin: 0 auto;
+	border-radius: 60px;
+	
+}
 </style>
 <body class="w3-theme-l5">
-<c:if test="${sndTotal == 0 }">
-<script type="text/javascript">
-	alert('보낸 결재가 존재하지않습니다.');
-	history.back();
-</script>
-</c:if>
 <!-- Navbar -->
 <div class="w3-top">
  <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
@@ -152,30 +154,46 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	              	  </a>
               	  </span>
 			  </div>
-              <table border="1" style="width: 100%; text-align: center;">
-              	<tr style="background-color:#384f76; color: white; "><th style="width: 10%;">결제구분</th><th style="width: 55%;">제목</th><th style="width: 10%;">제출자</th><th style="width: 13%;">제출일</th><th style="width: 10%;">진행상황</th></tr>
-              	<c:forEach var="sndList" items="${sndList }">
-              		<tr>
-              			<td>${sndList.apv_type }</td>
-              			<td><a href="apvSndDetail?sq=${sndList.apv_sq }" style="text-decoration: none; color: black;">${sndList.apv_title }</a></td>
-              			<td>${sndList.srt_name }</td>
-              			<td>${sndList.apv_date }</td>
-              			<td>
-              				<c:if test="${sndList.apv_ok == 0 }">진행중</c:if>
-              				<c:if test="${sndList.apv_ok == 1 }">승인(중간)</c:if>
-              				<c:if test="${sndList.apv_ok == 2 }">승인(중간)</c:if>
-              				<c:if test="${sndList.apv_ok == 3 }">승인(최종)</c:if>
-              				<c:if test="${sndList.apv_ok == 4 }"><span style="margin: 0px; color: red;">반려</span></c:if>
-              			</td>
-              		</tr>
-              	</c:forEach>
-              </table>
-          
-			  <div style="margin-top: 3px;">              	  
-              	  <div>
-              	  	  <a href="apvWrite" style="text-decoration: none; color: black; float: right;"><button type="button" class="btn2">결재작성</button></a>
-              	  </div>
-              </div>
+			  <c:if test="${sndTotal > 0 }">
+	              <table border="1" style="width: 100%; text-align: center;">
+	              	<tr style="background-color:#384f76; color: white; "><th style="width: 10%;">결제구분</th><th style="width: 55%;">제목</th><th style="width: 10%;">제출자</th><th style="width: 13%;">제출일</th><th style="width: 10%;">진행상황</th></tr>
+	              	<c:forEach var="sndList" items="${sndList }">
+	              		<tr>
+	              			<td>${sndList.apv_type }</td>
+	              			<td><a href="apvSndDetail?sq=${sndList.apv_sq }" style="text-decoration: none; color: black;">${sndList.apv_title }</a></td>
+	              			<td>${sndList.srt_name }</td>
+	              			<td>${sndList.apv_date }</td>
+	              			<td>
+	              				<c:if test="${sndList.apv_ok == 0 }">진행중</c:if>
+	              				<c:if test="${sndList.apv_ok == 1 }">승인(중간)</c:if>
+	              				<c:if test="${sndList.apv_ok == 2 }">승인(중간)</c:if>
+	              				<c:if test="${sndList.apv_ok == 3 }">승인(최종)</c:if>
+	              				<c:if test="${sndList.apv_ok == 4 }"><span style="margin: 0px; color: red;">반려</span></c:if>
+	              			</td>
+	              		</tr>
+	              	</c:forEach>
+	              </table>
+				  <div style="margin-top: 3px;">              	  
+	              	  <div>
+	              	  	  <a href="apvWrite" style="text-decoration: none; color: black; float: right;"><button type="button" class="btn2">결재작성</button></a>
+	              	  </div>
+	              </div>
+          	  </c:if>
+          	  
+          	  <c:if test="${sndTotal == 0 }">
+          	    <div style=" margin:35px 0 70px 0; text-align: center; ">  
+					<div class="warning">
+						<b>보낸 결재</b>가 <span style="background-color: yellow; color: red; font-weight: bold;">존재하지 않습니다</span><p>
+						결재작성 또는 뒤로가기버튼을 눌러주세요<p>
+						<div style="margin-top: 20px;">
+							<input type="button" value="뒤로가기" class="btn2" onclick="history.go(-1);">
+							<a href="apvWrite" style="text-decoration: none; color: black;"><button type="button" class="btn2">결재작성</button></a>
+						</div>
+					</div>
+			    </div>	
+          	  </c:if>
+          	  
+          	  
               
               <div class="w3-center" style="margin-left: 76px;">
 					<div class="w3-bar w3-border" style=" margin: 10px 0px;border: 1px solid #7d97a5;">
