@@ -32,4 +32,5 @@ public interface YjEmpDao {
 	int 			addTeam(YjEmp emp);	
 	String			getcodetD(String dept);
 	int				deleteTeam(String team);
+	List<YjEmp>		empListE();
 }

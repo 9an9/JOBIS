@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>  
 <!DOCTYPE html>
 <html>
 <title>JOBIS</title>
@@ -8,12 +9,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script type="text/javascript"
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 .w3-col.m7{width:73.33333%}
+.fileBox .fileName {
+		display:inline-block;
+		width:170px;
+		height:30px;
+		padding-left:10px;
+		margin-right:5px;
+		line-height:30px;
+		border:1px solid #aaa;
+		background-color:#fff;
+		vertical-align:middle;
+		border-radius: 10px;
+	}
+.fileBox .btn_file {
+	display:inline-block;
+	border:2px solid #66677f;
+	border-top-width: 0px;
+	border-left-width: 0px;
+	width:100px;
+	height:30px;
+	line-height:30px;
+	text-align:center;
+	vertical-align:middle;
+	background-color: #3C3530;
+	color:white;
+	border-radius: 6px;
+}
+.fileBox input[type="file"] {
+	position:absolute;
+	width:1px;
+	height:1px;
+	padding:0;
+	margin:-1px;
+	overflow:hidden;
+	clip:rect(0,0,0,0);
+	border:0
+}
 .btn2{
    color: #fff;
    background-color: #3C3530;
@@ -152,27 +190,16 @@ table select {
         <div class="w3-white">
           <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-envelope fa-fw w3-margin-right" ></i><span class="w3-badge w3-right w3-small w3-green">1</span> 쪽지</button>
           <div id="Demo3" class="w3-hide w3-bar-block">
-          	<a href="../note/sendNote" class="w3-button w3-block w3-theme-l5 w3-left-align">쪽지 보내기</a>
-            <a href="../note/sentNote" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 쪽지함</a>
-            <a href="../note/receiveNote" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 쪽지함</a>
-          </div>
+			<a href="../message/sendMsg" class="w3-button w3-block w3-theme-l5 w3-left-align">메시지 보내기</a>
+			<a href="../message/sentMsg" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 메시지</a>
+			<a href="../message/rcvMsg" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 메시지</a>          </div>
           <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><c:if test="${unreadTotal > 0 }"><span class="w3-badge w3-right w3-small w3-green">${unreadTotal }</span></c:if><c:if test="${apvNoTotal > 0 }"><span class="w3-badge w3-right w3-small w3-red">${apvNoTotal }</span></c:if> 결재</a>
           <a href="../board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
+          <button onclick="nwindow()" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fas fa-comment-dots fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green"></span>채팅</button>
         </div>      
       </div>
       <br>
       
-      <!-- Interests --> 
-      <div class="w3-card w3-round w3-white w3-hide-small">
-        <div class="w3-container">
-          <p>채팅</p>
-          <hr>
-		  <p>인사부<p>
-          <p>관리부<p>
-          <p>개발부<p>
-        </div>
-      </div>
-      <br>
 
     
     <!-- End Left Column -->
@@ -208,7 +235,10 @@ table select {
 		              <tr><th>우편번호</th><td colspan="2"><input type="text" id="emp_zc_addr" name="emp_zc_addr" readonly="readonly" onclick="findAddr()"></td></tr>
 		              <tr><th>주소</th><td colspan="2"><input type="text" id="emp_cm_addr" name="emp_cm_addr" readonly="readonly" ></td></tr>
 		              <tr><th>상세주소</th><td colspan="2"><input type="text" id="emp_dt_addr" name="emp_dt_addr" ></td></tr>
-		              <tr><th>사진</th><td colspan="2"><input type="file" id="myImg" name="myImg" style="display:none;"><button onclick="onclick=document.all.file.click()" class="btn2">등록</button></td></tr>          
+		              <tr><th>사진</th><td colspan="2" class="fileBox">
+		              			<input type="text" class="fileName" readonly="readonly">
+								<label for="uploadBtn" class="btn_file">파일 업로드</label>
+								<input type="file" id="uploadBtn" class="uploadBtn" name="myImg"></td></tr>          
 		 		  	</table>              
 					<div style=" margin-top: 10px; float: left; margin-bottom: 20px">
 						<input type="submit" value="등록" class="w3-center btn2">
@@ -240,6 +270,10 @@ table select {
 </footer>
  
 <script>
+function nwindow(){
+    var url="../chat/chat";
+    window.open(url,"","width=600,height=805,location=no");
+}
 // Accordion
 function myFunction(id) {
   var x = document.getElementById(id);
@@ -344,8 +378,17 @@ function getRnk() {
         }
     });
 }
+var uploadFile = $('.fileBox .uploadBtn');
+uploadFile.on('change', function(){
+	if(window.FileReader){
+		var filename = $(this)[0].files[0].name;
+	} else {
+		var filename = $(this).val().split('/').pop().split('\\').pop();
+	}
+	$(this).siblings('.fileName').val(filename);
+});
 $(function() {
-    $("#myImg").on('change', function(){
+    $("#uploadBtn").on('change', function(){
         readURL(this);
     });
 });
@@ -353,7 +396,7 @@ function readURL(input) {
     if (input.files && input.files[0]) {
        var reader = new FileReader();
        reader.onload = function (e) {
-          $('#preImage').attr('src', e.target.result);
+          $('.preview').attr('src', e.target.result);
        }
        reader.readAsDataURL(input.files[0]);
     }

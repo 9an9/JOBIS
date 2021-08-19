@@ -1,17 +1,13 @@
 package com.oracle.s20210704.controller;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.UUID;
 
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
+
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeUtility;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -29,20 +25,16 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigData.Option;
+
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,8 +47,6 @@ import com.oracle.s20210704.service.JhRrService;
 import com.oracle.s20210704.service.YjEmpService;
 import com.oracle.s20210704.service.YjPaging;
 import com.oracle.s20210704.service.YsApvService;
-
-
 
 @Controller
 public class YjController {
@@ -541,113 +531,136 @@ public class YjController {
 		return "forward:deptUpdate";
 	}
 	
-	/*
-	 * //사원관리 Excel출력
-	 * 
-	 * @GetMapping(value = "excelDownload") public void
-	 * excelDown(HttpServletResponse response, YjEmp emp) {
-	 * 
-	 * System.out.println("YjController excelDown Start..."); List<YjEmp> empListE =
-	 * es.empListE();
-	 * 
-	 * Workbook wb = new HSSFWorkbook(); Sheet sheet = wb.createSheet("사원목록"); Row
-	 * row = null; Cell cell = null; int rowNo = 2;
-	 * 
-	 * // 셀 너비 설정 for (int i=2; i<=11; i++){ sheet.autoSizeColumn(i);
-	 * sheet.setColumnWidth(i, (sheet.getColumnWidth(i))+(short)1024); }
-	 * 
-	 * // 테이블 헤더용 스타일 CellStyle headStyle = wb.createCellStyle();
-	 * 
-	 * // 가는 경계선을 가집니다. headStyle.setBorderTop(BorderStyle.THIN);
-	 * headStyle.setBorderBottom(BorderStyle.THIN);
-	 * headStyle.setBorderLeft(BorderStyle.THIN);
-	 * headStyle.setBorderRight(BorderStyle.THIN);
-	 * 
-	 * // 배경색은 노란색입니다.
-	 * headStyle.setFillForegroundColor(HSSFColorPredefined.INDIGO.getIndex());
-	 * //headStyle.setFillForegroundColor(HSSFColorPredefined.YELLOW.getIndex());
-	 * headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-	 * 
-	 * // 데이터는 가운데 정렬합니다. headStyle.setAlignment(HorizontalAlignment.CENTER);
-	 * headStyle.setVerticalAlignment(VerticalAlignment.CENTER);
-	 * 
-	 * // 데이터용 경계 스타일 테두리만 지정 CellStyle bodyStyle = wb.createCellStyle();
-	 * bodyStyle.setBorderTop(BorderStyle.THIN);
-	 * bodyStyle.setBorderBottom(BorderStyle.THIN);
-	 * bodyStyle.setBorderLeft(BorderStyle.THIN);
-	 * bodyStyle.setBorderRight(BorderStyle.THIN);
-	 * bodyStyle.setAlignment(HorizontalAlignment.CENTER);
-	 * bodyStyle.setVerticalAlignment(VerticalAlignment.CENTER);
-	 * 
-	 * //폰트 생성 Font headerFont = wb.createFont();
-	 * headerFont.setColor(IndexedColors.WHITE.getIndex());
-	 * headerFont.setBold(true); headStyle.setFont(headerFont); // 헤더 폰트적용
-	 */        
-/*        // 헤더 생성
-        row = sheet.createRow(rowNo++);
-        row.setHeight((short)470);
-        cell = row.createCell(2);
-        cell.setCellStyle(headStyle);
-        cell.setCellValue("사원번호");
-        cell = row.createCell(3);
-        cell.setCellStyle(headStyle);
-        cell.setCellValue("이름");
-        cell = row.createCell(4);
-        cell.setCellStyle(headStyle);
-        cell.setCellValue("부서");
-        cell = row.createCell(5);
-        cell.setCellStyle(headStyle);
-        cell.setCellValue("소속");
-        cell = row.createCell(6);
-        cell.setCellStyle(headStyle);
-        cell.setCellValue("직급");
-        cell = row.createCell(7);
-        cell.setCellStyle(headStyle);
-        cell.setCellValue("출근시간");
-        cell = row.createCell(8);
-        cell.setCellStyle(headStyle);
-        cell.setCellValue("퇴근시간");
-        cell = row.createCell(9);
-        cell.setCellStyle(headStyle);
-        cell.setCellValue("날짜");
-        cell = row.createCell(10);
-        cell.setCellStyle(headStyle);
-        cell.setCellValue("상태");
-        cell = row.createCell(11);
-        cell.setCellStyle(headStyle);
-        cell.setCellValue("수정일");
 
-   */     // 데이터 부분 생성
-		/*
-		 * for(YjEmp emp : empListE) { row = sheet.createRow(rowNo++);
-		 * row.setHeight((short)320); cell = row.createCell(2);
-		 * cell.setCellStyle(bodyStyle); cell.setCellValue(cmt.getEmp_num()); cell =
-		 * row.createCell(3); cell.setCellStyle(bodyStyle);
-		 * cell.setCellValue(cmt.getEmp_name()); cell = row.createCell(4);
-		 * cell.setCellStyle(bodyStyle); cell.setCellValue(cmt.getDcontent()); cell =
-		 * row.createCell(5); cell.setCellStyle(bodyStyle);
-		 * cell.setCellValue(cmt.getTcontent()); cell = row.createCell(6);
-		 * cell.setCellStyle(bodyStyle); cell.setCellValue(cmt.getRcontent()); cell =
-		 * row.createCell(7); cell.setCellStyle(bodyStyle);
-		 * cell.setCellValue(cmt.getSrttime()); cell = row.createCell(8);
-		 * cell.setCellStyle(bodyStyle); cell.setCellValue(cmt.getEndtime()); cell =
-		 * row.createCell(9); cell.setCellStyle(bodyStyle);
-		 * cell.setCellValue(cmt.getCmt_date()); cell = row.createCell(10);
-		 * cell.setCellStyle(bodyStyle); cell.setCellValue(state(cmt.getSrttime(),
-		 * cmt.getEndtime())); cell = row.createCell(11); cell.setCellStyle(bodyStyle);
-		 * cell.setCellValue(mdDate(cmt.getCmt_md()));
-		 */
-/*        }
+		  //사원관리 Excel출력
+		  
+		  @GetMapping(value = "excelDownload") 
+		  public void excelDown(HttpServletResponse response, YjEmp emp) throws Exception {
+		  
+		  System.out.println("YjController excelDown Start..."); 
+		  List<YjEmp> empListE = es.empListE();
+		  
+		  Workbook wb = new HSSFWorkbook(); Sheet sheet = wb.createSheet("사원목록"); 
+		  Row row = null; 
+		  Cell cell = null; 
+		  int rowNo = 2;
+		  
+	        // 셀 너비 설정
+          for (int i=2; i<=11; i++){
+             sheet.autoSizeColumn(i);
+             sheet.setColumnWidth(i, (sheet.getColumnWidth(i))+(short)1024);
+          }
 
-        // 컨텐츠 타입과 파일명 지정
-        response.setContentType("ms-vnd/excel");
-        response.setHeader("Content-Disposition", "attachment;filename=CmtList.xls");
+         // 테이블 헤더용 스타일
+         CellStyle headStyle = wb.createCellStyle();
 
-        // 엑셀 출력
-        wb.write(response.getOutputStream());
-        wb.close();
-*/		
-//	}
+         // 가는 경계선을 가집니다.
+         headStyle.setBorderTop(BorderStyle.THIN);
+         headStyle.setBorderBottom(BorderStyle.THIN);
+         headStyle.setBorderLeft(BorderStyle.THIN);
+         headStyle.setBorderRight(BorderStyle.THIN);
+
+         // 배경색은 노란색입니다.
+         headStyle.setFillForegroundColor(HSSFColorPredefined.INDIGO.getIndex());
+         //headStyle.setFillForegroundColor(HSSFColorPredefined.YELLOW.getIndex());
+         headStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+         // 데이터는 가운데 정렬합니다.
+         headStyle.setAlignment(HorizontalAlignment.CENTER);
+         headStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+
+         // 데이터용 경계 스타일 테두리만 지정
+         CellStyle bodyStyle = wb.createCellStyle();
+         bodyStyle.setBorderTop(BorderStyle.THIN);
+         bodyStyle.setBorderBottom(BorderStyle.THIN);
+         bodyStyle.setBorderLeft(BorderStyle.THIN);
+         bodyStyle.setBorderRight(BorderStyle.THIN);
+         bodyStyle.setAlignment(HorizontalAlignment.CENTER);
+         bodyStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+
+         //폰트 생성
+         Font headerFont = wb.createFont();
+         headerFont.setColor(IndexedColors.WHITE.getIndex());
+         headerFont.setBold(true);
+         headStyle.setFont(headerFont); // 헤더 폰트적용
+         
+         // 헤더 생성
+         row = sheet.createRow(rowNo++);
+         row.setHeight((short)470);
+         cell = row.createCell(2);
+         cell.setCellStyle(headStyle);
+         cell.setCellValue("사원번호");
+         cell = row.createCell(3);
+         cell.setCellStyle(headStyle);
+         cell.setCellValue("이름");
+         cell = row.createCell(4);
+         cell.setCellStyle(headStyle);
+         cell.setCellValue("부서");
+         cell = row.createCell(5);
+         cell.setCellStyle(headStyle);
+         cell.setCellValue("소속");
+         cell = row.createCell(6);
+         cell.setCellStyle(headStyle);
+         cell.setCellValue("직급");
+         cell = row.createCell(7);
+         cell.setCellStyle(headStyle);
+         cell.setCellValue("이메일");
+         cell = row.createCell(8);
+         cell.setCellStyle(headStyle);
+         cell.setCellValue("전화번호");
+         cell = row.createCell(9);
+         cell.setCellStyle(headStyle);
+         cell.setCellValue("주소");
+         cell = row.createCell(10);
+         cell.setCellStyle(headStyle);
+         cell.setCellValue("입사일");
+
+
+         // 데이터 부분 생성
+         for(YjEmp emp1 : empListE) {
+             row = sheet.createRow(rowNo++);
+             row.setHeight((short)320);
+             cell = row.createCell(2);
+             cell.setCellStyle(bodyStyle);
+             cell.setCellValue(emp1.getEmp_num());
+             cell = row.createCell(3);
+             cell.setCellStyle(bodyStyle);
+             cell.setCellValue(emp1.getEmp_name());
+             cell = row.createCell(4);
+             cell.setCellStyle(bodyStyle);
+             cell.setCellValue(emp1.getDept());
+             cell = row.createCell(5);
+             cell.setCellStyle(bodyStyle);
+             cell.setCellValue(emp1.getTeam());
+             cell = row.createCell(6);
+             cell.setCellStyle(bodyStyle);
+             cell.setCellValue(emp1.getRank());
+             cell = row.createCell(7);
+             cell.setCellStyle(bodyStyle);
+             cell.setCellValue(emp1.getEmp_email());
+             cell = row.createCell(8);
+             cell.setCellStyle(bodyStyle);
+             cell.setCellValue(emp1.getEmp_phnum());
+             cell = row.createCell(9);
+             cell.setCellStyle(bodyStyle);
+             cell.setCellValue(emp1.getAddress());
+             cell = row.createCell(10);
+             cell.setCellStyle(bodyStyle);
+             cell.setCellValue(emp1.getEmp_hiredate());
+
+
+         }
+
+         // 컨텐츠 타입과 파일명 지정
+         response.setContentType("ms-vnd/excel");
+         response.setHeader("Content-Disposition", "attachment;filename=EmpList.xls");
+
+         // 엑셀 출력
+         wb.write(response.getOutputStream());
+         wb.close();
+
+			
+}
 	
 	  //사진파일 업로드
 	  private String uploadFile(String originalName, byte[] fileData , String uploadPath) 
