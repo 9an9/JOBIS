@@ -38,6 +38,16 @@
               ) 
     	 where rn between #{start} and #{end}   
 	</select>
+	<select id="jhRrListAll2" parameterType="JhRr" resultType="JhRr">
+		select * 
+         from (select rownum rn, a.* 
+               from (select r.*,e.emp_name from rr r,emp e
+				where r.emp_num=e.emp_num
+				and r.rr_type = #{rr_type}
+				order by r.rr_date desc) a
+              ) 
+    	 where rn between 1 and 3   
+	</select>
 	<select id="jhRrSelOne" parameterType="int" resultType="JhRr">
 		select * from rr where rr_num = #{rr_num}
 	</select>
@@ -50,6 +60,9 @@
 	<!-- 글 작성 -->
 	<insert id="jhInsertJhRr" parameterType="JhRr">
 		insert into rr(emp_num, rr_num, rr_type, rr_subject, rr_content, rr_filename ,rr_date) values (#{emp_num}, rr_seq.nextval, #{rr_type}, #{rr_subject}, #{rr_content}, #{rr_filename}, sysdate)
+	</insert>
+	<insert id="jhInsertJhRr1" parameterType="JhRr">
+		insert into rr(emp_num, rr_num, rr_type, rr_subject, rr_content, rr_date) values (#{emp_num}, rr_seq.nextval, #{rr_type}, #{rr_subject}, #{rr_content}, sysdate)
 	</insert>
 	<!-- 글 수정 -->
 	<update id="jhClubUpdate" parameterType="JhRr">

@@ -18,12 +18,16 @@ public interface JhRrDao {
 	//삭제가능
 	List<JhRr> listJhRr1(JhRr jhRr);
 	
+	List<JhRr> listJhRr2(JhRr jhRr);
+	
 	JhRr detail(int rr_num);
 
 	SyMemberVO show(SyMemberVO vo);
 
 	int insert(JhRr jhRr);
 
+	int insert1(JhRr jhRr);
+	
 	//삭제가능
 	int total0();
 	//삭제가능

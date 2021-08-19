@@ -52,6 +52,14 @@ public class JhRrServiceImpl implements JhRrService {
 		return jhRrList1;
 	}
 	@Override
+	public List<JhRr> listJhRr2(JhRr jhRr) {
+		List<JhRr> jhRrList2 = null;
+		System.out.println("JhRrServiceImpl listJhRr1 Start...");
+		jhRrList2 = jrd.listJhRr2(jhRr);
+		System.out.println("JhRrServiceImpl listJhRr jhRrList1.size()->"+jhRrList2.size());
+		return jhRrList2;
+	}
+	@Override
 	public JhRr detail(int rr_num) {
 		System.out.println("JhRrServiceImpl detail...");
 		JhRr jhRr = null;
@@ -76,6 +84,13 @@ public class JhRrServiceImpl implements JhRrService {
 		return result;
 	}
 	
+	@Override
+	public int insert1(JhRr jhRr) {
+		int result = 0;
+		System.out.println("JhRrServiceImpl Start...");
+		result = jrd.insert1(jhRr);
+		return result;
+	}
 	//삭제가능
 	@Override
 	public int total0() {

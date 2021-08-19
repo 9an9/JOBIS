@@ -20,7 +20,11 @@ public interface JhRrService {
 
 	int insert(JhRr jhRr);
 	
+	int insert1(JhRr jhRr);
+	
 	List<JhRr> listJhRr1(JhRr jhRr);
+	
+	List<JhRr> listJhRr2(JhRr jhRr);
 	
 	int total0();
 	

@@ -59,7 +59,17 @@ public class JhRrDaoImpl implements JhRrDao {
 		}
 		return jhRrList1;
 	}
-
+	@Override
+	public List<JhRr> listJhRr2(JhRr jhRr) {
+		List<JhRr> jhRrList2 = null;
+		System.out.println("JhRrDaoImpl listjhRr Start...");
+		try {
+			jhRrList2 = session.selectList("jhRrListAll2", jhRr);
+		} catch(Exception e) {
+			System.out.println("JhRrDaoImpl listjhRr Exception ->" + e.getMessage());
+		}
+		return jhRrList2;
+	}
 	@Override
 	public JhRr detail(int rr_num) {
 		System.out.println("JhRrDaoImpl detail start...");
@@ -97,7 +107,17 @@ public class JhRrDaoImpl implements JhRrDao {
 		}
 		return result;
 	}
-
+	@Override
+	public int insert1(JhRr jhRr) {
+		int result = 0;
+		System.out.println("JhRrDaoImpl insert Start...");
+		try {
+			result = session.insert("jhInsertJhRr1", jhRr);
+		} catch (Exception e ) {
+			System.out.println("JhRrDaoImpl insert Exception -> "+e.getMessage());
+		}
+		return result;
+	}
 	//삭제가능
 	@Override
 	public int total0() {

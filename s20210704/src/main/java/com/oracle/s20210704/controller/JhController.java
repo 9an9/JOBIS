@@ -31,6 +31,7 @@ import com.oracle.s20210704.service.JhCalendarService;
 import com.oracle.s20210704.service.JhPaging;
 import com.oracle.s20210704.service.JhRrService;
 import com.oracle.s20210704.service.JhRrcService;
+import com.oracle.s20210704.service.SwMsgService;
 import com.oracle.s20210704.service.YsApvService;
 
 import oracle.jdbc.proxy.annotation.Post;
@@ -49,6 +50,8 @@ public class JhController {
 	private JhRrcService jrcs;
 	@Autowired
 	private YsApvService yas;
+	@Autowired
+	private SwMsgService sms;
 	
 	@GetMapping("/")
 	public String index(Model model) {
@@ -61,7 +64,8 @@ public class JhController {
 	}
 	
 	@GetMapping(value = "main")
-	public String main(Model model, HttpSession session, SyMemberVO  vo) {	//Model model, HttpSession session, SyMemberVO vo도 사용
+	public String main(Model model, HttpSession session, SyMemberVO  vo, JhRr jhRr, String currentPage3, JhCalendar jhCalendar,
+			HttpServletRequest request, HttpServletResponse response) {
 		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
 		vo.setEmp_num(emp_num);								//모든 코딩에 추가
 		SyMemberVO svo = jrs.show(vo);						//모든 코딩에 추가
@@ -69,8 +73,64 @@ public class JhController {
 		System.out.println(svo.getDcontent());
 		System.out.println(svo.getRcontent());
 		System.out.println(svo.getTcontent());
+		int total = jrs.total3();							//공지사항
+		JhPaging jhpg3 = new JhPaging(total, currentPage3);	//공지사항
+		jhRr.setStart(jhpg3.getStart());					//공지사항
+		jhRr.setEnd(jhpg3.getEnd());						//공지사항
+		jhRr.setRr_type(3);									//공지사항
+		List<JhRr> listJhRr2 = jrs.listJhRr2(jhRr);			//공지사항
+		model.addAttribute("total3", total);				//공지사항
+		model.addAttribute("jhpg3", jhpg3);					//공지사항	
+		model.addAttribute("listJhRr2", listJhRr2);			//공지사항
+		String dep_num = jcs.depNum(emp_num);				//일정,dep_num 추가
+		jhCalendar.setDep_num(dep_num);						//일정,dep_num 추가
+		
+		Calendar calendar1 = Calendar.getInstance();								//일정
+		jhCalendar.setEmp_num(emp_num);												//일정				
+		String strType = (String)request.getParameter("type");						//일정
+		
+		
+		if(strType != null && !strType.equals("")) {								//일정
+		    int intYear     = Integer.parseInt(request.getParameter("curYear"));	//일정
+		    int intMonth    = Integer.parseInt(request.getParameter("curMonth"));	//일정
+		    int intDay      = Integer.parseInt(request.getParameter("curDay"));		//일정
+			    if(intMonth > 12) {													//일정
+		        intYear += 1;														//일정
+		        intMonth = 1;														//일정
+		    }																		//일정
+		    if(intMonth < 1) {														//일정		
+		        intYear -= 1;														//일정
+		        intMonth = 12;														//일정
+		    }																		//일정	
+			    calendar1.set(intYear, intMonth-1, intDay);							//일정	
+		}																			//일정
+		model.addAttribute("today",       calendar1.getTime());						//일정		
+		model.addAttribute("curYear",     calendar1.get(Calendar.YEAR));			//일정
+		model.addAttribute("curMonth",    (calendar1.get(Calendar.MONTH) + 1));		//일정
+		model.addAttribute("curDay",      calendar1.get(Calendar.DATE));			//일정
+		calendar1.set(Calendar.DATE, 1); 											//일정
+		model.addAttribute("firstDayOfMonth", calendar1.getTime());					//일정
+		String first = String.format("%1$tF %1$tT", calendar1.getTime()).substring(0, 10);	//일정
+		jhCalendar.setFirst(first);															//일정
+		
+		session.setAttribute("firstDayOfWeek", calendar1.get(Calendar.DAY_OF_WEEK));		//일정
+		session.setAttribute("lastDayOfMonth", calendar1.getActualMaximum(Calendar.DAY_OF_MONTH));	//일정
+		calendar1.set(Calendar.DATE, calendar1.getActualMaximum(Calendar.DAY_OF_MONTH));			//일정
+		session.setAttribute("lastDayOfLastWeek", calendar1.get(Calendar.DAY_OF_WEEK));				//일정
+		calendar1.set(Calendar.MONTH, calendar1.get(Calendar.MONTH) + 1);							//일정
+		calendar1.set(Calendar.DATE, 1);															//일정
+		model.addAttribute("firstDayOfNextMonth", calendar1.getTime());								//일정
+		String last =String.format("%1$tF %1$tT", calendar1.getTime()).substring(0, 10);			//일정
+		jhCalendar.setLast(last);																	//일정	
+		
+        List<JhCalendar> list = jcs.list(jhCalendar);												//일정
+        model.addAttribute("list", list);															//일정		
 		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
 		model.addAttribute("svo",svo);						//모든 코딩에 추가
+		int unreadTotal = yas.unreadTotal(emp_num);			//결재 알림
+		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
+		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
+		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
 		return "mainpage";
 	}
 	
@@ -313,7 +373,7 @@ public class JhController {
 		vo.setEmp_num(emp_num);								//모든 코딩에 추가
 		SyMemberVO svo = jrs.show(vo);						//모든 코딩에 추가
 		System.out.println("JhController clubwrite Start...");
-		int result = jrs.insert(jhRr);
+		int result = jrs.insert1(jhRr);
 		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
 		model.addAttribute("svo",svo);						//모든 코딩에 추가
 		if(result > 0) return "redirect:clubList";
@@ -436,7 +496,7 @@ public class JhController {
 		vo.setEmp_num(emp_num);								//모든 코딩에 추가
 		SyMemberVO svo = jrs.show(vo);						//모든 코딩에 추가
 		System.out.println("JhController write Start...");
-		int result = jrs.insert(jhRr);
+		int result = jrs.insert1(jhRr);
 		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
 		model.addAttribute("svo",svo);						//모든 코딩에 추가
 		if(result > 0) return "redirect:noticeList";
@@ -544,7 +604,10 @@ public class JhController {
 		SyMemberVO svo = jrs.show(vo);						//모든 코딩에 추가
 		model.addAttribute("emp_num",emp_num);				//모든 코딩에 추가
 		model.addAttribute("svo",svo);						//모든 코딩에 추가
-		
+		int unreadTotal = yas.unreadTotal(emp_num);			//결재 알림
+		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
+		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
+		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
 		String dep_num = jcs.depNum(emp_num);				//dep_num 추가
 		jhCalendar.setDep_num(dep_num);						//dep_num 추가
 		
