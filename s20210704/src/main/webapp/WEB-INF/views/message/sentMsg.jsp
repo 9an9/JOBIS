@@ -142,12 +142,12 @@ td {
         </div>      
       </div>
       <br>
-       <c:if test="${count2 == 0}">
-			     <script type="text/javascript">
-					alert('보낸 메시지가 없습니다.');
-					history.back();
-				</script>
-		     </c:if>
+       <c:if test="${total == 0}">
+	     <script type="text/javascript">
+			alert('보낸 메시지가 없습니다.');
+			history.back();
+		</script>
+	   </c:if>
     
     <!-- End Left Column -->
     </div>
