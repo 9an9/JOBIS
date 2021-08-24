@@ -44,9 +44,9 @@ table select {
 	<div class="MngEmp">
 		
 		<table border="1">
-		<tr><td rowspan="3" style="background-color:#E0E3DA; color: #000; text-align: center; width: 65px">변경 전</td><td style="background-color:#E0E3DA; color: #000; text-align: center; width: 75px">부서</td><td>  ${empM.dept }</td></tr>
-		<tr><td style="background-color:#E0E3DA; color: #000; text-align: center; width: 75px">팀</td><td>  ${empM.team }</td></tr>
-		<tr><td style="background-color:#E0E3DA; color: #000; text-align: center; width: 75px">직급</td><td>  ${empM.rank }</td></tr>
+		<tr><td rowspan="3" style="background-color:#E0E3DA; color: #000; text-align: center; width: 65px">변경 전</td><td style="background-color:#E0E3DA; color: #000; text-align: center; width: 75px">부서</td><td style="padding-left: 20px">${empM.dept }</td></tr>
+		<tr><td style="background-color:#E0E3DA; color: #000; text-align: center; width: 75px">팀</td><td style="padding-left: 20px">${empM.team }</td></tr>
+		<tr><td style="background-color:#E0E3DA; color: #000; text-align: center; width: 75px">직급</td><td style="padding-left: 20px">${empM.rank }</td></tr>
 		</table>
 		</c:forEach>
 		<form action="mngEmp" method="post">

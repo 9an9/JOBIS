@@ -340,4 +340,17 @@ public class YjEmpDaoImpl implements YjEmpDao {
 		return result;
 	}
 
+	@Override
+	public List<YjEmp> empListE() {
+		List<YjEmp> empListE = null;
+		System.out.println("YjEmpDaoImpl empListE Start ..." );
+		try {
+			// Naming Rule 
+			empListE = session.selectList("empListE");
+		} catch (Exception e) {
+			System.out.println("YjEmpDaoImpl empListE Exception->"+e.getMessage());
+		}
+		return empListE;
+	}
+
 }
