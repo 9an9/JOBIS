@@ -13,8 +13,8 @@ public interface SwMsgService {
 	List<SwMsg_rcv>    sentDetailMsg(int note_sq);
 	List<SwMsg> 	   rcvDetailMsg(int note_sq);
 	int 		       total(int emp_num); 
-	int 			   total2(int emp_num); 
 	int    			   delete(String checks);
+	int 			   total2(int emp_num); 
 	int     		   insertMsg(SwMsg swmsg);
 	int				   insertMsg_rcv(SwMsg_rcv swmsg_rcv);
 	int				   unreadMsg(int emp_num);

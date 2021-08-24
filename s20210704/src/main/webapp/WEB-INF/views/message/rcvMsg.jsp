@@ -241,7 +241,6 @@ function fn_selectAll(selectAll){
 				</script>
 		     </c:if>
 		      
-		      
 		     
 		      <form action ="deleteMsg" name="frm">
 	            	<table border="1" class="TB">

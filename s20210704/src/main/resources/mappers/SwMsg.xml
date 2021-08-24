@@ -85,19 +85,6 @@
 	    and   mr.emp_num = e.emp_num
 	</select>
 	
-	<!-- 보낸 메시지 페이징 -->
-	<select id ="total" parameterType="int" resultType="int">
-	    SELECT COUNT(*)
-        FROM   msg_rcv mr,
-	           msg mg,
-	           emp e1,
-	           emp e2
-		where  mg.emp_num = #{emp_num}
-		and    mg.msg_sq  = mr.msg_sq 
-		and    mg.emp_num = e1.emp_num
-		and    mr.emp_num = e2.emp_num
-	</select>
-	
 	<!-- 받은 메시지 페이징 -->
 	<select id ="total2" parameterType="int" resultType="int">
 		SELECT  count(*)
@@ -111,6 +98,20 @@
 		AND     mr.emp_num  = e2.emp_num
 		AND     mg.msg_type = 0
 	</select>
+
+	<!-- 보낸 메시지 페이징 -->
+	<select id ="total" parameterType="int" resultType="int">
+	    SELECT COUNT(*)
+        FROM   msg_rcv mr,
+	           msg mg,
+	           emp e1,
+	           emp e2
+		where  mg.emp_num = #{emp_num}
+		and    mg.msg_sq  = mr.msg_sq 
+		and    mg.emp_num = e1.emp_num
+		and    mr.emp_num = e2.emp_num
+	</select>
+	
 	
 	<!-- 사원정보 -->
 	<select id="listEmp" resultType="YjEmp">

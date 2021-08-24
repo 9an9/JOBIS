@@ -87,8 +87,8 @@ public class SwController {
 		
 		System.out.println("받은 메시지의 total은 --> " + total);
 		SwPaging sp = new SwPaging(total, currentPage);
-		swmsg.setStart(sp.getStart());   // 시작시 1
-		swmsg.setEnd(sp.getEnd());       // 시작시 15
+		swmsg.setStart(sp.getStart());   
+		swmsg.setEnd(sp.getEnd());       
 		swmsg.setEmp_num(emp_num);      
 		List<SwMsg> msgList = sms.msgList(swmsg);
 		model.addAttribute("total", total);

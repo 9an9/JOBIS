@@ -18,6 +18,18 @@ public class SwMsgDaoImpl implements SwMsgDao{
 	private SqlSession session;
 	
 	@Override
+	public List<SwMsg_rcv> msg_rcvList(SwMsg_rcv swmsg_rcv) {
+		List<SwMsg_rcv> msg_rcvList = null;
+		System.out.println("SwMsgDaoImpl msg_rcvlist Start ..." );
+		try {
+			msg_rcvList = session.selectList("msg_rcvList", swmsg_rcv);
+		} catch (Exception e) {
+			System.out.println("SwMsgDaoImpl msg_rcvlist Exception->"+e.getMessage());
+		}
+		return msg_rcvList;
+	}
+	
+	@Override
 	public List<SwMsg> msgList(SwMsg swmsg) {
 		List<SwMsg> msgList = null;
 		System.out.println("SwEmpDaoImpl msgList Start ..." );
@@ -30,17 +42,6 @@ public class SwMsgDaoImpl implements SwMsgDao{
 	return msgList;
 	}
 	
-	@Override
-	public List<SwMsg_rcv> msg_rcvList(SwMsg_rcv swmsg_rcv) {
-		List<SwMsg_rcv> msg_rcvList = null;
-		System.out.println("SwMsgDaoImpl msg_rcvlist Start ..." );
-		try {
-			msg_rcvList = session.selectList("msg_rcvList", swmsg_rcv);
-		} catch (Exception e) {
-			System.out.println("SwMsgDaoImpl msg_rcvlist Exception->"+e.getMessage());
-		}
-	return msg_rcvList;
-	}
 
 	@Override
 	public List<SwMsg> rcvDetailMsg(int note_sq) {

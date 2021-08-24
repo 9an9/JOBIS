@@ -230,8 +230,7 @@ textarea{
 				     </script>
 			     </c:if>
 		     </c:if>
-		     
-		     
+		    
 			 <form action="writeMsg" method="post" enctype="multipart/form-data" >
 				 <table border="1" class="TB">
 					 <input type="hidden" name="emp_num" required="required" value="${emp_num}">
