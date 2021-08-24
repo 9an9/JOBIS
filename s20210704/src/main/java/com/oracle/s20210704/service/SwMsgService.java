@@ -17,5 +17,6 @@ public interface SwMsgService {
 	int    			   delete(String checks);
 	int     		   insertMsg(SwMsg swmsg);
 	int				   insertMsg_rcv(SwMsg_rcv swmsg_rcv);
+	int				   unreadMsg(int emp_num);
 	int				   update(int note_sq);
 	}

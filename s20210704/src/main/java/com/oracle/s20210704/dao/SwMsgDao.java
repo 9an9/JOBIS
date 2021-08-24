@@ -10,12 +10,13 @@ public interface SwMsgDao {
 	List<SwMsg>			msgList(SwMsg swmsg);
 	List<SwMsg_rcv> 	msg_rcvList(SwMsg_rcv swmsg_rcv);
 	List<YjEmp>			listEmp();
-	List<SwMsg_rcv>		sentDetailMsg(int note_sq);
 	List<SwMsg>			rcvDetailMsg(int note_sq);
+	List<SwMsg_rcv>		sentDetailMsg(int note_sq);
 	int					total(int emp_num);
 	int					total2(int emp_num);
 	int          		delete(String checks);
-	int           		insertMsg(SwMsg swmsg);
 	int           		insertMsg_rcv(SwMsg_rcv swmsg_rcv);
+	int           		insertMsg(SwMsg swmsg);
+	int					unreadMsg(int emp_num);
 	int					update(int note_sq);
 	}

@@ -10,6 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -43,7 +44,31 @@ td {
 </style>
 <script type="text/javascript">
 
+function check() {
+
+	 var   listCnt     = 0;
+	 var   returnCheck = 0;
+	 const checkboxes  = document.getElementsByName('check1');
+	 
+	 checkboxes.forEach((checkbox) => {
+		 listCnt ++;
+	 	if (checkbox.checked) {
+	 		// alert("frm.check1.checked->"+listCnt);
+	 		returnCheck = 1;
+	 	} 
+	 });
+
+	 if  (returnCheck == 0) {
+		 alert("삭제할 메시지를 선택해주세요.");
+		 return false;
+	 } else {
+		 return true;
+	 }
+	
+}
+
 function fn_eaChange(index) {
+	
 	var i = index;
 	var test;
 	var check;
@@ -102,7 +127,6 @@ function fn_selectAll(selectAll){
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-commenting-o fa-fw w3-margin-right fa-flip-horizontal"></i>게시판</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
       <a href="../board/noticeList" class="w3-bar-item w3-button">공지사항</a>
-      <a href="../board/surveyList" class="w3-bar-item w3-button">설문</a>
       <a href="../board/clubList" class="w3-bar-item w3-button">동호회</a>
     </div>
   </div>
@@ -136,7 +160,6 @@ function fn_selectAll(selectAll){
   <button onclick="myFunction1('Demo2')" class="w3-bar-item w3-button w3-padding-large">게시판</button>
   	<div id="Demo2" class="w3-hide w3-bar-block">
     	<a href="../board/noticeList" class="w3-button w3-block w3-theme-l5 w3-left-align">공지사항</a>
-        <a href="../board/surveyList" class="w3-button w3-block w3-theme-l5 w3-left-align">설문조사</a>
         <a href="../board/clubList" class="w3-button w3-block w3-theme-l5 w3-left-align">동호회</a>
     </div>
     <c:if test="${svo.dcontent == '인사부' || svo.dcontent == '임원'  }">
@@ -147,7 +170,6 @@ function fn_selectAll(selectAll){
 	    </div>
     </c:if>
 </div>
-
 <!-- Page Container -->
 <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">    
   <!-- The Grid -->
@@ -169,33 +191,21 @@ function fn_selectAll(selectAll){
       <br>
       
       <!-- Accordion -->
-      <div class="w3-card w3-round">
+        <div class="w3-card w3-round">
         <div class="w3-white">
-          <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-envelope fa-fw w3-margin-right" ></i><span class="w3-badge w3-right w3-small w3-green">1</span> 메시지</button>
+          <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-envelope fa-fw w3-margin-right" ></i><c:if test="${unreadMsg > 0 }"><span class="w3-badge w3-right w3-small w3-green">${unreadMsg }</span></c:if> 메시지</button>
           <div id="Demo3" class="w3-hide w3-bar-block">
-          <a href="sendMsg" class="w3-button w3-block w3-theme-l5 w3-left-align">메시지 보내기</a>
-          <a href="sentMsg" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 메시지</a>
-          <a href="rcvMsg" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 메시지</a>
+          	<a href="sendMsg" class="w3-button w3-block w3-theme-l5 w3-left-align">메시지 보내기</a>
+            <a href="sentMsg" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 메시지</a>
+            <a href="rcvMsg" class="w3-button w3-block w3-theme-l5 w3-left-align"><c:if test="${unreadMsg > 0 }"><span class="w3-badge w3-right w3-small w3-green">${unreadMsg }</span></c:if>받은 메시지</a>
           </div>
-          <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><c:if test="${unreadTotal > 0 }"><span class="w3-badge w3-right w3-small w3-green">${unreadTotal }</span></c:if><c:if test="${apvNoTotal > 0 }"><span class="w3-badge w3-right w3-small w3-red">${apvNoTotal }</span></c:if> 결재</a>
-          <a href="../board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
+          
+           <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">3</span> 결재</a>
+          <button onclick="nwindow()" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fas fa-comment-dots fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green"></span>채팅</button>
         </div>      
       </div>
       <br>
-      
-      <!-- Interests --> 
-      <div class="w3-card w3-round w3-white w3-hide-small">
-        <div class="w3-container">
-          <p>채팅</p>
-          <hr>
-		  <p>인사부<p>
-          <p>관리부<p>
-          <p>개발부<p>
-        </div>
-      </div>
-      <br>
-
-    
+  
     <!-- End Left Column -->
     </div>
     
@@ -218,8 +228,20 @@ function fn_selectAll(selectAll){
 					alert('메시지가 삭제되었습니다.');
 				</script>
 		     </c:if>
+		     <c:if test="${result2 == 0}">
+			     <script type="text/javascript">
+					alert('메시지가 삭제되지 않았습니다.');
+				</script>
+		     </c:if>
+		     <c:if test="${total == 0}">
+			     <script type="text/javascript">
+					alert('받은 메시지가 없습니다.');
+					history.back();
+				</script>
+		     </c:if>
+		      
 		     
-		      <form action ="deleteMsg" name="frm" onsubmit="return check()">
+		      <form action ="deleteMsg" name="frm">
 	            	<table border="1" class="TB">
 						<tr style="background-color:#384f76; color: white;">
 							<th style="width:3%"><input type="checkbox" onclick='fn_selectAll(this)'></th>
@@ -229,21 +251,20 @@ function fn_selectAll(selectAll){
 							<th style="width:20%;">발신시간</th>
 						</tr>
 						<c:forEach var="msg" items="${msgList }" varStatus="status">
-						<c:if test = "${msg.msg_type == 0 }">
-						<tr>
-							<input type="hidden" name="msg_sq"  id="msg_sq${status.index}"  value="${msg.msg_sq }">
-							<td><input type="checkbox" name="check1"  id="check1${status.index}" value="0" onclick="fn_chkClick(${status.index})"></td>
-							<td>${msg.emp_name }</td>
-							<td>${msg.msg_title }</td>
-							<td><a href="rcvDetailMsg?msg_sq=${msg.msg_sq}">${msg.msg_content }</a></td>
-						    <td><fmt:formatDate value="${msg.snd_dt }" type="date" pattern="yyyy-MM-dd HH:mm"/></td>
-						</tr>  
-						</c:if>
+							<c:if test = "${msg.msg_type == 0 }">
+							<tr>
+								<input type="hidden" name="msg_sq"  id="msg_sq${status.index}"  value="${msg.msg_sq }">
+								<td><input type="checkbox" name="check1"  id="check1${status.index}" value="0" onclick="fn_chkClick(${status.index})"></td>
+								<td>${msg.emp_name }</td>
+								<td>${msg.msg_title }</td>
+								<td><a href="rcvDetailMsg?msg_sq=${msg.msg_sq}">${msg.msg_content }</a></td>
+							    <td><fmt:formatDate value="${msg.snd_dt }" type="date" pattern="yyyy-MM-dd HH:mm"/></td>
+							</tr>  
+							</c:if>
 						</c:forEach>
 						<tr> 				       
 						</table>
-					   		 <input type="submit" class="btn2" value="삭제" style="float: right; margin: 5px 0px;">
-					   			
+					   		 <input type="submit" class="btn2" value="삭제"  onclick="return check()" style="float: right; margin: 5px 0px;">
 				</form>
 					
 					
@@ -287,6 +308,11 @@ function fn_selectAll(selectAll){
 </footer>
  
 <script>
+function nwindow(){
+    var url="../chat/chat";
+    window.open(url,"","width=600,height=805,location=no");
+}
+
 // Accordion
 function myFunction(id) {
   var x = document.getElementById(id);

@@ -39,8 +39,9 @@ public class SwMsgDaoImpl implements SwMsgDao{
 		} catch (Exception e) {
 			System.out.println("SwMsgDaoImpl msg_rcvlist Exception->"+e.getMessage());
 		}
-	return msg_rcvList;
+		return msg_rcvList;
 	}
+	
 
 	@Override
 	public List<SwMsg> rcvDetailMsg(int note_sq) {
@@ -68,18 +69,6 @@ public class SwMsgDaoImpl implements SwMsgDao{
 	}
 	
 	@Override
-	public int insertMsg(SwMsg swmsg) {
-		int result1 = 0;
-		System.out.println("SwMsgDaoImpl insertMsg Start ..." );
-		try {
-			result1 = session.insert("insertMsg", swmsg);
-		} catch (Exception e) {
-			System.out.println("SwMsgDaoImpl insertMsg Exception->"+e.getMessage());
-		}
-	return result1;
-	}
-
-	@Override
 	public int insertMsg_rcv(SwMsg_rcv swmsg_rcv) {
 		int result2 = 0;
 		System.out.println("SwMsgDaoImpl insertMsg_rcv Start ..." );
@@ -89,6 +78,18 @@ public class SwMsgDaoImpl implements SwMsgDao{
 			System.out.println("SwMsgDaoImpl insertMsg_rcv Exception->"+e.getMessage());
 		}
 	return result2;
+	}
+	
+	@Override
+	public int insertMsg(SwMsg swmsg) {
+		int result1 = 0;
+		System.out.println("SwMsgDaoImpl insertMsg Start ..." );
+		try {
+			result1 = session.insert("insertMsg", swmsg);
+		} catch (Exception e) {
+			System.out.println("SwMsgDaoImpl insertMsg Exception->"+e.getMessage());
+		}
+	return result1;
 	}
 
 	@Override
@@ -153,5 +154,11 @@ public class SwMsgDaoImpl implements SwMsgDao{
 			System.out.println("SwMsgDaoImpl total2 Exception->"+e.getMessage());
 		}		
 	return tot;
+	}
+	
+	@Override
+	public int unreadMsg(int emp_num) {
+		int unreadMsg = session.selectOne("total2", emp_num);
+		return unreadMsg;
 	}
 }

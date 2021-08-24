@@ -10,8 +10,8 @@ import lombok.Setter;
 public class SwMsg {
 	
 	private int    msg_sq;			private int msg_type;
-	private int    emp_num;			private String msg_title;
-	private String msg_content; 	private String msg_fl_nm;
+	private int    emp_num;			private String msg_content;
+	private String msg_fl_nm;		private String msg_title;		
 	private String msg_fl_path; 	private Date   snd_dt;
 	
 	// 조회용
