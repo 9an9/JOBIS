@@ -30,6 +30,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
    border-color: #AAABD3;
    border-radius: 6px;
  }
+ 
 .empTB select {
     border : none;
    text-align-last: center;

@@ -327,7 +327,7 @@ function openDept() {
 	var url = "deptUpdate";
 	window.open(url,"","width=440,height=530,left="+w+",top="+h);
 }
-//엑셀 버튼 클릭 
+//엑셀 버튼 클릭  
 $("#excel").click(function () {
         $("#empTB").table2excel({
             name: "사원 목록",
