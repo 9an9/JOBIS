@@ -201,7 +201,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	      					<c:set var="a" value="${jhRr.rr_filename }"/>
 							<input type="text" class="fileName" readonly="readonly" value="${fn:substring(a,37,100)}">
 							<label for="uploadBtn" class="btn_file">파일 업로드</label>
-							<input type="file" id="uploadBtn" class="uploadBtn" name="file1">
+							<input type="file" id="uploadBtn" class="uploadBtn" name="file1" required="required">
 					</span>
 	      		</div>
 	      			<div><input class="btn2" type="submit" value="글쓰기"></div>
