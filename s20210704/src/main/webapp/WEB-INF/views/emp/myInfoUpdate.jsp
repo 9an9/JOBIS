@@ -212,7 +212,7 @@ table input {
 	              <tr><th>사진</th><td colspan="2" class="fileBox">
 	              	<input type="text" class="fileName" readonly="readonly" value="${fn:substringAfter(myInfo.ph_path, '_') }">
 					<label for="uploadBtn" class="btn_file">파일 업로드</label>
-					<input type="file" id="uploadBtn" class="uploadBtn" name="myImg" onchange="refresh()"></td></tr>
+					<input type="file" id="uploadBtn" class="uploadBtn" name="myImg" required="required"></td></tr>
 	                       
 	 		  	  </table>
 				  </c:forEach>

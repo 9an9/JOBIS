@@ -44,6 +44,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.oracle.s20210704.model.SyMemberVO;
 import com.oracle.s20210704.model.YjEmp;
 import com.oracle.s20210704.service.JhRrService;
+import com.oracle.s20210704.service.SwMsgService;
 import com.oracle.s20210704.service.YjEmpService;
 import com.oracle.s20210704.service.YjPaging;
 import com.oracle.s20210704.service.YsApvService;
@@ -59,6 +60,8 @@ public class YjController {
 	private JavaMailSender  mailSender;
 	@Autowired
 	private YsApvService    yas;
+	@Autowired
+	private SwMsgService sms;
 
 	
 	//사원정보관리 출력 
@@ -74,6 +77,9 @@ public class YjController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);
 		model.addAttribute("unreadTotal", unreadTotal);
 		model.addAttribute("apvNoTotal", apvNoTotal);
+		
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
 
 
 		System.out.println("YjController empList Start...");
@@ -144,6 +150,9 @@ public class YjController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);
 		model.addAttribute("unreadTotal", unreadTotal);
 		model.addAttribute("apvNoTotal", apvNoTotal);
+		
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
 
 
 		String dept = es.deptSelect(emp_num);
@@ -179,6 +188,9 @@ public class YjController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);
 		model.addAttribute("unreadTotal", unreadTotal);
 		model.addAttribute("apvNoTotal", apvNoTotal);
+		
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
 
 		
 		System.out.println("YjController myInfoUpdate Start...");
@@ -264,6 +276,9 @@ public class YjController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);
 		model.addAttribute("unreadTotal", unreadTotal);
 		model.addAttribute("apvNoTotal", apvNoTotal);
+		
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
 
 		
 		//사진파일
@@ -296,6 +311,9 @@ public class YjController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);
 		model.addAttribute("unreadTotal", unreadTotal);
 		model.addAttribute("apvNoTotal", apvNoTotal);
+		
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
 
 		
 		List<YjEmp> deptList = es.deptList();
@@ -345,6 +363,9 @@ public class YjController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);
 		model.addAttribute("unreadTotal", unreadTotal);
 		model.addAttribute("apvNoTotal", apvNoTotal);
+		
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
 
 		 
 		//사원번호부여/비밀번호
