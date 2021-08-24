@@ -8,6 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script type="text/javascript"
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -75,7 +76,6 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-commenting-o fa-fw w3-margin-right fa-flip-horizontal"></i>게시판</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
       <a href="../board/noticeList" class="w3-bar-item w3-button">공지사항</a>
-      <a href="../board/surveyList" class="w3-bar-item w3-button">설문</a>
       <a href="../board/clubList" class="w3-bar-item w3-button">동호회</a>
     </div>
   </div>
@@ -109,7 +109,6 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   <button onclick="myFunction1('Demo2')" class="w3-bar-item w3-button w3-padding-large">게시판</button>
   	<div id="Demo2" class="w3-hide w3-bar-block">
     	<a href="../board/noticeList" class="w3-button w3-block w3-theme-l5 w3-left-align">공지사항</a>
-        <a href="../board/surveyList" class="w3-button w3-block w3-theme-l5 w3-left-align">설문조사</a>
         <a href="../board/clubList" class="w3-button w3-block w3-theme-l5 w3-left-align">동호회</a>
     </div>
     <c:if test="${svo.dcontent == '인사부' || svo.dcontent == '임원'  }">
@@ -131,7 +130,8 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <div class="w3-card w3-round w3-white">
         <div class="w3-container">
          <h4 class="w3-center">My Profile</h4>
-         <p class="w3-center"><img src="../images/LUCY.jpg" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+         <p class="w3-center"><c:if test="${svo.ph_path eq null }"><img src="../images/LUCY.jpg" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></c:if>
+         					<c:if test="${svo.ph_path ne null }"><img src="../upload/${svo.ph_path }" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></c:if></p>
          <hr>
          <p><i class="fa fa-id-badge fa-fw w3-margin-right w3-text-theme"></i> ${svo.emp_name }</p>
          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${svo.dcontent } / ${svo.rcontent }</p>
@@ -146,29 +146,16 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-white">
           <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-envelope fa-fw w3-margin-right" ></i><span class="w3-badge w3-right w3-small w3-green">1</span> 쪽지</button>
           <div id="Demo3" class="w3-hide w3-bar-block">
-          	<a href="../note/sendNote" class="w3-button w3-block w3-theme-l5 w3-left-align">쪽지 보내기</a>
-            <a href="../note/sentNote" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 쪽지함</a>
-            <a href="../note/receiveNote" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 쪽지함</a>
+			<a href="../message/sendMsg" class="w3-button w3-block w3-theme-l5 w3-left-align">메시지 보내기</a>
+			<a href="../message/sentMsg" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 메시지</a>
+			<a href="../message/rcvMsg" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 메시지</a>
           </div>
           <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><c:if test="${unreadTotal > 0 }"><span class="w3-badge w3-right w3-small w3-green">${unreadTotal }</span></c:if><c:if test="${apvNoTotal > 0 }"><span class="w3-badge w3-right w3-small w3-red">${apvNoTotal }</span></c:if> 결재</a>
-          <a href="../board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
+          <button onclick="nwindow()" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fas fa-comment-dots fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green"></span>채팅</button>
         </div>      
       </div>
       <br>
       
-      <!-- Interests --> 
-      <div class="w3-card w3-round w3-white w3-hide-small">
-        <div class="w3-container">
-          <p>채팅</p>
-          <hr>
-		  <p>인사부<p>
-          <p>관리부<p>
-          <p>개발부<p>
-        </div>
-      </div>
-      <br>
-
-    
     <!-- End Left Column -->
     </div>
     
@@ -233,11 +220,11 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 				</c:forEach>
 			  </table>
 			<div style=" margin-top: 10px; float: left; margin-bottom: 20px">
-				<input type="button" value="Excel출력" class="w3-center btn3" id="excel">
+				<input type="button" value="Excel출력" class="w3-center btn3" id="excel" onclick="location.href='excelDownload'">
 			</div>			  
 			  
-			  <div class="w3-center">
-			  	<div class="w3-bar w3-border" onclick="location.href='excelDownload'" style=" margin: 10px 0px;border: 1px solid #7d97a5;">
+			  <div class="w3-center" >
+			  	<div class="w3-bar w3-border" style=" margin: 10px 0px;border: 1px solid #7d97a5;">
 			  
 					  <c:if test="${pg.startPage > pg.pageBlock }">
 					  	<a href="empList?currentPage=${pg.startPage-pg.pageBlock}" class="w3-bar-item w3-button">&laquo;</a>
@@ -286,6 +273,10 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 </c:if>
 
 <script>
+function nwindow(){
+    var url="../chat/chat";
+    window.open(url,"","width=600,height=805,location=no");
+}
 // Accordion
 function myFunction(id) {
   var x = document.getElementById(id);
@@ -336,7 +327,7 @@ function openDept() {
 	var url = "deptUpdate";
 	window.open(url,"","width=440,height=530,left="+w+",top="+h);
 }
-//엑셀 버튼 클릭 
+//엑셀 버튼 클릭  
 $("#excel").click(function () {
         $("#empTB").table2excel({
             name: "사원 목록",

@@ -274,4 +274,14 @@ public class YJEmpServiceImpl implements YjEmpService {
 		return result;	
 	}
 
+
+	@Override
+	public List<YjEmp> empListE() {
+		List<YjEmp> empListE = null;
+		System.out.println("YjEmpServiceImpl listEmpE Start..." );
+		empListE = ed.empListE();
+		System.out.println("YjEmpServiceImpl listEmpE empList.size()->" +empListE.size());
+		return empListE;
+	}
+
 }

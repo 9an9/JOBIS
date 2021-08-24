@@ -73,9 +73,9 @@
 	</select>
 	<insert id="writeEmp" parameterType="com.oracle.s20210704.model.YjEmp">
 	insert into emp (emp_num, emp_name, dep_num, team_num, rnk_num, emp_pw, emp_phnum, 
-	emp_zc_addr, emp_cm_addr, emp_dt_addr, emp_email, emp_hiredate, ph_path, ph_name) 
+	emp_zc_addr, emp_cm_addr, emp_dt_addr, emp_email, emp_hiredate, ph_path) 
 	values (#{emp_num}, #{emp_name}, #{dep_num}, #{team_num}, #{rnk_num}, #{emp_pw}, #{emp_phnum}, 
-	#{emp_zc_addr}, #{emp_cm_addr}, #{emp_dt_addr}, #{emp_email}, #{emp_hiredate}, #{ph_path}, #{ph_name})
+	#{emp_zc_addr}, #{emp_cm_addr}, #{emp_dt_addr}, #{emp_email}, #{emp_hiredate}, #{ph_path})
 	</insert>
 	<select id="deptList" resultType="com.oracle.s20210704.model.YjEmp">
 	select code as dcode, content as dept from comm where code like '1%' and code like '%0' and substr(code,2,1) !=0
@@ -129,4 +129,13 @@
 	<delete id="deleteTeam" parameterType="string">
 		delete from comm where content=#{team}
 	</delete>
+	<select id="empListE" resultType="com.oracle.s20210704.model.YjEmp">
+		select e.emp_num as emp_num, e.emp_name as emp_name, d.content as dept, 
+        t.content as team,r.content as rank, e.emp_email as emp_email, 
+        e.emp_phnum as emp_phnum, e.emp_cm_addr||''||e.emp_dt_addr as address,
+        to_char(e.emp_hiredate, 'YY/MM/DD') as emp_hiredate
+		from emp e, comm d, comm t, comm r
+		where e.dep_num = d.code and e.team_num = t.code and e.rnk_num = r.code
+		order by emp_num asc
+	</select>
 </mapper>
