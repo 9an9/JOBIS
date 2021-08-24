@@ -54,7 +54,6 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-commenting-o fa-fw w3-margin-right fa-flip-horizontal"></i>게시판</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
       <a href="../board/noticeList" class="w3-bar-item w3-button">공지사항</a>
-      <a href="../board/surveyList" class="w3-bar-item w3-button">설문</a>
       <a href="../board/clubList" class="w3-bar-item w3-button">동호회</a>
     </div>
   </div>

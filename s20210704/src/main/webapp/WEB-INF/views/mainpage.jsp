@@ -164,7 +164,7 @@ table{
 									
 									<td>${rrList.emp_name }</td>
 									<%-- <td><a href="detail?rr_num=${rrList.rr_num }">${rrList.rr_content}</a></td>  --%>
-									<td><a href="noticeListdetail?rr_num=${rrList.rr_num }&detail_num=${rrList.emp_num}">${rrList.rr_subject}</a></td>
+									<td><a href="board/noticeListdetail?rr_num=${rrList.rr_num }&detail_num=${rrList.emp_num}">${rrList.rr_subject}</a></td>
 									<td>${rrList.rr_date}</td>
 								</c:if>
 							</tr> 

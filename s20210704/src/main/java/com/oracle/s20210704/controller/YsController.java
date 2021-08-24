@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
@@ -38,10 +39,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.oracle.s20210704.model.JhCalendar;
+import com.oracle.s20210704.model.JhRr;
 import com.oracle.s20210704.model.SyMemberVO;
 import com.oracle.s20210704.model.YsApv;
 import com.oracle.s20210704.model.YsEmpCmt;
+import com.oracle.s20210704.service.JhCalendarService;
+import com.oracle.s20210704.service.JhPaging;
 import com.oracle.s20210704.service.JhRrService;
+import com.oracle.s20210704.service.SwMsgService;
 import com.oracle.s20210704.service.YsApvService;
 import com.oracle.s20210704.service.YsEmpCmtService;
 import com.oracle.s20210704.service.YsPaging;
@@ -59,6 +65,12 @@ public class YsController {
 	
 	@Autowired
 	private JhRrService jrs;
+	
+	@Autowired
+	private SwMsgService sms;
+	
+	@Autowired
+	private JhCalendarService jcs;
 	
 	@GetMapping(value = "cmt/cmt")
 	public String cmt(Model model , YsEmpCmt ysEmpCmt,String currentPage, HttpSession session, SyMemberVO  vo) {
@@ -80,6 +92,9 @@ public class YsController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);
 		model.addAttribute("unreadTotal", unreadTotal);
 		model.addAttribute("apvNoTotal", apvNoTotal);
+		
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
 		
 		return "cmt/cmt";
 	}
@@ -138,6 +153,9 @@ public class YsController {
 		model.addAttribute("unreadTotal", unreadTotal);
 		model.addAttribute("apvNoTotal", apvNoTotal);
 		
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
+		
 		return "cmt/cmt";
 		//커밋테스트 2
 	}
@@ -169,6 +187,9 @@ public class YsController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);
 		model.addAttribute("unreadTotal", unreadTotal);
 		model.addAttribute("apvNoTotal", apvNoTotal);
+		
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
 
 		return "cmt/absent";
 	}
@@ -215,6 +236,9 @@ public class YsController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);
 		model.addAttribute("unreadTotal", unreadTotal);
 		model.addAttribute("apvNoTotal", apvNoTotal);
+		
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
 		
 		return "cmt/mycmt";
 	}
@@ -278,6 +302,9 @@ public class YsController {
 		model.addAttribute("unreadTotal", unreadTotal);
 		model.addAttribute("apvNoTotal", apvNoTotal);
 		
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
+		
 		return "apv/apvSnd";
 	}
 	
@@ -308,6 +335,9 @@ public class YsController {
 		model.addAttribute("unreadTotal", unreadTotal);
 		model.addAttribute("apvNoTotal", apvNoTotal);
 		
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
+		
 		return "apv/apvRcv";
 	}
 	@GetMapping(value = "apv/apvWrite")
@@ -322,6 +352,9 @@ public class YsController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);
 		model.addAttribute("unreadTotal", unreadTotal);
 		model.addAttribute("apvNoTotal", apvNoTotal);
+		
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
 		
 		
 		return "apv/apvWrite";
@@ -367,6 +400,9 @@ public class YsController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);
 		model.addAttribute("unreadTotal", unreadTotal);
 		model.addAttribute("apvNoTotal", apvNoTotal);
+		
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
 		
 		return "apv/apvRcvDetail";
 	}
@@ -414,6 +450,9 @@ public class YsController {
 		YsApv ingEmp = yas.ingEmp(sq);
 		model.addAttribute("ingEmp", ingEmp);
 		
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
+		
 		return "apv/apvSndDetail";
 	}
 	
@@ -435,6 +474,9 @@ public class YsController {
 		
 		YsApv nextEmp   = yas.nextEmp(sq);
 		model.addAttribute("nextEmp", nextEmp);
+		
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
 		
 		return "apv/apvReWrite";
 	}
@@ -698,7 +740,7 @@ public class YsController {
 	}
 	
 	@GetMapping(value = "workInOut")
-	public String workInOut(Model model, HttpSession session, SyMemberVO  vo, int inOut) {
+	public String workInOut(Model model, HttpSession session, SyMemberVO  vo, int inOut, JhRr jhRr, String currentPage3, JhCalendar jhCalendar,HttpServletRequest request, HttpServletResponse response) {
 		int emp_num = (int)session.getAttribute("member");	//모든 코딩에 추가
 		vo.setEmp_num(emp_num);								//모든 코딩에 추가
 		SyMemberVO svo = jrs.show(vo);						//모든 코딩에 추가	
@@ -718,6 +760,67 @@ public class YsController {
 		}else if(inOut == 2 && cmt_check == 1){		//퇴근실패
 			model.addAttribute("cmt_chk", 1);
 		}
+		
+		int total = jrs.total3();							//공지사항
+		JhPaging jhpg3 = new JhPaging(total, currentPage3);	//공지사항
+		jhRr.setStart(jhpg3.getStart());					//공지사항
+		jhRr.setEnd(jhpg3.getEnd());						//공지사항
+		jhRr.setRr_type(3);									//공지사항
+		List<JhRr> listJhRr2 = jrs.listJhRr2(jhRr);			//공지사항
+		model.addAttribute("total3", total);				//공지사항
+		model.addAttribute("jhpg3", jhpg3);					//공지사항	
+		model.addAttribute("listJhRr2", listJhRr2);			//공지사항
+		String dep_num = jcs.depNum(emp_num);				//일정,dep_num 추가
+		jhCalendar.setDep_num(dep_num);						//일정,dep_num 추가
+		int unreadMsg = sms.unreadMsg(emp_num);				//메시지알림
+		model.addAttribute("unreadMsg", unreadMsg);			//메시지알림
+		
+		Calendar calendar1 = Calendar.getInstance();								//일정
+		jhCalendar.setEmp_num(emp_num);												//일정				
+		String strType = (String)request.getParameter("type");						//일정
+		
+		
+		if(strType != null && !strType.equals("")) {								//일정
+		    int intYear     = Integer.parseInt(request.getParameter("curYear"));	//일정
+		    int intMonth    = Integer.parseInt(request.getParameter("curMonth"));	//일정
+		    int intDay      = Integer.parseInt(request.getParameter("curDay"));		//일정
+			    if(intMonth > 12) {													//일정
+		        intYear += 1;														//일정
+		        intMonth = 1;														//일정
+		    }																		//일정
+		    if(intMonth < 1) {														//일정		
+		        intYear -= 1;														//일정
+		        intMonth = 12;														//일정
+		    }																		//일정	
+			    calendar1.set(intYear, intMonth-1, intDay);							//일정	
+		}																			//일정
+		model.addAttribute("today",       calendar1.getTime());						//일정		
+		model.addAttribute("curYear",     calendar1.get(Calendar.YEAR));			//일정
+		model.addAttribute("curMonth",    (calendar1.get(Calendar.MONTH) + 1));		//일정
+		model.addAttribute("curDay",      calendar1.get(Calendar.DATE));			//일정
+		calendar1.set(Calendar.DATE, 1); 											//일정
+		model.addAttribute("firstDayOfMonth", calendar1.getTime());					//일정
+		String first = String.format("%1$tF %1$tT", calendar1.getTime()).substring(0, 10);	//일정
+		jhCalendar.setFirst(first);															//일정
+		
+		session.setAttribute("firstDayOfWeek", calendar1.get(Calendar.DAY_OF_WEEK));		//일정
+		session.setAttribute("lastDayOfMonth", calendar1.getActualMaximum(Calendar.DAY_OF_MONTH));	//일정
+		calendar1.set(Calendar.DATE, calendar1.getActualMaximum(Calendar.DAY_OF_MONTH));			//일정
+		session.setAttribute("lastDayOfLastWeek", calendar1.get(Calendar.DAY_OF_WEEK));				//일정
+		calendar1.set(Calendar.MONTH, calendar1.get(Calendar.MONTH) + 1);							//일정
+		calendar1.set(Calendar.DATE, 1);															//일정
+		model.addAttribute("firstDayOfNextMonth", calendar1.getTime());								//일정
+		String last =String.format("%1$tF %1$tT", calendar1.getTime()).substring(0, 10);			//일정
+		jhCalendar.setLast(last);																	//일정	
+		
+        List<JhCalendar> list = jcs.list(jhCalendar);												//일정
+        model.addAttribute("list", list);															//일정		
+
+		int unreadTotal = yas.unreadTotal(emp_num);			//결재 알림
+		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
+		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
+		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
+		
 		
 		
 		return "mainpage";
