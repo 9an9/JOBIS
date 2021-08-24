@@ -52,7 +52,7 @@
 		select * from rr where rr_num = #{rr_num}
 	</select>
 	<select id="jhshow" parameterType="SyMemberVO" resultType="SyMemberVO">
-		select e.emp_name as emp_name, d.content as dcontent,t.content as tcontent,r.content as rcontent
+		select e.emp_name as emp_name, e.ph_path as ph_path, d.content as dcontent,t.content as tcontent,r.content as rcontent
 		from emp e, comm d, comm t, comm r
 		where e.dep_num = d.code and e.team_num = t.code and e.rnk_num = r.code
 		and emp_num = #{emp_num}

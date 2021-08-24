@@ -52,7 +52,6 @@ public class JhController {
 	private YsApvService yas;
 	@Autowired
 	private SwMsgService sms;
-	
 	@GetMapping("/")
 	public String index(Model model) {
 		return "index";
@@ -84,6 +83,8 @@ public class JhController {
 		model.addAttribute("listJhRr2", listJhRr2);			//공지사항
 		String dep_num = jcs.depNum(emp_num);				//일정,dep_num 추가
 		jhCalendar.setDep_num(dep_num);						//일정,dep_num 추가
+		int unreadMsg = sms.unreadMsg(emp_num);				//메시지알림
+		model.addAttribute("unreadMsg", unreadMsg);			//메시지알림
 		
 		Calendar calendar1 = Calendar.getInstance();								//일정
 		jhCalendar.setEmp_num(emp_num);												//일정				
@@ -167,6 +168,8 @@ public class JhController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
 		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
 		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
+		int unreadMsg = sms.unreadMsg(emp_num);				//메시지알림
+		model.addAttribute("unreadMsg", unreadMsg);			//메시지알림
 		model.addAttribute("total0", total);
 		model.addAttribute("total1", total);
 		model.addAttribute("listJhRr", listJhRr);
@@ -200,7 +203,8 @@ public class JhController {
 		// 댓글조회부분 삭제가능
 		List<JhReplyVO> replyList = jrcs.readReply(jhRr.getRr_num());	//댓글목록
 		model.addAttribute("replyList", replyList);						//댓글목록
-		//
+		int unreadMsg = sms.unreadMsg(emp_num);				//메시지알림
+		model.addAttribute("unreadMsg", unreadMsg);			//메시지알림
 		return "rr/detail";
 	}
 	
@@ -217,6 +221,8 @@ public class JhController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
 		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
 		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
+		int unreadMsg = sms.unreadMsg(emp_num);				//메시지알림
+		model.addAttribute("unreadMsg", unreadMsg);			//메시지알림
 		return "rr/rrwriteForm";
 	}
 	
@@ -257,6 +263,8 @@ public class JhController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
 		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
 		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
+		int unreadMsg = sms.unreadMsg(emp_num);				//메시지알림
+		model.addAttribute("unreadMsg", unreadMsg);			//메시지알림
 		return "rr/rrupdateForm";
 	}
 	
@@ -324,6 +332,8 @@ public class JhController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
 		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
 		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
+		int unreadMsg = sms.unreadMsg(emp_num);				//메시지알림
+		model.addAttribute("unreadMsg", unreadMsg);			//메시지알림
 		return "board/clubList";		
 	}
 	
@@ -347,6 +357,8 @@ public class JhController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
 		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
 		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
+		int unreadMsg = sms.unreadMsg(emp_num);				//메시지알림
+		model.addAttribute("unreadMsg", unreadMsg);			//메시지알림
 		return "board/clubListdetail";
 	}
 	
@@ -363,6 +375,8 @@ public class JhController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
 		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
 		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
+		int unreadMsg = sms.unreadMsg(emp_num);				//메시지알림
+		model.addAttribute("unreadMsg", unreadMsg);			//메시지알림
 		return "board/clubwriteForm";
 	}
 	
@@ -399,6 +413,8 @@ public class JhController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
 		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
 		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
+		int unreadMsg = sms.unreadMsg(emp_num);				//메시지알림
+		model.addAttribute("unreadMsg", unreadMsg);			//메시지알림
 		return "board/clubupdateForm";
 	}
 	
@@ -447,6 +463,8 @@ public class JhController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
 		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
 		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
+		int unreadMsg = sms.unreadMsg(emp_num);				//메시지알림
+		model.addAttribute("unreadMsg", unreadMsg);			//메시지알림
 		return "board/noticeList";		
 	}
 	
@@ -470,6 +488,8 @@ public class JhController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
 		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
 		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
+		int unreadMsg = sms.unreadMsg(emp_num);				//메시지알림
+		model.addAttribute("unreadMsg", unreadMsg);			//메시지알림
 		return "board/noticeListdetail";
 	}
 	
@@ -486,6 +506,8 @@ public class JhController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
 		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
 		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
+		int unreadMsg = sms.unreadMsg(emp_num);				//메시지알림
+		model.addAttribute("unreadMsg", unreadMsg);			//메시지알림
 		return "board/noticewriteForm";
 	}
 	
@@ -522,6 +544,8 @@ public class JhController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
 		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
 		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
+		int unreadMsg = sms.unreadMsg(emp_num);				//메시지알림
+		model.addAttribute("unreadMsg", unreadMsg);			//메시지알림
 		return "board/noticeupdateForm";
 	}
 	
@@ -608,6 +632,8 @@ public class JhController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);			//결재 알림	
 		model.addAttribute("unreadTotal", unreadTotal);		//결재 알림
 		model.addAttribute("apvNoTotal", apvNoTotal);		//결재 알림
+		int unreadMsg = sms.unreadMsg(emp_num);				//메시지알림
+		model.addAttribute("unreadMsg", unreadMsg);			//메시지알림
 		String dep_num = jcs.depNum(emp_num);				//dep_num 추가
 		jhCalendar.setDep_num(dep_num);						//dep_num 추가
 		
