@@ -8,6 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="../css/SpringMain.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -55,6 +56,8 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 	color: #FFFFFF;
 	background-color: #3C3530;
 	border-radius: 6px;
+	width: 50px;
+    height: 30px;
 	}
    
 .btn3{
@@ -118,7 +121,6 @@ textarea{
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-commenting-o fa-fw w3-margin-right fa-flip-horizontal"></i>게시판</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
       <a href="../board/noticeList" class="w3-bar-item w3-button">공지사항</a>
-      <a href="../board/surveyList" class="w3-bar-item w3-button">설문</a>
       <a href="../board/clubList" class="w3-bar-item w3-button">동호회</a>
     </div>
   </div>
@@ -152,7 +154,6 @@ textarea{
   <button onclick="myFunction1('Demo2')" class="w3-bar-item w3-button w3-padding-large">게시판</button>
   	<div id="Demo2" class="w3-hide w3-bar-block">
     	<a href="../board/noticeList" class="w3-button w3-block w3-theme-l5 w3-left-align">공지사항</a>
-        <a href="../board/surveyList" class="w3-button w3-block w3-theme-l5 w3-left-align">설문조사</a>
         <a href="../board/clubList" class="w3-button w3-block w3-theme-l5 w3-left-align">동호회</a>
     </div>
     <c:if test="${svo.dcontent == '인사부' || svo.dcontent == '임원'  }">
@@ -185,32 +186,22 @@ textarea{
       <br>
       
       <!-- Accordion -->
-      <div class="w3-card w3-round">
+        <div class="w3-card w3-round">
         <div class="w3-white">
-          <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-envelope fa-fw w3-margin-right" ></i><span class="w3-badge w3-right w3-small w3-green">1</span> 메시지</button>
+          <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-envelope fa-fw w3-margin-right" ></i><c:if test="${unreadMsg > 0 }"><span class="w3-badge w3-right w3-small w3-green">${unreadMsg }</span></c:if> 메시지</button>
           <div id="Demo3" class="w3-hide w3-bar-block">
           	<a href="sendMsg" class="w3-button w3-block w3-theme-l5 w3-left-align">메시지 보내기</a>
             <a href="sentMsg" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 메시지</a>
-            <a href="rcvMsg" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 메시지</a>
+            <a href="rcvMsg" class="w3-button w3-block w3-theme-l5 w3-left-align"><c:if test="${unreadMsg > 0 }"><span class="w3-badge w3-right w3-small w3-green">${unreadMsg }</span></c:if>받은 메시지</a>
           </div>
-          <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><c:if test="${unreadTotal > 0 }"><span class="w3-badge w3-right w3-small w3-green">${unreadTotal }</span></c:if><c:if test="${apvNoTotal > 0 }"><span class="w3-badge w3-right w3-small w3-red">${apvNoTotal }</span></c:if> 결재</a>
-          <a href="../board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
+          
+           <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">3</span> 결재</a>
+          <button onclick="nwindow()" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fas fa-comment-dots fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green"></span>채팅</button>
         </div>      
       </div>
       <br>
       
-      <!-- Interests --> 
-      <div class="w3-card w3-round w3-white w3-hide-small">
-        <div class="w3-container">
-          <p>채팅</p>
-          <hr>
-		  <p>인사부<p>
-          <p>관리부<p>
-          <p>개발부<p>
-        </div>
-      </div>
-      <br>
-
+    
     
     <!-- End Left Column -->
     </div>
@@ -258,19 +249,18 @@ textarea{
 						<td><input type="text" name="msg_title" required="required" style="width:100%; border:0;" maxlength="100"></td></tr>
 					<tr><th>내용</th>
 						<td><textarea name="msg_content" required="required" maxlength="4000" style="border:0;"></textarea></td></tr>
-					<tr><td colspan="2">
+					</table>
+					
 						<span class="fileBox">
 							<input type="text" class="fileName" readonly="readonly">
 							<label for="uploadBtn" class="btn_file">파일 업로드</label>
 							<input type="file" id="uploadBtn" class="uploadBtn" name="file1" onchange="setThumbnail(event);">
-							<label class="btn3" onclick="fdel()">제거</label>
+							<label class="btn3" onclick="fdel()" style="margin: 5px 0px;">제거</label>
 						</span>
 					    <input type="hidden" name="msg_fl_path" value="${pageContext.request.contextPath}/resources/image/">
-					</table>
 						<input type="button" value="취소" onclick="history.back(-1)" class="btn2" style="float: right; margin: 5px 0px;">
-						<input type="submit" value="전송" style="float: right; margin: 5px 0px;" class="btn2">
-					</td>
-					</tr>
+						<input type="submit" value="전송" style="float: right; margin: 5px 2px;" class="btn2">
+					
 				</form>
 				
             </div>
@@ -297,6 +287,10 @@ textarea{
  
 <script>
 // Accordion
+function nwindow(){
+    var url="../chat/chat";
+    window.open(url,"","width=600,height=805,location=no");
+}
 
 var uploadFile = $('.fileBox .uploadBtn');
 uploadFile.on('change', function(){

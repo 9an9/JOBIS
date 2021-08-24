@@ -56,20 +56,24 @@ public class SwController {
 		int total = sms.total(emp_num);
 		SwPaging sp = new SwPaging(total, currentPage);
 		swmsg_rcv.setStart(sp.getStart());   // 시작시 1
-		swmsg_rcv.setEnd(sp.getEnd());       // 시작시 10 
+		swmsg_rcv.setEnd(sp.getEnd());       // 시작시 15
 		swmsg_rcv.setEmp_num(emp_num);
 		List<SwMsg_rcv> msg_rcvList = sms.msg_rcvList(swmsg_rcv); 
 		model.addAttribute("total", total);
 		model.addAttribute("msg_rcvList", msg_rcvList); 
 		model.addAttribute("sp",sp);
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
+		
 		
 		int unreadTotal = yas.unreadTotal(emp_num);
 		int apvNoTotal  = yas.apvNoTotal(emp_num);
 		model.addAttribute("unreadTotal", unreadTotal);
 		model.addAttribute("apvNoTotal", apvNoTotal);
+		model.addAttribute("total", total);
 	return "message/sentMsg"; 
 	}
-		
+	
 	// 받은 메시지
 	@GetMapping("message/rcvMsg")
 	public String rcvMsg(Model model, HttpSession session, SyMemberVO vo, SwMsg swmsg, String currentPage) {
@@ -81,6 +85,8 @@ public class SwController {
 		model.addAttribute("svo",svo);
 		
 		int total = sms.total2(emp_num);
+		
+		System.out.println("받은 메시지의 total은 --> " + total);
 		SwPaging sp = new SwPaging(total, currentPage);
 		swmsg.setStart(sp.getStart());   // 시작시 1
 		swmsg.setEnd(sp.getEnd());       // 시작시 15
@@ -94,6 +100,10 @@ public class SwController {
 		int apvNoTotal  = yas.apvNoTotal(emp_num);
 		model.addAttribute("unreadTotal", unreadTotal);
 		model.addAttribute("apvNoTotal", apvNoTotal);
+		
+		//선우 사이드바 알람
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
 	return "message/rcvMsg";
 	}
 
@@ -108,6 +118,8 @@ public class SwController {
 		model.addAttribute("svo",svo);
 		List<YjEmp> listEmp = sms.listEmp();
 		model.addAttribute("listEmp", listEmp); 
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
 		
 		int unreadTotal = yas.unreadTotal(emp_num);
 		int apvNoTotal  = yas.apvNoTotal(emp_num);
@@ -139,6 +151,8 @@ public class SwController {
 		model.addAttribute("listEmp", listEmp);
 		model.addAttribute("result1", result1);
 		model.addAttribute("result2", result2);
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
 	return "message/sendMsg"; 
 	}
 
@@ -168,10 +182,12 @@ public class SwController {
 		try {
 				request.setCharacterEncoding("utf-8"); 
 				String zero = "0"; 
-				String[] checks = request.getParameterValues("check1"); 
+				String[] checks = request.getParameterValues("check1");
 				for (int i=0;i<checks.length;i++){
 					if(checks[i].equals(zero)) { 
 						System.out.println("Zero i -> "+ i ); 
+						int result2 = 0;
+						model.addAttribute("result2", result2);
 				  	} else {
 						  System.out.println("i -> "+ i ); 
 						  System.out.println("checks[i]->"+ checks[i]); 
@@ -181,6 +197,8 @@ public class SwController {
 						  swmsg.setStart(sp.getStart());   // 시작시 1
 						  swmsg.setEnd(sp.getEnd());       // 시작시 15
 						  swmsg.setEmp_num(emp_num);      
+						  int unreadMsg = sms.unreadMsg(emp_num);
+						  model.addAttribute("unreadMsg", unreadMsg);
 						  List<SwMsg> msgList = sms.msgList(swmsg);
 						  model.addAttribute("total", total);
 						  model.addAttribute("msgList", msgList);
@@ -192,7 +210,7 @@ public class SwController {
 		}catch (UnsupportedEncodingException e) { 
 				e.printStackTrace(); 
 		} 
-	return "message/rcvMsg"; 
+	return "message/rcvMsg";
 	}
 
 	// 받은 메시지 상세보기 
@@ -209,6 +227,8 @@ public class SwController {
 		result = sms.update(swmsg.getMsg_sq());
 		model.addAttribute("rcvDetailMsg", rcvDetailMsg);
 		model.addAttribute("result", result);
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
 		
 		int unreadTotal = yas.unreadTotal(emp_num);
 		int apvNoTotal  = yas.apvNoTotal(emp_num);
@@ -228,7 +248,8 @@ public class SwController {
 		model.addAttribute("svo",svo);			  
 		List<SwMsg_rcv> sentDetailMsg = sms.sentDetailMsg(swmsg_rcv.getMsg_sq());
 		model.addAttribute("sentDetailMsg", sentDetailMsg); 
-		
+		int unreadMsg = sms.unreadMsg(emp_num);
+		model.addAttribute("unreadMsg", unreadMsg);
 		int unreadTotal = yas.unreadTotal(emp_num);
 		int apvNoTotal  = yas.apvNoTotal(emp_num);
 		model.addAttribute("unreadTotal", unreadTotal);

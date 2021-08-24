@@ -21,38 +21,38 @@ public class SwMsgServiceImpl implements SwMsgService {
 		List<SwMsg_rcv> msg_rcvList = null;
 		System.out.println("SwMsgServiceImpl msg_rcvList Start..." );
 		msg_rcvList = smd.msg_rcvList(swmsg_rcv);
-		System.out.println("SwNoteServiceImpl msg_rcvList.size()->" + msg_rcvList.size());
+		System.out.println("SwMsgServiceImpl msg_rcvList.size()->" + msg_rcvList.size());
 	return msg_rcvList;
 	}
 
 	@Override
 	public List<SwMsg> msgList(SwMsg swmsg) {
 		List<SwMsg> msgList = null;
-		System.out.println("SwNoteServiceImpl msgList Start..." );
+		System.out.println("SwMsgServiceImpl msgList Start..." );
 		msgList = smd.msgList(swmsg);
-		System.out.println("SwNoteServiceImpl msgList.size()->" + msgList.size());
+		System.out.println("SwMsgServiceImpl msgList.size()->" + msgList.size());
 	return msgList;
 	}
 		
 	@Override
 	public List<YjEmp> listEmp() {
 		List<YjEmp> empLists = null;
-		System.out.println("SwNoteServiceImpl listEmp Start..." );
+		System.out.println("SwMsgServiceImpl listEmp Start..." );
 		empLists = smd.listEmp();
-		System.out.println("SwNoteServiceImpl listEmp empList.size()->" +empLists.size());
+		System.out.println("SwMsgServiceImpl listEmp empList.size()->" +empLists.size());
 	return empLists;
 	}
 
 	@Override
 	public int insertMsg(SwMsg swmsg) {
-		System.out.println("SwNoteServiceImpl insertMsg Start..." );
+		System.out.println("SwMsgServiceImpl insertMsg Start..." );
 		int result1 = smd.insertMsg(swmsg);
 	return result1;
 	}
 
 	@Override
 	public int insertMsg_rcv(SwMsg_rcv swmsg_rcv) {
-		System.out.println("SwNoteServiceImpl insertMsg_rcv Start..." );
+		System.out.println("SwMsgServiceImpl insertMsg_rcv Start..." );
 		int result2 = smd.insertMsg_rcv(swmsg_rcv);
 	return result2;
 	}
@@ -60,7 +60,7 @@ public class SwMsgServiceImpl implements SwMsgService {
 	@Override
 	public int delete(String checks) {
 		int result = 0;
-		System.out.println("SwNoteServiceImpl delete Start..." );
+		System.out.println("SwMsgServiceImpl delete Start..." );
 		result = smd.delete(checks);
 	return result;
 	}
@@ -68,7 +68,7 @@ public class SwMsgServiceImpl implements SwMsgService {
 	@Override
 	public List<SwMsg> rcvDetailMsg(int note_sq) {
 		List<SwMsg> rcvDetailMsg = null;
-		System.out.println("SwNoteServiceImpl rcvDetailMsg Start..." );
+		System.out.println("SwMsgServiceImpl rcvDetailMsg Start..." );
 		rcvDetailMsg = smd.rcvDetailMsg(note_sq);
 	return rcvDetailMsg;
 	}
@@ -76,15 +76,15 @@ public class SwMsgServiceImpl implements SwMsgService {
 	@Override
 	public List<SwMsg_rcv> sentDetailMsg(int note_sq) {
 		List<SwMsg_rcv> sentDetailMsg = null;
-		System.out.println("SwNoteServiceImpl sentDetailMsg Start..." );
+		System.out.println("SwMsgServiceImpl sentDetailMsg Start..." );
 		sentDetailMsg = smd.sentDetailMsg(note_sq);
-		System.out.println("SwNoteServiceImpl sentDetailMsg.size()->" + sentDetailMsg.size());
+		System.out.println("SwMsgServiceImpl sentDetailMsg.size()->" + sentDetailMsg.size());
 	return sentDetailMsg;
 	}
 
 	@Override
 	public int update(int note_sq) {
-		System.out.println("SwNoteServiceImpl update Start...");
+		System.out.println("SwMsgServiceImpl update Start...");
 		int result = 0;
 		result = smd.update(note_sq);
 	return result;
@@ -92,17 +92,23 @@ public class SwMsgServiceImpl implements SwMsgService {
 
 	@Override
 	public int total(int emp_num) {
-		System.out.println("SwNoteServiceImpl total Start..." );
+		System.out.println("SwMsgServiceImpl total Start..." );
 		int totCnt = smd.total(emp_num);
-		System.out.println("SwNoteServiceImpl total totCnt->"+ totCnt );
+		System.out.println("SwMsgServiceImpl total totCnt->"+ totCnt );
 	return totCnt;
 	}
 	
 	@Override
 	public int total2(int emp_num) {
-		System.out.println("SwNoteServiceImpl total2 Start..." );
+		System.out.println("SwMsgServiceImpl total2 Start..." );
 		int totCnt = smd.total2(emp_num);
-		System.out.println("SwNoteServiceImpl total2 totCnt->"+ totCnt );
+		System.out.println("SwMsgServiceImpl total2 totCnt->"+ totCnt );
 	return totCnt;
+	}
+
+	@Override
+	public int unreadMsg(int emp_num) {
+		int unreadMsg = smd.unreadMsg(emp_num);
+		return unreadMsg;
 	}
 }

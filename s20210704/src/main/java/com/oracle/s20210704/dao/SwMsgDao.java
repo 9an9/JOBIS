@@ -18,4 +18,5 @@ public interface SwMsgDao {
 	int           		insertMsg(SwMsg swmsg);
 	int           		insertMsg_rcv(SwMsg_rcv swmsg_rcv);
 	int					update(int note_sq);
+	int					unreadMsg(int emp_num);
 	}

@@ -154,4 +154,10 @@ public class SwMsgDaoImpl implements SwMsgDao{
 		}		
 	return tot;
 	}
+	
+	@Override
+	public int unreadMsg(int emp_num) {
+		int unreadMsg = session.selectOne("total2", emp_num);
+		return unreadMsg;
+	}
 }

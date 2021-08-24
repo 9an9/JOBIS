@@ -3,7 +3,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.oracle.s20210704.dao.SwMsgDao">
-
+	
 	<!-- 받은 메시지 -->
 	<select id="msgList" parameterType="SwMsg" resultType="SwMsg">
 	 <![CDATA[
@@ -21,9 +21,10 @@
                              emp e1,
                              emp e2
                      WHERE   mr.emp_num  = #{emp_num}
-                     AND     mg.msg_sq  = mr.msg_sq 
+                     AND     mg.msg_sq   = mr.msg_sq 
                      AND     mg.emp_num  = e1.emp_num
-                     AND     mr.emp_num = e2.emp_num
+                     AND     mr.emp_num  = e2.emp_num
+                     AND	 mg.msg_type = 0
                      ORDER BY msg_sq desc
                     ) msg
        		 )  msg2
@@ -86,17 +87,29 @@
 	
 	<!-- 보낸 메시지 페이징 -->
 	<select id ="total" parameterType="int" resultType="int">
-		select count(*) from msg where emp_num = #{emp_num}
+	    SELECT COUNT(*)
+        FROM   msg_rcv mr,
+	           msg mg,
+	           emp e1,
+	           emp e2
+		where  mg.emp_num = #{emp_num}
+		and    mg.msg_sq  = mr.msg_sq 
+		and    mg.emp_num = e1.emp_num
+		and    mr.emp_num = e2.emp_num
 	</select>
 	
 	<!-- 받은 메시지 페이징 -->
 	<select id ="total2" parameterType="int" resultType="int">
-		select count(*) 
-		from     msg mg,
-		         msg_rcv mr
-		where mr.emp_num  = #{emp_num}
-		and   mg.msg_type = 0
-		and   mr.msg_sq = mg.msg_sq
+		SELECT  count(*)
+		FROM    msg_rcv mr,
+		        msg mg,
+		        emp e1,
+		        emp e2
+		WHERE   mr.emp_num  = #{emp_num}
+		AND     mg.msg_sq   = mr.msg_sq 
+		AND     mg.emp_num  = e1.emp_num
+		AND     mr.emp_num  = e2.emp_num
+		AND     mg.msg_type = 0
 	</select>
 	
 	<!-- 사원정보 -->
