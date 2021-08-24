@@ -27,7 +27,7 @@
               ) 
     	 where rn between #{start} and #{end}   
 	</select>
-	<!-- 삭제가능 동호회List -->
+	<!-- 삭제가능 동호회List --> 
 	<select id="jhRrListAll1" parameterType="JhRr" resultType="JhRr">
 		select * 
          from (select rownum rn, a.* 
