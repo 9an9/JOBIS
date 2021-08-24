@@ -175,7 +175,6 @@ td {
 					</c:forEach>			
 					</table>
 			   			<input type="button" value="뒤로가기" onclick="history.back(-1)" style="float: right; margin: 5px 0px;" class="btn2">
-			   	
             </div>
           </div>
         </div>

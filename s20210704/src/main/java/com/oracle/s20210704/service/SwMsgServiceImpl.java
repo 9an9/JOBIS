@@ -24,15 +24,6 @@ public class SwMsgServiceImpl implements SwMsgService {
 		System.out.println("SwMsgServiceImpl msg_rcvList.size()->" + msg_rcvList.size());
 	return msg_rcvList;
 	}
-
-	@Override
-	public List<SwMsg> msgList(SwMsg swmsg) {
-		List<SwMsg> msgList = null;
-		System.out.println("SwMsgServiceImpl msgList Start..." );
-		msgList = smd.msgList(swmsg);
-		System.out.println("SwMsgServiceImpl msgList.size()->" + msgList.size());
-	return msgList;
-	}
 		
 	@Override
 	public List<YjEmp> listEmp() {
@@ -41,6 +32,15 @@ public class SwMsgServiceImpl implements SwMsgService {
 		empLists = smd.listEmp();
 		System.out.println("SwMsgServiceImpl listEmp empList.size()->" +empLists.size());
 	return empLists;
+	}
+	
+	@Override
+	public List<SwMsg> msgList(SwMsg swmsg) {
+		List<SwMsg> msgList = null;
+		System.out.println("SwMsgServiceImpl msgList Start..." );
+		msgList = smd.msgList(swmsg);
+		System.out.println("SwMsgServiceImpl msgList.size()->" + msgList.size());
+	return msgList;
 	}
 
 	@Override

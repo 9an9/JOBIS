@@ -167,7 +167,6 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 						
 						<tr><th>발신시간</th><td><fmt:formatDate value="${rdm.snd_dt }" type="date" pattern="yyyy-MM-dd HH:mm"/></td></tr>
 
- 
 					</c:forEach>
 				</table>
 			   	<input type="button" value="뒤로가기" onclick="history.back(-1)" style="float: right; margin: 5px 0px;" class="btn2">

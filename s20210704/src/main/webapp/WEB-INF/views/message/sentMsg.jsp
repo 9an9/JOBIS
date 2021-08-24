@@ -182,7 +182,6 @@ td {
 				</c:forEach>
 					</table>
 			   			<input type="button" value="뒤로가기" onclick="history.back(-1)" class="btn2" style="float: right; margin: 5px 0px;">
-			   		
 				<div class="w3-center">
 						<div class="w3-bar w3-border" style=" margin: 10px 0px; margin-left:55px; border: 1px solid #7d97a5;">
 							<c:if test="${sp.startPage > sp.pageBlock }">

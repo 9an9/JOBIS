@@ -65,7 +65,6 @@ public class SwController {
 		int unreadMsg = sms.unreadMsg(emp_num);
 		model.addAttribute("unreadMsg", unreadMsg);
 		
-		
 		int unreadTotal = yas.unreadTotal(emp_num);
 		int apvNoTotal  = yas.apvNoTotal(emp_num);
 		model.addAttribute("unreadTotal", unreadTotal);

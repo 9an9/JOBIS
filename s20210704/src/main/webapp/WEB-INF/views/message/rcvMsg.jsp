@@ -243,7 +243,6 @@ function fn_selectAll(selectAll){
 		      
 		      
 		     
-		     
 		      <form action ="deleteMsg" name="frm">
 	            	<table border="1" class="TB">
 						<tr style="background-color:#384f76; color: white;">
