@@ -105,7 +105,6 @@ table input {
     <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-commenting-o fa-fw w3-margin-right fa-flip-horizontal"></i>게시판</button>     
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
       <a href="../board/noticeList" class="w3-bar-item w3-button">공지사항</a>
-      <a href="../board/surveyList" class="w3-bar-item w3-button">설문</a>
       <a href="../board/clubList" class="w3-bar-item w3-button">동호회</a>
     </div>
   </div>
@@ -139,7 +138,6 @@ table input {
   <button onclick="myFunction1('Demo2')" class="w3-bar-item w3-button w3-padding-large">게시판</button>
   	<div id="Demo2" class="w3-hide w3-bar-block">
     	<a href="../board/noticeList" class="w3-button w3-block w3-theme-l5 w3-left-align">공지사항</a>
-        <a href="../board/surveyList" class="w3-button w3-block w3-theme-l5 w3-left-align">설문조사</a>
         <a href="../board/clubList" class="w3-button w3-block w3-theme-l5 w3-left-align">동호회</a>
     </div>
     <c:if test="${svo.dcontent == '인사부' || svo.dcontent == '임원'  }">
@@ -161,7 +159,8 @@ table input {
       <div class="w3-card w3-round w3-white">
         <div class="w3-container">
          <h4 class="w3-center">My Profile</h4>
-         <p class="w3-center"><img src="../images/LUCY.jpg" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+         <p class="w3-center"><c:if test="${svo.ph_path eq null }"><img src="../images/LUCY.jpg" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></c:if>
+         					<c:if test="${svo.ph_path ne null }"><img src="../upload/${svo.ph_path }" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></c:if></p>
          <hr>
          <p><i class="fa fa-id-badge fa-fw w3-margin-right w3-text-theme"></i> ${svo.emp_name }</p>
          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ${svo.dcontent } / ${svo.rcontent }</p>
@@ -180,7 +179,6 @@ table input {
 			<a href="../message/sentMsg" class="w3-button w3-block w3-theme-l5 w3-left-align">보낸 메시지</a>
 			<a href="../message/rcvMsg" class="w3-button w3-block w3-theme-l5 w3-left-align"><span class="w3-badge w3-right w3-small w3-green">1</span>받은 메시지</a>          </div>
           <a href="../apv/apvSnd" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-file-text fa-fw w3-margin-right"></i><c:if test="${unreadTotal > 0 }"><span class="w3-badge w3-right w3-small w3-green">${unreadTotal }</span></c:if><c:if test="${apvNoTotal > 0 }"><span class="w3-badge w3-right w3-small w3-red">${apvNoTotal }</span></c:if> 결재</a>
-          <a href="../board/surveyList" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-check-square-o fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green">2</span> 설문</a>
           <button onclick="nwindow()" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fas fa-comment-dots fa-fw w3-margin-right"></i><span class="w3-badge w3-right w3-small w3-green"></span>채팅</button>
         </div>      
       </div>
@@ -210,10 +208,10 @@ table input {
 	              <tr><th>우편번호</th><td colspan="2"><input type="text" id="emp_zc_addr" name="emp_zc_addr" readonly="readonly" value="${myInfo.emp_zc_addr}"> <input type="button" value="수정" onclick="findAddr()" class="btn2" style="margin-right: 40px; float: right;"></td></tr>
 	              <tr><th>주소</th><td colspan="2"><input type="text" id="emp_cm_addr" name="emp_cm_addr" readonly="readonly" value="${myInfo.emp_cm_addr}"></td></tr>
 	              <tr><th>상세주소</th><td colspan="2"><input type="text" id="emp_dt_addr" name="emp_dt_addr" value="${myInfo.emp_dt_addr }"></td></tr>
-	              <tr><th>사진</th><c:set var="a" value="${myInfo.ph_path }"/><td colspan="2" class="fileBox">
-	              	<input type="text" class="fileName" readonly="readonly" value="${fn:substring(a,37,100) }">
+	              <tr><th>사진</th><td colspan="2" class="fileBox">
+	              	<input type="text" class="fileName" readonly="readonly" value="${fn:substringAfter(myInfo.ph_path, '_') }">
 					<label for="uploadBtn" class="btn_file">파일 업로드</label>
-					<input type="file" id="uploadBtn" class="uploadBtn" name="myImg"></td></tr>
+					<input type="file" id="uploadBtn" class="uploadBtn" name="myImg" onchange="refresh()"></td></tr>
 	                       
 	 		  	  </table>
 				  </c:forEach>
@@ -316,8 +314,17 @@ function updatePw() {
 	var url = "updatePw";
 	window.open(url,"","width=450,height=400,left="+w+",top="+h);
 }
+var uploadFile = $('.fileBox .uploadBtn');
+uploadFile.on('change', function(){
+	if(window.FileReader){
+		var filename = $(this)[0].files[0].name;
+	} else {
+		var filename = $(this).val().split('/').pop().split('\\').pop();
+	}
+	$(this).siblings('.fileName').val(filename);
+});
 $(function() {
-    $("#myImg").on('change', function(){
+    $("#uploadBtn").on('change', function(){
         readURL(this);
     });
 });
@@ -325,14 +332,12 @@ function readURL(input) {
     if (input.files && input.files[0]) {
        var reader = new FileReader();
        reader.onload = function (e) {
-    	   $('#product-img').attr('src', e.target.result);
+          $('.preview').attr('src', e.target.result);
        }
        reader.readAsDataURL(input.files[0]);
     }
 }
-function updateFile(value) {
-	document.getElementById ( "tdid" ).textContent = value;
-}
+
 
 </script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

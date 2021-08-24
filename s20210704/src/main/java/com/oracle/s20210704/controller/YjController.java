@@ -271,7 +271,7 @@ public class YjController {
 		String uploadPath = request.getSession().getServletContext().getRealPath("/upload/");
 	    String savedName = uploadFile(myImg.getOriginalFilename(), myImg.getBytes(), uploadPath);
 	    System.out.println("YjController writeEmp fileupload savedName-->" + savedName);
-	    emp.setPh_path(uploadPath + savedName);
+	    emp.setPh_path(savedName);
 	    
 	    emp.setEmp_num(emp_num);
 		int result = es.updateInfo(emp);
@@ -333,8 +333,7 @@ public class YjController {
 		String uploadPath = request.getSession().getServletContext().getRealPath("/upload/");
 	    String savedName = uploadFile(myImg.getOriginalFilename(), myImg.getBytes(), uploadPath);
 	    System.out.println("YjController writeEmp fileupload savedName-->" + savedName);
-	    emp.setPh_path(uploadPath);   
-	    emp.setPh_name(myImg.getOriginalFilename());
+	    emp.setPh_path(savedName);   
 		
 		int emp_num = (int)session.getAttribute("member");
 		vo.setEmp_num(emp_num);
@@ -534,7 +533,7 @@ public class YjController {
 
 		  //사원관리 Excel출력
 		  
-		  @GetMapping(value = "excelDownload") 
+		  @GetMapping(value = "emp/excelDownload") 
 		  public void excelDown(HttpServletResponse response, YjEmp emp) throws Exception {
 		  
 		  System.out.println("YjController excelDown Start..."); 
