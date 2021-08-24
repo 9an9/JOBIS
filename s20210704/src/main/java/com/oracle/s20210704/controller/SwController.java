@@ -56,7 +56,7 @@ public class SwController {
 		int total = sms.total(emp_num);
 		SwPaging sp = new SwPaging(total, currentPage);
 		swmsg_rcv.setStart(sp.getStart());   // 시작시 1
-		swmsg_rcv.setEnd(sp.getEnd());       // 시작시 15
+		swmsg_rcv.setEnd(sp.getEnd());      
 		swmsg_rcv.setEmp_num(emp_num);
 		List<SwMsg_rcv> msg_rcvList = sms.msg_rcvList(swmsg_rcv); 
 		model.addAttribute("total", total);

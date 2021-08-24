@@ -93,7 +93,7 @@ iframe {
     border-collapse: collapse;
     border-spacing: 0;
 	}
-
+	
 textarea{
 	width: 100%;
 	height: 400px;
@@ -164,7 +164,6 @@ textarea{
 	    </div>
     </c:if>
 </div>
-
 <!-- Page Container -->
 <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">    
   <!-- The Grid -->

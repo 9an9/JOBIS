@@ -4,6 +4,34 @@
 
 <mapper namespace="com.oracle.s20210704.dao.SwMsgDao">
 	
+	<!-- 보낸 메시지 -->
+	<select id="msg_rcvList" parameterType="SwMsg_rcv" resultType="SwMsg_rcv">
+	<![CDATA[
+			SELECT msg2.msg_sq msg_sq, msg2.read_dt read_dt, msg2.snd_dt snd_dt, msg2.recv_emp_name recv_emp_name,
+        	msg2.msg_title msg_title, msg2.msg_content msg_content, msg2.read_count read_count, msg2.msg_fl_nm msg_fl_nm, msg2.msg_fl_path msg_fl_path
+			FROM
+            (
+             SELECT ROWNUM rn , msg.* 
+             FROM 
+                      (
+                       SELECT  mr.msg_sq, mr.read_dt, mg.snd_dt, e1.emp_name send_emp_name,
+					   e2.emp_name recv_emp_name, mg.msg_title, mg.msg_content, mr.read_count, mg.msg_fl_nm, mg.msg_fl_path
+					   FROM    msg_rcv mr,
+							   msg mg,
+							   emp e1,
+						       emp e2
+			 where   mg.emp_num  = #{emp_num}
+			 and     mg.msg_sq  = mr.msg_sq 
+			 and     mg.emp_num  = e1.emp_num
+			 and     mr.emp_num = e2.emp_num
+		  	 ORDER BY msg_sq desc
+                        ) msg
+             )  msg2
+   	 	     WHERE msg2.rn >= #{start}
+      	     AND   msg2.rn <= #{end}
+     ]]>
+	</select>
+	
 	<!-- 받은 메시지 -->
 	<select id="msgList" parameterType="SwMsg" resultType="SwMsg">
 	 <![CDATA[
@@ -31,34 +59,6 @@
 	    WHERE msg2.rn >= #{start}
 	    AND   msg2.rn <= #{end}
       ]]>
-	</select>
-	
-	<!-- 보낸 메시지 -->
-	<select id="msg_rcvList" parameterType="SwMsg_rcv" resultType="SwMsg_rcv">
-	<![CDATA[
-			SELECT msg2.msg_sq msg_sq, msg2.read_dt read_dt, msg2.snd_dt snd_dt, msg2.recv_emp_name recv_emp_name,
-        	msg2.msg_title msg_title, msg2.msg_content msg_content, msg2.read_count read_count, msg2.msg_fl_nm msg_fl_nm, msg2.msg_fl_path msg_fl_path
-			FROM
-            (
-             SELECT ROWNUM rn , msg.* 
-             FROM 
-                      (
-                       SELECT  mr.msg_sq, mr.read_dt, mg.snd_dt, e1.emp_name send_emp_name,
-					   e2.emp_name recv_emp_name, mg.msg_title, mg.msg_content, mr.read_count, mg.msg_fl_nm, mg.msg_fl_path
-					   FROM    msg_rcv mr,
-							   msg mg,
-							   emp e1,
-						       emp e2
-			 where   mg.emp_num  = #{emp_num}
-			 and     mg.msg_sq  = mr.msg_sq 
-			 and     mg.emp_num  = e1.emp_num
-			 and     mr.emp_num = e2.emp_num
-		  	 ORDER BY msg_sq desc
-                        ) msg
-             )  msg2
-   	 	     WHERE msg2.rn >= #{start}
-      	     AND   msg2.rn <= #{end}
-     ]]>
 	</select>
 	
 	<!-- 받은 쪽지함 상세보기 -->

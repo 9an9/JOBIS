@@ -166,7 +166,8 @@ td {
 						<tr><th>첨부파일</th>
 							<c:if test="${sdm.msg_fl_nm eq null }"><td>없음</td></c:if>
 					    	<c:if test="${sdm.msg_fl_nm ne null }"><td><a href="${pageContext.request.contextPath}/upload/${sdm.msg_fl_path }">${sdm.msg_fl_nm }</a></td></c:if></tr>
-					    	
+
+  	
 						<tr><th>읽은시간</th><td><fmt:formatDate value="${sdm.read_dt }" type="date" pattern="yyyy-MM-dd HH:mm"/></td></tr>
 						<tr><th>읽음여부</th>
 							<c:if test="${sdm.read_count eq '0' }"><td>읽지않음</td></c:if>

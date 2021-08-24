@@ -15,16 +15,7 @@ public class SwMsgServiceImpl implements SwMsgService {
 	
 	@Autowired
 	private SwMsgDao smd;
-	
-		
-	@Override
-	public List<YjEmp> listEmp() {
-		List<YjEmp> empLists = null;
-		System.out.println("SwMsgServiceImpl listEmp Start..." );
-		empLists = smd.listEmp();
-		System.out.println("SwMsgServiceImpl listEmp empList.size()->" +empLists.size());
-	return empLists;
-	}
+			
 	@Override
 	public List<SwMsg_rcv> msg_rcvList(SwMsg_rcv swmsg_rcv) {
 		List<SwMsg_rcv> msg_rcvList = null;
@@ -32,6 +23,15 @@ public class SwMsgServiceImpl implements SwMsgService {
 		msg_rcvList = smd.msg_rcvList(swmsg_rcv);
 		System.out.println("SwMsgServiceImpl msg_rcvList.size()->" + msg_rcvList.size());
 		return msg_rcvList;
+	}
+	
+	@Override
+	public List<YjEmp> listEmp() {
+		List<YjEmp> empLists = null;
+		System.out.println("SwMsgServiceImpl listEmp Start..." );
+		empLists = smd.listEmp();
+		System.out.println("SwMsgServiceImpl listEmp empList.size()->" +empLists.size());
+		return empLists;
 	}
 	
 	@Override

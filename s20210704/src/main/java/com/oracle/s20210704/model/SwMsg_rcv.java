@@ -14,7 +14,7 @@ public class SwMsg_rcv {
 	
 	//조회용
 	private String emp_name;	private int    emp_num2;
-	private String msg_title;	private String msg_content;
+	private String msg_content; private String msg_title;	
 	private String msg_fl_nm;	private String msg_fl_path;
 	private Date   snd_dt;		private String recv_emp_name;
 	
